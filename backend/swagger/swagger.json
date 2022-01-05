@@ -1,0 +1,66 @@
+{
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "schemes": [
+    "http"
+  ],
+  "swagger": "2.0",
+  "info": {
+    "description": "Real-time management system for localization strings.",
+    "title": "LocalizeMe.",
+    "version": "1.0.0"
+  },
+  "host": "https://gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme",
+  "basePath": "/",
+  "paths": {},
+  "definitions": {
+    "ObjectID": {
+      "type": "array",
+      "title": "ObjectID is the BSON ObjectID type.",
+      "items": {
+        "type": "integer",
+        "format": "uint8"
+      },
+      "x-go-package": "go.mongodb.org/mongo-driver/bson/primitive"
+    },
+    "User": {
+      "type": "object",
+      "properties": {
+        "Active": {
+          "type": "boolean"
+        },
+        "ID": {
+          "$ref": "#/definitions/ObjectID"
+        },
+        "Name": {
+          "type": "string"
+        },
+        "Password": {
+          "type": "string"
+        },
+        "Role": {
+          "type": "string"
+        }
+      },
+      "x-go-package": "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain"
+    }
+  },
+  "securityDefinitions": {
+    "Bearer": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header"
+    }
+  },
+  "security": [
+    {
+      "Bearer": [
+        "[]"
+      ]
+    }
+  ]
+}
