@@ -8,6 +8,7 @@ Development of a simple Rest API with [Go](https://golang.org/).
 
 ```shell
 go get ./...
+go mod tidy
 ```
 
 ## Makefile
@@ -48,3 +49,16 @@ Redoc: swagger serve -F=redoc swagger/swagger.json
 ```
 
 These steps are configured in Makefile
+
+## Generate UML model
+
+Use these commands:
+
+```shell
+make uml -B
+./scripts/generateUmlDiagram.sh # Convert .puml to .svg
+```
+
+*Note, when you want to generate UML, you need to change ID type to `string` to remove noise created by MongoDB.*
+
+![Uml Diagram](assets/dist/UmlDiagram.svg)

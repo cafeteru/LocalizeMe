@@ -1,12 +1,10 @@
 package domain
 
 import (
-	"go.mongodb.org/mongo-driver/bson/primitive"
 	"testing"
 )
 
 var user = User{
-	ID:       primitive.ObjectID{},
 	Name:     "name",
 	Password: "password",
 	Role:     "role",
