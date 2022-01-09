@@ -59,6 +59,6 @@ make uml -B
 ./scripts/generateUmlDiagram.sh # Convert .puml to .svg
 ```
 
-*Note, when you want to generate UML, you need to change ID type to `string` to remove noise created by MongoDB.*
+_Note, when you want to generate UML, you need to change ID type to `string` to remove noise created by MongoDB._
 
 ![Uml Diagram](assets/dist/UmlDiagram.svg)
