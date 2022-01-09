@@ -1,0 +1,66 @@
+@startuml
+namespace domain {
+    class Group << (S,Aquamarine) >> {
+        + ID string
+        + Name string
+
+    }
+    class Language << (S,Aquamarine) >> {
+        + ID string
+        + Name string
+
+    }
+    class Permission << (S,Aquamarine) >> {
+        + ID string
+        + User User
+        + Group Group
+        + CanWriteGroup bool
+
+    }
+    class Stage << (S,Aquamarine) >> {
+        + ID string
+        + Name string
+
+    }
+    class Strings << (S,Aquamarine) >> {
+        + ID string
+        + SourceLanguage string
+        + Description string
+        + LastVersion int
+        + Stage Stage
+        + Group []Group
+        + Author User
+
+    }
+    class Translation << (S,Aquamarine) >> {
+        + ID string
+        + Content string
+        + Language Language
+        + Version int
+        + Active bool
+        + Strings Strings
+
+    }
+    class User << (S,Aquamarine) >> {
+        + ID string
+        + Name string
+        + Password string
+        + Role string
+        + Active bool
+
+        + EncryptPassword() (User, error)
+        + CheckPassword(password string) bool
+
+    }
+}
+
+
+"domain.Permission" o-- "domain.Group"
+"domain.Permission" o-- "domain.User"
+"domain.Strings" o-- "domain.Group"
+"domain.Strings" o-- "domain.Stage"
+"domain.Strings" o-- "domain.User"
+"domain.Translation" o-- "domain.Language"
+"domain.Translation" o-- "domain.Strings"
+
+@enduml

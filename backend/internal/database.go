@@ -12,6 +12,7 @@ import (
 	"time"
 )
 
+// Example how to create a user in MongoDB
 func main() {
 	loadEnv()
 	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)

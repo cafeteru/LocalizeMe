@@ -18,6 +18,31 @@
   "basePath": "/",
   "paths": {},
   "definitions": {
+    "Group": {
+      "type": "object",
+      "properties": {
+        "ID": {
+          "$ref": "#/definitions/ObjectID"
+        },
+        "Name": {
+          "type": "string"
+        }
+      },
+      "x-go-package": "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain"
+    },
+    "Language": {
+      "type": "object",
+      "properties": {
+        "ID": {
+          "$ref": "#/definitions/ObjectID"
+        },
+        "Name": {
+          "type": "string"
+        }
+      },
+      "x-go-name": "Permission",
+      "x-go-package": "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain"
+    },
     "ObjectID": {
       "type": "array",
       "title": "ObjectID is the BSON ObjectID type.",
@@ -26,6 +51,74 @@
         "format": "uint8"
       },
       "x-go-package": "go.mongodb.org/mongo-driver/bson/primitive"
+    },
+    "Stage": {
+      "type": "object",
+      "properties": {
+        "ID": {
+          "$ref": "#/definitions/ObjectID"
+        },
+        "Name": {
+          "type": "string"
+        }
+      },
+      "x-go-package": "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain"
+    },
+    "Strings": {
+      "type": "object",
+      "properties": {
+        "Author": {
+          "$ref": "#/definitions/User"
+        },
+        "Description": {
+          "type": "string"
+        },
+        "Group": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Group"
+          }
+        },
+        "ID": {
+          "$ref": "#/definitions/ObjectID"
+        },
+        "LastVersion": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "SourceLanguage": {
+          "type": "string"
+        },
+        "Stage": {
+          "$ref": "#/definitions/Stage"
+        }
+      },
+      "x-go-package": "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain"
+    },
+    "Translation": {
+      "type": "object",
+      "properties": {
+        "Active": {
+          "type": "boolean"
+        },
+        "Content": {
+          "type": "string"
+        },
+        "ID": {
+          "$ref": "#/definitions/ObjectID"
+        },
+        "Language": {
+          "$ref": "#/definitions/Language"
+        },
+        "Strings": {
+          "$ref": "#/definitions/Strings"
+        },
+        "Version": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "x-go-package": "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain"
     },
     "User": {
       "type": "object",
