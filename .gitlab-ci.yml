@@ -1,0 +1,51 @@
+# This file is a template, and might need editing before it works on your project.
+image: hub-mirror.c.163.com/library/golang:latest
+
+.go-cache:
+    variables:
+        GOPATH: $CI_PROJECT_DIR/.go
+    cache:
+      paths:
+        - .go/pkg/mod/
+
+variables:
+  OUTPUT_NAME: LocalizeMe
+
+stages:
+    - lint
+    - build
+    - deploy
+
+before_script:
+  - cd backend
+  - echo "before_script"
+  - git version
+  - go env -w GOPRIVATE=code.haiziwang.com
+  - mkdir -p .go
+  - go version
+  - go env -w GO111MODULE=on
+  - go env -w GOPROXY="https://goproxy.io,direct"
+
+golangci-lint:
+    image: golangci/golangci-lint:v1.27.0
+    stage: lint
+    extends: .go-cache
+    allow_failure: true
+    script:
+      - golangci-lint run -v
+
+compile:
+    stage: build
+    extends: .go-cache
+    script:
+      - go mod download
+      - go build -race -o $OUTPUT_NAME
+      - go test ./... -coverprofile=coverage.out
+    artifacts:
+      paths:
+        - $OUTPUT_NAME
+
+deploy-dev:
+    stage: deploy
+    script:
+      - echo "deploy dev environment"

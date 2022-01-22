@@ -1,66 +1,71 @@
 @startuml
 namespace domain {
+    class BaseString << (S,Aquamarine) >> {
+        + ID primitive.ObjectID
+        + SourceLanguage Language
+        + Description string
+        + LastVersion int
+        + Stage Stage
+        + Group Group
+        + Author User
+
+    }
     class Group << (S,Aquamarine) >> {
-        + ID string
+        + ID primitive.ObjectID
         + Name string
+        + Owner User
 
     }
     class Language << (S,Aquamarine) >> {
-        + ID string
-        + Name string
+        + ID primitive.ObjectID
+        + IsoCode string
+        + Description string
 
     }
     class Permission << (S,Aquamarine) >> {
-        + ID string
+        + ID primitive.ObjectID
         + User User
         + Group Group
         + CanWriteGroup bool
 
     }
     class Stage << (S,Aquamarine) >> {
-        + ID string
+        + ID primitive.ObjectID
         + Name string
 
     }
-    class Strings << (S,Aquamarine) >> {
-        + ID string
-        + SourceLanguage string
-        + Description string
-        + LastVersion int
-        + Stage Stage
-        + Group []Group
-        + Author User
-
-    }
     class Translation << (S,Aquamarine) >> {
-        + ID string
+        + ID primitive.ObjectID
         + Content string
         + Language Language
         + Version int
         + Active bool
-        + Strings Strings
+        + BaseString BaseString
+        + Author User
+        + Date time.Time
 
     }
     class User << (S,Aquamarine) >> {
-        + ID string
-        + Name string
+        + ID primitive.ObjectID
+        + Email string
         + Password string
-        + Role string
-        + Active bool
-
-        + EncryptPassword() (User, error)
-        + CheckPassword(password string) bool
+        + IsAdmin bool
+        + IsActive bool
 
     }
 }
 
 
+"domain.BaseString" o-- "domain.Group"
+"domain.BaseString" o-- "domain.Language"
+"domain.BaseString" o-- "domain.Stage"
+"domain.BaseString" o-- "domain.User"
+"domain.Group" o-- "domain.User"
 "domain.Permission" o-- "domain.Group"
 "domain.Permission" o-- "domain.User"
-"domain.Strings" o-- "domain.Group"
-"domain.Strings" o-- "domain.Stage"
-"domain.Strings" o-- "domain.User"
+"domain.Translation" o-- "domain.BaseString"
 "domain.Translation" o-- "domain.Language"
-"domain.Translation" o-- "domain.Strings"
+"domain.Translation" o-- "domain.User"
+"domain.Translation" o-- "time.Time"
 
 @enduml
