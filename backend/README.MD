@@ -50,15 +50,36 @@ Redoc: swagger serve -F=redoc swagger/swagger.json
 
 These steps are configured in Makefile
 
+## How to generate a Mock from an interface
+
+```shell
+ mockgen -source=<source-file> -destination=<mock-file> -package=<package-name>
+```
+
+Example:
+
+```shell
+ mockgen -source=internal/core/service/UserService.go -destination=internal/core/service/mocks/UserServiceMock.go -package=mocks
+```
+
 ## Generate UML model
 
 Use these commands:
 
 ```shell
+go install github.com/jfeliu007/goplantuml/parser
+go install github.com/jfeliu007/goplantuml/cmd/goplantuml
+go install ./...
 make uml -B
-./scripts/generateUmlDiagram.sh # Convert .puml to .svg
+```
+
+# Create MongoDB with Docker
+```shell
+docker pull mongo
+docker run -d --name mongo-on-docker -p 27017:27017 -e MONGO_INITDB_ROOT_USERNAME=mongoadmin -e MONGO_INITDB_ROOT_PASSWORD=secret mongo
 ```
 
 _Note, when you want to generate UML, you need to change ID type to `string` to remove noise created by MongoDB._
 
 ![Uml Diagram](assets/dist/UmlDiagram.svg)
+
