@@ -1,7 +1,10 @@
 package impl
 
 import (
+	"errors"
+	"github.com/go-chi/jwtauth/v5"
 	slog "github.com/go-eden/slf4go"
+	"github.com/golang-jwt/jwt"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/constants"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain/dto"
@@ -9,6 +12,8 @@ import (
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/repository"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/tools"
 	"go.mongodb.org/mongo-driver/bson/primitive"
+	"os"
+	"time"
 )
 
 type UserServiceImpl struct {
@@ -52,10 +57,54 @@ func (u UserServiceImpl) checkRequest(request dto.UserRequest) (domain.User, err
 	if request.Email == "" || request.Password == "" {
 		return domain.User{}, tools.ErrorLog(constants.ErrorInvalidUserRequest, tools.GetCurrentFuncName())
 	}
-	user, err := u.repository.FindByEmail(request.Email)
+	user, _ := u.repository.FindByEmail(request.Email)
 	if user != nil {
-		return domain.User{}, tools.ErrorLogDetails(err, constants.ErrorEmailAlreadyRegister, tools.GetCurrentFuncName())
+		return domain.User{}, tools.ErrorLog(constants.ErrorEmailAlreadyRegister, tools.GetCurrentFuncName())
 	}
 	slog.Debugf("%s: end", tools.GetCurrentFuncName())
-	return domain.User{}, nil
+	return domain.User{
+		Email:    request.Email,
+		Password: request.Password,
+		IsAdmin:  false,
+		IsActive: true,
+	}, nil
+}
+
+func (u UserServiceImpl) FindByEmail(request dto.UserRequest) (*domain.User, error) {
+	slog.Debugf("%s: start", tools.GetCurrentFuncName())
+	if request.Email == "" || request.Password == "" {
+		return &domain.User{}, tools.ErrorLog(constants.ErrorInvalidUserRequest, tools.GetCurrentFuncName())
+	}
+	user, err := u.repository.FindByEmail(request.Email)
+	if err != nil {
+		slog.Errorf("%s: error", tools.GetCurrentFuncName())
+		return &domain.User{}, err
+	}
+	slog.Debugf("%s: end", tools.GetCurrentFuncName())
+	return user, err
+}
+
+func (u UserServiceImpl) Login(request dto.UserRequest) (*dto.TokenDto, error) {
+	user, err := u.FindByEmail(request)
+	if err != nil { // TODO Add tests
+		slog.Errorf("%s: error", tools.GetCurrentFuncName())
+		return &dto.TokenDto{}, err
+	}
+	if !user.IsActive || !u.encrypt.CheckPassword(user.Password, request.Password) {
+		slog.Errorf("%s: error", tools.GetCurrentFuncName())
+		return &dto.TokenDto{}, errors.New(constants.ErrorDataLogin)
+	}
+	claims := jwt.MapClaims{
+		"email":    user.Email,
+		"isAdmin":  user.IsAdmin,
+		"isActive": user.IsActive,
+	}
+	tools.LoadEnv()
+	hours, _ := time.ParseDuration(os.Getenv("HOURS"))
+	alg := os.Getenv("ALG")
+	secret := os.Getenv("SECRET")
+	jwtauth.SetExpiry(claims, time.Now().Add(time.Hour*hours))
+	tokenAuth := jwtauth.New(alg, []byte(secret), nil)
+	_, tokenString, _ := tokenAuth.Encode(claims)
+	return &dto.TokenDto{Authorization: tokenString}, err
 }

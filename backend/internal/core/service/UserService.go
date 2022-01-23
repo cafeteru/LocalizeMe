@@ -7,4 +7,6 @@ import (
 
 type UserService interface {
 	Create(request dto.UserRequest) (domain.User, error)
+	FindByEmail(request dto.UserRequest) (*domain.User, error)
+	Login(request dto.UserRequest) (*dto.TokenDto, error)
 }

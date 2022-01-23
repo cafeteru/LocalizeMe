@@ -20,9 +20,9 @@ func (e EncryptPasswordImpl) EncryptPassword(password string) (string, error) {
 	return result, err
 }
 
-func (e EncryptPasswordImpl) CheckPassword(password string, encryptPassword string) bool {
+func (e EncryptPasswordImpl) CheckPassword(encryptPassword, password string) bool {
 	slog.Debugf("%s: start", tools.GetCurrentFuncName())
-	err := bcrypt.CompareHashAndPassword([]byte(password), []byte(encryptPassword))
+	err := bcrypt.CompareHashAndPassword([]byte(encryptPassword), []byte(password))
 	result := err == nil
 	slog.Debugf("%s: end", tools.GetCurrentFuncName())
 	return result
