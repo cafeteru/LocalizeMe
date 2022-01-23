@@ -17,6 +17,42 @@
   "host": "https://gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme",
   "basePath": "/",
   "paths": {
+    "/login": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "tags": [
+          "Users"
+        ],
+        "summary": "Get token to user the application.",
+        "operationId": "Login",
+        "parameters": [
+          {
+            "name": "User",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "TokenDto",
+            "schema": {
+              "$ref": "#/definitions/TokenDto"
+            }
+          },
+          "400": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          }
+        }
+      }
+    },
     "/users": {
       "get": {
         "tags": [
@@ -61,6 +97,12 @@
             "schema": {
               "$ref": "#/definitions/User"
             }
+          },
+          "400": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
           }
         }
       }
@@ -95,6 +137,15 @@
       },
       "x-go-package": "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain"
     },
+    "ErrorDto": {
+      "type": "object",
+      "properties": {
+        "Message": {
+          "type": "string"
+        }
+      },
+      "x-go-package": "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain/dto"
+    },
     "Group": {
       "type": "object",
       "properties": {
@@ -113,14 +164,17 @@
     "Language": {
       "type": "object",
       "properties": {
-        "Description": {
-          "type": "string"
+        "CanWriteGroup": {
+          "type": "boolean"
+        },
+        "Group": {
+          "$ref": "#/definitions/Group"
         },
         "ID": {
           "$ref": "#/definitions/ObjectID"
         },
-        "IsoCode": {
-          "type": "string"
+        "User": {
+          "$ref": "#/definitions/User"
         }
       },
       "x-go-name": "Permission",
@@ -146,6 +200,15 @@
         }
       },
       "x-go-package": "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain"
+    },
+    "TokenDto": {
+      "type": "object",
+      "properties": {
+        "Authorization": {
+          "type": "string"
+        }
+      },
+      "x-go-package": "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain/dto"
     },
     "Translation": {
       "type": "object",

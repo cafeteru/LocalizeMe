@@ -23,13 +23,6 @@ func TestUserServiceImpl_Create_NotRegister(t *testing.T) {
 		Password: "password",
 	}
 	id := primitive.ObjectID{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}
-	user := domain.User{
-		ID:       id,
-		Email:    userRequest.Email,
-		Password: userRequest.Password,
-		IsAdmin:  false,
-		IsActive: true,
-	}
 	result := mongo.InsertOneResult{
 		InsertedID: id,
 	}
@@ -37,9 +30,9 @@ func TestUserServiceImpl_Create_NotRegister(t *testing.T) {
 	mockUserRepository.EXPECT().FindByEmail(userRequest.Email).Return(nil, nil)
 	mockUserRepository.EXPECT().Create(gomock.Any()).Return(&result, nil)
 	userService := CreateUserService(mockUserRepository, mockEncrypt)
-	userCreated, _ := userService.Create(userRequest)
-	if userCreated.ID != user.ID && userCreated.Email != user.Email {
-		t.Error("Expected", user, "Got", userCreated)
+	_, err := userService.Create(userRequest)
+	if err != nil {
+		t.Error("Expected", errors.New(constants.ErrorEmailAlreadyRegister), "Got", err)
 	}
 }
 
@@ -52,15 +45,14 @@ func TestUserServiceImpl_Create_Register(t *testing.T) {
 		Email:    "email",
 		Password: "password",
 	}
-	id := primitive.ObjectID{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}
 	user := domain.User{
-		ID:       id,
+		ID:       primitive.ObjectID{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00},
 		Email:    userRequest.Email,
-		Password: "",
+		Password: userRequest.Password,
 		IsAdmin:  false,
 		IsActive: true,
 	}
-	mockUserRepository.EXPECT().FindByEmail(userRequest.Email).Return(&user, nil)
+	mockUserRepository.EXPECT().FindByEmail(gomock.Any()).Return(&user, nil)
 	userService := CreateUserService(mockUserRepository, mockEncrypt)
 	_, err := userService.Create(userRequest)
 	if err == nil {

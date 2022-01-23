@@ -34,17 +34,17 @@ func (m *MockEncrypt) EXPECT() *MockEncryptMockRecorder {
 }
 
 // CheckPassword mocks base method.
-func (m *MockEncrypt) CheckPassword(password, encryptPassword string) bool {
+func (m *MockEncrypt) CheckPassword(encryptPassword, password string) bool {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CheckPassword", password, encryptPassword)
+	ret := m.ctrl.Call(m, "CheckPassword", encryptPassword, password)
 	ret0, _ := ret[0].(bool)
 	return ret0
 }
 
 // CheckPassword indicates an expected call of CheckPassword.
-func (mr *MockEncryptMockRecorder) CheckPassword(password, encryptPassword interface{}) *gomock.Call {
+func (mr *MockEncryptMockRecorder) CheckPassword(encryptPassword, password interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CheckPassword", reflect.TypeOf((*MockEncrypt)(nil).CheckPassword), password, encryptPassword)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CheckPassword", reflect.TypeOf((*MockEncrypt)(nil).CheckPassword), encryptPassword, password)
 }
 
 // EncryptPassword mocks base method.

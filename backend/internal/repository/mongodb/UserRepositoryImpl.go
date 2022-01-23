@@ -46,7 +46,7 @@ func (u *UserRepositoryImpl) FindByEmail(email string) (*domain.User, error) {
 	var user domain.User
 	err = result.Decode(&user)
 	if err != nil {
-		return nil, tools.ErrorLogDetails(err, constants.ErrorInsertUser, tools.GetCurrentFuncName())
+		return nil, tools.ErrorLogDetails(err, constants.ErrorFindUserByEmail, tools.GetCurrentFuncName())
 	}
 	u.CloseConnection()
 	slog.Debugf("%s: end", tools.GetCurrentFuncName())

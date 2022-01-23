@@ -1,51 +1,56 @@
 # This file is a template, and might need editing before it works on your project.
-image: hub-mirror.c.163.com/library/golang:latest
+image: pricec/gotestsum:latest
 
 .go-cache:
-    variables:
-        GOPATH: $CI_PROJECT_DIR/.go
-    cache:
-      paths:
-        - .go/pkg/mod/
+  variables:
+    GOPATH: $CI_PROJECT_DIR/.go
+  cache:
+    paths:
+      - .go/pkg/mod/
 
 variables:
-  OUTPUT_NAME: LocalizeMe
+  OUTPUT_NAME: uniovi-localizeme
 
 stages:
-    - lint
-    - build
-    - deploy
+  - lint
+  - build
+  - test
+
 
 before_script:
   - cd backend
   - echo "before_script"
   - git version
-  - go env -w GOPRIVATE=code.haiziwang.com
+  - go env -w GOPRIVATE=HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme
   - mkdir -p .go
   - go version
   - go env -w GO111MODULE=on
   - go env -w GOPROXY="https://goproxy.io,direct"
 
-golangci-lint:
-    image: golangci/golangci-lint:v1.27.0
-    stage: lint
-    extends: .go-cache
-    allow_failure: true
-    script:
-      - golangci-lint run -v
+lint-backend:
+  image: golangci/golangci-lint:v1.43.0
+  stage: lint
+  extends: .go-cache
+  allow_failure: true
+  script:
+    - golangci-lint run -v
 
-compile:
-    stage: build
-    extends: .go-cache
-    script:
-      - go mod download
-      - go build -race -o $OUTPUT_NAME
-      - go test ./... -coverprofile=coverage.out
-    artifacts:
-      paths:
-        - $OUTPUT_NAME
+build-backend:
+  stage: build
+  extends: .go-cache
+  script:
+    - go get ./...
+    - go build -race -o $OUTPUT_NAME
+  artifacts:
+    paths:
+      - $OUTPUT_NAME
 
-deploy-dev:
-    stage: deploy
-    script:
-      - echo "deploy dev environment"
+test-backend:
+  stage: test
+  extends: .go-cache
+  script:
+    - gotestsum --junitfile ../report.xml --format testname
+  artifacts:
+    when: always
+    reports:
+      junit: report.xml

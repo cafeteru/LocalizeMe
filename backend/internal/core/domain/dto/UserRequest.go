@@ -1,6 +1,6 @@
 package dto
 
-// swagger:parameters CreateUser
+// swagger:parameters CreateUser Login
 type _ struct {
 	// in: body
 	// required: true

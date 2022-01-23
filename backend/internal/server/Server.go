@@ -3,6 +3,7 @@ package server
 import (
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
+	"github.com/go-chi/cors"
 	slog "github.com/go-eden/slf4go"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/ports/impl"
 	serviceImpl "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/service/impl"
@@ -19,6 +20,14 @@ type Server struct {
 func CreateServer(port string) *Server {
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
+	cors2 := cors.New(cors.Options{
+		AllowedOrigins:   []string{"*"},
+		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"},
+		AllowedHeaders:   []string{"Accept", "Authorization", "Content-Type", "X-CSRF-Token"},
+		AllowCredentials: true,
+		MaxAge:           300,
+	})
+	r.Use(cors2.Handler)
 	initControllers(r)
 	server := &http.Server{
 		Addr:         ":" + port,
