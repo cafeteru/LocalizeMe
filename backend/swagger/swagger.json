@@ -14,7 +14,7 @@
     "title": "LocalizeMe.",
     "version": "1.0.0"
   },
-  "host": "https://gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme",
+  "host": "localhost:8080",
   "basePath": "/",
   "paths": {
     "/login": {

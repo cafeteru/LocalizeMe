@@ -5,7 +5,7 @@
 //     Schemes: http
 //     BasePath: /
 //     Version: 1.0.0
-//     Host: https://gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme
+//     Host: localhost:8080
 //
 //     Consumes:
 //     - application/json
