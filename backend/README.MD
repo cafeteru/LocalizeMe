@@ -50,6 +50,13 @@ Redoc: swagger serve -F=redoc swagger/swagger.json
 
 These steps are configured in Makefile
 
+### Add token to work Swagger
+
+1. Click in this button.
+   ![swagger_authorization_button.png](assets/img/swagger_authorization_button.png)
+2. Enter the token with the text `Bearer `
+   ![swagger_available_authorizations](assets/img/swagger_available_authorizations.png)
+
 ## How to generate a Mock from an interface
 
 ```shell
@@ -63,6 +70,7 @@ Example:
 ```
 
 # Create MongoDB with Docker
+
 ```shell
 docker pull mongo
 docker run -d --name mongo-on-docker -p 27017:27017 -e MONGO_INITDB_ROOT_USERNAME=mongoadmin -e MONGO_INITDB_ROOT_PASSWORD=secret mongo
@@ -80,6 +88,7 @@ go install github.com/jfeliu007/goplantuml/cmd/goplantuml
 go install ./...
 make uml -B
 ```
+
 _Note, when you want to generate UML, you need to change ID type to `string` to remove noise created by MongoDB._
 
 ![Uml Diagram](assets/dist/UmlDiagram.svg)
