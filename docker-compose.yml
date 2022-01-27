@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  database:
+    container_name: localize-me-database
+    image: mongo:latest
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongoadmin
+      MONGO_INITDB_ROOT_PASSWORD: secret
+    volumes:
+      - ./mongo-volume:/data/db
+    networks:
+      - localize-me-network
+  backend:
+    container_name: localize-me-backend
+    #image: igm1990/localize-me-backend:v1
+    build: backend/.
+    command: bash -c "scripts/docker.sh"
+    ports:
+      - "8080:8080"
+      - "9090:9090"
+    volumes:
+      - ./:/backend
+    depends_on:
+      - database
+    networks:
+      - localize-me-network
+    environment:
+      ATLAS_URI: mongodb://mongoadmin:secret@database:27017
+
+networks:
+  localize-me-network:
+    name: localize-me-network
+    driver: bridge
