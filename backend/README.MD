@@ -7,7 +7,7 @@ Development of a simple Rest API with [Go](https://golang.org/).
 ## Install project's dependencies
 
 ```shell
-go get ./...
+go install ./...
 go mod tidy
 ```
 
@@ -31,7 +31,7 @@ make <command> -B # Use -B to force to execute
 We must first install Swagger dependency:
 
 ```shell
-go get -u github.com/go-swagger/go-swagger/cmd/swagger
+go install github.com/go-swagger/go-swagger/cmd/swagger@latest
 ```
 
 Then execute the following command:
@@ -69,7 +69,7 @@ Example:
  mockgen -source=internal/core/service/UserService.go -destination=internal/core/service/mocks/UserServiceMock.go -package=mocks
 ```
 
-# Create MongoDB with Docker
+## Create MongoDB with Docker
 
 ```shell
 docker pull mongo
@@ -78,13 +78,38 @@ docker run -d --name mongo-on-docker -p 27017:27017 -e MONGO_INITDB_ROOT_USERNAM
 
 To manage this database, it's recommended to install [MongoDB Compass](https://www.mongodb.com/try/download/compass)
 
+## Docker
+
+- Create or update image
+
+```shell
+docker build -t localize-me-backend .
+```
+
+- Execute Docker Image (create a container)
+
+```shell
+docker run --rm --name backend -p 8080:8080 -p 9090:9090 localize-me-backend &
+```
+
+- Create tag to publish image to Docker Hub
+
+```shell
+docker tag localize-me-backend igm1990/localize-me-backend:v1
+```
+
+- Publish the image to Docker Hub
+```shell
+docker push igm1990/localize-me-backend:v1
+```
+
 ## Generate UML model
 
 Use these commands:
 
 ```shell
-go install github.com/jfeliu007/goplantuml/parser
-go install github.com/jfeliu007/goplantuml/cmd/goplantuml
+go install github.com/jfeliu007/goplantuml/parser@latest
+go install github.com/jfeliu007/goplantuml/cmd/goplantuml@latest
 go install ./...
 make uml -B
 ```
