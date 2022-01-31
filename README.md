@@ -8,8 +8,15 @@ In order to create and manage requirements, controlling their priorities, the fo
 
 ## Manage Docker Compose
 
-- Create Image
+- Create Containers
 
 ```shell
-docker compose up
+docker compose up # # run in the foreground showing logs
+docker compose up -d # execute at background
+```
+
+- Destroy Containers
+
+```shell
+docker compose down
 ```

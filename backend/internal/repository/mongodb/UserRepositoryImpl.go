@@ -24,11 +24,11 @@ func (u *UserRepositoryImpl) Create(user domain.User) (*mongo.InsertOneResult, e
 	slog.Debugf("%s: start", tools.GetCurrentFuncName())
 	collection, err := u.GetCollection(name)
 	if err != nil {
-		return nil, tools.ErrorLogDetails(err, constants.ErrorCreateConnection, tools.GetCurrentFuncName())
+		return nil, tools.ErrorLogDetails(err, constants.CreateConnection, tools.GetCurrentFuncName())
 	}
 	result, err := collection.InsertOne(context.TODO(), user)
 	if err != nil {
-		return nil, tools.ErrorLogDetails(err, constants.ErrorInsertUser, tools.GetCurrentFuncName())
+		return nil, tools.ErrorLogDetails(err, constants.InsertUser, tools.GetCurrentFuncName())
 	}
 	u.CloseConnection()
 	slog.Debugf("%s: end", tools.GetCurrentFuncName())
@@ -39,14 +39,14 @@ func (u *UserRepositoryImpl) FindByEmail(email string) (*domain.User, error) {
 	slog.Debugf("%s: start", tools.GetCurrentFuncName())
 	collection, err := u.GetCollection(name)
 	if err != nil {
-		return nil, tools.ErrorLogDetails(err, constants.ErrorCreateConnection, tools.GetCurrentFuncName())
+		return nil, tools.ErrorLogDetails(err, constants.CreateConnection, tools.GetCurrentFuncName())
 	}
 	filter := bson.M{"email": bson.M{"$eq": email}}
 	result := collection.FindOne(context.TODO(), filter)
 	var user domain.User
 	err = result.Decode(&user)
 	if err != nil {
-		return nil, tools.ErrorLogDetails(err, constants.ErrorFindUserByEmail, tools.GetCurrentFuncName())
+		return nil, tools.ErrorLogDetails(err, constants.FindUserByEmail, tools.GetCurrentFuncName())
 	}
 	u.CloseConnection()
 	slog.Debugf("%s: end", tools.GetCurrentFuncName())

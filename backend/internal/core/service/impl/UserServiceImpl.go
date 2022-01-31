@@ -35,7 +35,7 @@ func (u UserServiceImpl) Create(request dto.UserRequest) (domain.User, error) {
 	user.Password = password
 	if err != nil {
 		slog.Errorf("%s: error", tools.GetCurrentFuncName())
-		return domain.User{}, tools.ErrorLogDetails(err, constants.ErrorEncryptPasswordUser, tools.GetCurrentFuncName())
+		return domain.User{}, tools.ErrorLogDetails(err, constants.EncryptPasswordUser, tools.GetCurrentFuncName())
 	}
 	resultId, err := u.repository.Create(user)
 	if err != nil {
@@ -55,11 +55,11 @@ func (u UserServiceImpl) Create(request dto.UserRequest) (domain.User, error) {
 func (u UserServiceImpl) checkRequest(request dto.UserRequest) (domain.User, error) {
 	slog.Debugf("%s: start", tools.GetCurrentFuncName())
 	if request.Email == "" || request.Password == "" {
-		return domain.User{}, tools.ErrorLog(constants.ErrorInvalidUserRequest, tools.GetCurrentFuncName())
+		return domain.User{}, tools.ErrorLog(constants.InvalidUserRequest, tools.GetCurrentFuncName())
 	}
 	user, _ := u.repository.FindByEmail(request.Email)
 	if user != nil {
-		return domain.User{}, tools.ErrorLog(constants.ErrorEmailAlreadyRegister, tools.GetCurrentFuncName())
+		return domain.User{}, tools.ErrorLog(constants.EmailAlreadyRegister, tools.GetCurrentFuncName())
 	}
 	slog.Debugf("%s: end", tools.GetCurrentFuncName())
 	return domain.User{
@@ -70,29 +70,34 @@ func (u UserServiceImpl) checkRequest(request dto.UserRequest) (domain.User, err
 	}, nil
 }
 
-func (u UserServiceImpl) FindByEmail(request dto.UserRequest) (*domain.User, error) {
+func (u UserServiceImpl) FindByEmail(email string) (*domain.User, error) {
 	slog.Debugf("%s: start", tools.GetCurrentFuncName())
-	if request.Email == "" || request.Password == "" {
-		return &domain.User{}, tools.ErrorLog(constants.ErrorInvalidUserRequest, tools.GetCurrentFuncName())
+	if email == "" {
+		return &domain.User{}, tools.ErrorLog(constants.InvalidUserRequest, tools.GetCurrentFuncName())
 	}
-	user, err := u.repository.FindByEmail(request.Email)
+	user, err := u.repository.FindByEmail(email)
 	if err != nil {
 		slog.Errorf("%s: error", tools.GetCurrentFuncName())
 		return &domain.User{}, err
+	}
+	if !user.IsActive {
+		errActive := errors.New(constants.UserNoActive)
+		slog.Errorf("%s: error", tools.GetCurrentFuncName())
+		return &domain.User{}, errActive
 	}
 	slog.Debugf("%s: end", tools.GetCurrentFuncName())
 	return user, err
 }
 
 func (u UserServiceImpl) Login(request dto.UserRequest) (*dto.TokenDto, error) {
-	user, err := u.FindByEmail(request)
-	if err != nil { // TODO Add tests
+	user, err := u.FindByEmail(request.Email)
+	if err != nil {
 		slog.Errorf("%s: error", tools.GetCurrentFuncName())
 		return &dto.TokenDto{}, err
 	}
-	if !user.IsActive || !u.encrypt.CheckPassword(user.Password, request.Password) {
+	if !u.encrypt.CheckPassword(user.Password, request.Password) {
 		slog.Errorf("%s: error", tools.GetCurrentFuncName())
-		return &dto.TokenDto{}, errors.New(constants.ErrorDataLogin)
+		return &dto.TokenDto{}, errors.New(constants.DataLogin)
 	}
 	claims := jwt.MapClaims{
 		"email":    user.Email,
@@ -103,7 +108,7 @@ func (u UserServiceImpl) Login(request dto.UserRequest) (*dto.TokenDto, error) {
 	hours, _ := time.ParseDuration(os.Getenv("HOURS"))
 	alg := os.Getenv("ALG")
 	secret := os.Getenv("SECRET")
-	jwtauth.SetExpiry(claims, time.Now().Add(time.Hour*hours))
+	jwtauth.SetExpiry(claims, time.Now().Add(time.Hour+hours))
 	tokenAuth := jwtauth.New(alg, []byte(secret), nil)
 	_, tokenString, _ := tokenAuth.Encode(claims)
 	return &dto.TokenDto{Authorization: tokenString}, err

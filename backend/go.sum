@@ -16,8 +16,8 @@ github.com/go-chi/jwtauth/v5 v5.0.2/go.mod h1:TeA7vmPe3uYThvHw8O8W13HOOpOd4MTgTo
 github.com/go-eden/common v0.1.14 h1:QiSxZLFQDXE2F7LX+ZnaiTs15t0n3lfZo5PanIJiv60=
 github.com/go-eden/common v0.1.14/go.mod h1:vcNs8vhRl9/YFxtkgUPbAhTUSt40NcK7bF8d3S3n5sU=
 github.com/go-eden/routine v0.0.1/go.mod h1:R+sklWRKa0GPYXW5Opyr1nSb9KbwpEF9AXBARb7r1XI=
-github.com/go-eden/routine v0.0.2 h1:jcRSRZEKX0R1OqYqfbBRXxpaDxANUJn2m7liPe7KzQI=
-github.com/go-eden/routine v0.0.2/go.mod h1:R+sklWRKa0GPYXW5Opyr1nSb9KbwpEF9AXBARb7r1XI=
+github.com/go-eden/routine v0.0.3 h1:GgxjvS40rY+gyVBWooLdbRIiHU/536F5aKsHFqF0dsE=
+github.com/go-eden/routine v0.0.3/go.mod h1:R+sklWRKa0GPYXW5Opyr1nSb9KbwpEF9AXBARb7r1XI=
 github.com/go-eden/slf4go v1.1.1 h1:qez94lqrwc1quxlsLvD9IhH+QM7p/CcAacCiZl9Dooo=
 github.com/go-eden/slf4go v1.1.1/go.mod h1:mnVsjQFGLXKKWN6Mb9GREeZ2DOwwmLrb4PsLfTAdkTM=
 github.com/go-stack/stack v1.8.0/go.mod h1:v0f6uXyyMGvRgIKkXu+yp6POWl0qKG85gN/melR3HDY=
@@ -91,8 +91,8 @@ golang.org/x/crypto v0.0.0-20200302210943-78000ba7a073/go.mod h1:LzIPMQfyMNhhGPh
 golang.org/x/crypto v0.0.0-20200622213623-75b288015ac9/go.mod h1:LzIPMQfyMNhhGPhUkYOs5KpL4U8rLKemX1yGLhDgUto=
 golang.org/x/crypto v0.0.0-20201216223049-8b5274cf687f/go.mod h1:jdWPYTVW3xRLrWPugEBEK3UY2ZEsg3UU495nc5E+M+I=
 golang.org/x/crypto v0.0.0-20201217014255-9d1352758620/go.mod h1:jdWPYTVW3xRLrWPugEBEK3UY2ZEsg3UU495nc5E+M+I=
-golang.org/x/crypto v0.0.0-20220126234351-aa10faf2a1f8 h1:kACShD3qhmr/3rLmg1yXyt+N4HcwutKyPRB93s54TIU=
-golang.org/x/crypto v0.0.0-20220126234351-aa10faf2a1f8/go.mod h1:IxCIyHEi3zRg3s0A5j5BB6A9Jmi73HwBIUl50j+osU4=
+golang.org/x/crypto v0.0.0-20220128200615-198e4374d7ed h1:YoWVYYAfvQ4ddHv3OKmIvX7NCAhFGTj62VP2l2kfBbA=
+golang.org/x/crypto v0.0.0-20220128200615-198e4374d7ed/go.mod h1:IxCIyHEi3zRg3s0A5j5BB6A9Jmi73HwBIUl50j+osU4=
 golang.org/x/mod v0.3.0/go.mod h1:s0Qsj1ACt9ePp/hMypM3fl4fZqREWJwdYDEqhRiZZUA=
 golang.org/x/mod v0.4.1/go.mod h1:s0Qsj1ACt9ePp/hMypM3fl4fZqREWJwdYDEqhRiZZUA=
 golang.org/x/mod v0.4.2/go.mod h1:s0Qsj1ACt9ePp/hMypM3fl4fZqREWJwdYDEqhRiZZUA=
