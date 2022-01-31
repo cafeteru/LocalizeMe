@@ -102,6 +102,9 @@ func (u UserControllerImpl) Create() func(w http.ResponseWriter, r *http.Request
 func (u UserControllerImpl) FindAll() func(w http.ResponseWriter, r *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		slog.Debugf("%s: start", tools.GetCurrentFuncName())
+		if !utils.CheckUserIsActive(w, r, u.service) {
+			return
+		}
 		users := [2]domain.User{}
 		users[0] = domain.User{
 			ID:       primitive.ObjectID{},
