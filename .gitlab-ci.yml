@@ -1,4 +1,4 @@
-image: igm1990/localize-me-backend:v1
+image: igm1990/localize-me-backend:v2
 
 .go-cache:
   variables:

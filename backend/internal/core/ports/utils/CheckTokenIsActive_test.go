@@ -27,7 +27,7 @@ func TestCheckTokenIsActive_CheckUserIsActive_IsActive(t *testing.T) {
 	}
 	request, w := createRequestWithToken(claims)
 	mockUserService.EXPECT().FindByEmail(user.Email).Return(&user, nil)
-	isActive := CheckUserIsActive(w, request, mockUserService)
+	isActive, _ := CheckUserIsActive(w, request, mockUserService)
 	if !isActive {
 		t.Error("Expected", true, "Got", false)
 	}
@@ -45,7 +45,7 @@ func TestCheckTokenIsActive_CheckUserIsActive_IsNotActive(t *testing.T) {
 	}
 	request, w := createRequestWithToken(claims)
 	mockUserService.EXPECT().FindByEmail(user.Email).Return(&user, nil)
-	isActive := CheckUserIsActive(w, request, mockUserService)
+	isActive, _ := CheckUserIsActive(w, request, mockUserService)
 	if isActive {
 		t.Error("Expected", true, "Got", false)
 	}
@@ -59,7 +59,7 @@ func TestCheckTokenIsActive_CheckUserIsActive_InvalidToken(t *testing.T) {
 	}
 	request, w := createRequestWithToken(claims)
 	mockUserService.EXPECT().FindByEmail(user.Email).Return(&user, nil)
-	isActive := CheckUserIsActive(w, request, mockUserService)
+	isActive, _ := CheckUserIsActive(w, request, mockUserService)
 	if isActive {
 		t.Error("Expected", false, "Got", true)
 	}
@@ -74,7 +74,7 @@ func TestCheckTokenIsActive_CheckUserIsActive_NotRegisterUser(t *testing.T) {
 	}
 	request, w := createRequestWithToken(claims)
 	mockUserService.EXPECT().FindByEmail(user.Email).Return(nil, nil)
-	isActive := CheckUserIsActive(w, request, mockUserService)
+	isActive, _ := CheckUserIsActive(w, request, mockUserService)
 	if isActive {
 		t.Error("Expected", false, "Got", true)
 	}
@@ -89,7 +89,7 @@ func TestCheckTokenIsActive_CheckUserIsActive_ErrorUser(t *testing.T) {
 	}
 	request, w := createRequestWithToken(claims)
 	mockUserService.EXPECT().FindByEmail(user.Email).Return(nil, errors.New(constants.UserNoRegister))
-	isActive := CheckUserIsActive(w, request, mockUserService)
+	isActive, _ := CheckUserIsActive(w, request, mockUserService)
 	if isActive {
 		t.Error("Expected", false, "Got", true)
 	}
@@ -120,7 +120,7 @@ func createRequestWithToken(claims jwt.MapClaims) (*http.Request, *httptest.Resp
 	jwtauth.SetExpiry(claims, time.Now().Add(30_000))
 	tokenAuth := jwtauth.New(alg, []byte(secret), nil)
 	token, _, _ := tokenAuth.Encode(claims)
-	request := httptest.NewRequest("GET", "http://localhost:8080/users", nil)
+	request := httptest.NewRequest(http.MethodGet, "http://localhost:8080/users", nil)
 	ctx := request.Context()
 	ctx = jwtauth.NewContext(ctx, token, nil)
 	request = request.WithContext(ctx)

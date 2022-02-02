@@ -46,7 +46,7 @@ func (u UserServiceImpl) Create(request dto.UserRequest) (domain.User, error) {
 	return domain.User{
 		ID:       resultId.InsertedID.(primitive.ObjectID),
 		Email:    user.Email,
-		Password: user.Password,
+		Password: "",
 		IsAdmin:  user.IsAdmin,
 		IsActive: true,
 	}, err
@@ -86,6 +86,7 @@ func (u UserServiceImpl) FindByEmail(email string) (*domain.User, error) {
 		return &domain.User{}, errActive
 	}
 	slog.Debugf("%s: end", tools.GetCurrentFuncName())
+	user.Password = ""
 	return user, err
 }
 

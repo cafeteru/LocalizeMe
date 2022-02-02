@@ -29,12 +29,13 @@ func (u UserControllerImpl) CreateUserRoutes(r *chi.Mux) {
 		r.Use(jwtauth.Verifier(tokenAuth))
 		r.Use(jwtauth.Authenticator)
 		r.Route(pattern, func(r chi.Router) {
-			r.Get("/", u.FindAll())
+			r.Get("/", u.FindAll)
+			r.Get("/me", u.FindMe)
 		})
 	})
 	r.Group(func(r chi.Router) {
-		r.Post("/login", u.Login())
-		r.Post(pattern, u.Create())
+		r.Post("/login", u.Login)
+		r.Post(pattern, u.Create)
 	})
 }
 
@@ -47,23 +48,21 @@ func (u UserControllerImpl) CreateUserRoutes(r *chi.Mux) {
 // Responses:
 // - 200: TokenDto
 // - 400: ErrorDto
-func (u UserControllerImpl) Login() func(w http.ResponseWriter, r *http.Request) {
-	return func(w http.ResponseWriter, r *http.Request) {
-		slog.Debugf("%s: start", tools.GetCurrentFuncName())
-		var request dto.UserRequest
-		err := json.NewDecoder(r.Body).Decode(&request)
-		if err != nil {
-			utils.CreateErrorResponse(w, err, http.StatusUnprocessableEntity)
-			return
-		}
-		tokenDto, err := u.service.Login(request)
-		if err != nil {
-			utils.CreateErrorResponse(w, err, http.StatusBadRequest)
-			return
-		}
-		utils.CreateResponse(w, http.StatusOK, tokenDto)
-		slog.Debugf("%s: end", tools.GetCurrentFuncName())
+func (u UserControllerImpl) Login(w http.ResponseWriter, r *http.Request) {
+	slog.Debugf("%s: start", tools.GetCurrentFuncName())
+	var request dto.UserRequest
+	err := json.NewDecoder(r.Body).Decode(&request)
+	if err != nil {
+		utils.CreateErrorResponse(w, err, http.StatusUnprocessableEntity)
+		return
 	}
+	tokenDto, err := u.service.Login(request)
+	if err != nil {
+		utils.CreateErrorResponse(w, err, http.StatusBadRequest)
+		return
+	}
+	utils.CreateResponse(w, http.StatusOK, tokenDto)
+	slog.Debugf("%s: end", tools.GetCurrentFuncName())
 }
 
 // swagger:route POST /users Users CreateUser
@@ -75,23 +74,21 @@ func (u UserControllerImpl) Login() func(w http.ResponseWriter, r *http.Request)
 // Responses:
 // - 200: User
 // - 400: ErrorDto
-func (u UserControllerImpl) Create() func(w http.ResponseWriter, r *http.Request) {
-	return func(w http.ResponseWriter, r *http.Request) {
-		slog.Debugf("%s: start", tools.GetCurrentFuncName())
-		var request dto.UserRequest
-		err := json.NewDecoder(r.Body).Decode(&request)
-		if err != nil {
-			utils.CreateErrorResponse(w, err, http.StatusUnprocessableEntity)
-			return
-		}
-		user, err := u.service.Create(request)
-		if err != nil {
-			utils.CreateErrorResponse(w, err, http.StatusBadRequest)
-			return
-		}
-		utils.CreateResponse(w, http.StatusCreated, user)
-		slog.Debugf("%s: end", tools.GetCurrentFuncName())
+func (u UserControllerImpl) Create(w http.ResponseWriter, r *http.Request) {
+	slog.Debugf("%s: start", tools.GetCurrentFuncName())
+	var request dto.UserRequest
+	err := json.NewDecoder(r.Body).Decode(&request)
+	if err != nil {
+		utils.CreateErrorResponse(w, err, http.StatusUnprocessableEntity)
+		return
 	}
+	user, err := u.service.Create(request)
+	if err != nil {
+		utils.CreateErrorResponse(w, err, http.StatusBadRequest)
+		return
+	}
+	utils.CreateResponse(w, http.StatusCreated, user)
+	slog.Debugf("%s: end", tools.GetCurrentFuncName())
 }
 
 // swagger:route GET /users Users FindAll
@@ -99,28 +96,46 @@ func (u UserControllerImpl) Create() func(w http.ResponseWriter, r *http.Request
 //
 // Responses:
 // - 200: []User
-func (u UserControllerImpl) FindAll() func(w http.ResponseWriter, r *http.Request) {
-	return func(w http.ResponseWriter, r *http.Request) {
-		slog.Debugf("%s: start", tools.GetCurrentFuncName())
-		if !utils.CheckUserIsActive(w, r, u.service) {
-			return
-		}
-		users := [2]domain.User{}
-		users[0] = domain.User{
-			ID:       primitive.ObjectID{},
-			Email:    "",
-			Password: "",
-			IsAdmin:  false,
-			IsActive: false,
-		}
-		users[1] = domain.User{
-			ID:       primitive.ObjectID{},
-			Email:    "",
-			Password: "",
-			IsAdmin:  true,
-			IsActive: true,
-		}
-		utils.CreateResponse(w, http.StatusOK, users)
-		slog.Debugf("%s: end", tools.GetCurrentFuncName())
+func (u UserControllerImpl) FindAll(w http.ResponseWriter, r *http.Request) {
+	slog.Debugf("%s: start", tools.GetCurrentFuncName())
+	isActive, _ := utils.CheckUserIsActive(w, r, u.service)
+	if !isActive {
+		return
 	}
+	users := [2]domain.User{}
+	users[0] = domain.User{
+		ID:       primitive.ObjectID{},
+		Email:    "",
+		Password: "",
+		IsAdmin:  false,
+		IsActive: false,
+	}
+	users[1] = domain.User{
+		ID:       primitive.ObjectID{},
+		Email:    "",
+		Password: "",
+		IsAdmin:  true,
+		IsActive: true,
+	}
+	utils.CreateResponse(w, http.StatusOK, users)
+	slog.Debugf("%s: end", tools.GetCurrentFuncName())
+}
+
+// swagger:route GET /users/me Users GetMe
+// Return the information of the identified user.
+//
+// Consumes:
+// - application/json
+//
+// Responses:
+// - 200: User
+// - 400: ErrorDto
+func (u UserControllerImpl) FindMe(w http.ResponseWriter, r *http.Request) {
+	slog.Debugf("%s: start", tools.GetCurrentFuncName())
+	isActive, user := utils.CheckUserIsActive(w, r, u.service)
+	if !isActive {
+		return
+	}
+	utils.CreateResponse(w, http.StatusOK, user)
+	slog.Debugf("%s: end", tools.GetCurrentFuncName())
 }
