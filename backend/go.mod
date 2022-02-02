@@ -10,8 +10,8 @@ require (
 	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/golang/mock v1.6.0
 	github.com/joho/godotenv v1.4.0
-	go.mongodb.org/mongo-driver v1.8.2
-	golang.org/x/crypto v0.0.0-20220128200615-198e4374d7ed
+	go.mongodb.org/mongo-driver v1.8.3
+	golang.org/x/crypto v0.0.0-20220131195533-30dcbda58838
 )
 
 require (

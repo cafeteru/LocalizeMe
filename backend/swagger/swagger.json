@@ -106,6 +106,32 @@
           }
         }
       }
+    },
+    "/users/me": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "tags": [
+          "Users"
+        ],
+        "summary": "Return the information of the identified user.",
+        "operationId": "GetMe",
+        "responses": {
+          "200": {
+            "description": "User",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "400": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
