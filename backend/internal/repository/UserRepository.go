@@ -7,5 +7,6 @@ import (
 
 type UserRepository interface {
 	Create(user domain.User) (*mongo.InsertOneResult, error)
+	FindAll() (*[]domain.User, error)
 	FindByEmail(email string) (*domain.User, error)
 }

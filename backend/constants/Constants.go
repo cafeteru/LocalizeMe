@@ -2,6 +2,7 @@ package constants
 
 const (
 	CreateConnection     = "starting the connection"
+	ReadDatabase         = "problems reading data from database"
 	DataLogin            = "data invalid"
 	EmailAlreadyRegister = "email already registered"
 	EncryptPasswordUser  = "encrypting password"

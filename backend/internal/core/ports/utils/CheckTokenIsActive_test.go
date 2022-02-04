@@ -7,7 +7,7 @@ import (
 	"github.com/golang/mock/gomock"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/constants"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain"
-	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/service/mocks"
+	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/service/mock"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/tools"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"net/http"
@@ -95,10 +95,10 @@ func TestCheckTokenIsActive_CheckUserIsActive_ErrorUser(t *testing.T) {
 	}
 }
 
-func initMocks(t *testing.T) *mocks.MockUserService {
+func initMocks(t *testing.T) *mock.MockUserService {
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
-	mockUserService := mocks.NewMockUserService(mockCtrl)
+	mockUserService := mock.NewMockUserService(mockCtrl)
 	return mockUserService
 }
 

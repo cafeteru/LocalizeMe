@@ -7,7 +7,7 @@ import (
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain/dto"
 	encryptMock "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/utils/encrypt/mocks"
-	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/repository/mocks"
+	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/repository/mock"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"testing"
@@ -16,7 +16,7 @@ import (
 func TestUserServiceImpl_Create_NotRegister(t *testing.T) {
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
-	mockUserRepository := mocks.NewMockUserRepository(mockCtrl)
+	mockUserRepository := mock.NewMockUserRepository(mockCtrl)
 	mockEncrypt := encryptMock.NewMockEncrypt(mockCtrl)
 	userRequest := dto.UserRequest{
 		Email:    "email",
@@ -39,7 +39,7 @@ func TestUserServiceImpl_Create_NotRegister(t *testing.T) {
 func TestUserServiceImpl_Create_Register(t *testing.T) {
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
-	mockUserRepository := mocks.NewMockUserRepository(mockCtrl)
+	mockUserRepository := mock.NewMockUserRepository(mockCtrl)
 	mockEncrypt := encryptMock.NewMockEncrypt(mockCtrl)
 	userRequest := dto.UserRequest{
 		Email:    "email",
@@ -63,7 +63,7 @@ func TestUserServiceImpl_Create_Register(t *testing.T) {
 func TestUserServiceImpl_Create_ErrorRepository(t *testing.T) {
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
-	mockUserRepository := mocks.NewMockUserRepository(mockCtrl)
+	mockUserRepository := mock.NewMockUserRepository(mockCtrl)
 	mockEncrypt := encryptMock.NewMockEncrypt(mockCtrl)
 	userRequest := dto.UserRequest{
 		Email:    "email",
@@ -83,7 +83,7 @@ func TestUserServiceImpl_Create_ErrorRepository(t *testing.T) {
 func TestUserServiceImpl_Create_ErrorUserRequest(t *testing.T) {
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
-	mockUserRepository := mocks.NewMockUserRepository(mockCtrl)
+	mockUserRepository := mock.NewMockUserRepository(mockCtrl)
 	mockEncrypt := encryptMock.NewMockEncrypt(mockCtrl)
 
 	userRequest := dto.UserRequest{
@@ -109,7 +109,7 @@ func TestUserServiceImpl_Create_ErrorUserRequest(t *testing.T) {
 func TestUserServiceImpl_Create_ErrorEncrypt(t *testing.T) {
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
-	mockUserRepository := mocks.NewMockUserRepository(mockCtrl)
+	mockUserRepository := mock.NewMockUserRepository(mockCtrl)
 	mockEncrypt := encryptMock.NewMockEncrypt(mockCtrl)
 
 	userRequest := dto.UserRequest{
@@ -129,7 +129,7 @@ func TestUserServiceImpl_Create_ErrorEncrypt(t *testing.T) {
 func TestUserServiceImpl_FindByEmail_EmptyEmail(t *testing.T) {
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
-	mockUserRepository := mocks.NewMockUserRepository(mockCtrl)
+	mockUserRepository := mock.NewMockUserRepository(mockCtrl)
 	mockEncrypt := encryptMock.NewMockEncrypt(mockCtrl)
 	userService := CreateUserService(mockUserRepository, mockEncrypt)
 	_, err := userService.FindByEmail("")
@@ -141,7 +141,7 @@ func TestUserServiceImpl_FindByEmail_EmptyEmail(t *testing.T) {
 func TestUserServiceImpl_FindByEmail_NotFound(t *testing.T) {
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
-	mockUserRepository := mocks.NewMockUserRepository(mockCtrl)
+	mockUserRepository := mock.NewMockUserRepository(mockCtrl)
 	mockEncrypt := encryptMock.NewMockEncrypt(mockCtrl)
 	email := "email@email.com"
 	mockUserRepository.EXPECT().FindByEmail(email).Return(nil, errors.New(""))
@@ -155,7 +155,7 @@ func TestUserServiceImpl_FindByEmail_NotFound(t *testing.T) {
 func TestUserServiceImpl_FindByEmail_UserNotActive(t *testing.T) {
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
-	mockUserRepository := mocks.NewMockUserRepository(mockCtrl)
+	mockUserRepository := mock.NewMockUserRepository(mockCtrl)
 	mockEncrypt := encryptMock.NewMockEncrypt(mockCtrl)
 	email := "email@email.com"
 	user := domain.User{
@@ -176,7 +176,7 @@ func TestUserServiceImpl_FindByEmail_UserNotActive(t *testing.T) {
 func TestUserServiceImpl_FindByEmail_Success(t *testing.T) {
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
-	mockUserRepository := mocks.NewMockUserRepository(mockCtrl)
+	mockUserRepository := mock.NewMockUserRepository(mockCtrl)
 	mockEncrypt := encryptMock.NewMockEncrypt(mockCtrl)
 	email := "email@email.com"
 	user := domain.User{
@@ -197,7 +197,7 @@ func TestUserServiceImpl_FindByEmail_Success(t *testing.T) {
 func TestUserServiceImpl_Login_NotFound(t *testing.T) {
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
-	mockUserRepository := mocks.NewMockUserRepository(mockCtrl)
+	mockUserRepository := mock.NewMockUserRepository(mockCtrl)
 	mockEncrypt := encryptMock.NewMockEncrypt(mockCtrl)
 	email := "email@email.com"
 	mockUserRepository.EXPECT().FindByEmail(email).Return(nil, errors.New(""))
@@ -215,7 +215,7 @@ func TestUserServiceImpl_Login_NotFound(t *testing.T) {
 func TestUserServiceImpl_Login_ErrorPassword(t *testing.T) {
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
-	mockUserRepository := mocks.NewMockUserRepository(mockCtrl)
+	mockUserRepository := mock.NewMockUserRepository(mockCtrl)
 	mockEncrypt := encryptMock.NewMockEncrypt(mockCtrl)
 	userRequest := dto.UserRequest{
 		Email:    "email",
@@ -241,7 +241,7 @@ func TestUserServiceImpl_Login_ErrorPassword(t *testing.T) {
 func TestUserServiceImpl_Login_Successful(t *testing.T) {
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
-	mockUserRepository := mocks.NewMockUserRepository(mockCtrl)
+	mockUserRepository := mock.NewMockUserRepository(mockCtrl)
 	mockEncrypt := encryptMock.NewMockEncrypt(mockCtrl)
 	userRequest := dto.UserRequest{
 		Email:    "email",

@@ -60,13 +60,14 @@ These steps are configured in Makefile
 ## How to generate a Mock from an interface
 
 ```shell
- mockgen -source=<source-file> -destination=<mock-file> -package=<package-name>
+mockgen -source=<source-file> -destination=<mock-file> -package=<package-name>
 ```
 
-Example:
+Examples:
 
 ```shell
- mockgen -source=internal/core/service/UserService.go -destination=internal/core/service/mocks/UserServiceMock.go -package=mocks
+mockgen -source=internal/repository/UserRepository.go -destination=internal/repository/mock/UserRepositoryMock.go -package=mock
+mockgen -source=internal/core/service/UserService.go -destination=internal/core/service/mock/UserServiceMock.go -package=mock
 ```
 
 ## Create MongoDB with Docker
@@ -99,6 +100,7 @@ docker tag localize-me-backend igm1990/localize-me-backend:v1
 ```
 
 - Publish the image to Docker Hub
+
 ```shell
 docker push igm1990/localize-me-backend:v1
 ```

@@ -7,12 +7,10 @@ import (
 	"github.com/go-chi/jwtauth/v5"
 	slog "github.com/go-eden/slf4go"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/constants"
-	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain/dto"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/ports/utils"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/service"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/tools"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 	"net/http"
 )
 
@@ -54,8 +52,7 @@ func (u UserControllerImpl) CreateUserRoutes(r *chi.Mux) {
 func (u UserControllerImpl) Login(w http.ResponseWriter, r *http.Request) {
 	slog.Debugf("%s: start", tools.GetCurrentFuncName())
 	var request dto.UserRequest
-	err := json.NewDecoder(r.Body).Decode(&request)
-	if err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&request); err != nil {
 		utils.CreateErrorResponse(w, err, http.StatusUnprocessableEntity)
 		return
 	}
@@ -80,8 +77,7 @@ func (u UserControllerImpl) Login(w http.ResponseWriter, r *http.Request) {
 func (u UserControllerImpl) Create(w http.ResponseWriter, r *http.Request) {
 	slog.Debugf("%s: start", tools.GetCurrentFuncName())
 	var request dto.UserRequest
-	err := json.NewDecoder(r.Body).Decode(&request)
-	if err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&request); err != nil {
 		utils.CreateErrorResponse(w, err, http.StatusUnprocessableEntity)
 		return
 	}
@@ -101,24 +97,13 @@ func (u UserControllerImpl) Create(w http.ResponseWriter, r *http.Request) {
 // - 200: []User
 func (u UserControllerImpl) FindAll(w http.ResponseWriter, r *http.Request) {
 	slog.Debugf("%s: start", tools.GetCurrentFuncName())
-	user := utils.CheckUserIsActive(w, r, u.service)
-	if user == nil {
+	if user := utils.CheckUserIsAdmin(w, r, u.service); user == nil {
 		return
 	}
-	users := [2]domain.User{}
-	users[0] = domain.User{
-		ID:       primitive.ObjectID{},
-		Email:    "",
-		Password: "",
-		IsAdmin:  false,
-		IsActive: false,
-	}
-	users[1] = domain.User{
-		ID:       primitive.ObjectID{},
-		Email:    "",
-		Password: "",
-		IsAdmin:  true,
-		IsActive: true,
+	users, err := u.service.FindAll()
+	if err != nil {
+		utils.CreateErrorResponse(w, err, http.StatusInternalServerError)
+		return
 	}
 	utils.CreateResponse(w, http.StatusOK, users)
 	slog.Debugf("%s: end", tools.GetCurrentFuncName())
