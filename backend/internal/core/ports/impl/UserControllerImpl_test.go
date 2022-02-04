@@ -7,14 +7,14 @@ import (
 	"github.com/golang/mock/gomock"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain/dto"
-	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/service/mocks"
+	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/service/mock"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"net/http"
 	"net/http/httptest"
 	"testing"
 )
 
-func TestUserControllerImpl_Login_Sucessfull(t *testing.T) {
+func TestUserControllerImpl_Login_Successful(t *testing.T) {
 	mockUserService := initMocks(t)
 	user := createUser()
 	userRequest := dto.UserRequest{
@@ -72,10 +72,10 @@ func TestUserControllerImpl_Login_NoRegister(t *testing.T) {
 	}
 }
 
-func initMocks(t *testing.T) *mocks.MockUserService {
+func initMocks(t *testing.T) *mock.MockUserService {
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
-	mockUserService := mocks.NewMockUserService(mockCtrl)
+	mockUserService := mock.NewMockUserService(mockCtrl)
 	return mockUserService
 }
 

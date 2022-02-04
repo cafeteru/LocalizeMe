@@ -44,11 +44,37 @@ func (u *UserRepositoryImpl) FindByEmail(email string) (*domain.User, error) {
 	filter := bson.M{"email": bson.M{"$eq": email}}
 	result := collection.FindOne(context.TODO(), filter)
 	var user domain.User
-	err = result.Decode(&user)
-	if err != nil {
+	if err = result.Decode(&user); err != nil {
 		return nil, tools.ErrorLogDetails(err, constants.FindUserByEmail, tools.GetCurrentFuncName())
 	}
 	u.CloseConnection()
 	slog.Debugf("%s: end", tools.GetCurrentFuncName())
 	return &user, err
+}
+
+func (u *UserRepositoryImpl) FindAll() (*[]domain.User, error) {
+	slog.Debugf("%s: start", tools.GetCurrentFuncName())
+	collection, err := u.GetCollection(name)
+	if err != nil {
+		return nil, tools.ErrorLogDetails(err, constants.CreateConnection, tools.GetCurrentFuncName())
+	}
+	var users []domain.User
+	cursor, _ := collection.Find(context.TODO(), bson.D{})
+	for cursor.Next(context.TODO()) {
+		var user domain.User
+		if err := cursor.Decode(&user); err != nil {
+			return nil, tools.ErrorLogDetails(err, constants.ReadDatabase, tools.GetCurrentFuncName())
+		}
+		user.Password = ""
+		users = append(users, user)
+	}
+	if err := cursor.Err(); err != nil {
+		return nil, tools.ErrorLogDetails(err, constants.ReadDatabase, tools.GetCurrentFuncName())
+	}
+	if err = cursor.Close(context.TODO()); err != nil {
+		return nil, tools.ErrorLogDetails(err, constants.ReadDatabase, tools.GetCurrentFuncName())
+	}
+	u.CloseConnection()
+	slog.Debugf("%s: end", tools.GetCurrentFuncName())
+	return &users, err
 }

@@ -49,7 +49,7 @@ func (u UserServiceImpl) Create(request dto.UserRequest) (domain.User, error) {
 		Password: "",
 		IsAdmin:  user.IsAdmin,
 		IsActive: true,
-	}, err
+	}, nil
 }
 
 func (u UserServiceImpl) checkRequest(request dto.UserRequest) (domain.User, error) {
@@ -70,6 +70,18 @@ func (u UserServiceImpl) checkRequest(request dto.UserRequest) (domain.User, err
 	}, nil
 }
 
+func (u UserServiceImpl) FindAll() (*[]domain.User, error) {
+	slog.Debugf("%s: start", tools.GetCurrentFuncName())
+	user, err := u.repository.FindAll()
+	if err != nil {
+		slog.Errorf("%s: error", tools.GetCurrentFuncName())
+		return nil, err
+	}
+
+	slog.Debugf("%s: end", tools.GetCurrentFuncName())
+	return user, nil
+}
+
 func (u UserServiceImpl) FindByEmail(email string) (*domain.User, error) {
 	slog.Debugf("%s: start", tools.GetCurrentFuncName())
 	if email == "" {
@@ -78,26 +90,26 @@ func (u UserServiceImpl) FindByEmail(email string) (*domain.User, error) {
 	user, err := u.repository.FindByEmail(email)
 	if err != nil {
 		slog.Errorf("%s: error", tools.GetCurrentFuncName())
-		return &domain.User{}, err
+		return nil, err
 	}
 	if !user.IsActive {
 		errActive := errors.New(constants.UserNoActive)
 		slog.Errorf("%s: error", tools.GetCurrentFuncName())
-		return &domain.User{}, errActive
+		return nil, errActive
 	}
 	slog.Debugf("%s: end", tools.GetCurrentFuncName())
-	return user, err
+	return user, nil
 }
 
 func (u UserServiceImpl) Login(request dto.UserRequest) (*dto.TokenDto, error) {
 	user, err := u.FindByEmail(request.Email)
 	if err != nil {
 		slog.Errorf("%s: error", tools.GetCurrentFuncName())
-		return &dto.TokenDto{}, err
+		return nil, err
 	}
 	if !u.encrypt.CheckPassword(user.Password, request.Password) {
 		slog.Errorf("%s: error", tools.GetCurrentFuncName())
-		return &dto.TokenDto{}, errors.New(constants.DataLogin)
+		return nil, errors.New(constants.DataLogin)
 	}
 	claims := jwt.MapClaims{
 		"email":    user.Email,
@@ -111,5 +123,5 @@ func (u UserServiceImpl) Login(request dto.UserRequest) (*dto.TokenDto, error) {
 	jwtauth.SetExpiry(claims, time.Now().Add(time.Hour+hours))
 	tokenAuth := jwtauth.New(alg, []byte(secret), nil)
 	_, tokenString, _ := tokenAuth.Encode(claims)
-	return &dto.TokenDto{Authorization: tokenString}, err
+	return &dto.TokenDto{Authorization: tokenString}, nil
 }
