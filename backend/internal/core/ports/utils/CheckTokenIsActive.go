@@ -10,22 +10,33 @@ import (
 	"net/http"
 )
 
-func CheckUserIsActive(w http.ResponseWriter, r *http.Request, u service.UserService) (bool, *domain.User) {
+func CheckUserIsActive(w http.ResponseWriter, r *http.Request, u service.UserService) *domain.User {
 	slog.Debugf("%s: start", r.Context())
 	_, tokenParts, _ := jwtauth.FromContext(r.Context())
 	value, exists := tokenParts["email"]
 	if !exists {
-		return createErrorResponse(w), &domain.User{}
+		createErrorResponse(w)
+		return nil
 	}
 	user, err := u.FindByEmail(value.(string))
 	if err != nil || user == nil || !user.IsActive {
-		return createErrorResponse(w), &domain.User{}
+		createErrorResponse(w)
+		return nil
 	}
-	return true, user
+	return user
 }
 
-func createErrorResponse(w http.ResponseWriter) bool {
+func CheckUserIsAdmin(w http.ResponseWriter, r *http.Request, u service.UserService) *domain.User {
+	user := CheckUserIsActive(w, r, u)
+	if user != nil && user.IsAdmin {
+		return user
+	}
+	err := errors.New(constants.UserNoAdmin)
+	CreateErrorResponse(w, err, http.StatusUnauthorized)
+	return nil
+}
+
+func createErrorResponse(w http.ResponseWriter) {
 	err := errors.New(constants.UserNoActive)
 	CreateErrorResponse(w, err, http.StatusUnprocessableEntity)
-	return false
 }

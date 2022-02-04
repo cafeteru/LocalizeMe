@@ -9,5 +9,6 @@ const (
 	InsertUser           = "creating user"
 	InvalidUserRequest   = "userRequest no valid"
 	UserNoActive         = "user no active"
+	UserNoAdmin          = "user no admin"
 	UserNoRegister       = "user no register"
 )

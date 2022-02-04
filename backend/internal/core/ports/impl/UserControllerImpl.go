@@ -2,9 +2,11 @@ package impl
 
 import (
 	"encoding/json"
+	"errors"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/jwtauth/v5"
 	slog "github.com/go-eden/slf4go"
+	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/constants"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain/dto"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/ports/utils"
@@ -31,6 +33,7 @@ func (u UserControllerImpl) CreateUserRoutes(r *chi.Mux) {
 		r.Route(pattern, func(r chi.Router) {
 			r.Get("/", u.FindAll)
 			r.Get("/me", u.FindMe)
+			r.Get("/email/{email}", u.FindByEmail)
 		})
 	})
 	r.Group(func(r chi.Router) {
@@ -98,8 +101,8 @@ func (u UserControllerImpl) Create(w http.ResponseWriter, r *http.Request) {
 // - 200: []User
 func (u UserControllerImpl) FindAll(w http.ResponseWriter, r *http.Request) {
 	slog.Debugf("%s: start", tools.GetCurrentFuncName())
-	isActive, _ := utils.CheckUserIsActive(w, r, u.service)
-	if !isActive {
+	user := utils.CheckUserIsActive(w, r, u.service)
+	if user == nil {
 		return
 	}
 	users := [2]domain.User{}
@@ -132,10 +135,44 @@ func (u UserControllerImpl) FindAll(w http.ResponseWriter, r *http.Request) {
 // - 400: ErrorDto
 func (u UserControllerImpl) FindMe(w http.ResponseWriter, r *http.Request) {
 	slog.Debugf("%s: start", tools.GetCurrentFuncName())
-	isActive, user := utils.CheckUserIsActive(w, r, u.service)
-	if !isActive {
+	user := utils.CheckUserIsActive(w, r, u.service)
+	if user == nil {
 		return
 	}
+	user.Password = ""
+	utils.CreateResponse(w, http.StatusOK, user)
+	slog.Debugf("%s: end", tools.GetCurrentFuncName())
+}
+
+// swagger:route GET /users/email/{email} Users FindByEmail
+// Return the information of the user by email.
+//
+// Consumes:
+// - application/json
+//
+// Responses:
+// - 200: User
+// - 400: ErrorDto
+// - 401: ErrorDto
+// - 404: ErrorDto
+func (u UserControllerImpl) FindByEmail(w http.ResponseWriter, r *http.Request) {
+	slog.Debugf("%s: start", tools.GetCurrentFuncName())
+	user := utils.CheckUserIsAdmin(w, r, u.service)
+	if user == nil {
+		return
+	}
+	email := chi.URLParam(r, "email")
+	if email == "" {
+		err := errors.New(constants.EmailAlreadyRegister)
+		utils.CreateErrorResponse(w, err, http.StatusBadRequest)
+		return
+	}
+	user, err := u.service.FindByEmail(email)
+	if err != nil {
+		utils.CreateErrorResponse(w, err, http.StatusNotFound)
+		return
+	}
+	user.Password = ""
 	utils.CreateResponse(w, http.StatusOK, user)
 	slog.Debugf("%s: end", tools.GetCurrentFuncName())
 }
