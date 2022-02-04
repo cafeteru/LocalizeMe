@@ -86,7 +86,6 @@ func (u UserServiceImpl) FindByEmail(email string) (*domain.User, error) {
 		return &domain.User{}, errActive
 	}
 	slog.Debugf("%s: end", tools.GetCurrentFuncName())
-	user.Password = ""
 	return user, err
 }
 

@@ -27,8 +27,8 @@ func TestCheckTokenIsActive_CheckUserIsActive_IsActive(t *testing.T) {
 	}
 	request, w := createRequestWithToken(claims)
 	mockUserService.EXPECT().FindByEmail(user.Email).Return(&user, nil)
-	isActive, _ := CheckUserIsActive(w, request, mockUserService)
-	if !isActive {
+	result := CheckUserIsActive(w, request, mockUserService)
+	if result == nil {
 		t.Error("Expected", true, "Got", false)
 	}
 }
@@ -45,9 +45,9 @@ func TestCheckTokenIsActive_CheckUserIsActive_IsNotActive(t *testing.T) {
 	}
 	request, w := createRequestWithToken(claims)
 	mockUserService.EXPECT().FindByEmail(user.Email).Return(&user, nil)
-	isActive, _ := CheckUserIsActive(w, request, mockUserService)
-	if isActive {
-		t.Error("Expected", true, "Got", false)
+	result := CheckUserIsActive(w, request, mockUserService)
+	if result != nil {
+		t.Error("Expected", user, "Got", nil)
 	}
 }
 
@@ -59,9 +59,9 @@ func TestCheckTokenIsActive_CheckUserIsActive_InvalidToken(t *testing.T) {
 	}
 	request, w := createRequestWithToken(claims)
 	mockUserService.EXPECT().FindByEmail(user.Email).Return(&user, nil)
-	isActive, _ := CheckUserIsActive(w, request, mockUserService)
-	if isActive {
-		t.Error("Expected", false, "Got", true)
+	result := CheckUserIsActive(w, request, mockUserService)
+	if result != nil {
+		t.Error("Expected", user, "Got", nil)
 	}
 }
 
@@ -74,9 +74,9 @@ func TestCheckTokenIsActive_CheckUserIsActive_NotRegisterUser(t *testing.T) {
 	}
 	request, w := createRequestWithToken(claims)
 	mockUserService.EXPECT().FindByEmail(user.Email).Return(nil, nil)
-	isActive, _ := CheckUserIsActive(w, request, mockUserService)
-	if isActive {
-		t.Error("Expected", false, "Got", true)
+	result := CheckUserIsActive(w, request, mockUserService)
+	if result != nil {
+		t.Error("Expected", user, "Got", nil)
 	}
 }
 
@@ -89,9 +89,9 @@ func TestCheckTokenIsActive_CheckUserIsActive_ErrorUser(t *testing.T) {
 	}
 	request, w := createRequestWithToken(claims)
 	mockUserService.EXPECT().FindByEmail(user.Email).Return(nil, errors.New(constants.UserNoRegister))
-	isActive, _ := CheckUserIsActive(w, request, mockUserService)
-	if isActive {
-		t.Error("Expected", false, "Got", true)
+	result := CheckUserIsActive(w, request, mockUserService)
+	if result != nil {
+		t.Error("Expected", user, "Got", nil)
 	}
 }
 

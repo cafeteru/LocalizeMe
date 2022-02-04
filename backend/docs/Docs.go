@@ -26,3 +26,12 @@
 //
 // swagger:meta
 package docs
+
+// swagger:parameters FindByEmail
+type _ struct {
+	// The user´s email
+	// in: path
+	// required: true
+	// type: string
+	Email string `json:"email"`
+}
