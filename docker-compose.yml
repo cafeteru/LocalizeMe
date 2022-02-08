@@ -16,8 +16,8 @@ services:
       - localize-me-network
   backend:
     container_name: localize-me-backend
-    #image: igm1990/localize-me-backend:v2
-    build: backend/.
+    image: igm1990/localize-me-backend:latest
+    #build: backend/.
     command: bash -c "scripts/docker.sh"
     ports:
       - "8080:8080"
