@@ -54,7 +54,7 @@ These steps are configured in Makefile
 
 1. Click in this button.
    ![swagger_authorization_button.png](assets/img/swagger_authorization_button.png)
-2. Enter the token with the text `Bearer `
+2. Enter the token with the text `Bearer`
    ![swagger_available_authorizations](assets/img/swagger_available_authorizations.png)
 
 ## How to generate a Mock from an interface
@@ -96,13 +96,13 @@ docker run --rm --name backend -p 8080:8080 -p 9090:9090 localize-me-backend &
 - Create tag to publish image to Docker Hub
 
 ```shell
-docker tag localize-me-backend igm1990/localize-me-backend:v1
+docker tag localize-me-backend igm1990/localize-me-backend:latest
 ```
 
 - Publish the image to Docker Hub
 
 ```shell
-docker push igm1990/localize-me-backend:v1
+docker push igm1990/localize-me-backend:latest
 ```
 
 ## Generate UML model
