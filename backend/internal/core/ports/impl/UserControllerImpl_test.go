@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"github.com/golang/mock/gomock"
+	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/constants"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain/dto"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/service/mock"
@@ -22,8 +23,8 @@ func TestUserControllerImpl_Login_Successful(t *testing.T) {
 		Password: user.Password,
 	}
 	marshal, _ := json.Marshal(userRequest)
-	responseBody := bytes.NewBuffer(marshal)
-	r := httptest.NewRequest("POST", "http://localhost:8080/login", responseBody)
+	body := bytes.NewBuffer(marshal)
+	r := httptest.NewRequest("POST", "http://localhost:8080/login", body)
 	ctx := r.Context()
 	r = r.WithContext(ctx)
 	w := httptest.NewRecorder()
@@ -59,12 +60,12 @@ func TestUserControllerImpl_Login_NoRegister(t *testing.T) {
 		Password: user.Password,
 	}
 	marshal, _ := json.Marshal(userRequest)
-	responseBody := bytes.NewBuffer(marshal)
-	r := httptest.NewRequest("POST", "http://localhost:8080/login", responseBody)
+	body := bytes.NewBuffer(marshal)
+	r := httptest.NewRequest("POST", "http://localhost:8080/login", body)
 	ctx := r.Context()
 	r = r.WithContext(ctx)
 	w := httptest.NewRecorder()
-	mockUserService.EXPECT().Login(gomock.Any()).Return(nil, errors.New("No register"))
+	mockUserService.EXPECT().Login(gomock.Any()).Return(nil, errors.New(constants.UserNoRegister))
 	controllerImpl := UserControllerImpl{mockUserService}
 	controllerImpl.Login(w, r)
 	if w.Code != http.StatusBadRequest {

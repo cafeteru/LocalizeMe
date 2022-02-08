@@ -32,7 +32,7 @@ func (u *UserRepositoryImpl) Create(user domain.User) (*mongo.InsertOneResult, e
 	}
 	u.CloseConnection()
 	slog.Debugf("%s: end", tools.GetCurrentFuncName())
-	return result, err
+	return result, nil
 }
 
 func (u *UserRepositoryImpl) FindByEmail(email string) (*domain.User, error) {
@@ -49,7 +49,7 @@ func (u *UserRepositoryImpl) FindByEmail(email string) (*domain.User, error) {
 	}
 	u.CloseConnection()
 	slog.Debugf("%s: end", tools.GetCurrentFuncName())
-	return &user, err
+	return &user, nil
 }
 
 func (u *UserRepositoryImpl) FindAll() (*[]domain.User, error) {
@@ -71,10 +71,10 @@ func (u *UserRepositoryImpl) FindAll() (*[]domain.User, error) {
 	if err := cursor.Err(); err != nil {
 		return nil, tools.ErrorLogDetails(err, constants.ReadDatabase, tools.GetCurrentFuncName())
 	}
-	if err = cursor.Close(context.TODO()); err != nil {
+	if err := cursor.Close(context.TODO()); err != nil {
 		return nil, tools.ErrorLogDetails(err, constants.ReadDatabase, tools.GetCurrentFuncName())
 	}
 	u.CloseConnection()
 	slog.Debugf("%s: end", tools.GetCurrentFuncName())
-	return &users, err
+	return &users, nil
 }

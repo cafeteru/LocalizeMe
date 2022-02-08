@@ -16,36 +16,38 @@ type Repository interface {
 }
 
 type AbstractRepository struct {
-	Client *mongo.Client
-	Repository
+	client     *mongo.Client
+	collection *mongo.Collection
 }
 
-func (r *AbstractRepository) GetCollection(name string) (*mongo.Collection, error) {
+func (a *AbstractRepository) GetCollection(name string) (*mongo.Collection, error) {
 	slog.Debugf("%s: start", tools.GetCurrentFuncName())
-	tools.LoadEnv()
-	err := r.createConnection()
-	if err != nil {
-		return nil, tools.ErrorLogDetails(err, constants.CreateConnection, tools.GetCurrentFuncName())
+	if a.collection == nil {
+		tools.LoadEnv()
+		err := a.createConnection()
+		if err != nil {
+			return nil, tools.ErrorLogDetails(err, constants.CreateConnection, tools.GetCurrentFuncName())
+		}
+		var databaseName = os.Getenv("DATABASE_NAME")
+		database := a.client.Database(databaseName)
+		a.collection = database.Collection(name)
+		slog.Debugf("%s: end", tools.GetCurrentFuncName())
 	}
-	var databaseName = os.Getenv("DATABASE_NAME")
-	database := r.Client.Database(databaseName)
-	collection := database.Collection(name)
-	slog.Debugf("%s: end", tools.GetCurrentFuncName())
-	return collection, nil
+	return a.collection, nil
 }
 
-func (r *AbstractRepository) createConnection() error {
+func (a *AbstractRepository) createConnection() error {
 	slog.Debugf("%s: start", tools.GetCurrentFuncName())
-	client, err := r.connectDatabase()
+	client, err := a.connectDatabase()
 	if err != nil {
 		return err
 	}
-	r.Client = client
+	a.client = client
 	slog.Debugf("%s: end", tools.GetCurrentFuncName())
 	return nil
 }
 
-func (r *AbstractRepository) connectDatabase() (*mongo.Client, error) {
+func (a *AbstractRepository) connectDatabase() (*mongo.Client, error) {
 	slog.Debugf("%s: start", tools.GetCurrentFuncName())
 	uri := os.Getenv("ATLAS_URI")
 	clientOptions := options.Client().ApplyURI(uri)
@@ -57,17 +59,25 @@ func (r *AbstractRepository) connectDatabase() (*mongo.Client, error) {
 	return client, nil
 }
 
-func (r *AbstractRepository) CloseConnection() {
+func (a *AbstractRepository) CloseConnection() {
 	slog.Debugf("%s: start", tools.GetCurrentFuncName())
-	defer r.disconnectDatabase()
+	defer a.disconnectDatabase()
 	slog.Debugf("%s: end", tools.GetCurrentFuncName())
 }
 
-func (r *AbstractRepository) disconnectDatabase() {
+func (a *AbstractRepository) disconnectDatabase() {
 	slog.Debugf("%s: start", tools.GetCurrentFuncName())
-	err := r.Client.Disconnect(context.TODO())
-	if err != nil {
-		slog.Errorf("%s: %s", tools.GetCurrentFuncName(), err)
+	if a.client != nil {
+		err := a.client.Disconnect(context.TODO())
+		if err != nil {
+			slog.Errorf("%s: %s", tools.GetCurrentFuncName(), err)
+		}
 	}
+	a.clearClientCollection()
 	slog.Debugf("%s: end", tools.GetCurrentFuncName())
+}
+
+func (a *AbstractRepository) clearClientCollection() {
+	a.client = nil
+	a.collection = nil
 }
