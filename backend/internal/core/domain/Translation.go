@@ -15,4 +15,5 @@ type Translation struct {
 	BaseString BaseString         `bson:"strings"`
 	Author     User               `bson:"author"`
 	Date       time.Time          `bson:"date"`
+	Stage      Stage              `bson:"stage"`
 }

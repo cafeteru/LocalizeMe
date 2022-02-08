@@ -4,8 +4,6 @@ namespace domain {
         + ID primitive.ObjectID
         + SourceLanguage Language
         + Description string
-        + LastVersion int
-        + Stage Stage
         + Group Group
         + Author User
 
@@ -43,6 +41,7 @@ namespace domain {
         + BaseString BaseString
         + Author User
         + Date time.Time
+        + Stage Stage
 
     }
     class User << (S,Aquamarine) >> {
@@ -58,14 +57,13 @@ namespace domain {
 
 "domain.BaseString" o-- "domain.Group"
 "domain.BaseString" o-- "domain.Language"
-"domain.BaseString" o-- "domain.Stage"
 "domain.BaseString" o-- "domain.User"
 "domain.Group" o-- "domain.User"
 "domain.Permission" o-- "domain.Group"
 "domain.Permission" o-- "domain.User"
 "domain.Translation" o-- "domain.BaseString"
 "domain.Translation" o-- "domain.Language"
+"domain.Translation" o-- "domain.Stage"
 "domain.Translation" o-- "domain.User"
-"domain.Translation" o-- "time.Time"
 
 @enduml

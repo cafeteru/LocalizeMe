@@ -72,20 +72,19 @@ func (u UserServiceImpl) checkRequest(request dto.UserRequest) (domain.User, err
 
 func (u UserServiceImpl) FindAll() (*[]domain.User, error) {
 	slog.Debugf("%s: start", tools.GetCurrentFuncName())
-	user, err := u.repository.FindAll()
+	users, err := u.repository.FindAll()
 	if err != nil {
 		slog.Errorf("%s: error", tools.GetCurrentFuncName())
 		return nil, err
 	}
-
 	slog.Debugf("%s: end", tools.GetCurrentFuncName())
-	return user, nil
+	return users, nil
 }
 
 func (u UserServiceImpl) FindByEmail(email string) (*domain.User, error) {
 	slog.Debugf("%s: start", tools.GetCurrentFuncName())
 	if email == "" {
-		return &domain.User{}, tools.ErrorLog(constants.InvalidUserRequest, tools.GetCurrentFuncName())
+		return nil, tools.ErrorLog(constants.InvalidUserRequest, tools.GetCurrentFuncName())
 	}
 	user, err := u.repository.FindByEmail(email)
 	if err != nil {
