@@ -6,13 +6,14 @@ require (
 	github.com/go-chi/chi v1.5.4
 	github.com/go-chi/cors v1.2.0
 	github.com/go-chi/jwtauth/v5 v5.0.2
-	github.com/go-eden/slf4go v1.1.1
+	github.com/go-chi/render v1.0.1
+	github.com/go-eden/slf4go v1.1.2
 	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/golang/mock v1.6.0
 	github.com/joho/godotenv v1.4.0
 	github.com/stretchr/testify v1.7.0
 	go.mongodb.org/mongo-driver v1.8.3
-	golang.org/x/crypto v0.0.0-20220131195533-30dcbda58838
+	golang.org/x/crypto v0.0.0-20220214200702-86341886e292
 )
 
 require (
@@ -24,12 +25,12 @@ require (
 	github.com/goccy/go-json v0.9.4 // indirect
 	github.com/golang/snappy v0.0.4 // indirect
 	github.com/google/go-cmp v0.5.6 // indirect
-	github.com/klauspost/compress v1.14.2 // indirect
+	github.com/klauspost/compress v1.14.4 // indirect
 	github.com/lestrrat-go/backoff/v2 v2.0.8 // indirect
 	github.com/lestrrat-go/blackmagic v1.0.0 // indirect
 	github.com/lestrrat-go/httpcc v1.0.0 // indirect
 	github.com/lestrrat-go/iter v1.0.1 // indirect
-	github.com/lestrrat-go/jwx v1.2.18 // indirect
+	github.com/lestrrat-go/jwx v1.2.19 // indirect
 	github.com/lestrrat-go/option v1.0.0 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect

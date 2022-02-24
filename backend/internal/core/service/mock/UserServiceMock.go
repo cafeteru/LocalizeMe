@@ -35,7 +35,7 @@ func (m *MockUserService) EXPECT() *MockUserServiceMockRecorder {
 	return m.recorder
 }
 
-// Create mock base method.
+// Create mocks base method.
 func (m *MockUserService) Create(request dto.UserRequest) (domain.User, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Create", request)
@@ -50,7 +50,7 @@ func (mr *MockUserServiceMockRecorder) Create(request interface{}) *gomock.Call 
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockUserService)(nil).Create), request)
 }
 
-// FindAll mock base method.
+// FindAll mocks base method.
 func (m *MockUserService) FindAll() (*[]domain.User, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FindAll")
@@ -65,7 +65,7 @@ func (mr *MockUserServiceMockRecorder) FindAll() *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindAll", reflect.TypeOf((*MockUserService)(nil).FindAll))
 }
 
-// FindByEmail mock base method.
+// FindByEmail mocks base method.
 func (m *MockUserService) FindByEmail(email string) (*domain.User, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FindByEmail", email)
@@ -80,7 +80,7 @@ func (mr *MockUserServiceMockRecorder) FindByEmail(email interface{}) *gomock.Ca
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindByEmail", reflect.TypeOf((*MockUserService)(nil).FindByEmail), email)
 }
 
-// Login mock base method.
+// Login mocks base method.
 func (m *MockUserService) Login(request dto.UserRequest) (*dto.TokenDto, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Login", request)
@@ -93,4 +93,19 @@ func (m *MockUserService) Login(request dto.UserRequest) (*dto.TokenDto, error) 
 func (mr *MockUserServiceMockRecorder) Login(request interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Login", reflect.TypeOf((*MockUserService)(nil).Login), request)
+}
+
+// Update mocks base method.
+func (m *MockUserService) Update(email string, request domain.User) (domain.User, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Update", email, request)
+	ret0, _ := ret[0].(domain.User)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Update indicates an expected call of Update.
+func (mr *MockUserServiceMockRecorder) Update(email, request interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Update", reflect.TypeOf((*MockUserService)(nil).Update), email, request)
 }

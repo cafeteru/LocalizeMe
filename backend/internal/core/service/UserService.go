@@ -10,4 +10,5 @@ type UserService interface {
 	FindAll() (*[]domain.User, error)
 	FindByEmail(email string) (*domain.User, error)
 	Login(request dto.UserRequest) (*dto.TokenDto, error)
+	Update(email string, request domain.User) (domain.User, error)
 }

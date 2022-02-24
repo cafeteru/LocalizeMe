@@ -4,9 +4,9 @@ import (
 	"encoding/json"
 	"errors"
 	"github.com/go-chi/chi"
-	"github.com/go-chi/jwtauth/v5"
 	slog "github.com/go-eden/slf4go"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/constants"
+	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain/dto"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/ports/utils"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/service"
@@ -20,24 +20,6 @@ type UserControllerImpl struct {
 
 func CreateUserController(u service.UserService) *UserControllerImpl {
 	return &UserControllerImpl{u}
-}
-
-func (u UserControllerImpl) CreateUserRoutes(r *chi.Mux) {
-	pattern := "/users"
-	tokenAuth := utils.ConfigJWTRoutes()
-	r.Group(func(r chi.Router) {
-		r.Use(jwtauth.Verifier(tokenAuth))
-		r.Use(jwtauth.Authenticator)
-		r.Route(pattern, func(r chi.Router) {
-			r.Get("/", u.FindAll)
-			r.Get("/me", u.FindMe)
-			r.Get("/email/{email}", u.FindByEmail)
-		})
-	})
-	r.Group(func(r chi.Router) {
-		r.Post("/login", u.Login)
-		r.Post(pattern, u.Create)
-	})
 }
 
 // swagger:route POST /login Users Login
@@ -159,5 +141,33 @@ func (u UserControllerImpl) FindByEmail(w http.ResponseWriter, r *http.Request) 
 	}
 	user.Password = ""
 	utils.CreateResponse(w, http.StatusOK, user)
+	slog.Debugf("%s: end", tools.GetCurrentFuncName())
+}
+
+// swagger:route PUT /users/email/{email} Users Update
+// Update the information of a user.
+//
+// Consumes:
+// - application/json
+//
+// Responses:
+// - 200: User
+// - 400: ErrorDto
+// - 401: ErrorDto
+// - 404: ErrorDto
+func (u UserControllerImpl) Update(w http.ResponseWriter, r *http.Request) {
+	slog.Debugf("%s: start", tools.GetCurrentFuncName())
+	var request domain.User
+	if err := json.NewDecoder(r.Body).Decode(&request); err != nil {
+		utils.CreateErrorResponse(w, err, http.StatusUnprocessableEntity)
+		return
+	}
+	email := chi.URLParam(r, "email")
+	user, err := u.service.Update(email, request)
+	if err != nil {
+		utils.CreateErrorResponse(w, err, http.StatusBadRequest)
+		return
+	}
+	utils.CreateResponse(w, http.StatusCreated, user)
 	slog.Debugf("%s: end", tools.GetCurrentFuncName())
 }

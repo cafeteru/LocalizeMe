@@ -79,3 +79,18 @@ func (mr *MockUserRepositoryMockRecorder) FindByEmail(email interface{}) *gomock
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindByEmail", reflect.TypeOf((*MockUserRepository)(nil).FindByEmail), email)
 }
+
+// Update mocks base method.
+func (m *MockUserRepository) Update(email string, user domain.User) (*mongo.UpdateResult, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Update", email, user)
+	ret0, _ := ret[0].(*mongo.UpdateResult)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Update indicates an expected call of Update.
+func (mr *MockUserRepositoryMockRecorder) Update(email, user interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Update", reflect.TypeOf((*MockUserRepository)(nil).Update), email, user)
+}

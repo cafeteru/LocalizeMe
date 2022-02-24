@@ -1,12 +1,11 @@
 package server
 
 import (
+	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
 func TestUserControllerImpl_Login_NoRegister(t *testing.T) {
 	server := CreateServer("8087")
-	if server == nil {
-		t.Error("Expected create server but got", nil)
-	}
+	assert.NotNil(t, server)
 }

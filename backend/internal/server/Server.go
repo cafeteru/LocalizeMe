@@ -4,11 +4,9 @@ import (
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 	"github.com/go-chi/cors"
+	"github.com/go-chi/render"
 	slog "github.com/go-eden/slf4go"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/ports/impl"
-	serviceImpl "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/service/impl"
-	impl2 "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/utils/encrypt/impl"
-	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/repository/mongodb"
 	"net/http"
 	"time"
 )
@@ -19,7 +17,12 @@ type Server struct {
 
 func CreateServer(port string) *Server {
 	r := chi.NewRouter()
+	r.Use(middleware.RequestID)
 	r.Use(middleware.Logger)
+	r.Use(middleware.Recoverer)
+	r.Use(middleware.URLFormat)
+	r.Use(render.SetContentType(render.ContentTypeJSON))
+
 	config := cors.New(cors.Options{
 		AllowedOrigins:   []string{"*"},
 		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"},
@@ -49,12 +52,6 @@ func (serv *Server) Start() {
 }
 
 func initControllers(r *chi.Mux) {
-	initUserRoutes(r)
-}
-
-func initUserRoutes(r *chi.Mux) {
-	repository := mongodb.CreateUserRepository()
-	service := serviceImpl.CreateUserService(repository, impl2.CreateEncryptPasswordImpl())
-	userController := impl.CreateUserController(service)
-	userController.CreateUserRoutes(r)
+	userPort := impl.CreateUserPort()
+	userPort.InitRoutes(r)
 }
