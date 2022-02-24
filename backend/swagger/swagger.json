@@ -153,6 +153,42 @@
             }
           }
         }
+      },
+      "put": {
+        "consumes": [
+          "application/json"
+        ],
+        "tags": [
+          "Users"
+        ],
+        "summary": "Update the information of a user.",
+        "operationId": "Update",
+        "responses": {
+          "200": {
+            "description": "User",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "400": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          },
+          "401": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          },
+          "404": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          }
+        }
       }
     },
     "/users/me": {
@@ -198,15 +234,8 @@
         "ID": {
           "$ref": "#/definitions/ObjectID"
         },
-        "LastVersion": {
-          "type": "integer",
-          "format": "int64"
-        },
         "SourceLanguage": {
           "$ref": "#/definitions/Language"
-        },
-        "Stage": {
-          "$ref": "#/definitions/Stage"
         }
       },
       "x-go-package": "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain"
@@ -308,6 +337,9 @@
         },
         "Language": {
           "$ref": "#/definitions/Language"
+        },
+        "Stage": {
+          "$ref": "#/definitions/Stage"
         },
         "Version": {
           "type": "integer",

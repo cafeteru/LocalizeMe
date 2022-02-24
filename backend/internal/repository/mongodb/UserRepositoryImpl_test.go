@@ -75,7 +75,7 @@ func TestUserRepositoryImpl_Create_Success(t *testing.T) {
 			IsActive: false,
 		}
 		mt.AddMockResponses(mtest.CreateCursorResponse(1, "foo.bar", mtest.FirstBatch, bson.D{
-			{Key: " InsertedID", Value: primitive.NewObjectID()},
+			{Key: "InsertedID", Value: primitive.NewObjectID()},
 		}))
 		_, err := u.Create(user)
 		assert.Nil(t, err)
@@ -97,7 +97,7 @@ func TestUserRepositoryImpl_Create_NotConnection(t *testing.T) {
 	})
 }
 
-func TestUserRepositoryImpl_Create_ErrorCreate(t *testing.T) {
+func TestUserRepositoryImpl_Create_Error(t *testing.T) {
 	mt, u := createMocks(t)
 	mt.Run("Create_ErrorCreate", func(mt *mtest.T) {
 		u.collection = mt.Coll
@@ -128,6 +128,7 @@ func TestUserRepositoryImpl_FindAll_Success(t *testing.T) {
 			IsActive: false,
 		}
 		user2 := domain.User{
+			ID:       primitive.NewObjectID(),
 			Email:    "john2.doe@test.com",
 			Password: "",
 			IsAdmin:  false,
@@ -164,6 +165,64 @@ func TestUserRepositoryImpl_FindAll_NotConnect(t *testing.T) {
 		_, err := u.FindAll()
 		assert.NotNil(t, err)
 		assert.Equal(t, err, errors.New(constants.CreateConnection))
+	})
+}
+
+func TestUserRepositoryImpl_Update_Success(t *testing.T) {
+	mt, u := createMocks(t)
+	mt.Run("Update_Success", func(mt *mtest.T) {
+		u.collection = mt.Coll
+		user := domain.User{
+			ID:       primitive.NewObjectID(),
+			Email:    "john.doe@test.com",
+			Password: "",
+			IsAdmin:  false,
+			IsActive: false,
+		}
+		mt.AddMockResponses(mtest.CreateCursorResponse(1, "foo.bar", mtest.FirstBatch, bson.D{
+			{Key: "MatchedCount", Value: 0},
+			{Key: "ModifiedCount", Value: 1},
+			{Key: "UpsertedCount", Value: 0},
+			{Key: "UpsertedID", Value: user.ID},
+		}))
+		_, err := u.Update(user.Email, user)
+		assert.Nil(t, err)
+	})
+}
+
+func TestUserRepositoryImpl_Update_NotConnection(t *testing.T) {
+	mt, u := createMocks(t)
+	mt.Run("Update_NotConnection", func(mt *mtest.T) {
+		user := domain.User{
+			ID:       primitive.NewObjectID(),
+			Email:    "john.doe@test.com",
+			Password: "",
+			IsAdmin:  false,
+			IsActive: false,
+		}
+		_, err := u.Update(user.Email, user)
+		assert.NotNil(t, err)
+		assert.Equal(t, err, errors.New(constants.CreateConnection))
+	})
+}
+
+func TestUserRepositoryImpl_Update_Error(t *testing.T) {
+	mt, u := createMocks(t)
+	mt.Run("Update_Error", func(mt *mtest.T) {
+		u.collection = mt.Coll
+		user := domain.User{
+			ID:       primitive.NewObjectID(),
+			Email:    "john.doe@test.com",
+			Password: "",
+			IsAdmin:  false,
+			IsActive: false,
+		}
+		mt.AddMockResponses(mtest.CreateWriteErrorsResponse(mtest.WriteError{
+			Message: constants.UpdateUser,
+		}))
+		_, err := u.Update(user.Email, user)
+		assert.NotNil(t, err)
+		assert.Equal(t, err, errors.New(constants.UpdateUser))
 	})
 }
 

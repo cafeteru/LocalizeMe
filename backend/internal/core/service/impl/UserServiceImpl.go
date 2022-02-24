@@ -124,3 +124,35 @@ func (u UserServiceImpl) Login(request dto.UserRequest) (*dto.TokenDto, error) {
 	_, tokenString, _ := tokenAuth.Encode(claims)
 	return &dto.TokenDto{Authorization: tokenString}, nil
 }
+
+func (u UserServiceImpl) Update(email string, request domain.User) (domain.User, error) {
+	slog.Debugf("%s: start", tools.GetCurrentFuncName())
+	byEmail, _ := u.repository.FindByEmail(email)
+	if byEmail == nil {
+		return domain.User{}, tools.ErrorLog(constants.EmailAlreadyRegister, tools.GetCurrentFuncName())
+	}
+	byUserEmail, _ := u.repository.FindByEmail(request.Email)
+	if byUserEmail != nil {
+		return domain.User{}, tools.ErrorLog(constants.EmailAlreadyRegister, tools.GetCurrentFuncName())
+	}
+	if request.Password != "" {
+		password, err := u.encrypt.EncryptPassword(request.Password)
+		request.Password = password
+		if err != nil {
+			slog.Errorf("%s: error", tools.GetCurrentFuncName())
+			return domain.User{}, tools.ErrorLogDetails(err, constants.EncryptPasswordUser, tools.GetCurrentFuncName())
+		}
+	}
+	_, err := u.repository.Update(email, request)
+	if err != nil {
+		slog.Errorf("%s: error", tools.GetCurrentFuncName())
+		return domain.User{}, err
+	}
+	slog.Debugf("%s: end", tools.GetCurrentFuncName())
+	return domain.User{
+		ID:       byEmail.ID,
+		Email:    request.Email,
+		IsAdmin:  request.IsAdmin,
+		IsActive: request.IsActive,
+	}, nil
+}

@@ -5,6 +5,7 @@ import (
 	"github.com/go-chi/jwtauth/v5"
 	"github.com/golang-jwt/jwt"
 	"github.com/golang/mock/gomock"
+	"github.com/stretchr/testify/assert"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/constants"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/service/mock"
@@ -28,9 +29,7 @@ func TestCheckTokenIsActive_CheckUserIsActive_IsActive(t *testing.T) {
 	request, w := createRequestWithToken(claims)
 	mockUserService.EXPECT().FindByEmail(user.Email).Return(&user, nil)
 	result := CheckUserIsActive(w, request, mockUserService)
-	if result == nil {
-		t.Error("Expected", true, "Got", false)
-	}
+	assert.NotNil(t, result)
 }
 
 func TestCheckTokenIsActive_CheckUserIsActive_IsNotActive(t *testing.T) {
@@ -46,9 +45,7 @@ func TestCheckTokenIsActive_CheckUserIsActive_IsNotActive(t *testing.T) {
 	request, w := createRequestWithToken(claims)
 	mockUserService.EXPECT().FindByEmail(user.Email).Return(&user, nil)
 	result := CheckUserIsActive(w, request, mockUserService)
-	if result != nil {
-		t.Error("Expected", user, "Got", nil)
-	}
+	assert.Nil(t, result)
 }
 
 func TestCheckTokenIsActive_CheckUserIsActive_InvalidToken(t *testing.T) {
@@ -60,9 +57,7 @@ func TestCheckTokenIsActive_CheckUserIsActive_InvalidToken(t *testing.T) {
 	request, w := createRequestWithToken(claims)
 	mockUserService.EXPECT().FindByEmail(user.Email).Return(&user, nil)
 	result := CheckUserIsActive(w, request, mockUserService)
-	if result != nil {
-		t.Error("Expected", user, "Got", nil)
-	}
+	assert.Nil(t, result)
 }
 
 func TestCheckTokenIsActive_CheckUserIsActive_NotRegisterUser(t *testing.T) {
@@ -75,9 +70,7 @@ func TestCheckTokenIsActive_CheckUserIsActive_NotRegisterUser(t *testing.T) {
 	request, w := createRequestWithToken(claims)
 	mockUserService.EXPECT().FindByEmail(user.Email).Return(nil, nil)
 	result := CheckUserIsActive(w, request, mockUserService)
-	if result != nil {
-		t.Error("Expected", user, "Got", nil)
-	}
+	assert.Nil(t, result)
 }
 
 func TestCheckTokenIsActive_CheckUserIsActive_ErrorUser(t *testing.T) {
@@ -90,9 +83,7 @@ func TestCheckTokenIsActive_CheckUserIsActive_ErrorUser(t *testing.T) {
 	request, w := createRequestWithToken(claims)
 	mockUserService.EXPECT().FindByEmail(user.Email).Return(nil, errors.New(constants.UserNoRegister))
 	result := CheckUserIsActive(w, request, mockUserService)
-	if result != nil {
-		t.Error("Expected", user, "Got", nil)
-	}
+	assert.Nil(t, result)
 }
 
 func initMocks(t *testing.T) *mock.MockUserService {

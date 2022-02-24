@@ -78,3 +78,27 @@ func (u *UserRepositoryImpl) FindAll() (*[]domain.User, error) {
 	slog.Debugf("%s: end", tools.GetCurrentFuncName())
 	return &users, nil
 }
+
+func (u *UserRepositoryImpl) Update(email string, user domain.User) (*mongo.UpdateResult, error) {
+	slog.Debugf("%s: start", tools.GetCurrentFuncName())
+	collection, err := u.GetCollection(name)
+	if err != nil {
+		return nil, tools.ErrorLogDetails(err, constants.CreateConnection, tools.GetCurrentFuncName())
+	}
+	filter := bson.M{"email": email}
+	update := bson.M{
+		"$set": bson.M{
+			"email":    user.Email,
+			"password": user.Password,
+			"isActive": user.IsActive,
+			"isAdmin":  user.IsAdmin,
+		},
+	}
+	result, err := collection.UpdateOne(context.TODO(), filter, update)
+	if err != nil {
+		return nil, tools.ErrorLogDetails(err, constants.UpdateUser, tools.GetCurrentFuncName())
+	}
+	u.CloseConnection()
+	slog.Debugf("%s: end", tools.GetCurrentFuncName())
+	return result, nil
+}
