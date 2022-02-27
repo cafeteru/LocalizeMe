@@ -11,6 +11,8 @@ lint:
 pre-commit:
 	make lint
 	make test
+	swagger generate spec -o swagger/swagger.json --scan-models
+	make uml -B
 test:
 	go test ./... -coverprofile=coverage.out
 	gotestsum --junitfile ../report.xml --format testname

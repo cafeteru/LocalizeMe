@@ -157,6 +157,10 @@ func (u UserControllerImpl) FindByEmail(w http.ResponseWriter, r *http.Request) 
 // - 404: ErrorDto
 func (u UserControllerImpl) Update(w http.ResponseWriter, r *http.Request) {
 	slog.Debugf("%s: start", tools.GetCurrentFuncName())
+	isAdmin := utils.CheckUserIsAdmin(w, r, u.service)
+	if isAdmin == nil {
+		return
+	}
 	var request domain.User
 	if err := json.NewDecoder(r.Body).Decode(&request); err != nil {
 		utils.CreateErrorResponse(w, err, http.StatusUnprocessableEntity)
@@ -169,5 +173,36 @@ func (u UserControllerImpl) Update(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	utils.CreateResponse(w, http.StatusCreated, user)
+	slog.Debugf("%s: end", tools.GetCurrentFuncName())
+}
+
+// swagger:route PUT /users/me Users UpdateMe
+// Update the information of the identified user.
+//
+// Consumes:
+// - application/json
+//
+// Responses:
+// - 200: User
+// - 400: ErrorDto
+// - 401: ErrorDto
+// - 404: ErrorDto
+func (u UserControllerImpl) UpdateMe(w http.ResponseWriter, r *http.Request) {
+	slog.Debugf("%s: start", tools.GetCurrentFuncName())
+	user := utils.CheckUserIsActive(w, r, u.service)
+	if user == nil {
+		return
+	}
+	var request domain.User
+	if err := json.NewDecoder(r.Body).Decode(&request); err != nil {
+		utils.CreateErrorResponse(w, err, http.StatusUnprocessableEntity)
+		return
+	}
+	userUpdate, err := u.service.Update(user.Email, request)
+	if err != nil {
+		utils.CreateErrorResponse(w, err, http.StatusBadRequest)
+		return
+	}
+	utils.CreateResponse(w, http.StatusCreated, userUpdate)
 	slog.Debugf("%s: end", tools.GetCurrentFuncName())
 }

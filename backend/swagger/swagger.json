@@ -215,6 +215,42 @@
             }
           }
         }
+      },
+      "put": {
+        "consumes": [
+          "application/json"
+        ],
+        "tags": [
+          "Users"
+        ],
+        "summary": "Update the information of the identified user.",
+        "operationId": "UpdateMe",
+        "responses": {
+          "200": {
+            "description": "User",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "400": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          },
+          "401": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          },
+          "404": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          }
+        }
       }
     }
   },
