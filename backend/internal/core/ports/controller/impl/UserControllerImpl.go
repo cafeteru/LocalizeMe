@@ -72,6 +72,33 @@ func (u UserControllerImpl) Create(w http.ResponseWriter, r *http.Request) {
 	slog.Debugf("%s: end", tools.GetCurrentFuncName())
 }
 
+// swagger:route PUT /users/disable/{email} Users Update
+// Disable of a user.
+//
+// Consumes:
+// - application/json
+//
+// Responses:
+// - 200: User
+// - 400: ErrorDto
+// - 401: ErrorDto
+// - 404: ErrorDto
+func (u UserControllerImpl) Disable(w http.ResponseWriter, r *http.Request) {
+	slog.Debugf("%s: start", tools.GetCurrentFuncName())
+	isAdmin := utils.CheckUserIsAdmin(w, r, u.service)
+	if isAdmin == nil {
+		return
+	}
+	email := chi.URLParam(r, "email")
+	user, err := u.service.Disable(email)
+	if err != nil {
+		utils.CreateErrorResponse(w, err, http.StatusBadRequest)
+		return
+	}
+	utils.CreateResponse(w, http.StatusCreated, user)
+	slog.Debugf("%s: end", tools.GetCurrentFuncName())
+}
+
 // swagger:route GET /users Users FindAll
 // Return all users.
 //
@@ -111,7 +138,7 @@ func (u UserControllerImpl) FindMe(w http.ResponseWriter, r *http.Request) {
 	slog.Debugf("%s: end", tools.GetCurrentFuncName())
 }
 
-// swagger:route GET /users/email/{email} Users FindByEmail
+// swagger:route GET /users/{email} Users FindByEmail
 // Return the information of the user by email.
 //
 // Consumes:
@@ -144,7 +171,7 @@ func (u UserControllerImpl) FindByEmail(w http.ResponseWriter, r *http.Request) 
 	slog.Debugf("%s: end", tools.GetCurrentFuncName())
 }
 
-// swagger:route PUT /users/email/{email} Users Update
+// swagger:route PUT /users/{email} Users Update
 // Update the information of a user.
 //
 // Consumes:

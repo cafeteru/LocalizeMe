@@ -70,6 +70,27 @@ func (u UserServiceImpl) checkRequest(request dto.UserRequest) (domain.User, err
 	}, nil
 }
 
+func (u UserServiceImpl) Disable(email string) (*domain.User, error) {
+	slog.Debugf("%s: start", tools.GetCurrentFuncName())
+	user, _ := u.repository.FindByEmail(email)
+	if user == nil {
+		return nil, tools.ErrorLog(constants.FindUserByEmail, tools.GetCurrentFuncName())
+	}
+	user.IsActive = !user.IsActive
+	_, err := u.repository.Update(email, *user)
+	if err != nil {
+		slog.Errorf("%s: error", tools.GetCurrentFuncName())
+		return nil, err
+	}
+	slog.Debugf("%s: end", tools.GetCurrentFuncName())
+	return &domain.User{
+		ID:       user.ID,
+		Email:    user.Email,
+		IsAdmin:  user.IsAdmin,
+		IsActive: user.IsActive,
+	}, nil
+}
+
 func (u UserServiceImpl) FindAll() (*[]domain.User, error) {
 	slog.Debugf("%s: start", tools.GetCurrentFuncName())
 	users, err := u.repository.FindAll()
@@ -125,31 +146,31 @@ func (u UserServiceImpl) Login(request dto.UserRequest) (*dto.TokenDto, error) {
 	return &dto.TokenDto{Authorization: tokenString}, nil
 }
 
-func (u UserServiceImpl) Update(email string, request domain.User) (domain.User, error) {
+func (u UserServiceImpl) Update(email string, request domain.User) (*domain.User, error) {
 	slog.Debugf("%s: start", tools.GetCurrentFuncName())
 	byEmail, _ := u.repository.FindByEmail(email)
 	if byEmail == nil {
-		return domain.User{}, tools.ErrorLog(constants.EmailAlreadyRegister, tools.GetCurrentFuncName())
+		return nil, tools.ErrorLog(constants.EmailAlreadyRegister, tools.GetCurrentFuncName())
 	}
 	byUserEmail, _ := u.repository.FindByEmail(request.Email)
 	if byUserEmail != nil {
-		return domain.User{}, tools.ErrorLog(constants.EmailAlreadyRegister, tools.GetCurrentFuncName())
+		return nil, tools.ErrorLog(constants.EmailAlreadyRegister, tools.GetCurrentFuncName())
 	}
 	if request.Password != "" {
 		password, err := u.encrypt.EncryptPassword(request.Password)
 		request.Password = password
 		if err != nil {
 			slog.Errorf("%s: error", tools.GetCurrentFuncName())
-			return domain.User{}, tools.ErrorLogDetails(err, constants.EncryptPasswordUser, tools.GetCurrentFuncName())
+			return nil, tools.ErrorLogDetails(err, constants.EncryptPasswordUser, tools.GetCurrentFuncName())
 		}
 	}
 	_, err := u.repository.Update(email, request)
 	if err != nil {
 		slog.Errorf("%s: error", tools.GetCurrentFuncName())
-		return domain.User{}, err
+		return nil, err
 	}
 	slog.Debugf("%s: end", tools.GetCurrentFuncName())
-	return domain.User{
+	return &domain.User{
 		ID:       byEmail.ID,
 		Email:    request.Email,
 		IsAdmin:  request.IsAdmin,

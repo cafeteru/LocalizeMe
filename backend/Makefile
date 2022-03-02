@@ -3,6 +3,12 @@ clean:
 docs:
 	swagger generate spec -o swagger/swagger.json --scan-models
 	swagger serve -F=swagger swagger/swagger.json --port=9090
+init-project:
+	make install
+	go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
+	go install gotest.tools/gotestsum@latest
+	go install github.com/go-swagger/go-swagger/cmd/swagger@latest
+	go install github.com/golang/mock/mockgen@v1.6.0
 install:
 	go install ./...
 	go mod tidy

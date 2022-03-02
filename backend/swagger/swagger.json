@@ -107,53 +107,7 @@
         }
       }
     },
-    "/users/email/{email}": {
-      "get": {
-        "consumes": [
-          "application/json"
-        ],
-        "tags": [
-          "Users"
-        ],
-        "summary": "Return the information of the user by email.",
-        "operationId": "FindByEmail",
-        "parameters": [
-          {
-            "type": "string",
-            "x-go-name": "Email",
-            "description": "The user´s email",
-            "name": "email",
-            "in": "path",
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "User",
-            "schema": {
-              "$ref": "#/definitions/User"
-            }
-          },
-          "400": {
-            "description": "ErrorDto",
-            "schema": {
-              "$ref": "#/definitions/ErrorDto"
-            }
-          },
-          "401": {
-            "description": "ErrorDto",
-            "schema": {
-              "$ref": "#/definitions/ErrorDto"
-            }
-          },
-          "404": {
-            "description": "ErrorDto",
-            "schema": {
-              "$ref": "#/definitions/ErrorDto"
-            }
-          }
-        }
-      },
+    "/users/disable/{email}": {
       "put": {
         "consumes": [
           "application/json"
@@ -161,7 +115,7 @@
         "tags": [
           "Users"
         ],
-        "summary": "Update the information of a user.",
+        "summary": "Disable of a user.",
         "operationId": "Update",
         "responses": {
           "200": {
@@ -252,6 +206,90 @@
           }
         }
       }
+    },
+    "/users/{email}": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "tags": [
+          "Users"
+        ],
+        "summary": "Return the information of the user by email.",
+        "operationId": "FindByEmail",
+        "parameters": [
+          {
+            "type": "string",
+            "x-go-name": "Email",
+            "description": "The user´s email",
+            "name": "email",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "400": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          },
+          "401": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          },
+          "404": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          }
+        }
+      },
+      "put": {
+        "consumes": [
+          "application/json"
+        ],
+        "tags": [
+          "Users"
+        ],
+        "summary": "Update the information of a user.",
+        "operationId": "Update",
+        "responses": {
+          "200": {
+            "description": "User",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "400": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          },
+          "401": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          },
+          "404": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -303,17 +341,14 @@
     "Language": {
       "type": "object",
       "properties": {
-        "CanWriteGroup": {
-          "type": "boolean"
-        },
-        "Group": {
-          "$ref": "#/definitions/Group"
+        "Description": {
+          "type": "string"
         },
         "ID": {
           "$ref": "#/definitions/ObjectID"
         },
-        "User": {
-          "$ref": "#/definitions/User"
+        "IsoCode": {
+          "type": "string"
         }
       },
       "x-go-name": "Permission",
