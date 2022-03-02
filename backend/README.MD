@@ -6,9 +6,21 @@ Development of a simple Rest API with [Go](https://golang.org/).
 
 ## Install project's dependencies
 
+If you have installed `make`
+
+```shell
+make init-project
+```
+
+Else
+
 ```shell
 go install ./...
 go mod tidy
+go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
+go install gotest.tools/gotestsum@latest
+go install github.com/go-swagger/go-swagger/cmd/swagger@latest
+go install github.com/golang/mock/mockgen@v1.6.0
 ```
 
 ## Makefile
@@ -58,6 +70,12 @@ These steps are configured in Makefile
    ![swagger_available_authorizations](assets/img/swagger_available_authorizations.png)
 
 ## How to generate a Mock from an interface
+
+Install library:
+
+```shell
+go install github.com/golang/mock/mockgen@v1.6.0
+```
 
 ```shell
 mockgen -source=<source-file> -destination=<mock-file> -package=<package-name>

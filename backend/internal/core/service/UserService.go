@@ -7,8 +7,9 @@ import (
 
 type UserService interface {
 	Create(request dto.UserRequest) (domain.User, error)
+	Disable(email string) (*domain.User, error)
 	FindAll() (*[]domain.User, error)
 	FindByEmail(email string) (*domain.User, error)
 	Login(request dto.UserRequest) (*dto.TokenDto, error)
-	Update(email string, request domain.User) (domain.User, error)
+	Update(email string, request domain.User) (*domain.User, error)
 }

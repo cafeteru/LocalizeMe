@@ -50,6 +50,21 @@ func (mr *MockUserServiceMockRecorder) Create(request interface{}) *gomock.Call 
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockUserService)(nil).Create), request)
 }
 
+// Disable mocks base method.
+func (m *MockUserService) Disable(email string) (*domain.User, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Disable", email)
+	ret0, _ := ret[0].(*domain.User)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Disable indicates an expected call of Disable.
+func (mr *MockUserServiceMockRecorder) Disable(email interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Disable", reflect.TypeOf((*MockUserService)(nil).Disable), email)
+}
+
 // FindAll mocks base method.
 func (m *MockUserService) FindAll() (*[]domain.User, error) {
 	m.ctrl.T.Helper()
@@ -96,10 +111,10 @@ func (mr *MockUserServiceMockRecorder) Login(request interface{}) *gomock.Call {
 }
 
 // Update mocks base method.
-func (m *MockUserService) Update(email string, request domain.User) (domain.User, error) {
+func (m *MockUserService) Update(email string, request domain.User) (*domain.User, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Update", email, request)
-	ret0, _ := ret[0].(domain.User)
+	ret0, _ := ret[0].(*domain.User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
