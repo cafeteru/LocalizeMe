@@ -3,6 +3,9 @@ clean:
 docs:
 	swagger generate spec -o swagger/swagger.json --scan-models
 	swagger serve -F=swagger swagger/swagger.json --port=9090
+generate-mocks:
+	mockgen -source=internal/repository/UserRepository.go -destination=internal/repository/mock/UserRepositoryMock.go -package=mock
+	mockgen -source=internal/core/service/UserService.go -destination=internal/core/service/mock/UserServiceMock.go -package=mock
 init-project:
 	make install
 	go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
