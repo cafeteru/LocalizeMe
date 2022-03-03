@@ -14,11 +14,21 @@ services:
       - ./mongo-volume:/data/db
     networks:
       - localize-me-network
+  mongo_seed:
+    image: mongo:latest
+    links:
+      - database
+    volumes:
+      - ./mongo-seed:/mongo-seed
+    command:
+      /mongo-seed/import.sh
+    networks:
+      - localize-me-network
   backend:
     container_name: localize-me-backend
     image: igm1990/localize-me-backend:latest
-    #build: backend/.
-    command: bash -c "scripts/docker.sh"
+    #build: backend/.  # To local test before up to Docker's server
+    command: bash "scripts/docker.sh"
     ports:
       - "8080:8080"
       - "9090:9090"
