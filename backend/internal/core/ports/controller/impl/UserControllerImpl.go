@@ -72,7 +72,39 @@ func (u UserControllerImpl) Create(w http.ResponseWriter, r *http.Request) {
 	slog.Debugf("%s: end", tools.GetCurrentFuncName())
 }
 
-// swagger:route PUT /users/disable/{email} Users Update
+// swagger:route DELETE /users/{id} Users Delete
+// Return a user by email.
+//
+// Consumes:
+// - application/json
+//
+// Responses:
+// - 200: bool
+// - 400: ErrorDto
+// - 401: ErrorDto
+// - 404: ErrorDto
+func (u UserControllerImpl) Delete(w http.ResponseWriter, r *http.Request) {
+	slog.Debugf("%s: start", tools.GetCurrentFuncName())
+	user := utils.CheckUserIsAdmin(w, r, u.service)
+	if user == nil {
+		return
+	}
+	id := chi.URLParam(r, "id")
+	if id == "" {
+		err := errors.New(constants.IdNoValid)
+		utils.CreateErrorResponse(w, err, http.StatusBadRequest)
+		return
+	}
+	result, err := u.service.Delete(id)
+	if err != nil {
+		utils.CreateErrorResponse(w, err, http.StatusNotFound)
+		return
+	}
+	utils.CreateResponse(w, http.StatusOK, result)
+	slog.Debugf("%s: end", tools.GetCurrentFuncName())
+}
+
+// swagger:route PATCH /users/{id} Users Disable
 // Disable of a user.
 //
 // Consumes:
@@ -89,8 +121,13 @@ func (u UserControllerImpl) Disable(w http.ResponseWriter, r *http.Request) {
 	if isAdmin == nil {
 		return
 	}
-	email := chi.URLParam(r, "email")
-	user, err := u.service.Disable(email)
+	id := chi.URLParam(r, "id")
+	if id == "" {
+		err := errors.New(constants.IdNoValid)
+		utils.CreateErrorResponse(w, err, http.StatusBadRequest)
+		return
+	}
+	user, err := u.service.Disable(id)
 	if err != nil {
 		utils.CreateErrorResponse(w, err, http.StatusBadRequest)
 		return
@@ -155,7 +192,7 @@ func (u UserControllerImpl) FindByEmail(w http.ResponseWriter, r *http.Request) 
 	if user == nil {
 		return
 	}
-	email := chi.URLParam(r, "email")
+	email := chi.URLParam(r, "id")
 	if email == "" {
 		err := errors.New(constants.EmailAlreadyRegister)
 		utils.CreateErrorResponse(w, err, http.StatusBadRequest)
@@ -171,7 +208,7 @@ func (u UserControllerImpl) FindByEmail(w http.ResponseWriter, r *http.Request) 
 	slog.Debugf("%s: end", tools.GetCurrentFuncName())
 }
 
-// swagger:route PUT /users/{email} Users Update
+// swagger:route PUT /users/{id} Users Update
 // Update the information of a user.
 //
 // Consumes:
@@ -193,8 +230,8 @@ func (u UserControllerImpl) Update(w http.ResponseWriter, r *http.Request) {
 		utils.CreateErrorResponse(w, err, http.StatusUnprocessableEntity)
 		return
 	}
-	email := chi.URLParam(r, "email")
-	user, err := u.service.Update(email, request)
+	id := chi.URLParam(r, "id")
+	user, err := u.service.Update(id, request)
 	if err != nil {
 		utils.CreateErrorResponse(w, err, http.StatusBadRequest)
 		return

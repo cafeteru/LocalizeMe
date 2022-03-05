@@ -107,44 +107,6 @@
         }
       }
     },
-    "/users/disable/{email}": {
-      "put": {
-        "consumes": [
-          "application/json"
-        ],
-        "tags": [
-          "Users"
-        ],
-        "summary": "Disable of a user.",
-        "operationId": "Update",
-        "responses": {
-          "200": {
-            "description": "User",
-            "schema": {
-              "$ref": "#/definitions/User"
-            }
-          },
-          "400": {
-            "description": "ErrorDto",
-            "schema": {
-              "$ref": "#/definitions/ErrorDto"
-            }
-          },
-          "401": {
-            "description": "ErrorDto",
-            "schema": {
-              "$ref": "#/definitions/ErrorDto"
-            }
-          },
-          "404": {
-            "description": "ErrorDto",
-            "schema": {
-              "$ref": "#/definitions/ErrorDto"
-            }
-          }
-        }
-      }
-    },
     "/users/me": {
       "get": {
         "consumes": [
@@ -253,7 +215,9 @@
             }
           }
         }
-      },
+      }
+    },
+    "/users/{id}": {
       "put": {
         "consumes": [
           "application/json"
@@ -263,6 +227,75 @@
         ],
         "summary": "Update the information of a user.",
         "operationId": "Update",
+        "responses": {
+          "200": {
+            "description": "User",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "400": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          },
+          "401": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          },
+          "404": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          }
+        }
+      },
+      "delete": {
+        "consumes": [
+          "application/json"
+        ],
+        "tags": [
+          "Users"
+        ],
+        "summary": "Return a user by email.",
+        "operationId": "Delete",
+        "responses": {
+          "200": {
+            "$ref": "#/responses/bool"
+          },
+          "400": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          },
+          "401": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          },
+          "404": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          }
+        }
+      },
+      "patch": {
+        "consumes": [
+          "application/json"
+        ],
+        "tags": [
+          "Users"
+        ],
+        "summary": "Disable of a user.",
+        "operationId": "Disable",
         "responses": {
           "200": {
             "description": "User",
@@ -341,14 +374,17 @@
     "Language": {
       "type": "object",
       "properties": {
-        "Description": {
-          "type": "string"
+        "CanWriteGroup": {
+          "type": "boolean"
+        },
+        "Group": {
+          "$ref": "#/definitions/Group"
         },
         "ID": {
           "$ref": "#/definitions/ObjectID"
         },
-        "IsoCode": {
-          "type": "string"
+        "User": {
+          "$ref": "#/definitions/User"
         }
       },
       "x-go-name": "Permission",

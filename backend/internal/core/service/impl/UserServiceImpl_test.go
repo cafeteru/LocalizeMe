@@ -294,16 +294,17 @@ func TestUserServiceImpl_Update_Successful(t *testing.T) {
 	defer mockCtrl.Finish()
 	mockUserRepository := mock.NewMockUserRepository(mockCtrl)
 	mockEncrypt := encryptMock.NewMockEncrypt(mockCtrl)
-	email := "email21@email.com"
+	id := "123"
+	userId, _ := primitive.ObjectIDFromHex(id)
 	user := domain.User{
-		ID:       primitive.NewObjectID(),
+		ID:       userId,
 		Email:    "email2@email.com",
 		Password: "email2@email.com",
 		IsAdmin:  true,
 		IsActive: true,
 	}
-	mockUserRepository.EXPECT().FindByEmail(email).Return(&user, nil)
-	mockUserRepository.EXPECT().FindByEmail(user.Email).Return(nil, nil)
+	mockUserRepository.EXPECT().FindById(gomock.Any()).Return(&user, nil)
+	mockUserRepository.EXPECT().FindByEmail(gomock.Any()).Return(nil, nil)
 	mockEncrypt.EXPECT().EncryptPassword(gomock.Any()).Return("", nil)
 	mongoResult := mongo.UpdateResult{
 		MatchedCount:  0,
@@ -313,47 +314,28 @@ func TestUserServiceImpl_Update_Successful(t *testing.T) {
 	}
 	mockUserRepository.EXPECT().Update(gomock.Any(), gomock.Any()).Return(&mongoResult, nil)
 	userService := CreateUserService(mockUserRepository, mockEncrypt)
-	result, err := userService.Update(email, user)
+	result, err := userService.Update(id, user)
 	assert.Nil(t, err)
 	assert.Equal(t, result.ID, user.ID)
 }
 
-func TestUserServiceImpl_Update_Error_NotEmailRegister(t *testing.T) {
+func TestUserServiceImpl_Update_Error_NotIdRegister(t *testing.T) {
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
 	mockUserRepository := mock.NewMockUserRepository(mockCtrl)
 	mockEncrypt := encryptMock.NewMockEncrypt(mockCtrl)
-	email := "email21@email.com"
+	id := "123"
+	userId, _ := primitive.ObjectIDFromHex(id)
 	user := domain.User{
-		ID:       primitive.NewObjectID(),
+		ID:       userId,
 		Email:    "email2@email.com",
 		Password: "email2@email.com",
 		IsAdmin:  true,
 		IsActive: true,
 	}
-	mockUserRepository.EXPECT().FindByEmail(email).Return(nil, nil)
+	mockUserRepository.EXPECT().FindById(gomock.Any()).Return(nil, nil)
 	userService := CreateUserService(mockUserRepository, mockEncrypt)
-	_, err := userService.Update(email, user)
-	assert.NotNil(t, err)
-}
-
-func TestUserServiceImpl_Update_Error_NewEmailRegister(t *testing.T) {
-	mockCtrl := gomock.NewController(t)
-	defer mockCtrl.Finish()
-	mockUserRepository := mock.NewMockUserRepository(mockCtrl)
-	mockEncrypt := encryptMock.NewMockEncrypt(mockCtrl)
-	email := "email21@email.com"
-	user := domain.User{
-		ID:       primitive.NewObjectID(),
-		Email:    "email2@email.com",
-		Password: "email2@email.com",
-		IsAdmin:  true,
-		IsActive: true,
-	}
-	mockUserRepository.EXPECT().FindByEmail(email).Return(&user, nil)
-	mockUserRepository.EXPECT().FindByEmail(user.Email).Return(&user, nil)
-	userService := CreateUserService(mockUserRepository, mockEncrypt)
-	_, err := userService.Update(email, user)
+	_, err := userService.Update(id, user)
 	assert.NotNil(t, err)
 }
 
@@ -362,19 +344,20 @@ func TestUserServiceImpl_Update_Error_EncryptPassword(t *testing.T) {
 	defer mockCtrl.Finish()
 	mockUserRepository := mock.NewMockUserRepository(mockCtrl)
 	mockEncrypt := encryptMock.NewMockEncrypt(mockCtrl)
-	email := "email21@email.com"
+	id := "123"
+	userId, _ := primitive.ObjectIDFromHex(id)
 	user := domain.User{
-		ID:       primitive.NewObjectID(),
+		ID:       userId,
 		Email:    "email2@email.com",
 		Password: "email2@email.com",
 		IsAdmin:  true,
 		IsActive: true,
 	}
-	mockUserRepository.EXPECT().FindByEmail(email).Return(&user, nil)
-	mockUserRepository.EXPECT().FindByEmail(user.Email).Return(nil, nil)
+	mockUserRepository.EXPECT().FindById(gomock.Any()).Return(&user, nil)
+	mockUserRepository.EXPECT().FindByEmail(gomock.Any()).Return(nil, nil)
 	mockEncrypt.EXPECT().EncryptPassword(gomock.Any()).Return("", errors.New(""))
 	userService := CreateUserService(mockUserRepository, mockEncrypt)
-	_, err := userService.Update(email, user)
+	_, err := userService.Update(id, user)
 	assert.NotNil(t, err)
 }
 
@@ -383,19 +366,20 @@ func TestUserServiceImpl_Update_Error_Repository(t *testing.T) {
 	defer mockCtrl.Finish()
 	mockUserRepository := mock.NewMockUserRepository(mockCtrl)
 	mockEncrypt := encryptMock.NewMockEncrypt(mockCtrl)
-	email := "email21@email.com"
+	id := "123"
+	userId, _ := primitive.ObjectIDFromHex(id)
 	user := domain.User{
-		ID:       primitive.NewObjectID(),
+		ID:       userId,
 		Email:    "email2@email.com",
 		Password: "email2@email.com",
 		IsAdmin:  true,
 		IsActive: true,
 	}
-	mockUserRepository.EXPECT().FindByEmail(email).Return(&user, nil)
-	mockUserRepository.EXPECT().FindByEmail(user.Email).Return(nil, nil)
+	mockUserRepository.EXPECT().FindById(gomock.Any()).Return(&user, nil)
+	mockUserRepository.EXPECT().FindByEmail(gomock.Any()).Return(nil, nil)
 	mockEncrypt.EXPECT().EncryptPassword(gomock.Any()).Return("", nil)
 	mockUserRepository.EXPECT().Update(gomock.Any(), gomock.Any()).Return(nil, errors.New(""))
 	userService := CreateUserService(mockUserRepository, mockEncrypt)
-	_, err := userService.Update(email, user)
+	_, err := userService.Update(id, user)
 	assert.NotNil(t, err)
 }

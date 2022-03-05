@@ -18,6 +18,7 @@ install:
 lint:
 	golangci-lint run -v
 pre-commit:
+	make update
 	make lint
 	make test
 	swagger generate spec -o swagger/swagger.json --scan-models
