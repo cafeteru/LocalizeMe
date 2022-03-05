@@ -7,6 +7,7 @@ import (
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/tools"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
@@ -35,6 +36,23 @@ func (u *UserRepositoryImpl) Create(user domain.User) (*mongo.InsertOneResult, e
 	return result, nil
 }
 
+func (u *UserRepositoryImpl) Delete(id string) (*mongo.DeleteResult, error) {
+	slog.Debugf("%s: start", tools.GetCurrentFuncName())
+	collection, err := u.GetCollection(name)
+	if err != nil {
+		return nil, tools.ErrorLogDetails(err, constants.CreateConnection, tools.GetCurrentFuncName())
+	}
+	objectID, _ := primitive.ObjectIDFromHex(id)
+	filter := bson.M{"_id": bson.M{"$eq": objectID}}
+	result, err := collection.DeleteOne(context.TODO(), filter)
+	if err != nil {
+		return nil, tools.ErrorLogDetails(err, constants.DeleteUserByEmail, tools.GetCurrentFuncName())
+	}
+	u.CloseConnection()
+	slog.Debugf("%s: end", tools.GetCurrentFuncName())
+	return result, nil
+}
+
 func (u *UserRepositoryImpl) FindByEmail(email string) (*domain.User, error) {
 	slog.Debugf("%s: start", tools.GetCurrentFuncName())
 	collection, err := u.GetCollection(name)
@@ -46,6 +64,24 @@ func (u *UserRepositoryImpl) FindByEmail(email string) (*domain.User, error) {
 	var user domain.User
 	if err = result.Decode(&user); err != nil {
 		return nil, tools.ErrorLogDetails(err, constants.FindUserByEmail, tools.GetCurrentFuncName())
+	}
+	u.CloseConnection()
+	slog.Debugf("%s: end", tools.GetCurrentFuncName())
+	return &user, nil
+}
+
+func (u *UserRepositoryImpl) FindById(id string) (*domain.User, error) {
+	slog.Debugf("%s: start", tools.GetCurrentFuncName())
+	collection, err := u.GetCollection(name)
+	if err != nil {
+		return nil, tools.ErrorLogDetails(err, constants.CreateConnection, tools.GetCurrentFuncName())
+	}
+	objectID, _ := primitive.ObjectIDFromHex(id)
+	filter := bson.M{"_id": bson.M{"$eq": objectID}}
+	result := collection.FindOne(context.TODO(), filter)
+	var user domain.User
+	if err = result.Decode(&user); err != nil {
+		return nil, tools.ErrorLogDetails(err, constants.FindUserById, tools.GetCurrentFuncName())
 	}
 	u.CloseConnection()
 	slog.Debugf("%s: end", tools.GetCurrentFuncName())
@@ -79,13 +115,14 @@ func (u *UserRepositoryImpl) FindAll() (*[]domain.User, error) {
 	return &users, nil
 }
 
-func (u *UserRepositoryImpl) Update(email string, user domain.User) (*mongo.UpdateResult, error) {
+func (u *UserRepositoryImpl) Update(id string, user domain.User) (*mongo.UpdateResult, error) {
 	slog.Debugf("%s: start", tools.GetCurrentFuncName())
 	collection, err := u.GetCollection(name)
 	if err != nil {
 		return nil, tools.ErrorLogDetails(err, constants.CreateConnection, tools.GetCurrentFuncName())
 	}
-	filter := bson.M{"email": email}
+	objectID, _ := primitive.ObjectIDFromHex(id)
+	filter := bson.M{"_id": bson.M{"$eq": objectID}}
 	update := bson.M{
 		"$set": bson.M{
 			"email":    user.Email,

@@ -50,19 +50,34 @@ func (mr *MockUserServiceMockRecorder) Create(request interface{}) *gomock.Call 
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockUserService)(nil).Create), request)
 }
 
-// Disable mocks base method.
-func (m *MockUserService) Disable(email string) (*domain.User, error) {
+// Delete mocks base method.
+func (m *MockUserService) Delete(id string) (bool, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Disable", email)
+	ret := m.ctrl.Call(m, "Delete", id)
+	ret0, _ := ret[0].(bool)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Delete indicates an expected call of Delete.
+func (mr *MockUserServiceMockRecorder) Delete(id interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delete", reflect.TypeOf((*MockUserService)(nil).Delete), id)
+}
+
+// Disable mocks base method.
+func (m *MockUserService) Disable(id string) (*domain.User, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Disable", id)
 	ret0, _ := ret[0].(*domain.User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Disable indicates an expected call of Disable.
-func (mr *MockUserServiceMockRecorder) Disable(email interface{}) *gomock.Call {
+func (mr *MockUserServiceMockRecorder) Disable(id interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Disable", reflect.TypeOf((*MockUserService)(nil).Disable), email)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Disable", reflect.TypeOf((*MockUserService)(nil).Disable), id)
 }
 
 // FindAll mocks base method.
@@ -111,16 +126,16 @@ func (mr *MockUserServiceMockRecorder) Login(request interface{}) *gomock.Call {
 }
 
 // Update mocks base method.
-func (m *MockUserService) Update(email string, request domain.User) (*domain.User, error) {
+func (m *MockUserService) Update(id string, request domain.User) (*domain.User, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Update", email, request)
+	ret := m.ctrl.Call(m, "Update", id, request)
 	ret0, _ := ret[0].(*domain.User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Update indicates an expected call of Update.
-func (mr *MockUserServiceMockRecorder) Update(email, request interface{}) *gomock.Call {
+func (mr *MockUserServiceMockRecorder) Update(id, request interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Update", reflect.TypeOf((*MockUserService)(nil).Update), email, request)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Update", reflect.TypeOf((*MockUserService)(nil).Update), id, request)
 }

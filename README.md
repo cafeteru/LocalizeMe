@@ -11,7 +11,7 @@ In order to create and manage requirements, controlling their priorities, the fo
 - Create Containers
 
 ```shell
-docker compose up # # run in the foreground showing logs
+docker compose up # run in the foreground showing logs
 docker compose up -d # execute at background
 ```
 

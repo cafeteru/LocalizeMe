@@ -70,14 +70,29 @@ func (u UserServiceImpl) checkRequest(request dto.UserRequest) (domain.User, err
 	}, nil
 }
 
-func (u UserServiceImpl) Disable(email string) (*domain.User, error) {
+func (u UserServiceImpl) Delete(id string) (bool, error) {
 	slog.Debugf("%s: start", tools.GetCurrentFuncName())
-	user, _ := u.repository.FindByEmail(email)
-	if user == nil {
+	user, err := u.repository.FindById(id)
+	if user == nil || err != nil {
+		return false, tools.ErrorLog(constants.FindUserById, tools.GetCurrentFuncName())
+	}
+	_, err = u.repository.Delete(id)
+	if err != nil {
+		slog.Errorf("%s: error", tools.GetCurrentFuncName())
+		return false, err
+	}
+	slog.Debugf("%s: end", tools.GetCurrentFuncName())
+	return true, nil
+}
+
+func (u UserServiceImpl) Disable(id string) (*domain.User, error) {
+	slog.Debugf("%s: start", tools.GetCurrentFuncName())
+	user, err := u.repository.FindById(id)
+	if user == nil || err != nil {
 		return nil, tools.ErrorLog(constants.FindUserByEmail, tools.GetCurrentFuncName())
 	}
 	user.IsActive = !user.IsActive
-	_, err := u.repository.Update(email, *user)
+	_, err = u.repository.Update(id, *user)
 	if err != nil {
 		slog.Errorf("%s: error", tools.GetCurrentFuncName())
 		return nil, err
@@ -146,14 +161,15 @@ func (u UserServiceImpl) Login(request dto.UserRequest) (*dto.TokenDto, error) {
 	return &dto.TokenDto{Authorization: tokenString}, nil
 }
 
-func (u UserServiceImpl) Update(email string, request domain.User) (*domain.User, error) {
+func (u UserServiceImpl) Update(id string, request domain.User) (*domain.User, error) {
 	slog.Debugf("%s: start", tools.GetCurrentFuncName())
-	byEmail, _ := u.repository.FindByEmail(email)
-	if byEmail == nil {
-		return nil, tools.ErrorLog(constants.EmailAlreadyRegister, tools.GetCurrentFuncName())
+	user, err := u.repository.FindById(id)
+	if user == nil || err != nil {
+		return nil, tools.ErrorLog(constants.FindUserById, tools.GetCurrentFuncName())
 	}
 	byUserEmail, _ := u.repository.FindByEmail(request.Email)
-	if byUserEmail != nil {
+	objectId, _ := primitive.ObjectIDFromHex(id)
+	if byUserEmail != nil && byUserEmail.ID != objectId {
 		return nil, tools.ErrorLog(constants.EmailAlreadyRegister, tools.GetCurrentFuncName())
 	}
 	if request.Password != "" {
@@ -164,14 +180,14 @@ func (u UserServiceImpl) Update(email string, request domain.User) (*domain.User
 			return nil, tools.ErrorLogDetails(err, constants.EncryptPasswordUser, tools.GetCurrentFuncName())
 		}
 	}
-	_, err := u.repository.Update(email, request)
+	_, err = u.repository.Update(id, request)
 	if err != nil {
 		slog.Errorf("%s: error", tools.GetCurrentFuncName())
 		return nil, err
 	}
 	slog.Debugf("%s: end", tools.GetCurrentFuncName())
 	return &domain.User{
-		ID:       byEmail.ID,
+		ID:       user.ID,
 		Email:    request.Email,
 		IsAdmin:  request.IsAdmin,
 		IsActive: request.IsActive,

@@ -7,7 +7,9 @@ import (
 
 type UserRepository interface {
 	Create(user domain.User) (*mongo.InsertOneResult, error)
+	Delete(email string) (*mongo.DeleteResult, error)
 	FindAll() (*[]domain.User, error)
 	FindByEmail(email string) (*domain.User, error)
+	FindById(id string) (*domain.User, error)
 	Update(email string, user domain.User) (*mongo.UpdateResult, error)
 }
