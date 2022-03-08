@@ -40,6 +40,19 @@ services:
       - localize-me-network
     environment:
       ATLAS_URI: mongodb://mongoadmin:secret@database:27017
+  frontend:
+    container_name: localize-me-frontend
+    image: igm1990/localize-me-frontend:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./:/frontend
+    depends_on:
+      - backend
+    networks:
+      - localize-me-network
+    environment:
+         urlApi: 'http://backend'
 
 networks:
   localize-me-network:

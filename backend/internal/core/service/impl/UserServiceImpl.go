@@ -147,9 +147,9 @@ func (u UserServiceImpl) Login(request dto.UserRequest) (*dto.TokenDto, error) {
 		return nil, errors.New(constants.DataLogin)
 	}
 	claims := jwt.MapClaims{
-		"email":    user.Email,
-		"isAdmin":  user.IsAdmin,
-		"isActive": user.IsActive,
+		"Email":    user.Email,
+		"IsAdmin":  user.IsAdmin,
+		"IsActive": user.IsActive,
 	}
 	tools.LoadEnv()
 	hours, _ := time.ParseDuration(os.Getenv("HOURS"))
