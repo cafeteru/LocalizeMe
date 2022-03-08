@@ -1,52 +1,51 @@
 {
-  "settings": {
-    "react": {
-      "version": "require('./package.json').dependencies.react"
-    }
-  },
-  "env": {
-    "browser": true,
-    "es2021": true
-  },
-  "extends": [
-    "plugin:react/recommended",
-    "eslint:recommended",
-    "plugin:prettier/recommended"
+  "root": true,
+  "ignorePatterns": [
+    "projects/**/*"
   ],
-  "parser": "@typescript-eslint/parser",
-  "parserOptions": {
-    "ecmaFeatures": {
-      "jsx": true
-    },
-    "ecmaVersion": 2015,
-    "sourceType": "module"
-  },
-  "plugins": [
-    "react",
-    "@typescript-eslint"
-  ],
-  "rules": {
-    "prettier/prettier": "warn"
-  },
-  "globals": {
-    "React": true,
-    "google": true,
-    "mount": true,
-    "mountWithRouter": true,
-    "shallow": true,
-    "shallowWithRouter": true,
-    "context": true,
-    "expect": true,
-    "jsdom": true,
-    "JSX": true
-  },
   "overrides": [
     {
       "files": [
-        "**/*.test.tsx"
+        "*.ts"
       ],
-      "env": {
-        "jest": true
+      "parserOptions": {
+        "project": [
+          "tsconfig.json"
+        ],
+        "createDefaultProgram": true
+      },
+      "extends": [
+        "plugin:@angular-eslint/recommended",
+        "plugin:@angular-eslint/template/process-inline-templates"
+      ],
+      "rules": {
+        "@angular-eslint/directive-selector": [
+          "error",
+          {
+            "type": "attribute",
+            "prefix": "app",
+            "style": "camelCase"
+          }
+        ],
+        "@angular-eslint/component-selector": [
+          "error",
+          {
+            "type": "element",
+            "prefix": "app",
+            "style": "kebab-case"
+          }
+        ]
+      }
+    },
+    {
+      "files": [
+        "*.html"
+      ],
+      "extends": [
+        "plugin:@angular-eslint/template/recommended"
+      ],
+      "rules": {
+        "eqeqeq": 2
       }
     }
   ]
