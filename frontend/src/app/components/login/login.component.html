@@ -1,30 +1,32 @@
-<nz-modal
-    [(nzVisible)]="isVisible"
-    nzTitle="Login"
-    [nzContent]="modalContent"
-    [nzOkLoading]="isOkLoading"
-    [nzFooter]="null"
-    (nzOnCancel)="handleCancel()"
->
-    <ng-template #modalContent>
-        <form nz-form [formGroup]="formGroup" class="login-form" (ngSubmit)="login()">
-            <nz-form-item>
-                <nz-form-control nzErrorTip="Please input your email!">
-                    <nz-input-group nzPrefixIcon="user">
-                        <input type="text" nz-input formControlName="email" placeholder="email" />
-                    </nz-input-group>
-                </nz-form-control>
-            </nz-form-item>
-            <nz-form-item>
-                <nz-form-control nzErrorTip="Please input your Password!">
-                    <nz-input-group nzPrefixIcon="lock">
-                        <input type="password" nz-input formControlName="password" placeholder="Password" />
-                    </nz-input-group>
-                </nz-form-control>
-            </nz-form-item>
-            <button nz-button class="login-form-button login-form-margin" [nzType]="'primary'">Log in</button>
-            Or
-            <a>register now!</a>
-        </form>
-    </ng-template>
-</nz-modal>
+<header class="modal-header-material">
+    <h1 mat-dialog-title>Login</h1>
+</header>
+<form [formGroup]="formGroup" class="login-form" (ngSubmit)="login()">
+    <nz-form-item>
+        <nz-form-control [nzErrorTip]="errorTpl">
+            <nz-input-group nzPrefixIcon="user">
+                <input type="text" nz-input formControlName="email" placeholder="email" />
+            </nz-input-group>
+            <ng-template #errorTpl let-control>
+                <ng-container *ngIf="control.hasError('required')">Please input your email</ng-container>
+                <ng-container *ngIf="control.hasError('email')">No valid email</ng-container>
+            </ng-template>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-control nzErrorTip="Please input your Password!">
+            <nz-input-group nzPrefixIcon="lock">
+                <input type="password" nz-input formControlName="password" placeholder="Password" />
+            </nz-input-group>
+        </nz-form-control>
+    </nz-form-item>
+    <button nz-button class="login-form-button login-form-margin" [nzType]="'primary'">
+        <span *ngIf="!isLoading">Log in</span>
+        <span *ngIf="isLoading">
+            <em nz-icon nzType="loading"></em>
+            Loading
+        </span>
+    </button>
+    Or
+    <a (click)="openRegister()">register now!</a>
+</form>

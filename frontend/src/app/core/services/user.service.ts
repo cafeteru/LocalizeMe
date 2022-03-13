@@ -9,6 +9,7 @@ import { UserReducer } from '../../store/reducers/user.reducer';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/app.reducer';
 import * as userActions from '../../store/actions/user.actions';
+import { User } from '../../types/user';
 
 export interface LoginData {
     email: string;
@@ -18,13 +19,14 @@ export interface LoginData {
 @Injectable({
     providedIn: 'root',
 })
-export class LoginService {
-    private url = `${environment.urlApi}/login`;
+export class UserService {
+    private url = `${environment.urlApi}`;
+    private urlUsers = `${environment.urlApi}/users`;
 
     constructor(private httpClient: HttpClient, private store: Store<AppState>) {}
 
     login(loginData: LoginData): Observable<void> {
-        return this.httpClient.post<ResponseLogin>(this.url, loginData).pipe(
+        return this.httpClient.post<ResponseLogin>(`${this.url}/login`, loginData).pipe(
             map((res) => {
                 const iToken = jwt_decode<IToken>(res.Authorization);
                 const userReducer: UserReducer = {
@@ -41,5 +43,9 @@ export class LoginService {
 
     logout(): void {
         this.store.dispatch(userActions.clearUser());
+    }
+
+    register(loginData: LoginData): Observable<User> {
+        return this.httpClient.post<User>(this.urlUsers, loginData);
     }
 }

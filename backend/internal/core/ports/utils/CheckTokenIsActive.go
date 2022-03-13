@@ -13,7 +13,7 @@ import (
 func CheckUserIsActive(w http.ResponseWriter, r *http.Request, u service.UserService) *domain.User {
 	slog.Debugf("%s: start", r.Context())
 	_, tokenParts, _ := jwtauth.FromContext(r.Context())
-	value, exists := tokenParts["email"]
+	value, exists := tokenParts["Email"]
 	if !exists {
 		createErrorResponse(w)
 		return nil
@@ -28,6 +28,9 @@ func CheckUserIsActive(w http.ResponseWriter, r *http.Request, u service.UserSer
 
 func CheckUserIsAdmin(w http.ResponseWriter, r *http.Request, u service.UserService) *domain.User {
 	user := CheckUserIsActive(w, r, u)
+	if user == nil {
+		return nil
+	}
 	if user != nil && user.IsAdmin {
 		return user
 	}

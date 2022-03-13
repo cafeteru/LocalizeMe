@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { LoginData, LoginService } from './login.service';
+import { LoginData, UserService } from './user.service';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { provideMockStore } from '@ngrx/store/testing';
 import { AppState } from '../../store/app.reducer';
@@ -8,8 +8,8 @@ import * as user from '../../store/reducers/user.reducer';
 import { environment } from '../../../environments/environment';
 import { ResponseLogin } from '../../types/response-login';
 
-describe('LoginService', () => {
-    let service: LoginService;
+describe('UserService', () => {
+    let service: UserService;
     let mockHttp: HttpTestingController;
     const appState: AppState = {
         user: user.initialState,
@@ -20,7 +20,7 @@ describe('LoginService', () => {
             imports: [HttpClientTestingModule],
             providers: [provideMockStore({ initialState: appState })],
         });
-        service = TestBed.inject(LoginService);
+        service = TestBed.inject(UserService);
         mockHttp = TestBed.inject(HttpTestingController);
     });
 

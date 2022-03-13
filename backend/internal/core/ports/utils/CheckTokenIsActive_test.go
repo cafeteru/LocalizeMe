@@ -22,9 +22,9 @@ func TestCheckTokenIsActive_CheckUserIsActive_IsActive(t *testing.T) {
 	user := createUser()
 	user.IsActive = true
 	claims := jwt.MapClaims{
-		"email":    user.Email,
-		"isAdmin":  user.IsAdmin,
-		"isActive": user.IsActive,
+		"Email":    user.Email,
+		"IsAdmin":  user.IsAdmin,
+		"IsActive": user.IsActive,
 	}
 	request, w := createRequestWithToken(claims)
 	mockUserService.EXPECT().FindByEmail(user.Email).Return(&user, nil)
@@ -38,9 +38,9 @@ func TestCheckTokenIsActive_CheckUserIsActive_IsNotActive(t *testing.T) {
 	user.IsActive = false
 
 	claims := jwt.MapClaims{
-		"email":    user.Email,
-		"isAdmin":  user.IsAdmin,
-		"isActive": user.IsActive,
+		"Email":    user.Email,
+		"IsAdmin":  user.IsAdmin,
+		"IsActive": user.IsActive,
 	}
 	request, w := createRequestWithToken(claims)
 	mockUserService.EXPECT().FindByEmail(user.Email).Return(&user, nil)
@@ -52,7 +52,7 @@ func TestCheckTokenIsActive_CheckUserIsActive_InvalidToken(t *testing.T) {
 	mockUserService := initMocks(t)
 	user := createUser()
 	claims := jwt.MapClaims{
-		"isAdmin": user.IsAdmin,
+		"IsAdmin": user.IsAdmin,
 	}
 	request, w := createRequestWithToken(claims)
 	mockUserService.EXPECT().FindByEmail(user.Email).Return(&user, nil)
@@ -64,8 +64,8 @@ func TestCheckTokenIsActive_CheckUserIsActive_NotRegisterUser(t *testing.T) {
 	mockUserService := initMocks(t)
 	user := createUser()
 	claims := jwt.MapClaims{
-		"email":   user.Email,
-		"isAdmin": user.IsAdmin,
+		"Email":   user.Email,
+		"IsAdmin": user.IsAdmin,
 	}
 	request, w := createRequestWithToken(claims)
 	mockUserService.EXPECT().FindByEmail(user.Email).Return(nil, nil)
@@ -77,8 +77,8 @@ func TestCheckTokenIsActive_CheckUserIsActive_ErrorUser(t *testing.T) {
 	mockUserService := initMocks(t)
 	user := createUser()
 	claims := jwt.MapClaims{
-		"email":   user.Email,
-		"isAdmin": user.IsAdmin,
+		"Email":   user.Email,
+		"IsAdmin": user.IsAdmin,
 	}
 	request, w := createRequestWithToken(claims)
 	mockUserService.EXPECT().FindByEmail(user.Email).Return(nil, errors.New(constants.UserNoRegister))
