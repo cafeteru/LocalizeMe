@@ -7,7 +7,7 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { LoginComponent } from './components/login/login.component';
+import { LoginComponent } from './components/users/login/login.component';
 
 describe('AppComponent', () => {
     const appState: AppState = {

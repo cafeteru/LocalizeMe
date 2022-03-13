@@ -1,0 +1,16 @@
+<nz-avatar
+    [nzSize]="40"
+    nzIcon="user"
+    nz-popover
+    nzPopoverTitle="Data"
+    [nzPopoverContent]="contentTemplate"
+    nzPopoverPlacement="bottomRight"
+></nz-avatar>
+<ng-template #contentTemplate>
+    <div>
+        <p>Email: {{ email }}</p>
+    </div>
+    <!--    <ul nz-menu nzSelectable>-->
+    <!--        <li nz-menu-item>Update</li>-->
+    <!--    </ul>-->
+</ng-template>

@@ -2,6 +2,7 @@ import { clearUser, getUserReducer, initialState, loadUser, UserReducer } from '
 
 describe('UserReducer', () => {
     const userReducer: UserReducer = {
+        ID: initialState.ID,
         Email: initialState.Email,
         Exp: initialState.Exp,
         IsActive: initialState.IsActive,
@@ -11,6 +12,7 @@ describe('UserReducer', () => {
 
     it('check loadUser', () => {
         const temp: UserReducer = {
+            ID: '1',
             Email: 'email@email.es',
             Exp: 1,
             IsActive: true,

@@ -37,28 +37,19 @@
                     <em class="trigger" nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"></em>
                 </span>
                 <div class="btn-right user-buttons">
-                    <button
-                        *ngIf="!isLogged"
-                        nz-button
-                        nzType="primary"
-                        nzSize="large"
-                        nzShape="round"
-                        (click)="showLogin()"
-                    >
-                        <em nz-icon nzType="login" nzTheme="outline"></em>
-                        Login
-                    </button>
-                    <button
-                        *ngIf="isLogged"
-                        nz-button
-                        nzType="default"
-                        nzSize="large"
-                        nzShape="round"
-                        (click)="logout()"
-                    >
-                        <em nz-icon nzType="logout" nzTheme="outline"></em>
-                        Logout
-                    </button>
+                    <div *ngIf="!isLogged">
+                        <button nz-button nzType="primary" nzSize="large" nzShape="round" (click)="showLogin()">
+                            <em nz-icon nzType="login" nzTheme="outline"></em>
+                            Login
+                        </button>
+                    </div>
+                    <div *ngIf="isLogged">
+                        <app-user-info></app-user-info>
+                        <button nz-button nzType="default" nzSize="large" nzShape="round" (click)="logout()">
+                            <em nz-icon nzType="logout" nzTheme="outline"></em>
+                            Logout
+                        </button>
+                    </div>
                 </div>
             </div>
         </nz-header>

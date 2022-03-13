@@ -1,14 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LoginComponent } from './login/login.component';
 import { CoreModule } from '../core/core.module';
 import { SharedModule } from '../shared/shared.module';
 import { MenuComponent } from './menu/menu.component';
-import { RegisterComponent } from './register/register.component';
+import { UsersModule } from './users/users.module';
 
 @NgModule({
-    declarations: [LoginComponent, MenuComponent, RegisterComponent],
-    imports: [CommonModule, CoreModule, SharedModule],
-    exports: [LoginComponent],
+    declarations: [MenuComponent],
+    exports: [UsersModule],
+    imports: [CommonModule, CoreModule, SharedModule, UsersModule],
 })
 export class ComponentsModule {}

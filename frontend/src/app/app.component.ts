@@ -4,7 +4,7 @@ import { AppState } from './store/app.reducer';
 import { BaseComponent } from './core/base/base.component';
 import { UserService } from './core/services/user.service';
 import { MatDialog } from '@angular/material/dialog';
-import { LoginComponent } from './components/login/login.component';
+import { LoginComponent } from './components/users/login/login.component';
 
 @Component({
     selector: 'app-root',
