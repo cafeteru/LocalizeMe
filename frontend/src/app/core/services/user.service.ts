@@ -30,6 +30,7 @@ export class UserService {
             map((res) => {
                 const iToken = jwt_decode<IToken>(res.Authorization);
                 const userReducer: UserReducer = {
+                    ID: iToken.ID,
                     Email: iToken.Email,
                     Exp: iToken.exp,
                     IsActive: iToken.IsActive,

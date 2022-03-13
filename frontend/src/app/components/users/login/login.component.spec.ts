@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RegisterComponent } from './register.component';
-import { MatDialogRef } from '@angular/material/dialog';
-import { SharedModule } from '../../shared/shared.module';
+import { LoginComponent } from './login.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { CoreModule } from '../../core/core.module';
 import { provideMockStore } from '@ngrx/store/testing';
-import { createAppStateMock, matDialogRefMock } from '../../core/mocks/mock-tests';
+import { CoreModule } from '../../../core/core.module';
+import { SharedModule } from '../../../shared/shared.module';
+import { MatDialogRef } from '@angular/material/dialog';
+import { createAppStateMock, matDialogRefMock } from '../../../core/mocks/mock-tests';
 
-describe('RegisterComponent', () => {
-    let component: RegisterComponent;
-    let fixture: ComponentFixture<RegisterComponent>;
+describe('LoginComponent', () => {
+    let component: LoginComponent;
+    let fixture: ComponentFixture<LoginComponent>;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [RegisterComponent],
+            declarations: [LoginComponent],
             imports: [HttpClientTestingModule, CoreModule, SharedModule],
             providers: [
                 provideMockStore({ initialState: createAppStateMock() }),
@@ -27,7 +27,7 @@ describe('RegisterComponent', () => {
     });
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(RegisterComponent);
+        fixture = TestBed.createComponent(LoginComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

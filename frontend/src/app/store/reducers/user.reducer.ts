@@ -3,6 +3,7 @@ import { ActionReducer, createReducer, on } from '@ngrx/store';
 import * as UserActions from '../actions/user.actions';
 
 export interface UserReducer {
+    ID: string;
     Email: string;
     Exp: number;
     IsActive: boolean;
@@ -11,6 +12,7 @@ export interface UserReducer {
 }
 
 export const initialState: UserReducer = {
+    ID: '',
     Email: '',
     Exp: 0,
     IsActive: false,
@@ -21,6 +23,7 @@ export const initialState: UserReducer = {
 export function loadUser(state: UserReducer, userReducer: UserReducer): UserReducer {
     return {
         ...state,
+        ID: userReducer.ID,
         Email: userReducer.Email,
         Exp: userReducer.Exp,
         IsActive: userReducer.IsActive,
@@ -32,6 +35,7 @@ export function loadUser(state: UserReducer, userReducer: UserReducer): UserRedu
 export function clearUser(state: UserReducer): UserReducer {
     return {
         ...state,
+        ID: initialState.ID,
         Email: initialState.Email,
         Exp: initialState.Exp,
         IsActive: initialState.IsActive,

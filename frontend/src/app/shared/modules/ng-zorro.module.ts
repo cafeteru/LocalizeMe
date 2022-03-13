@@ -9,11 +9,16 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzMessageServiceModule } from 'ng-zorro-antd/message';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
+import { NzAvatarModule } from 'ng-zorro-antd/avatar';
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import { NzPopoverModule } from 'ng-zorro-antd/popover';
 
 @NgModule({
     imports: [
+        NzAvatarModule,
         NzButtonModule,
         NzCheckboxModule,
+        NzDropDownModule,
         NzFormModule,
         NzIconModule,
         NzInputModule,
@@ -21,11 +26,14 @@ import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
         NzMenuModule,
         NzMessageServiceModule,
         NzModalModule,
+        NzPopoverModule,
         NzSelectModule,
     ],
     exports: [
+        NzAvatarModule,
         NzButtonModule,
         NzCheckboxModule,
+        NzDropDownModule,
         NzFormModule,
         NzIconModule,
         NzInputModule,
@@ -33,6 +41,7 @@ import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
         NzMenuModule,
         NzMessageServiceModule,
         NzModalModule,
+        NzPopoverModule,
         NzSelectModule,
     ],
 })

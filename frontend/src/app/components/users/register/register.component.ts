@@ -1,10 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { BaseComponent } from '../../core/base/base.component';
+import { BaseComponent } from '../../../core/base/base.component';
 import { MatDialogRef } from '@angular/material/dialog';
-import { IsSameValidator } from '../../core/validators/is-same-validator';
-import { FormGroupUtil } from '../../shared/utils/form-group-util';
-import { LoginData, UserService } from '../../core/services/user.service';
+import { IsSameValidator } from '../../../core/validators/is-same-validator';
+import { FormGroupUtil } from '../../../shared/utils/form-group-util';
+import { LoginData, UserService } from '../../../core/services/user.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { switchMap } from 'rxjs';
 
