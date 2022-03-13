@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from './store/app.reducer';
 import { BaseComponent } from './core/base/base.component';
-import { LoginService } from './core/services/login.service';
+import { UserService } from './core/services/user.service';
+import { MatDialog } from '@angular/material/dialog';
+import { LoginComponent } from './components/login/login.component';
 
 @Component({
     selector: 'app-root',
@@ -11,10 +13,9 @@ import { LoginService } from './core/services/login.service';
 })
 export class AppComponent extends BaseComponent implements OnInit {
     isCollapsed = false;
-    isVisible = false;
     isLogged = false;
 
-    constructor(private store: Store<AppState>, private loginService: LoginService) {
+    constructor(private store: Store<AppState>, private loginService: UserService, public dialog: MatDialog) {
         super();
     }
 
@@ -24,12 +25,10 @@ export class AppComponent extends BaseComponent implements OnInit {
         this.subscriptions.push(subscription);
     }
 
-    showModal(): void {
-        this.setIsVisible(true);
-    }
-
-    setIsVisible(value: boolean) {
-        this.isVisible = value;
+    showLogin(): void {
+        this.dialog.open(LoginComponent, {
+            maxWidth: '75%',
+        });
     }
 
     logout(): void {

@@ -8,31 +8,25 @@
         [nzTrigger]="null"
     >
         <div class="sidebar-logo">
-            <a href="https://ng.ant.design/" target="_blank">
-                <img src="https://ng.ant.design/assets/img/logo.svg" alt="logo" />
-                <h1>UniOVI-LocalizeMe</h1>
-            </a>
+            <img src="https://ng.ant.design/assets/img/logo.svg" alt="logo" />
+            <h1>UniOVI-LocalizeMe</h1>
         </div>
         <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
-            <li nz-submenu nzOpen nzTitle="Dashboard" nzIcon="dashboard">
-                <ul>
-                    <li nz-menu-item nzMatchRouter>
-                        <a routerLink="/welcome">Welcome</a>
-                    </li>
-                    <li nz-menu-item nzMatchRouter>
-                        <a>Monitor</a>
-                    </li>
-                    <li nz-menu-item nzMatchRouter>
-                        <a>Workplace</a>
-                    </li>
-                </ul>
+            <li nz-menu-item nzMatchRouter>
+                <em nz-icon nzType="user" nzTheme="outline"></em>
+                <a *ngIf="!isCollapsed" class="menu-item" routerLink="/users">Users</a>
             </li>
-            <li nz-submenu nzOpen nzTitle="Form" nzIcon="form">
-                <ul>
-                    <li nz-menu-item nzMatchRouter>
-                        <a>Basic Form</a>
-                    </li>
-                </ul>
+            <li nz-menu-item nzMatchRouter>
+                <em nz-icon nzType="book" nzTheme="outline"></em>
+                <a *ngIf="!isCollapsed" class="menu-item" routerLink="/users">Stages</a>
+            </li>
+            <li nz-menu-item nzMatchRouter>
+                <em nz-icon nzType="flag" nzTheme="outline"></em>
+                <a *ngIf="!isCollapsed" class="menu-item" routerLink="/users">Languages</a>
+            </li>
+            <li nz-menu-item nzMatchRouter>
+                <em nz-icon nzType="bars" nzTheme="outline"></em>
+                <a *ngIf="!isCollapsed" class="menu-item" routerLink="/users">Strings</a>
             </li>
         </ul>
     </nz-sider>
@@ -49,7 +43,7 @@
                         nzType="primary"
                         nzSize="large"
                         nzShape="round"
-                        (click)="showModal()"
+                        (click)="showLogin()"
                     >
                         <em nz-icon nzType="login" nzTheme="outline"></em>
                         Login
@@ -66,7 +60,6 @@
                         Logout
                     </button>
                 </div>
-                <app-login [isVisible]="isVisible" (emitter)="setIsVisible($event)"></app-login>
             </div>
         </nz-header>
         <nz-content>

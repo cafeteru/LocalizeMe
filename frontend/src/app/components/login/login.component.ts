@@ -1,8 +1,10 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { BaseComponent } from '../../core/base/base.component';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { LoginService } from '../../core/services/login.service';
+import { UserService } from '../../core/services/user.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { RegisterComponent } from '../register/register.component';
 
 @Component({
     selector: 'app-login',
@@ -10,20 +12,22 @@ import { NzMessageService } from 'ng-zorro-antd/message';
     styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent extends BaseComponent implements OnInit {
-    @Input() isVisible = false;
-    @Output() emitter = new EventEmitter<boolean>();
-
     formGroup: FormGroup;
-    isOkLoading = false;
+    isLoading = false;
 
-    constructor(private loginService: LoginService, private message: NzMessageService) {
+    constructor(
+        private userService: UserService,
+        private message: NzMessageService,
+        private matDialogRef: MatDialogRef<LoginComponent>,
+        public dialog: MatDialog
+    ) {
         super();
     }
 
     override ngOnInit() {
         super.ngOnInit();
         this.formGroup = new FormGroup({
-            email: new FormControl('', Validators.required),
+            email: new FormControl('', [Validators.required, Validators.email]),
             password: new FormControl('', Validators.required),
         });
     }
@@ -33,32 +37,35 @@ export class LoginComponent extends BaseComponent implements OnInit {
     }
 
     login(): void {
-        this.isOkLoading = true;
-        const subscription = this.loginService
+        this.isLoading = true;
+        const subscription = this.userService
             .login({
                 email: this.formGroup.controls['email'].value,
                 password: this.formGroup.controls['password'].value,
             })
             .subscribe({
                 next: () => {
-                    this.isOkLoading = false;
-                    this.emitIsVisible(false);
+                    this.isLoading = false;
+                    this.close();
                     this.createMessage('success', 'Successfully logged.');
                 },
                 error: () => {
-                    this.isOkLoading = false;
+                    this.isLoading = false;
                     this.createMessage('error', 'Session not started. Check the fields.');
                 },
             });
         this.subscriptions.push(subscription);
     }
 
-    handleCancel(): void {
-        this.emitIsVisible(false);
+    close(): void {
+        this.matDialogRef.close();
     }
 
-    private emitIsVisible(value: boolean): void {
-        this.isVisible = value;
-        this.emitter.emit(this.isVisible);
+    openRegister(): void {
+        this.close();
+        this.dialog.open(RegisterComponent, {
+            minWidth: '550px',
+            maxWidth: '75%',
+        });
     }
 }

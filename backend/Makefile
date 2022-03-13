@@ -7,11 +7,13 @@ generate-mocks:
 	mockgen -source=internal/repository/UserRepository.go -destination=internal/repository/mock/UserRepositoryMock.go -package=mock
 	mockgen -source=internal/core/service/UserService.go -destination=internal/core/service/mock/UserServiceMock.go -package=mock
 init-project:
-	make install
 	go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
 	go install gotest.tools/gotestsum@latest
 	go install github.com/go-swagger/go-swagger/cmd/swagger@latest
-	go install github.com/golang/mock/mockgen@v1.6.0
+	go install github.com/golang/mock/mockgen@latest
+	go get github.com/jfeliu007/goplantuml/parser
+	go get github.com/jfeliu007/goplantuml/cmd/goplantuml
+	make install
 install:
 	go install ./...
 	go mod tidy

@@ -15,12 +15,14 @@ make init-project
 Else
 
 ```shell
-go install ./...
-go mod tidy
 go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
 go install gotest.tools/gotestsum@latest
 go install github.com/go-swagger/go-swagger/cmd/swagger@latest
-go install github.com/golang/mock/mockgen@v1.6.0
+go install github.com/golang/mock/mockgen@latest
+go get github.com/jfeliu007/goplantuml/parser
+go get github.com/jfeliu007/goplantuml/cmd/goplantuml
+go install ./...
+go mod tidy
 ```
 
 ## Makefile

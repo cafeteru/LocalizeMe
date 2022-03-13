@@ -60,7 +60,3 @@ test-frontend:
   stage: test
   script:
     - cd frontend && npm install && npm run unit-test
-  artifacts:
-    when: always
-    reports:
-      junit: coverage/localize-me-front/cobertura-coverage.xml
