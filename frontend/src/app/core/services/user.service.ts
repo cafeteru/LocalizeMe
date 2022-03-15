@@ -10,6 +10,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../../store/app.reducer';
 import * as userActions from '../../store/actions/user.actions';
 import { User } from '../../types/user';
+import { getDefaultHttpOptions } from './default-http-options';
 
 export interface LoginData {
     email: string;
@@ -25,24 +26,31 @@ export class UserService {
 
     constructor(private httpClient: HttpClient, private store: Store<AppState>) {}
 
+    findAll(): Observable<User[]> {
+        return this.httpClient.get<User[]>(this.urlUsers, getDefaultHttpOptions());
+    }
+
     login(loginData: LoginData): Observable<void> {
         return this.httpClient.post<ResponseLogin>(`${this.url}/login`, loginData).pipe(
-            map((res) => {
-                const iToken = jwt_decode<IToken>(res.Authorization);
+            map((responseLogin) => {
+                const iToken = jwt_decode<IToken>(responseLogin.Authorization);
                 const userReducer: UserReducer = {
                     ID: iToken.ID,
                     Email: iToken.Email,
                     Exp: iToken.exp,
                     IsActive: iToken.IsActive,
                     IsAdmin: iToken.IsAdmin,
-                    Authorization: res.Authorization,
+                    Authorization: responseLogin.Authorization,
                 };
+                localStorage.setItem('Authorization', responseLogin.Authorization);
+                localStorage.setItem('Exp', iToken.exp.toString());
                 this.store.dispatch(userActions.loadUser(userReducer));
             })
         );
     }
 
     logout(): void {
+        localStorage.clear();
         this.store.dispatch(userActions.clearUser());
     }
 

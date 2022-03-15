@@ -6,16 +6,19 @@ import { CoreModule } from '../../../core/core.module';
 import { SharedModule } from '../../../shared/shared.module';
 import { provideMockStore } from '@ngrx/store/testing';
 import { createAppStateMock } from '../../../core/mocks/mock-tests';
+import { AppState } from '../../../store/app.reducer';
 
 describe('UserInfoComponent', () => {
     let component: UserInfoComponent;
     let fixture: ComponentFixture<UserInfoComponent>;
+    let appState: AppState;
 
     beforeEach(async () => {
+        appState = createAppStateMock();
         await TestBed.configureTestingModule({
             declarations: [UserInfoComponent],
             imports: [HttpClientTestingModule, CoreModule, SharedModule],
-            providers: [provideMockStore({ initialState: createAppStateMock() })],
+            providers: [provideMockStore({ initialState: appState })],
         }).compileComponents();
     });
 

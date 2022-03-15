@@ -12,6 +12,7 @@ import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
+import { NzTableModule } from 'ng-zorro-antd/table';
 
 @NgModule({
     imports: [
@@ -28,6 +29,7 @@ import { NzPopoverModule } from 'ng-zorro-antd/popover';
         NzModalModule,
         NzPopoverModule,
         NzSelectModule,
+        NzTableModule,
     ],
     exports: [
         NzAvatarModule,
@@ -43,6 +45,7 @@ import { NzPopoverModule } from 'ng-zorro-antd/popover';
         NzModalModule,
         NzPopoverModule,
         NzSelectModule,
+        NzTableModule,
     ],
 })
 export class NgZorroModule {}

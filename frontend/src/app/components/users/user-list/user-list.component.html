@@ -1,0 +1,26 @@
+<nz-table #usersTable nzShowSizeChanger [nzData]="users" (nzCurrentPageDataChange)="onCurrentPageDataChange($event)">
+    <thead>
+        <tr>
+            <th
+                *ngFor="let column of listOfColumns"
+                [nzSortOrder]="column.sortOrder"
+                [nzSortFn]="column.sortFn"
+                [nzSortDirections]="column.sortDirections"
+                [id]="column.name + '-column'"
+            >
+                {{ column.name }}
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let user of usersTable.data">
+            <td>{{ user.Email }}</td>
+            <td>
+                <app-boolean-icon [value]="user.IsAdmin"></app-boolean-icon>
+            </td>
+            <td>
+                <app-boolean-icon [value]="user.IsActive"></app-boolean-icon>
+            </td>
+        </tr>
+    </tbody>
+</nz-table>

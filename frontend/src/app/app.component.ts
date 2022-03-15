@@ -5,6 +5,9 @@ import { BaseComponent } from './core/base/base.component';
 import { UserService } from './core/services/user.service';
 import { MatDialog } from '@angular/material/dialog';
 import { LoginComponent } from './components/users/login/login.component';
+import { Urls } from './shared/constants/urls';
+import { Router } from '@angular/router';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
     selector: 'app-root',
@@ -12,16 +15,27 @@ import { LoginComponent } from './components/users/login/login.component';
     styleUrls: ['./app.component.scss'],
 })
 export class AppComponent extends BaseComponent implements OnInit {
+    Urls = Urls;
     isCollapsed = false;
     isLogged = false;
+    isAdmin = false;
 
-    constructor(private store: Store<AppState>, private loginService: UserService, public dialog: MatDialog) {
+    constructor(
+        private store: Store<AppState>,
+        private loginService: UserService,
+        private router: Router,
+        private message: NzMessageService,
+        public dialog: MatDialog
+    ) {
         super();
     }
 
     override ngOnInit(): void {
         super.ngOnInit();
-        const subscription = this.store.select('user').subscribe((user) => (this.isLogged = Boolean(user.Email)));
+        const subscription = this.store.select('user').subscribe((user) => {
+            this.isLogged = Boolean(user.Email);
+            this.isAdmin = user.IsAdmin;
+        });
         this.subscriptions.push(subscription);
     }
 
@@ -32,6 +46,13 @@ export class AppComponent extends BaseComponent implements OnInit {
     }
 
     logout(): void {
+        this.router.navigateByUrl('/').then(() => {
+            const type = 'success';
+            const message = 'Successfully logout.';
+            this.message.create(type, message);
+        });
         this.loginService.logout();
+        this.isLogged = false;
+        this.isAdmin = false;
     }
 }
