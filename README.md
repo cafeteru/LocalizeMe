@@ -20,3 +20,7 @@ docker compose up -d # execute at background
 ```shell
 docker compose down
 ```
+
+- Deploy all
+
+Execute `deploy-docker.sh` to update Docker's images.

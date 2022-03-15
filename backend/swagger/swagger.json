@@ -374,14 +374,17 @@
     "Language": {
       "type": "object",
       "properties": {
-        "Description": {
-          "type": "string"
+        "CanWriteGroup": {
+          "type": "boolean"
+        },
+        "Group": {
+          "$ref": "#/definitions/Group"
         },
         "ID": {
           "$ref": "#/definitions/ObjectID"
         },
-        "IsoCode": {
-          "type": "string"
+        "User": {
+          "$ref": "#/definitions/User"
         }
       },
       "x-go-name": "Permission",

@@ -24,7 +24,7 @@ describe('UserReducer', () => {
         expect(reduce).not.toEqual(userReducer);
     });
 
-    it('check loadUser', () => {
+    it('check clearUser', () => {
         const reduce = clearUser(userReducer);
         expect(reduce).toEqual(userReducer);
     });

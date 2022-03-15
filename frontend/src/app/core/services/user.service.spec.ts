@@ -3,17 +3,14 @@ import { TestBed } from '@angular/core/testing';
 import { LoginData, UserService } from './user.service';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { provideMockStore } from '@ngrx/store/testing';
-import { AppState } from '../../store/app.reducer';
-import * as user from '../../store/reducers/user.reducer';
 import { environment } from '../../../environments/environment';
 import { ResponseLogin } from '../../types/response-login';
+import { createAppStateMock } from '../mocks/mock-tests';
 
 describe('UserService', () => {
     let service: UserService;
     let mockHttp: HttpTestingController;
-    const appState: AppState = {
-        user: user.initialState,
-    };
+    const appState = createAppStateMock();
 
     beforeEach(() => {
         TestBed.configureTestingModule({

@@ -17,13 +17,13 @@ describe('FormGroupUtil', () => {
         });
     });
 
-    it('Checks setValue with a key that exists', () => {
+    it('check setValue with a key that exists', () => {
         expect(formGroup.get(emailKey).value).toBe('');
         FormGroupUtil.setValue(formGroup, emailKey, email);
         expect(formGroup.get(emailKey).value).toBe(email);
     });
 
-    it("Checks setValue with a key that doesn't exist", () => {
+    it('check setValue with a key that does not exist', () => {
         expect(formGroup.get(noValidKey)).toBeNull();
         expect(() => FormGroupUtil.setValue(formGroup, noValidKey, email)).toThrowError(errorKey);
     });
@@ -33,22 +33,22 @@ describe('FormGroupUtil', () => {
         expect(() => FormGroupUtil.setValue(undefined, noValidKey, email)).toThrowError(FormGroupUtil.errorFormGroup);
     });
 
-    it('Checks getValue with a key that exists', () => {
+    it('check getValue with a key that exists', () => {
         expect(FormGroupUtil.getValue(formGroup, emailKey)).toBe('');
         FormGroupUtil.setValue(formGroup, emailKey, email);
         expect(FormGroupUtil.getValue(formGroup, emailKey)).toBe(email);
     });
 
-    it("Checks getValue with a key that doesn't exist", () => {
+    it('check getValue with a key that does not exist', () => {
         expect(() => FormGroupUtil.getValue(formGroup, noValidKey)).toThrowError(errorKey);
     });
 
-    it("Checks getValue with a key that doesn't exist", () => {
+    it('check getValue with a key that does not exist', () => {
         expect(() => FormGroupUtil.getValue(null, emailKey)).toThrowError(FormGroupUtil.errorFormGroup);
         expect(() => FormGroupUtil.getValue(undefined, emailKey)).toThrowError(FormGroupUtil.errorFormGroup);
     });
 
-    it('Checks getError with a key that exists', () => {
+    it('check getError with a key that exists', () => {
         expect(FormGroupUtil.getError(formGroup, emailKey)).toEqual(Object({ required: true }));
         FormGroupUtil.setValue(formGroup, emailKey, emailKey);
         expect(FormGroupUtil.getError(formGroup, emailKey)).not.toBeNull();
@@ -57,16 +57,16 @@ describe('FormGroupUtil', () => {
         expect(FormGroupUtil.getError(formGroup, emailKey)).toBeNull();
     });
 
-    it("Checks getError with a key that doesn't exist", () => {
+    it('check getError with a key that does not exist', () => {
         expect(() => FormGroupUtil.getError(formGroup, noValidKey)).toThrowError(errorKey);
     });
 
-    it('Checks getError with an invalid formGroup', () => {
+    it('check getError with an invalid formGroup', () => {
         expect(() => FormGroupUtil.getError(null, passwordKey)).toThrowError(FormGroupUtil.errorFormGroup);
         expect(() => FormGroupUtil.getError(undefined, emailKey)).toThrowError(FormGroupUtil.errorFormGroup);
     });
 
-    it('Checks checkError with a key that exists', () => {
+    it('check checkError with a key that exists', () => {
         const key = 'email';
         const abstractControl = formGroup.get(key);
         abstractControl.markAllAsTouched();
@@ -79,15 +79,15 @@ describe('FormGroupUtil', () => {
         expect(FormGroupUtil.checkError(formGroup, key)).toBeFalse();
     });
 
-    it("Checks checkError with a key that doesn't exist", () => {
+    it('check checkError with a key that does not exist', () => {
         expect(() => FormGroupUtil.checkError(formGroup, noValidKey)).toThrowError(errorKey);
     });
 
-    it('Checks checkError with a null formGroup\n', () => {
+    it('check checkError with a null formGroup\n', () => {
         expect(() => FormGroupUtil.checkError(null, passwordKey)).toThrowError(FormGroupUtil.errorFormGroup);
     });
 
-    it('Checks checkError with a null formGroup', () => {
+    it('check checkError with a null formGroup', () => {
         expect(FormGroupUtil.valid(formGroup)).toBeFalse();
         FormGroupUtil.setValue(formGroup, emailKey, emailKey);
         expect(FormGroupUtil.valid(formGroup)).toBeFalse();
@@ -100,7 +100,7 @@ describe('FormGroupUtil', () => {
         expect(() => FormGroupUtil.valid(null)).toThrowError(FormGroupUtil.errorFormGroup);
     });
 
-    it('Checks changeValidator with a key that exists', () => {
+    it('check changeValidator with a key that exists', () => {
         expect(FormGroupUtil.getError(formGroup, passwordKey)).toEqual(Object({ required: true }));
         FormGroupUtil.setValue(formGroup, passwordKey, '1');
         expect(FormGroupUtil.getError(formGroup, passwordKey)).toBeNull();
@@ -114,7 +114,7 @@ describe('FormGroupUtil', () => {
         expect(FormGroupUtil.getError(formGroup, passwordKey)).toEqual(Object({ required: true }));
     });
 
-    it("Checks changeValidator with a key that doesn't exist", () => {
+    it('check changeValidator with a key that does not exist', () => {
         expect(() => FormGroupUtil.changeValidator(formGroup, noValidKey, [Validators.minLength(2)], '1')).toThrowError(
             errorKey
         );
@@ -135,7 +135,7 @@ describe('FormGroupUtil', () => {
         expect(Object.keys(formGroup.controls).length).toBe(3);
     });
 
-    it('Checks addFormControl with invalid data', () => {
+    it('check addFormControl with invalid data', () => {
         expect(() => FormGroupUtil.addFormControl(formGroup, 'test', null)).toThrowError(
             FormGroupUtil.errorFormControl
         );
