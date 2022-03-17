@@ -13,4 +13,5 @@ type UserController interface {
 	FindMe(w http.ResponseWriter, r *http.Request)
 	Login(w http.ResponseWriter, r *http.Request)
 	Update(w http.ResponseWriter, r *http.Request)
+	UpdateMe(w http.ResponseWriter, r *http.Request)
 }

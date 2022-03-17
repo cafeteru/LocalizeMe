@@ -6,6 +6,7 @@ export class IsSameValidator {
             const control1 = formGroup.get(name1);
             const control2 = formGroup.get(name2);
             if (control1 && control2) {
+                control2.setErrors(null);
                 const value1 = control1.value;
                 const value2 = control2.value;
                 if (value1 !== value2) {

@@ -36,14 +36,13 @@ func (u *UserRepositoryImpl) Create(user domain.User) (*mongo.InsertOneResult, e
 	return result, nil
 }
 
-func (u *UserRepositoryImpl) Delete(id string) (*mongo.DeleteResult, error) {
+func (u *UserRepositoryImpl) Delete(id primitive.ObjectID) (*mongo.DeleteResult, error) {
 	slog.Debugf("%s: start", tools.GetCurrentFuncName())
 	collection, err := u.GetCollection(name)
 	if err != nil {
 		return nil, tools.ErrorLogDetails(err, constants.CreateConnection, tools.GetCurrentFuncName())
 	}
-	objectID, _ := primitive.ObjectIDFromHex(id)
-	filter := bson.M{"_id": bson.M{"$eq": objectID}}
+	filter := bson.M{"_id": bson.M{"$eq": id}}
 	result, err := collection.DeleteOne(context.TODO(), filter)
 	if err != nil {
 		return nil, tools.ErrorLogDetails(err, constants.DeleteUserByEmail, tools.GetCurrentFuncName())
@@ -70,14 +69,13 @@ func (u *UserRepositoryImpl) FindByEmail(email string) (*domain.User, error) {
 	return &user, nil
 }
 
-func (u *UserRepositoryImpl) FindById(id string) (*domain.User, error) {
+func (u *UserRepositoryImpl) FindById(id primitive.ObjectID) (*domain.User, error) {
 	slog.Debugf("%s: start", tools.GetCurrentFuncName())
 	collection, err := u.GetCollection(name)
 	if err != nil {
 		return nil, tools.ErrorLogDetails(err, constants.CreateConnection, tools.GetCurrentFuncName())
 	}
-	objectID, _ := primitive.ObjectIDFromHex(id)
-	filter := bson.M{"_id": bson.M{"$eq": objectID}}
+	filter := bson.M{"_id": bson.M{"$eq": id}}
 	result := collection.FindOne(context.TODO(), filter)
 	var user domain.User
 	if err = result.Decode(&user); err != nil {
@@ -115,14 +113,13 @@ func (u *UserRepositoryImpl) FindAll() (*[]domain.User, error) {
 	return &users, nil
 }
 
-func (u *UserRepositoryImpl) Update(id string, user domain.User) (*mongo.UpdateResult, error) {
+func (u *UserRepositoryImpl) Update(id primitive.ObjectID, user domain.User) (*mongo.UpdateResult, error) {
 	slog.Debugf("%s: start", tools.GetCurrentFuncName())
 	collection, err := u.GetCollection(name)
 	if err != nil {
 		return nil, tools.ErrorLogDetails(err, constants.CreateConnection, tools.GetCurrentFuncName())
 	}
-	objectID, _ := primitive.ObjectIDFromHex(id)
-	filter := bson.M{"_id": bson.M{"$eq": objectID}}
+	filter := bson.M{"_id": bson.M{"$eq": id}}
 	update := bson.M{
 		"$set": bson.M{
 			"email":    user.Email,

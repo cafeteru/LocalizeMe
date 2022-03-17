@@ -185,7 +185,7 @@ func TestUserRepositoryImpl_Update_Success(t *testing.T) {
 			{Key: "UpsertedCount", Value: 0},
 			{Key: "UpsertedID", Value: user.ID},
 		}))
-		_, err := u.Update(user.Email, user)
+		_, err := u.Update(user.ID, user)
 		assert.Nil(t, err)
 	})
 }
@@ -200,7 +200,7 @@ func TestUserRepositoryImpl_Update_NotConnection(t *testing.T) {
 			IsAdmin:  false,
 			IsActive: false,
 		}
-		_, err := u.Update(user.Email, user)
+		_, err := u.Update(user.ID, user)
 		assert.NotNil(t, err)
 		assert.Equal(t, err, errors.New(constants.CreateConnection))
 	})
@@ -220,7 +220,7 @@ func TestUserRepositoryImpl_Update_Error(t *testing.T) {
 		mt.AddMockResponses(mtest.CreateWriteErrorsResponse(mtest.WriteError{
 			Message: constants.UpdateUser,
 		}))
-		_, err := u.Update(user.Email, user)
+		_, err := u.Update(user.ID, user)
 		assert.NotNil(t, err)
 		assert.Equal(t, err, errors.New(constants.UpdateUser))
 	})

@@ -30,6 +30,10 @@ export class UserService {
         return this.httpClient.get<User[]>(this.urlUsers, getDefaultHttpOptions());
     }
 
+    findMe(): Observable<User> {
+        return this.httpClient.get<User>(`${this.urlUsers}/me`, getDefaultHttpOptions());
+    }
+
     login(loginData: LoginData): Observable<void> {
         return this.httpClient.post<ResponseLogin>(`${this.url}/login`, loginData).pipe(
             map((responseLogin) => {
@@ -52,6 +56,10 @@ export class UserService {
     logout(): void {
         localStorage.clear();
         this.store.dispatch(userActions.clearUser());
+    }
+
+    updateMe(user: User): Observable<User> {
+        return this.httpClient.put<User>(`${this.urlUsers}/me`, user, getDefaultHttpOptions());
     }
 
     register(loginData: LoginData): Observable<User> {
