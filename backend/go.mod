@@ -13,7 +13,7 @@ require (
 	github.com/joho/godotenv v1.4.0
 	github.com/stretchr/testify v1.7.0
 	go.mongodb.org/mongo-driver v1.8.4
-	golang.org/x/crypto v0.0.0-20220313003712-b769efc7c000
+	golang.org/x/crypto v0.0.0-20220315160706-3147a52a75dd
 )
 
 require (

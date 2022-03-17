@@ -9,6 +9,7 @@ import (
 
 	gomock "github.com/golang/mock/gomock"
 	domain "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain"
+	primitive "go.mongodb.org/mongo-driver/bson/primitive"
 	mongo "go.mongodb.org/mongo-driver/mongo"
 )
 
@@ -51,18 +52,18 @@ func (mr *MockUserRepositoryMockRecorder) Create(user interface{}) *gomock.Call 
 }
 
 // Delete mocks base method.
-func (m *MockUserRepository) Delete(email string) (*mongo.DeleteResult, error) {
+func (m *MockUserRepository) Delete(id primitive.ObjectID) (*mongo.DeleteResult, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Delete", email)
+	ret := m.ctrl.Call(m, "Delete", id)
 	ret0, _ := ret[0].(*mongo.DeleteResult)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Delete indicates an expected call of Delete.
-func (mr *MockUserRepositoryMockRecorder) Delete(email interface{}) *gomock.Call {
+func (mr *MockUserRepositoryMockRecorder) Delete(id interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delete", reflect.TypeOf((*MockUserRepository)(nil).Delete), email)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delete", reflect.TypeOf((*MockUserRepository)(nil).Delete), id)
 }
 
 // FindAll mocks base method.
@@ -96,7 +97,7 @@ func (mr *MockUserRepositoryMockRecorder) FindByEmail(email interface{}) *gomock
 }
 
 // FindById mocks base method.
-func (m *MockUserRepository) FindById(id string) (*domain.User, error) {
+func (m *MockUserRepository) FindById(id primitive.ObjectID) (*domain.User, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FindById", id)
 	ret0, _ := ret[0].(*domain.User)
@@ -111,16 +112,16 @@ func (mr *MockUserRepositoryMockRecorder) FindById(id interface{}) *gomock.Call 
 }
 
 // Update mocks base method.
-func (m *MockUserRepository) Update(email string, user domain.User) (*mongo.UpdateResult, error) {
+func (m *MockUserRepository) Update(id primitive.ObjectID, user domain.User) (*mongo.UpdateResult, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Update", email, user)
+	ret := m.ctrl.Call(m, "Update", id, user)
 	ret0, _ := ret[0].(*mongo.UpdateResult)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Update indicates an expected call of Update.
-func (mr *MockUserRepositoryMockRecorder) Update(email, user interface{}) *gomock.Call {
+func (mr *MockUserRepositoryMockRecorder) Update(id, user interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Update", reflect.TypeOf((*MockUserRepository)(nil).Update), email, user)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Update", reflect.TypeOf((*MockUserRepository)(nil).Update), id, user)
 }

@@ -314,7 +314,7 @@ func TestUserServiceImpl_Update_Successful(t *testing.T) {
 	}
 	mockUserRepository.EXPECT().Update(gomock.Any(), gomock.Any()).Return(&mongoResult, nil)
 	userService := CreateUserService(mockUserRepository, mockEncrypt)
-	result, err := userService.Update(id, user)
+	result, err := userService.Update(userId, user)
 	assert.Nil(t, err)
 	assert.Equal(t, result.ID, user.ID)
 }
@@ -335,7 +335,7 @@ func TestUserServiceImpl_Update_Error_NotIdRegister(t *testing.T) {
 	}
 	mockUserRepository.EXPECT().FindById(gomock.Any()).Return(nil, nil)
 	userService := CreateUserService(mockUserRepository, mockEncrypt)
-	_, err := userService.Update(id, user)
+	_, err := userService.Update(userId, user)
 	assert.NotNil(t, err)
 }
 
@@ -357,7 +357,7 @@ func TestUserServiceImpl_Update_Error_EncryptPassword(t *testing.T) {
 	mockUserRepository.EXPECT().FindByEmail(gomock.Any()).Return(nil, nil)
 	mockEncrypt.EXPECT().EncryptPassword(gomock.Any()).Return("", errors.New(""))
 	userService := CreateUserService(mockUserRepository, mockEncrypt)
-	_, err := userService.Update(id, user)
+	_, err := userService.Update(userId, user)
 	assert.NotNil(t, err)
 }
 
@@ -380,6 +380,6 @@ func TestUserServiceImpl_Update_Error_Repository(t *testing.T) {
 	mockEncrypt.EXPECT().EncryptPassword(gomock.Any()).Return("", nil)
 	mockUserRepository.EXPECT().Update(gomock.Any(), gomock.Any()).Return(nil, errors.New(""))
 	userService := CreateUserService(mockUserRepository, mockEncrypt)
-	_, err := userService.Update(id, user)
+	_, err := userService.Update(userId, user)
 	assert.NotNil(t, err)
 }

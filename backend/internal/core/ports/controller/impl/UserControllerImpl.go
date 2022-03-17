@@ -11,6 +11,7 @@ import (
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/ports/utils"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/service"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/tools"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"net/http"
 )
 
@@ -95,7 +96,8 @@ func (u UserControllerImpl) Delete(w http.ResponseWriter, r *http.Request) {
 		utils.CreateErrorResponse(w, err, http.StatusBadRequest)
 		return
 	}
-	result, err := u.service.Delete(id)
+	objectID, _ := primitive.ObjectIDFromHex(id)
+	result, err := u.service.Delete(objectID)
 	if err != nil {
 		utils.CreateErrorResponse(w, err, http.StatusNotFound)
 		return
@@ -127,7 +129,8 @@ func (u UserControllerImpl) Disable(w http.ResponseWriter, r *http.Request) {
 		utils.CreateErrorResponse(w, err, http.StatusBadRequest)
 		return
 	}
-	user, err := u.service.Disable(id)
+	objectID, _ := primitive.ObjectIDFromHex(id)
+	user, err := u.service.Disable(objectID)
 	if err != nil {
 		utils.CreateErrorResponse(w, err, http.StatusBadRequest)
 		return
@@ -231,7 +234,8 @@ func (u UserControllerImpl) Update(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	id := chi.URLParam(r, "id")
-	user, err := u.service.Update(id, request)
+	objectID, _ := primitive.ObjectIDFromHex(id)
+	user, err := u.service.Update(objectID, request)
 	if err != nil {
 		utils.CreateErrorResponse(w, err, http.StatusBadRequest)
 		return
@@ -262,7 +266,8 @@ func (u UserControllerImpl) UpdateMe(w http.ResponseWriter, r *http.Request) {
 		utils.CreateErrorResponse(w, err, http.StatusUnprocessableEntity)
 		return
 	}
-	userUpdate, err := u.service.Update(user.Email, request)
+	request.IsAdmin = user.IsAdmin
+	userUpdate, err := u.service.Update(user.ID, request)
 	if err != nil {
 		utils.CreateErrorResponse(w, err, http.StatusBadRequest)
 		return

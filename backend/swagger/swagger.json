@@ -141,6 +141,16 @@
         ],
         "summary": "Update the information of the identified user.",
         "operationId": "UpdateMe",
+        "parameters": [
+          {
+            "name": "User",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "User",
@@ -227,6 +237,16 @@
         ],
         "summary": "Update the information of a user.",
         "operationId": "Update",
+        "parameters": [
+          {
+            "name": "User",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "User",
@@ -263,6 +283,16 @@
         ],
         "summary": "Return a user by email.",
         "operationId": "Delete",
+        "parameters": [
+          {
+            "type": "string",
+            "x-go-name": "Id",
+            "description": "The user´s id",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
         "responses": {
           "200": {
             "$ref": "#/responses/bool"
@@ -296,6 +326,16 @@
         ],
         "summary": "Disable of a user.",
         "operationId": "Disable",
+        "parameters": [
+          {
+            "type": "string",
+            "x-go-name": "Id",
+            "description": "The user´s id",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
         "responses": {
           "200": {
             "description": "User",
@@ -374,17 +414,14 @@
     "Language": {
       "type": "object",
       "properties": {
-        "CanWriteGroup": {
-          "type": "boolean"
-        },
-        "Group": {
-          "$ref": "#/definitions/Group"
+        "Description": {
+          "type": "string"
         },
         "ID": {
           "$ref": "#/definitions/ObjectID"
         },
-        "User": {
-          "$ref": "#/definitions/User"
+        "IsoCode": {
+          "type": "string"
         }
       },
       "x-go-name": "Permission",

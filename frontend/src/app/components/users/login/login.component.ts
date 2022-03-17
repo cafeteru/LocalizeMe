@@ -12,7 +12,7 @@ import { RegisterComponent } from '../register/register.component';
     styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent extends BaseComponent implements OnInit {
-    formGroup: FormGroup;
+    formGroup = new FormGroup({});
     isLoading = false;
 
     constructor(

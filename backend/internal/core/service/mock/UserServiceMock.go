@@ -10,6 +10,7 @@ import (
 	gomock "github.com/golang/mock/gomock"
 	domain "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain"
 	dto "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain/dto"
+	primitive "go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 // MockUserService is a mock of UserService interface.
@@ -51,7 +52,7 @@ func (mr *MockUserServiceMockRecorder) Create(request interface{}) *gomock.Call 
 }
 
 // Delete mocks base method.
-func (m *MockUserService) Delete(id string) (bool, error) {
+func (m *MockUserService) Delete(id primitive.ObjectID) (bool, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Delete", id)
 	ret0, _ := ret[0].(bool)
@@ -66,7 +67,7 @@ func (mr *MockUserServiceMockRecorder) Delete(id interface{}) *gomock.Call {
 }
 
 // Disable mocks base method.
-func (m *MockUserService) Disable(id string) (*domain.User, error) {
+func (m *MockUserService) Disable(id primitive.ObjectID) (*domain.User, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Disable", id)
 	ret0, _ := ret[0].(*domain.User)
@@ -126,7 +127,7 @@ func (mr *MockUserServiceMockRecorder) Login(request interface{}) *gomock.Call {
 }
 
 // Update mocks base method.
-func (m *MockUserService) Update(id string, request domain.User) (*domain.User, error) {
+func (m *MockUserService) Update(id primitive.ObjectID, request domain.User) (*domain.User, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Update", id, request)
 	ret0, _ := ret[0].(*domain.User)

@@ -7,9 +7,10 @@ import { RegisterComponent } from './register/register.component';
 import { UserInfoComponent } from './user-info/user-info.component';
 import { UserListComponent } from './user-list/user-list.component';
 import { UsersRouting } from './users-routing';
+import { UpdateUserComponent } from './update-user/update-user.component';
 
 @NgModule({
-    declarations: [LoginComponent, RegisterComponent, UserInfoComponent, UserListComponent],
+    declarations: [LoginComponent, RegisterComponent, UserInfoComponent, UserListComponent, UpdateUserComponent],
     exports: [LoginComponent, RegisterComponent, UserInfoComponent],
     imports: [CommonModule, CoreModule, SharedModule, UsersRouting],
 })

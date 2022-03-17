@@ -15,7 +15,7 @@ import { switchMap } from 'rxjs';
 })
 export class RegisterComponent extends BaseComponent implements OnInit {
     @Input() isVisible = false;
-    formGroup: FormGroup;
+    formGroup = new FormGroup({});
     isLoading = false;
 
     constructor(
