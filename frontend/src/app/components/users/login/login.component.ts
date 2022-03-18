@@ -44,10 +44,15 @@ export class LoginComponent extends BaseComponent implements OnInit {
                 password: this.formGroup.controls['password'].value,
             })
             .subscribe({
-                next: () => {
+                next: (user) => {
                     this.isLoading = false;
                     this.close();
-                    this.createMessage('success', 'Successfully logged.');
+                    if (user.IsActive) {
+                        this.createMessage('success', 'Successfully logged.');
+                    } else {
+                        this.userService.logout();
+                        this.createMessage('error', 'Session not started. User is not active.');
+                    }
                 },
                 error: () => {
                     this.isLoading = false;

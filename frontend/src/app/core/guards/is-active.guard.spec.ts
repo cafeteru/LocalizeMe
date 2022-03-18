@@ -6,6 +6,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { routes } from '../../app-routing';
 import { AppState } from '../../store/app.reducer';
 import { createAppStateMock } from '../../store/mocks/create-app-state-mock';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('IsActiveGuard', () => {
     let guard: IsActiveGuard;
@@ -15,7 +16,7 @@ describe('IsActiveGuard', () => {
     beforeEach(() => {
         appState = createAppStateMock();
         TestBed.configureTestingModule({
-            imports: [RouterTestingModule.withRoutes(routes)],
+            imports: [RouterTestingModule.withRoutes(routes), HttpClientTestingModule],
             providers: [provideMockStore({ initialState: appState })],
         });
         guard = TestBed.inject(IsActiveGuard);
