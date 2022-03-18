@@ -11,6 +11,7 @@ import { AppState } from '../../store/app.reducer';
 import * as userActions from '../../store/actions/user.actions';
 import { User } from '../../types/user';
 import { getDefaultHttpOptions } from './default-http-options';
+import { createUserMock } from '../../types/mocks/user-mock';
 
 export interface LoginData {
     email: string;
@@ -26,6 +27,10 @@ export class UserService {
 
     constructor(private httpClient: HttpClient, private store: Store<AppState>) {}
 
+    disable(user: User): Observable<User> {
+        return this.httpClient.patch<User>(`${this.urlUsers}/${user.ID}`, user, getDefaultHttpOptions());
+    }
+
     findAll(): Observable<User[]> {
         return this.httpClient.get<User[]>(this.urlUsers, getDefaultHttpOptions());
     }
@@ -34,21 +39,29 @@ export class UserService {
         return this.httpClient.get<User>(`${this.urlUsers}/me`, getDefaultHttpOptions());
     }
 
-    login(loginData: LoginData): Observable<void> {
+    login(loginData: LoginData): Observable<User> {
         return this.httpClient.post<ResponseLogin>(`${this.url}/login`, loginData).pipe(
             map((responseLogin) => {
                 const iToken = jwt_decode<IToken>(responseLogin.Authorization);
-                const userReducer: UserReducer = {
-                    ID: iToken.ID,
+                if (iToken.IsActive) {
+                    const userReducer: UserReducer = {
+                        ID: iToken.ID,
+                        Email: iToken.Email,
+                        Exp: iToken.exp,
+                        IsActive: iToken.IsActive,
+                        IsAdmin: iToken.IsAdmin,
+                        Authorization: responseLogin.Authorization,
+                    };
+                    localStorage.setItem('Authorization', responseLogin.Authorization);
+                    localStorage.setItem('Exp', iToken.exp.toString());
+                    this.store.dispatch(userActions.loadUser(userReducer));
+                }
+                return {
+                    ...createUserMock(),
                     Email: iToken.Email,
-                    Exp: iToken.exp,
                     IsActive: iToken.IsActive,
                     IsAdmin: iToken.IsAdmin,
-                    Authorization: responseLogin.Authorization,
                 };
-                localStorage.setItem('Authorization', responseLogin.Authorization);
-                localStorage.setItem('Exp', iToken.exp.toString());
-                this.store.dispatch(userActions.loadUser(userReducer));
             })
         );
     }

@@ -14,6 +14,7 @@ import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 
 @NgModule({
     imports: [
@@ -32,6 +33,7 @@ import { NzRadioModule } from 'ng-zorro-antd/radio';
         NzRadioModule,
         NzSelectModule,
         NzTableModule,
+        NzToolTipModule,
     ],
     exports: [
         NzAvatarModule,
@@ -49,6 +51,7 @@ import { NzRadioModule } from 'ng-zorro-antd/radio';
         NzRadioModule,
         NzSelectModule,
         NzTableModule,
+        NzToolTipModule,
     ],
 })
 export class NgZorroModule {}

@@ -4,18 +4,20 @@ import { map, Observable, tap } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/app.reducer';
 import { Urls } from '../../shared/constants/urls';
+import { UserService } from '../services/user.service';
 
 @Injectable({
     providedIn: 'root',
 })
 export class IsActiveGuard implements CanActivate {
-    constructor(private store: Store<AppState>, private router: Router) {}
+    constructor(private store: Store<AppState>, private userService: UserService, private router: Router) {}
 
     canActivate(): Observable<boolean> {
         return this.store.select('user').pipe(
             map((user) => user.IsActive),
-            tap((res) => {
-                if (!res) {
+            tap((isActive) => {
+                if (!isActive) {
+                    this.userService.logout();
                     this.router.navigateByUrl(Urls.menu).then();
                 }
             })

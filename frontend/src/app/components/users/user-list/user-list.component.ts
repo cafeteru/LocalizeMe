@@ -64,10 +64,16 @@ export class UserListComponent extends BaseComponent implements OnInit {
             maxWidth: '75%',
             data,
         });
-        const subscription = dialogRef.afterClosed().subscribe({
-            next: (result: User) =>
-                (this.users = this.users.map((value) => (value.ID === result.ID ? { ...result } : { ...value }))),
-        });
+        const subscription = dialogRef.afterClosed().subscribe((result) => this.updateUsers(result));
         this.subscriptions.push(subscription);
+    }
+
+    disable(user: User): void {
+        const subscription = this.userService.disable(user).subscribe((result) => this.updateUsers(result));
+        this.subscriptions.push(subscription);
+    }
+
+    private updateUsers(result: User): void {
+        this.users = this.users.map((value) => (value.ID === result.ID ? { ...result } : { ...value }));
     }
 }
