@@ -12,6 +12,7 @@
             </th>
             <th id="user-list-edit-column"></th>
             <th id="user-list-disable-column"></th>
+            <th id="user-list-delete-column"></th>
         </tr>
     </thead>
     <tbody>
@@ -45,6 +46,19 @@
                     (click)="disable(user)"
                 >
                     <em nz-icon nzType="disconnect"></em>
+                </button>
+            </td>
+            <td>
+                <button
+                    nzTooltipTitle="Delete"
+                    nz-button
+                    nz-tooltip
+                    nzType="default"
+                    nzDanger
+                    nzShape="circle"
+                    (click)="showDeleteModal(user)"
+                >
+                    <em nz-icon nzType="delete"></em>
                 </button>
             </td>
         </tr>

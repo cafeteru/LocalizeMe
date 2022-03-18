@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { ResponseLogin } from '../../types/response-login';
-import { map, Observable } from 'rxjs';
+import { catchError, map, Observable, of } from 'rxjs';
 import jwt_decode from 'jwt-decode';
 import { IToken } from '../../types/itoken';
 import { UserReducer } from '../../store/reducers/user.reducer';
@@ -26,6 +26,13 @@ export class UserService {
     urlUsers = `${environment.urlApi}/users`;
 
     constructor(private httpClient: HttpClient, private store: Store<AppState>) {}
+
+    delete(user: User): Observable<boolean> {
+        return this.httpClient.delete<User>(`${this.urlUsers}/${user.ID}`, getDefaultHttpOptions()).pipe(
+            map(() => true),
+            catchError(() => of(false))
+        );
+    }
 
     disable(user: User): Observable<User> {
         return this.httpClient.patch<User>(`${this.urlUsers}/${user.ID}`, user, getDefaultHttpOptions());
