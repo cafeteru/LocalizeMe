@@ -17,7 +17,7 @@ export class LoginComponent extends BaseComponent implements OnInit {
 
     constructor(
         private userService: UserService,
-        private message: NzMessageService,
+        private messageService: NzMessageService,
         private matDialogRef: MatDialogRef<LoginComponent>,
         public dialog: MatDialog
     ) {
@@ -33,7 +33,7 @@ export class LoginComponent extends BaseComponent implements OnInit {
     }
 
     createMessage(type: string, message: string): void {
-        this.message.create(type, message);
+        this.messageService.create(type, message);
     }
 
     login(): void {
