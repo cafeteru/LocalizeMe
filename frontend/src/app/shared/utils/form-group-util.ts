@@ -34,7 +34,7 @@ export class FormGroupUtil {
             list.forEach((key) => {
                 if (this.getError(formGroup, key)) {
                     errors++;
-                    formGroup.get(key)?.markAllAsTouched();
+                    formGroup.get(key).markAllAsTouched();
                 }
             });
             return errors;

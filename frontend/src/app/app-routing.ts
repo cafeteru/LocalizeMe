@@ -7,7 +7,7 @@ import { IsAdminGuard } from './core/guards/is-admin.guard';
 import { CheckTokenGuard } from './core/guards/check-token.guard';
 import { LoadTokenGuard } from './core/guards/load-token.guard';
 
-const routes: Routes = [
+export const routes: Routes = [
     { path: Urls.menu, component: MenuComponent, canActivate: [LoadTokenGuard] },
     {
         path: Urls.users,

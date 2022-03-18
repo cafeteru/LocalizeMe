@@ -1,12 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BaseComponent } from '../../../core/base/base.component';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { IsSameValidator } from '../../../core/validators/is-same-validator';
 import { FormGroupUtil } from '../../../shared/utils/form-group-util';
 import { LoginData, UserService } from '../../../core/services/user.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { switchMap } from 'rxjs';
+import { LoginComponent } from '../login/login.component';
 
 @Component({
     selector: 'app-register',
@@ -21,7 +22,8 @@ export class RegisterComponent extends BaseComponent implements OnInit {
     constructor(
         private matDialogRef: MatDialogRef<RegisterComponent>,
         private userService: UserService,
-        private message: NzMessageService
+        private message: NzMessageService,
+        public dialog: MatDialog
     ) {
         super();
     }
@@ -69,5 +71,12 @@ export class RegisterComponent extends BaseComponent implements OnInit {
 
     close(): void {
         this.matDialogRef.close();
+    }
+
+    openRegister(): void {
+        this.close();
+        this.dialog.open(LoginComponent, {
+            maxWidth: '75%',
+        });
     }
 }

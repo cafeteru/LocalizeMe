@@ -178,8 +178,8 @@ func (u UserControllerImpl) FindMe(w http.ResponseWriter, r *http.Request) {
 	slog.Debugf("%s: end", tools.GetCurrentFuncName())
 }
 
-// swagger:route GET /users/{email} Users FindByEmail
-// Return the information of the user by email.
+// swagger:route GET /users/{id} Users FindById
+// Return the information of the user by id.
 //
 // Consumes:
 // - application/json
@@ -189,19 +189,20 @@ func (u UserControllerImpl) FindMe(w http.ResponseWriter, r *http.Request) {
 // - 400: ErrorDto
 // - 401: ErrorDto
 // - 404: ErrorDto
-func (u UserControllerImpl) FindByEmail(w http.ResponseWriter, r *http.Request) {
+func (u UserControllerImpl) FindById(w http.ResponseWriter, r *http.Request) {
 	slog.Debugf("%s: start", tools.GetCurrentFuncName())
 	user := utils.CheckUserIsAdmin(w, r, u.service)
 	if user == nil {
 		return
 	}
-	email := chi.URLParam(r, "id")
-	if email == "" {
-		err := errors.New(constants.EmailAlreadyRegister)
+	id := chi.URLParam(r, "id")
+	if id == "" {
+		err := errors.New(constants.IdNoValid)
 		utils.CreateErrorResponse(w, err, http.StatusBadRequest)
 		return
 	}
-	user, err := u.service.FindByEmail(email)
+	objectID, _ := primitive.ObjectIDFromHex(id)
+	user, err := u.service.FindById(objectID)
 	if err != nil {
 		utils.CreateErrorResponse(w, err, http.StatusNotFound)
 		return

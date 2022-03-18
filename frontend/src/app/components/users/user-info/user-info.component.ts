@@ -4,6 +4,7 @@ import { AppState } from '../../../store/app.reducer';
 import { BaseComponent } from '../../../core/base/base.component';
 import { MatDialog } from '@angular/material/dialog';
 import { UpdateUserComponent } from '../update-user/update-user.component';
+import { User } from '../../../types/user';
 
 @Component({
     selector: 'app-user-info',
@@ -24,12 +25,24 @@ export class UserInfoComponent extends BaseComponent implements OnInit {
     }
 
     openUpdate(): void {
-        this.dialog.open(UpdateUserComponent, {
+        const user: User = {
+            ID: '',
+            Email: this.email,
+            IsActive: true,
+            IsAdmin: false,
+            Password: '',
+        };
+        const dialogRef = this.dialog.open(UpdateUserComponent, {
             minWidth: '550px',
             maxWidth: '75%',
             data: {
                 isAdmin: false,
+                user,
             },
         });
+        const subscription = dialogRef.afterClosed().subscribe((result: User) => {
+            this.email = result.Email;
+        });
+        this.subscriptions.push(subscription);
     }
 }

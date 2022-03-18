@@ -111,6 +111,21 @@ func (mr *MockUserServiceMockRecorder) FindByEmail(email interface{}) *gomock.Ca
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindByEmail", reflect.TypeOf((*MockUserService)(nil).FindByEmail), email)
 }
 
+// FindById mocks base method.
+func (m *MockUserService) FindById(id primitive.ObjectID) (*domain.User, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "FindById", id)
+	ret0, _ := ret[0].(*domain.User)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// FindById indicates an expected call of FindById.
+func (mr *MockUserServiceMockRecorder) FindById(id interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindById", reflect.TypeOf((*MockUserService)(nil).FindById), id)
+}
+
 // Login mocks base method.
 func (m *MockUserService) Login(request dto.UserRequest) (*dto.TokenDto, error) {
 	m.ctrl.T.Helper()

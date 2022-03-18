@@ -32,15 +32,6 @@ import (
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain/dto"
 )
 
-// swagger:parameters FindByEmail
-type _ struct {
-	// The user´s email
-	// in: path
-	// required: true
-	// type: string
-	Email string `json:"email"`
-}
-
 // swagger:parameters CreateUser Login
 type _ struct {
 	// in: body
@@ -55,7 +46,7 @@ type _ struct {
 	User domain.User
 }
 
-// swagger:parameters Delete Disable
+// swagger:parameters Delete Disable FindById
 type _ struct {
 	// The user´s id
 	// in: path

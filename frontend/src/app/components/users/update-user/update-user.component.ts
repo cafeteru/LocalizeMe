@@ -1,12 +1,18 @@
-import { Component, Inject, Input, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { BaseComponent } from '../../../core/base/base.component';
 import { UserService } from '../../../core/services/user.service';
 import { IsSameValidator } from '../../../core/validators/is-same-validator';
 import { FormGroupUtil } from '../../../shared/utils/form-group-util';
 import { User } from '../../../types/user';
+import { Observable } from 'rxjs';
+
+export interface UpdateUserData {
+    isAdmin: boolean;
+    user: User;
+}
 
 @Component({
     selector: 'app-update-user',
@@ -14,13 +20,12 @@ import { User } from '../../../types/user';
     styleUrls: ['./update-user.component.scss'],
 })
 export class UpdateUserComponent extends BaseComponent implements OnInit {
-    @Input() isVisible = false;
     formGroup = new FormGroup({});
     isLoading = false;
 
     constructor(
         private matDialogRef: MatDialogRef<UpdateUserComponent>,
-        @Inject(MAT_DIALOG_DATA) private data: { isAdmin: false },
+        @Inject(MAT_DIALOG_DATA) public data: UpdateUserData,
         private userService: UserService,
         private message: NzMessageService
     ) {
@@ -30,12 +35,6 @@ export class UpdateUserComponent extends BaseComponent implements OnInit {
     override ngOnInit() {
         super.ngOnInit();
         this.initFormGroup();
-        if (!this.data.isAdmin) {
-            const subscription = this.userService.findMe().subscribe((user) => {
-                this.formGroup.controls['email'].setValue(user.Email);
-            });
-            this.subscriptions.push(subscription);
-        }
     }
 
     wantToChangePassword(): boolean {
@@ -47,16 +46,16 @@ export class UpdateUserComponent extends BaseComponent implements OnInit {
             this.isLoading = true;
             const password = this.formGroup.controls['password'].value;
             const user: User = {
-                ID: '',
+                ...this.data.user,
                 Email: this.formGroup.controls['email'].value,
                 Password: password ? password : '',
-                IsActive: this.data.isAdmin ? this.formGroup.controls['IsActive'].value : true,
-                IsAdmin: this.data.isAdmin ? this.formGroup.controls['IsAdmin'].value : false,
+                IsActive: this.formGroup.controls['isActive'].value,
+                IsAdmin: this.formGroup.controls['isAdmin'].value,
             };
-            const subscription = this.userService.updateMe(user).subscribe({
+            const subscription = this.getObservable(user).subscribe({
                 next: () => {
                     this.isLoading = false;
-                    this.close();
+                    this.close(user);
                     this.createMessage('success', 'Successfully updated.');
                 },
                 error: () => {
@@ -68,12 +67,16 @@ export class UpdateUserComponent extends BaseComponent implements OnInit {
         }
     }
 
+    private getObservable(user: User): Observable<User> {
+        return this.data.isAdmin ? this.userService.update(user) : this.userService.updateMe(user);
+    }
+
     createMessage(type: string, message: string): void {
         this.message.create(type, message);
     }
 
-    close(): void {
-        this.matDialogRef.close();
+    close(user: User): void {
+        this.matDialogRef.close(user);
     }
 
     private initFormGroup(): void {
@@ -81,16 +84,18 @@ export class UpdateUserComponent extends BaseComponent implements OnInit {
         const checkPassword = 'checkPassword';
         this.formGroup = new FormGroup(
             {
-                email: new FormControl('', [Validators.required, Validators.email]),
+                email: new FormControl(this.data.user.Email, [Validators.required, Validators.email]),
                 changePassword: new FormControl(false, Validators.required),
                 password: new FormControl(''),
                 checkPassword: new FormControl(''),
+                isActive: new FormControl(this.data.user.IsActive),
+                isAdmin: new FormControl(this.data.user.IsAdmin),
             },
             { validators: IsSameValidator.isValid(password, checkPassword) }
         );
 
-        const subscription = this.formGroup.controls['changePassword'].valueChanges.subscribe((res) => {
-            if (res) {
+        const subscription = this.formGroup.controls['changePassword'].valueChanges.subscribe((value) => {
+            if (value) {
                 FormGroupUtil.changeValidator(this.formGroup, password, [Validators.required], '');
                 FormGroupUtil.changeValidator(this.formGroup, checkPassword, [Validators.required], '');
             } else {

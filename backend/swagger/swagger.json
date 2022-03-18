@@ -179,7 +179,7 @@
         }
       }
     },
-    "/users/{email}": {
+    "/users/{id}": {
       "get": {
         "consumes": [
           "application/json"
@@ -187,14 +187,14 @@
         "tags": [
           "Users"
         ],
-        "summary": "Return the information of the user by email.",
-        "operationId": "FindByEmail",
+        "summary": "Return the information of the user by id.",
+        "operationId": "FindById",
         "parameters": [
           {
             "type": "string",
-            "x-go-name": "Email",
-            "description": "The user´s email",
-            "name": "email",
+            "x-go-name": "Id",
+            "description": "The user´s id",
+            "name": "id",
             "in": "path",
             "required": true
           }
@@ -225,9 +225,7 @@
             }
           }
         }
-      }
-    },
-    "/users/{id}": {
+      },
       "put": {
         "consumes": [
           "application/json"
@@ -414,14 +412,17 @@
     "Language": {
       "type": "object",
       "properties": {
-        "Description": {
-          "type": "string"
+        "CanWriteGroup": {
+          "type": "boolean"
+        },
+        "Group": {
+          "$ref": "#/definitions/Group"
         },
         "ID": {
           "$ref": "#/definitions/ObjectID"
         },
-        "IsoCode": {
-          "type": "string"
+        "User": {
+          "$ref": "#/definitions/User"
         }
       },
       "x-go-name": "Permission",

@@ -35,7 +35,7 @@ func (u UserPortImpl) CreateUserRoutes(r *chi.Mux) {
 		r.Route(pattern, func(r chi.Router) {
 			r.Get("/", u.controller.FindAll)
 			r.Get("/me", u.controller.FindMe)
-			r.Get("/email/{email}", u.controller.FindByEmail)
+			r.Get("/id/{id}", u.controller.FindById)
 			r.Put("/{id}", u.controller.Update)
 			r.Put("/me", u.controller.UpdateMe)
 			r.Patch("/{id}", u.controller.Disable)

@@ -6,7 +6,8 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { CoreModule } from '../../../core/core.module';
 import { SharedModule } from '../../../shared/shared.module';
 import { MatDialogRef } from '@angular/material/dialog';
-import { createAppStateMock, matDialogRefMock } from '../../../core/mocks/mock-tests';
+import { matDialogRefMock } from '../../../core/mocks/mock-tests';
+import { createAppStateMock } from '../../../store/mocks/create-app-state-mock';
 
 describe('LoginComponent', () => {
     let component: LoginComponent;

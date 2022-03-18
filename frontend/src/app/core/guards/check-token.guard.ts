@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
-import { CanActivate } from '@angular/router';
-import { AppState } from '../../store/app.reducer';
-import { Store } from '@ngrx/store';
+import { CanActivate, Router } from '@angular/router';
+import { Urls } from '../../shared/constants/urls';
 
 @Injectable({
     providedIn: 'root',
 })
 export class CheckTokenGuard implements CanActivate {
-    constructor() {}
+    constructor(private router: Router) {}
 
     canActivate(): boolean {
         const authorization = localStorage.Authorization;
@@ -15,6 +14,10 @@ export class CheckTokenGuard implements CanActivate {
         if (!authorization || !exp || isNaN(exp)) {
             return false;
         }
-        return Date.now() < Number(exp) * 1_000;
+        const value = Date.now() < Number(exp) * 1_000;
+        if (!value) {
+            this.router.navigateByUrl(Urls.menu).then();
+        }
+        return value;
     }
 }

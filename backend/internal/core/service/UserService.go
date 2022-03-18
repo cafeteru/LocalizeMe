@@ -12,6 +12,7 @@ type UserService interface {
 	Disable(id primitive.ObjectID) (*domain.User, error)
 	FindAll() (*[]domain.User, error)
 	FindByEmail(email string) (*domain.User, error)
+	FindById(id primitive.ObjectID) (*domain.User, error)
 	Login(request dto.UserRequest) (*dto.TokenDto, error)
 	Update(id primitive.ObjectID, request domain.User) (*domain.User, error)
 }

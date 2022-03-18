@@ -5,8 +5,8 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CoreModule } from '../../../core/core.module';
 import { SharedModule } from '../../../shared/shared.module';
 import { provideMockStore } from '@ngrx/store/testing';
-import { createAppStateMock } from '../../../core/mocks/mock-tests';
 import { AppState } from '../../../store/app.reducer';
+import { createAppStateMock } from '../../../store/mocks/create-app-state-mock';
 
 describe('UserInfoComponent', () => {
     let component: UserInfoComponent;
