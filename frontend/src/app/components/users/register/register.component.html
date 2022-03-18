@@ -36,18 +36,13 @@
             </ng-template>
         </nz-form-control>
     </nz-form-item>
-    <nz-form-item nz-row class="register-area">
-        <button
-            nz-button
-            class="login-form-button login-form-margin"
-            [nzType]="'primary'"
-            [disabled]="!formGroup.valid"
-        >
-            <span *ngIf="!isLoading">Register in</span>
-            <span *ngIf="isLoading">
-                <em nz-icon nzType="loading"></em>
-                Loading
-            </span>
-        </button>
-    </nz-form-item>
+    <button nz-button class="login-form-button login-form-margin" [nzType]="'primary'" [disabled]="!formGroup.valid">
+        <span *ngIf="!isLoading">Register in</span>
+        <span *ngIf="isLoading">
+            <em nz-icon nzType="loading"></em>
+            Loading
+        </span>
+    </button>
+    Or
+    <a (click)="openRegister()">login now!</a>
 </form>

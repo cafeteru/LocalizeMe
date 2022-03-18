@@ -6,7 +6,8 @@ import { SharedModule } from '../../../shared/shared.module';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CoreModule } from '../../../core/core.module';
 import { provideMockStore } from '@ngrx/store/testing';
-import { createAppStateMock, matDialogRefMock } from '../../../core/mocks/mock-tests';
+import { matDialogRefMock } from '../../../core/mocks/mock-tests';
+import { createAppStateMock } from '../../../store/mocks/create-app-state-mock';
 
 describe('RegisterComponent', () => {
     let component: RegisterComponent;

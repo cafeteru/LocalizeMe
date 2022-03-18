@@ -46,7 +46,7 @@ export class AppComponent extends BaseComponent implements OnInit {
     }
 
     logout(): void {
-        this.router.navigateByUrl('/').then(() => {
+        this.router.navigateByUrl(Urls.menu).then(() => {
             const type = 'success';
             const message = 'Successfully logout.';
             this.message.create(type, message);

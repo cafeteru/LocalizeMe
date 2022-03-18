@@ -17,8 +17,10 @@ export class LoadTokenGuard implements CanActivate {
     canActivate(): Observable<boolean> {
         const authorization = localStorage.Authorization;
         const exp = localStorage.Exp;
-        if (!authorization || !exp || isNaN(exp)) {
-            return of(false);
+        if (!authorization || !exp) {
+            localStorage.clear();
+            this.store.dispatch(userActions.clearUser());
+            return of(true);
         }
         return this.store.select('user').pipe(
             map((user) => {

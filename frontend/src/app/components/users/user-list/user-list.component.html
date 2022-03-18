@@ -10,6 +10,7 @@
             >
                 {{ column.name }}
             </th>
+            <th id="user-list-edit-column"></th>
         </tr>
     </thead>
     <tbody>
@@ -20,6 +21,11 @@
             </td>
             <td>
                 <app-boolean-icon [value]="user.IsActive"></app-boolean-icon>
+            </td>
+            <td>
+                <button nz-button nzType="primary" nzShape="circle" (click)="openUpdate(user)">
+                    <em nz-icon nzType="edit"></em>
+                </button>
             </td>
         </tr>
     </tbody>

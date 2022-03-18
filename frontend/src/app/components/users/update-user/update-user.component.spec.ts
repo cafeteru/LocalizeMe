@@ -1,16 +1,27 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UpdateUserComponent } from './update-user.component';
+import { UpdateUserComponent, UpdateUserData } from './update-user.component';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { createAppStateMock, matDialogRefMock } from '../../../core/mocks/mock-tests';
+import { matDialogRefMock } from '../../../core/mocks/mock-tests';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CoreModule } from '../../../core/core.module';
 import { SharedModule } from '../../../shared/shared.module';
 import { provideMockStore } from '@ngrx/store/testing';
+import { createAppStateMock } from '../../../store/mocks/create-app-state-mock';
 
 describe('UpdateUserComponent', () => {
     let component: UpdateUserComponent;
     let fixture: ComponentFixture<UpdateUserComponent>;
+    const updateUserData: UpdateUserData = {
+        isAdmin: false,
+        user: {
+            ID: '',
+            Email: '',
+            IsAdmin: false,
+            Password: '',
+            IsActive: true,
+        },
+    };
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
@@ -24,7 +35,7 @@ describe('UpdateUserComponent', () => {
                 },
                 {
                     provide: MAT_DIALOG_DATA,
-                    useValue: { isAdmin: false },
+                    useValue: updateUserData,
                 },
             ],
         }).compileComponents();

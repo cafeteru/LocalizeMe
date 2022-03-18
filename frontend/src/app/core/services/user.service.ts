@@ -21,8 +21,8 @@ export interface LoginData {
     providedIn: 'root',
 })
 export class UserService {
-    private url = `${environment.urlApi}`;
-    private urlUsers = `${environment.urlApi}/users`;
+    url = `${environment.urlApi}`;
+    urlUsers = `${environment.urlApi}/users`;
 
     constructor(private httpClient: HttpClient, private store: Store<AppState>) {}
 
@@ -56,6 +56,10 @@ export class UserService {
     logout(): void {
         localStorage.clear();
         this.store.dispatch(userActions.clearUser());
+    }
+
+    update(user: User): Observable<User> {
+        return this.httpClient.put<User>(`${this.urlUsers}/${user.ID}`, user, getDefaultHttpOptions());
     }
 
     updateMe(user: User): Observable<User> {

@@ -136,8 +136,24 @@ func (u UserServiceImpl) FindByEmail(email string) (*domain.User, error) {
 	return user, nil
 }
 
+func (u UserServiceImpl) FindById(id primitive.ObjectID) (*domain.User, error) {
+	slog.Debugf("%s: start", tools.GetCurrentFuncName())
+	user, err := u.repository.FindById(id)
+	if err != nil {
+		slog.Errorf("%s: error", tools.GetCurrentFuncName())
+		return nil, err
+	}
+	if !user.IsActive {
+		errActive := errors.New(constants.UserNoActive)
+		slog.Errorf("%s: error", tools.GetCurrentFuncName())
+		return nil, errActive
+	}
+	slog.Debugf("%s: end", tools.GetCurrentFuncName())
+	return user, nil
+}
+
 func (u UserServiceImpl) Login(request dto.UserRequest) (*dto.TokenDto, error) {
-	user, err := u.FindByEmail(request.Email)
+	user, err := u.repository.FindByEmail(request.Email)
 	if err != nil {
 		slog.Errorf("%s: error", tools.GetCurrentFuncName())
 		return nil, err
@@ -182,7 +198,6 @@ func (u UserServiceImpl) Update(id primitive.ObjectID, request domain.User) (*do
 	} else {
 		request.Password = original.Password
 	}
-
 	_, err = u.repository.Update(id, request)
 	if err != nil {
 		slog.Errorf("%s: error", tools.GetCurrentFuncName())

@@ -3,9 +3,9 @@ import { TestBed } from '@angular/core/testing';
 import { LoginData, UserService } from './user.service';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { provideMockStore } from '@ngrx/store/testing';
-import { environment } from '../../../environments/environment';
 import { ResponseLogin } from '../../types/response-login';
-import { createAppStateMock } from '../mocks/mock-tests';
+import { createAppStateMock } from '../../store/mocks/create-app-state-mock';
+import { createUserMock } from '../../types/mocks/user-mock';
 
 describe('UserService', () => {
     let service: UserService;
@@ -43,7 +43,7 @@ describe('UserService', () => {
         service.login(loginData).subscribe({
             error: (err) => fail(err),
         });
-        const req = mockHttp.expectOne(`${environment.urlApi}/login`);
+        const req = mockHttp.expectOne(`${service.url}/login`);
         expect(req.request.method).toBe('POST');
         req.flush(token);
     });
@@ -51,5 +51,46 @@ describe('UserService', () => {
     it('check logout', () => {
         service.logout();
         expect(appState.user.Email).toEqual('');
+    });
+
+    it('check findMe', () => {
+        service.findMe().subscribe({
+            error: (err) => fail(err),
+        });
+        const req = mockHttp.expectOne(`${service.urlUsers}/me`);
+        expect(req.request.method).toBe('GET');
+        req.flush(createUserMock());
+    });
+
+    it('check register', () => {
+        const loginData: LoginData = {
+            email: 'username',
+            password: 'password',
+        };
+        service.register(loginData).subscribe({
+            error: (err) => fail(err),
+        });
+        const req = mockHttp.expectOne(`${service.urlUsers}`);
+        expect(req.request.method).toBe('POST');
+        req.flush(createUserMock());
+    });
+
+    it('check updateMe', () => {
+        service.updateMe(createUserMock()).subscribe({
+            error: (err) => fail(err),
+        });
+        const req = mockHttp.expectOne(`${service.urlUsers}/me`);
+        expect(req.request.method).toBe('PUT');
+        req.flush(createUserMock());
+    });
+
+    it('check update', () => {
+        const user = createUserMock();
+        service.update(user).subscribe({
+            error: (err) => fail(err),
+        });
+        const req = mockHttp.expectOne(`${service.urlUsers}/${user.ID}`);
+        expect(req.request.method).toBe('PUT');
+        req.flush(user);
     });
 });

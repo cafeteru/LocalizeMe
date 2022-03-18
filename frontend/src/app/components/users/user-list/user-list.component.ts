@@ -4,6 +4,8 @@ import { User } from '../../../types/user';
 import { UserService } from '../../../core/services/user.service';
 import { ColumnHeader, sortDirections } from '../../../shared/components/utils/nz-table-utils';
 import { sortEmail, sortIsActive, sortIsAdmin } from '../../../shared/sorts/users-sorts';
+import { UpdateUserComponent, UpdateUserData } from '../update-user/update-user.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
     selector: 'app-user-list',
@@ -35,7 +37,7 @@ export class UserListComponent extends BaseComponent implements OnInit {
         },
     ];
 
-    constructor(private userService: UserService) {
+    constructor(private userService: UserService, public dialog: MatDialog) {
         super();
     }
 
@@ -43,31 +45,29 @@ export class UserListComponent extends BaseComponent implements OnInit {
         super.ngOnInit();
         const subscription = this.userService.findAll().subscribe({
             next: (users) => (this.users = users),
-            error: () => {
-                this.users = [];
-            },
+            error: () => (this.users = []),
         });
         this.subscriptions.push(subscription);
     }
 
-    onItemChecked(id: number, checked: boolean): void {
-        // this.updateCheckedSet(id, checked);
-        this.refreshCheckedStatus();
-    }
-
-    onAllChecked(value: boolean): void {
-        // this.listOfCurrentPageData.forEach((item) => this.updateCheckedSet(item.ID, value));
-        this.refreshCheckedStatus();
-    }
-
     onCurrentPageDataChange($event: readonly User[]): void {
         this.currentPageUsers = $event;
-        this.refreshCheckedStatus();
     }
 
-    refreshCheckedStatus(): void {
-        // this.checked = this.listOfCurrentPageData.every((item) => this.setOfCheckedId.has(item.ID));
-        // this.indeterminate =
-        //     this.listOfCurrentPageData.some((item) => this.setOfCheckedId.has(item.ID)) && !this.checked;
+    openUpdate(user: User): void {
+        const data: UpdateUserData = {
+            isAdmin: true,
+            user,
+        };
+        const dialogRef = this.dialog.open(UpdateUserComponent, {
+            minWidth: '550px',
+            maxWidth: '75%',
+            data,
+        });
+        const subscription = dialogRef.afterClosed().subscribe({
+            next: (result: User) =>
+                (this.users = this.users.map((value) => (value.ID === result.ID ? { ...result } : { ...value }))),
+        });
+        this.subscriptions.push(subscription);
     }
 }

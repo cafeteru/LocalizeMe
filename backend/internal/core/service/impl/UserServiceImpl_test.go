@@ -126,25 +126,15 @@ func TestUserServiceImpl_Create_ErrorEncrypt(t *testing.T) {
 	assert.NotNil(t, err)
 }
 
-func TestUserServiceImpl_FindByEmail_EmptyEmail(t *testing.T) {
+func TestUserServiceImpl_FindById_NotFound(t *testing.T) {
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
 	mockUserRepository := mock.NewMockUserRepository(mockCtrl)
 	mockEncrypt := encryptMock.NewMockEncrypt(mockCtrl)
+	mockUserRepository.EXPECT().FindById(gomock.Any()).Return(nil, errors.New(""))
 	userService := CreateUserService(mockUserRepository, mockEncrypt)
-	_, err := userService.FindByEmail("")
-	assert.NotNil(t, err)
-}
-
-func TestUserServiceImpl_FindByEmail_NotFound(t *testing.T) {
-	mockCtrl := gomock.NewController(t)
-	defer mockCtrl.Finish()
-	mockUserRepository := mock.NewMockUserRepository(mockCtrl)
-	mockEncrypt := encryptMock.NewMockEncrypt(mockCtrl)
-	email := "email@email.com"
-	mockUserRepository.EXPECT().FindByEmail(email).Return(nil, errors.New(""))
-	userService := CreateUserService(mockUserRepository, mockEncrypt)
-	_, err := userService.FindByEmail(email)
+	objectID, _ := primitive.ObjectIDFromHex("1.1")
+	_, err := userService.FindById(objectID)
 	assert.NotNil(t, err)
 }
 
@@ -154,16 +144,18 @@ func TestUserServiceImpl_FindByEmail_UserNotActive(t *testing.T) {
 	mockUserRepository := mock.NewMockUserRepository(mockCtrl)
 	mockEncrypt := encryptMock.NewMockEncrypt(mockCtrl)
 	email := "email@email.com"
+	objectID, _ := primitive.ObjectIDFromHex("1.1")
 	user := domain.User{
-		ID:       primitive.NewObjectID(),
+		ID:       objectID,
 		Email:    email,
 		Password: email,
 		IsAdmin:  false,
 		IsActive: false,
 	}
-	mockUserRepository.EXPECT().FindByEmail(gomock.Any()).Return(&user, nil)
+	mockUserRepository.EXPECT().FindById(gomock.Any()).Return(&user, nil)
 	userService := CreateUserService(mockUserRepository, mockEncrypt)
-	_, err := userService.FindByEmail(email)
+
+	_, err := userService.FindById(objectID)
 	assert.NotNil(t, err)
 }
 
@@ -173,16 +165,17 @@ func TestUserServiceImpl_FindByEmail_Success(t *testing.T) {
 	mockUserRepository := mock.NewMockUserRepository(mockCtrl)
 	mockEncrypt := encryptMock.NewMockEncrypt(mockCtrl)
 	email := "email@email.com"
+	objectID, _ := primitive.ObjectIDFromHex("1.1")
 	user := domain.User{
-		ID:       primitive.NewObjectID(),
+		ID:       objectID,
 		Email:    email,
 		Password: email,
 		IsAdmin:  false,
 		IsActive: true,
 	}
-	mockUserRepository.EXPECT().FindByEmail(gomock.Any()).Return(&user, nil)
+	mockUserRepository.EXPECT().FindById(gomock.Any()).Return(&user, nil)
 	userService := CreateUserService(mockUserRepository, mockEncrypt)
-	user2, err := userService.FindByEmail(email)
+	user2, err := userService.FindById(objectID)
 	assert.Nil(t, err)
 	assert.Equal(t, user.Email, user2.Email)
 }
