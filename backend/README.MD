@@ -1,8 +1,8 @@
-# API Rest con Go (Golang)
+# API Rest with Go (Golang)
 
 Development of a simple Rest API with [Go](https://golang.org/).
 
-![Go](https://img.shields.io/badge/Golang-1.17-blue.svg?logo=go&longCache=true&style=flat)
+![Go](https://img.shields.io/badge/Golang-1.18-blue.svg?logo=go&longCache=true&style=flat)
 
 ## Install project's dependencies
 

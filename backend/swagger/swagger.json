@@ -53,6 +53,42 @@
         }
       }
     },
+    "/stages": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "tags": [
+          "Stages"
+        ],
+        "summary": "Create a new stage.",
+        "operationId": "CreateStage",
+        "parameters": [
+          {
+            "name": "Stage",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/StageRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Stage",
+            "schema": {
+              "$ref": "#/definitions/Stage"
+            }
+          },
+          "400": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          }
+        }
+      }
+    },
     "/users": {
       "get": {
         "tags": [
@@ -440,6 +476,9 @@
     "Stage": {
       "type": "object",
       "properties": {
+        "Active": {
+          "type": "boolean"
+        },
         "ID": {
           "$ref": "#/definitions/ObjectID"
         },
@@ -448,6 +487,15 @@
         }
       },
       "x-go-package": "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain"
+    },
+    "StageRequest": {
+      "type": "object",
+      "properties": {
+        "Name": {
+          "type": "string"
+        }
+      },
+      "x-go-package": "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain/dto"
     },
     "TokenDto": {
       "type": "object",

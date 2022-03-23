@@ -1,0 +1,30 @@
+<header class="modal-header-material">
+    <h1 mat-dialog-title>Create stage</h1>
+</header>
+<form [formGroup]="formGroup" class="login-form" (ngSubmit)="send()">
+    <nz-form-item>
+        <nz-form-label nzRequired nzFor="name" nzSpan="7">Name</nz-form-label>
+        <nz-form-control [nzErrorTip]="errorName" nzSpan="17">
+            <nz-input-group nzPrefixIcon="user">
+                <input nz-input formControlName="name" id="name" />
+            </nz-input-group>
+        </nz-form-control>
+        <ng-template #errorName let-control>
+            <ng-container *ngIf="control.hasError('required')">Please input a name</ng-container>
+        </ng-template>
+    </nz-form-item>
+    <nz-form-item nz-row class="register-area btn-right">
+        <button
+            nz-button
+            class="login-form-button login-form-margin"
+            [nzType]="'primary'"
+            [disabled]="!formGroup.valid"
+        >
+            <span *ngIf="!isLoading">Create</span>
+            <span *ngIf="isLoading">
+                <em nz-icon nzType="loading"></em>
+                Loading
+            </span>
+        </button>
+    </nz-form-item>
+</form>

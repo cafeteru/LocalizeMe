@@ -3,15 +3,15 @@ package utils
 import (
 	"errors"
 	"github.com/go-chi/jwtauth/v5"
-	slog "github.com/go-eden/slf4go"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/constants"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/service"
+	"log"
 	"net/http"
 )
 
 func CheckUserIsActive(w http.ResponseWriter, r *http.Request, u service.UserService) *domain.User {
-	slog.Debugf("%s: start", r.Context())
+	log.Printf("%s: start", r.Context())
 	_, tokenParts, _ := jwtauth.FromContext(r.Context())
 	value, exists := tokenParts["Email"]
 	if !exists {

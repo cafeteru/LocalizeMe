@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { UserListComponent } from './user-list/user-list.component';
 
-export const routes: Routes = [
+export const userRoutes: Routes = [
     {
         path: '',
         component: UserListComponent,
@@ -10,7 +10,8 @@ export const routes: Routes = [
 ];
 
 @NgModule({
-    imports: [RouterModule.forChild(routes)],
+    imports: [RouterModule.forChild(userRoutes)],
     exports: [RouterModule],
 })
-export class UsersRouting {}
+export class UserRouting {
+}

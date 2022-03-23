@@ -6,16 +6,16 @@ import (
 	"testing"
 )
 
-func TestUserPortImpl_CreateUserPort(t *testing.T) {
-	userPort := CreateUserPort()
+func TestStagePortImpl_CreateUserPort(t *testing.T) {
+	userPort := CreateStagePort()
 	assert.NotNil(t, userPort)
 	assert.NotNil(t, userPort.controller)
 }
 
-func TestUserPortImpl_InitRoutes(t *testing.T) {
+func TestStagePortImpl_InitRoutes(t *testing.T) {
 	r := chi.NewRouter()
-	userPort := CreateUserPort()
-	userPort.InitUserRoutes(r)
+	userPort := CreateStagePort()
+	userPort.InitStageRoutes(r)
 	assert.NotNil(t, userPort)
 	assert.NotNil(t, userPort.controller)
 }

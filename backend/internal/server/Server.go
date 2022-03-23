@@ -5,8 +5,9 @@ import (
 	"github.com/go-chi/chi/middleware"
 	"github.com/go-chi/cors"
 	"github.com/go-chi/render"
-	slog "github.com/go-eden/slf4go"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/ports/impl"
+	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/tools"
+	"log"
 	"net/http"
 	"time"
 )
@@ -42,16 +43,20 @@ func CreateServer(port string) *Server {
 }
 
 func (serv *Server) Close() error {
-	slog.Debugf("Stopping on http://localhost%s", serv.server.Addr)
+	log.Printf("Stopping on http://localhost%s", serv.server.Addr)
 	return nil
 }
 
 func (serv *Server) Start() {
-	slog.Debugf("Server running on http://localhost%s", serv.server.Addr)
-	slog.Fatal(serv.server.ListenAndServe())
+	log.Printf("Server running on http://localhost%s", serv.server.Addr)
+	log.Printf("%s", serv.server.ListenAndServe())
 }
 
 func initControllers(r *chi.Mux) {
+	log.Printf("%s: start", tools.GetCurrentFuncName())
 	userPort := impl.CreateUserPort()
-	userPort.InitRoutes(r)
+	stagePort := impl.CreateStagePort()
+	userPort.InitUserRoutes(r)
+	stagePort.InitStageRoutes(r)
+	log.Printf("%s: end", tools.GetCurrentFuncName())
 }

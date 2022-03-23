@@ -30,6 +30,7 @@ namespace domain {
     class Stage << (S,Aquamarine) >> {
         + ID primitive.ObjectID
         + Name string
+        + Active bool
 
     }
     class Translation << (S,Aquamarine) >> {
