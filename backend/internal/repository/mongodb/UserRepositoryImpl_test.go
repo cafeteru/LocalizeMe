@@ -12,7 +12,7 @@ import (
 )
 
 func TestUserRepositoryImpl_FindByEmail_Success(t *testing.T) {
-	mt, u := createMocks(t)
+	mt, u := createUserMocks(t)
 	mt.Run("FindByEmail_Success", func(mt *mtest.T) {
 		u.collection = mt.Coll
 		user := domain.User{
@@ -36,7 +36,7 @@ func TestUserRepositoryImpl_FindByEmail_Success(t *testing.T) {
 }
 
 func TestUserRepositoryImpl_FindByEmail_NotConnection(t *testing.T) {
-	mt, u := createMocks(t)
+	mt, u := createUserMocks(t)
 	mt.Run("FindByEmail_NotConnection", func(mt *mtest.T) {
 		_, err := u.FindByEmail("email")
 		assert.NotNil(t, err)
@@ -45,7 +45,7 @@ func TestUserRepositoryImpl_FindByEmail_NotConnection(t *testing.T) {
 }
 
 func TestUserRepositoryImpl_FindByEmail_NotFound(t *testing.T) {
-	mt, u := createMocks(t)
+	mt, u := createUserMocks(t)
 	mt.Run("FindByEmail_NotFound", func(mt *mtest.T) {
 		u.collection = mt.Coll
 		user := domain.User{
@@ -65,7 +65,7 @@ func TestUserRepositoryImpl_FindByEmail_NotFound(t *testing.T) {
 }
 
 func TestUserRepositoryImpl_Create_Success(t *testing.T) {
-	mt, u := createMocks(t)
+	mt, u := createUserMocks(t)
 	mt.Run("Create_Success", func(mt *mtest.T) {
 		u.collection = mt.Coll
 		user := domain.User{
@@ -83,7 +83,7 @@ func TestUserRepositoryImpl_Create_Success(t *testing.T) {
 }
 
 func TestUserRepositoryImpl_Create_NotConnection(t *testing.T) {
-	mt, u := createMocks(t)
+	mt, u := createUserMocks(t)
 	mt.Run("Create_NotConnection", func(mt *mtest.T) {
 		user := domain.User{
 			Email:    "john.doe@test.com",
@@ -98,7 +98,7 @@ func TestUserRepositoryImpl_Create_NotConnection(t *testing.T) {
 }
 
 func TestUserRepositoryImpl_Create_Error(t *testing.T) {
-	mt, u := createMocks(t)
+	mt, u := createUserMocks(t)
 	mt.Run("Create_ErrorCreate", func(mt *mtest.T) {
 		u.collection = mt.Coll
 		user := domain.User{
@@ -117,7 +117,7 @@ func TestUserRepositoryImpl_Create_Error(t *testing.T) {
 }
 
 func TestUserRepositoryImpl_FindAll_Success(t *testing.T) {
-	mt, u := createMocks(t)
+	mt, u := createUserMocks(t)
 	mt.Run("FindAll_Success", func(mt *mtest.T) {
 		u.collection = mt.Coll
 		user := domain.User{
@@ -160,7 +160,7 @@ func TestUserRepositoryImpl_FindAll_Success(t *testing.T) {
 }
 
 func TestUserRepositoryImpl_FindAll_NotConnect(t *testing.T) {
-	mt, u := createMocks(t)
+	mt, u := createUserMocks(t)
 	mt.Run("FindAll_Success", func(mt *mtest.T) {
 		_, err := u.FindAll()
 		assert.NotNil(t, err)
@@ -169,7 +169,7 @@ func TestUserRepositoryImpl_FindAll_NotConnect(t *testing.T) {
 }
 
 func TestUserRepositoryImpl_Update_Success(t *testing.T) {
-	mt, u := createMocks(t)
+	mt, u := createUserMocks(t)
 	mt.Run("Update_Success", func(mt *mtest.T) {
 		u.collection = mt.Coll
 		user := domain.User{
@@ -191,7 +191,7 @@ func TestUserRepositoryImpl_Update_Success(t *testing.T) {
 }
 
 func TestUserRepositoryImpl_Update_NotConnection(t *testing.T) {
-	mt, u := createMocks(t)
+	mt, u := createUserMocks(t)
 	mt.Run("Update_NotConnection", func(mt *mtest.T) {
 		user := domain.User{
 			ID:       primitive.NewObjectID(),
@@ -207,7 +207,7 @@ func TestUserRepositoryImpl_Update_NotConnection(t *testing.T) {
 }
 
 func TestUserRepositoryImpl_Update_Error(t *testing.T) {
-	mt, u := createMocks(t)
+	mt, u := createUserMocks(t)
 	mt.Run("Update_Error", func(mt *mtest.T) {
 		u.collection = mt.Coll
 		user := domain.User{
@@ -226,7 +226,7 @@ func TestUserRepositoryImpl_Update_Error(t *testing.T) {
 	})
 }
 
-func createMocks(t *testing.T) (*mtest.T, *UserRepositoryImpl) {
+func createUserMocks(t *testing.T) (*mtest.T, *UserRepositoryImpl) {
 	mt := mtest.New(t, mtest.NewOptions().ClientType(mtest.Mock))
 	defer mt.Close()
 	u := CreateUserRepository()

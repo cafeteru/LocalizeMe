@@ -2,28 +2,30 @@ package mongodb
 
 import (
 	"context"
-	slog "github.com/go-eden/slf4go"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/constants"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/tools"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
+	"log"
 )
 
-var name = "users"
-
 type UserRepositoryImpl struct {
+	name string
 	AbstractRepository
 }
 
 func CreateUserRepository() *UserRepositoryImpl {
-	return &UserRepositoryImpl{}
+	log.Printf("%s: start", tools.GetCurrentFuncName())
+	repository := &UserRepositoryImpl{name: "users"}
+	log.Printf("%s: end", tools.GetCurrentFuncName())
+	return repository
 }
 
 func (u *UserRepositoryImpl) Create(user domain.User) (*mongo.InsertOneResult, error) {
-	slog.Debugf("%s: start", tools.GetCurrentFuncName())
-	collection, err := u.GetCollection(name)
+	log.Printf("%s: start", tools.GetCurrentFuncName())
+	collection, err := u.GetCollection(u.name)
 	if err != nil {
 		return nil, tools.ErrorLogDetails(err, constants.CreateConnection, tools.GetCurrentFuncName())
 	}
@@ -32,13 +34,13 @@ func (u *UserRepositoryImpl) Create(user domain.User) (*mongo.InsertOneResult, e
 		return nil, tools.ErrorLogDetails(err, constants.InsertUser, tools.GetCurrentFuncName())
 	}
 	u.CloseConnection()
-	slog.Debugf("%s: end", tools.GetCurrentFuncName())
+	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return result, nil
 }
 
 func (u *UserRepositoryImpl) Delete(id primitive.ObjectID) (*mongo.DeleteResult, error) {
-	slog.Debugf("%s: start", tools.GetCurrentFuncName())
-	collection, err := u.GetCollection(name)
+	log.Printf("%s: start", tools.GetCurrentFuncName())
+	collection, err := u.GetCollection(u.name)
 	if err != nil {
 		return nil, tools.ErrorLogDetails(err, constants.CreateConnection, tools.GetCurrentFuncName())
 	}
@@ -48,13 +50,13 @@ func (u *UserRepositoryImpl) Delete(id primitive.ObjectID) (*mongo.DeleteResult,
 		return nil, tools.ErrorLogDetails(err, constants.DeleteUserByEmail, tools.GetCurrentFuncName())
 	}
 	u.CloseConnection()
-	slog.Debugf("%s: end", tools.GetCurrentFuncName())
+	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return result, nil
 }
 
 func (u *UserRepositoryImpl) FindByEmail(email string) (*domain.User, error) {
-	slog.Debugf("%s: start", tools.GetCurrentFuncName())
-	collection, err := u.GetCollection(name)
+	log.Printf("%s: start", tools.GetCurrentFuncName())
+	collection, err := u.GetCollection(u.name)
 	if err != nil {
 		return nil, tools.ErrorLogDetails(err, constants.CreateConnection, tools.GetCurrentFuncName())
 	}
@@ -65,13 +67,13 @@ func (u *UserRepositoryImpl) FindByEmail(email string) (*domain.User, error) {
 		return nil, tools.ErrorLogDetails(err, constants.FindUserByEmail, tools.GetCurrentFuncName())
 	}
 	u.CloseConnection()
-	slog.Debugf("%s: end", tools.GetCurrentFuncName())
+	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return &user, nil
 }
 
 func (u *UserRepositoryImpl) FindById(id primitive.ObjectID) (*domain.User, error) {
-	slog.Debugf("%s: start", tools.GetCurrentFuncName())
-	collection, err := u.GetCollection(name)
+	log.Printf("%s: start", tools.GetCurrentFuncName())
+	collection, err := u.GetCollection(u.name)
 	if err != nil {
 		return nil, tools.ErrorLogDetails(err, constants.CreateConnection, tools.GetCurrentFuncName())
 	}
@@ -82,13 +84,13 @@ func (u *UserRepositoryImpl) FindById(id primitive.ObjectID) (*domain.User, erro
 		return nil, tools.ErrorLogDetails(err, constants.FindUserById, tools.GetCurrentFuncName())
 	}
 	u.CloseConnection()
-	slog.Debugf("%s: end", tools.GetCurrentFuncName())
+	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return &user, nil
 }
 
 func (u *UserRepositoryImpl) FindAll() (*[]domain.User, error) {
-	slog.Debugf("%s: start", tools.GetCurrentFuncName())
-	collection, err := u.GetCollection(name)
+	log.Printf("%s: start", tools.GetCurrentFuncName())
+	collection, err := u.GetCollection(u.name)
 	if err != nil {
 		return nil, tools.ErrorLogDetails(err, constants.CreateConnection, tools.GetCurrentFuncName())
 	}
@@ -109,13 +111,13 @@ func (u *UserRepositoryImpl) FindAll() (*[]domain.User, error) {
 		return nil, tools.ErrorLogDetails(err, constants.ReadDatabase, tools.GetCurrentFuncName())
 	}
 	u.CloseConnection()
-	slog.Debugf("%s: end", tools.GetCurrentFuncName())
+	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return &users, nil
 }
 
 func (u *UserRepositoryImpl) Update(id primitive.ObjectID, user domain.User) (*mongo.UpdateResult, error) {
-	slog.Debugf("%s: start", tools.GetCurrentFuncName())
-	collection, err := u.GetCollection(name)
+	log.Printf("%s: start", tools.GetCurrentFuncName())
+	collection, err := u.GetCollection(u.name)
 	if err != nil {
 		return nil, tools.ErrorLogDetails(err, constants.CreateConnection, tools.GetCurrentFuncName())
 	}
@@ -133,6 +135,6 @@ func (u *UserRepositoryImpl) Update(id primitive.ObjectID, user domain.User) (*m
 		return nil, tools.ErrorLogDetails(err, constants.UpdateUser, tools.GetCurrentFuncName())
 	}
 	u.CloseConnection()
-	slog.Debugf("%s: end", tools.GetCurrentFuncName())
+	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return result, nil
 }

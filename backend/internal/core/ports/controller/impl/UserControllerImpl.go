@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"errors"
 	"github.com/go-chi/chi"
-	slog "github.com/go-eden/slf4go"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/constants"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain/dto"
@@ -12,6 +11,7 @@ import (
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/service"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/tools"
 	"go.mongodb.org/mongo-driver/bson/primitive"
+	"log"
 	"net/http"
 )
 
@@ -33,7 +33,7 @@ func CreateUserController(u service.UserService) *UserControllerImpl {
 // - 200: TokenDto
 // - 400: ErrorDto
 func (u UserControllerImpl) Login(w http.ResponseWriter, r *http.Request) {
-	slog.Debugf("%s: start", tools.GetCurrentFuncName())
+	log.Printf("%s: start", tools.GetCurrentFuncName())
 	var request dto.UserRequest
 	if err := json.NewDecoder(r.Body).Decode(&request); err != nil {
 		utils.CreateErrorResponse(w, err, http.StatusUnprocessableEntity)
@@ -45,7 +45,7 @@ func (u UserControllerImpl) Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	utils.CreateResponse(w, http.StatusOK, tokenDto)
-	slog.Debugf("%s: end", tools.GetCurrentFuncName())
+	log.Printf("%s: end", tools.GetCurrentFuncName())
 }
 
 // swagger:route POST /users Users CreateUser
@@ -58,7 +58,7 @@ func (u UserControllerImpl) Login(w http.ResponseWriter, r *http.Request) {
 // - 200: User
 // - 400: ErrorDto
 func (u UserControllerImpl) Create(w http.ResponseWriter, r *http.Request) {
-	slog.Debugf("%s: start", tools.GetCurrentFuncName())
+	log.Printf("%s: start", tools.GetCurrentFuncName())
 	var request dto.UserRequest
 	if err := json.NewDecoder(r.Body).Decode(&request); err != nil {
 		utils.CreateErrorResponse(w, err, http.StatusUnprocessableEntity)
@@ -70,7 +70,7 @@ func (u UserControllerImpl) Create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	utils.CreateResponse(w, http.StatusCreated, user)
-	slog.Debugf("%s: end", tools.GetCurrentFuncName())
+	log.Printf("%s: end", tools.GetCurrentFuncName())
 }
 
 // swagger:route DELETE /users/{id} Users Delete
@@ -85,7 +85,7 @@ func (u UserControllerImpl) Create(w http.ResponseWriter, r *http.Request) {
 // - 401: ErrorDto
 // - 404: ErrorDto
 func (u UserControllerImpl) Delete(w http.ResponseWriter, r *http.Request) {
-	slog.Debugf("%s: start", tools.GetCurrentFuncName())
+	log.Printf("%s: start", tools.GetCurrentFuncName())
 	user := utils.CheckUserIsAdmin(w, r, u.service)
 	if user == nil {
 		return
@@ -103,7 +103,7 @@ func (u UserControllerImpl) Delete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	utils.CreateResponse(w, http.StatusOK, result)
-	slog.Debugf("%s: end", tools.GetCurrentFuncName())
+	log.Printf("%s: end", tools.GetCurrentFuncName())
 }
 
 // swagger:route PATCH /users/{id} Users Disable
@@ -118,7 +118,7 @@ func (u UserControllerImpl) Delete(w http.ResponseWriter, r *http.Request) {
 // - 401: ErrorDto
 // - 404: ErrorDto
 func (u UserControllerImpl) Disable(w http.ResponseWriter, r *http.Request) {
-	slog.Debugf("%s: start", tools.GetCurrentFuncName())
+	log.Printf("%s: start", tools.GetCurrentFuncName())
 	isAdmin := utils.CheckUserIsAdmin(w, r, u.service)
 	if isAdmin == nil {
 		return
@@ -136,7 +136,7 @@ func (u UserControllerImpl) Disable(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	utils.CreateResponse(w, http.StatusCreated, user)
-	slog.Debugf("%s: end", tools.GetCurrentFuncName())
+	log.Printf("%s: end", tools.GetCurrentFuncName())
 }
 
 // swagger:route GET /users Users FindAll
@@ -145,7 +145,7 @@ func (u UserControllerImpl) Disable(w http.ResponseWriter, r *http.Request) {
 // Responses:
 // - 200: []User
 func (u UserControllerImpl) FindAll(w http.ResponseWriter, r *http.Request) {
-	slog.Debugf("%s: start", tools.GetCurrentFuncName())
+	log.Printf("%s: start", tools.GetCurrentFuncName())
 	if user := utils.CheckUserIsAdmin(w, r, u.service); user == nil {
 		return
 	}
@@ -155,7 +155,7 @@ func (u UserControllerImpl) FindAll(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	utils.CreateResponse(w, http.StatusOK, users)
-	slog.Debugf("%s: end", tools.GetCurrentFuncName())
+	log.Printf("%s: end", tools.GetCurrentFuncName())
 }
 
 // swagger:route GET /users/me Users GetMe
@@ -168,14 +168,14 @@ func (u UserControllerImpl) FindAll(w http.ResponseWriter, r *http.Request) {
 // - 200: User
 // - 400: ErrorDto
 func (u UserControllerImpl) FindMe(w http.ResponseWriter, r *http.Request) {
-	slog.Debugf("%s: start", tools.GetCurrentFuncName())
+	log.Printf("%s: start", tools.GetCurrentFuncName())
 	user := utils.CheckUserIsActive(w, r, u.service)
 	if user == nil {
 		return
 	}
 	user.Password = ""
 	utils.CreateResponse(w, http.StatusOK, user)
-	slog.Debugf("%s: end", tools.GetCurrentFuncName())
+	log.Printf("%s: end", tools.GetCurrentFuncName())
 }
 
 // swagger:route GET /users/{id} Users FindById
@@ -190,7 +190,7 @@ func (u UserControllerImpl) FindMe(w http.ResponseWriter, r *http.Request) {
 // - 401: ErrorDto
 // - 404: ErrorDto
 func (u UserControllerImpl) FindById(w http.ResponseWriter, r *http.Request) {
-	slog.Debugf("%s: start", tools.GetCurrentFuncName())
+	log.Printf("%s: start", tools.GetCurrentFuncName())
 	user := utils.CheckUserIsAdmin(w, r, u.service)
 	if user == nil {
 		return
@@ -209,7 +209,7 @@ func (u UserControllerImpl) FindById(w http.ResponseWriter, r *http.Request) {
 	}
 	user.Password = ""
 	utils.CreateResponse(w, http.StatusOK, user)
-	slog.Debugf("%s: end", tools.GetCurrentFuncName())
+	log.Printf("%s: end", tools.GetCurrentFuncName())
 }
 
 // swagger:route PUT /users/{id} Users Update
@@ -224,7 +224,7 @@ func (u UserControllerImpl) FindById(w http.ResponseWriter, r *http.Request) {
 // - 401: ErrorDto
 // - 404: ErrorDto
 func (u UserControllerImpl) Update(w http.ResponseWriter, r *http.Request) {
-	slog.Debugf("%s: start", tools.GetCurrentFuncName())
+	log.Printf("%s: start", tools.GetCurrentFuncName())
 	isAdmin := utils.CheckUserIsAdmin(w, r, u.service)
 	if isAdmin == nil {
 		return
@@ -242,7 +242,7 @@ func (u UserControllerImpl) Update(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	utils.CreateResponse(w, http.StatusCreated, user)
-	slog.Debugf("%s: end", tools.GetCurrentFuncName())
+	log.Printf("%s: end", tools.GetCurrentFuncName())
 }
 
 // swagger:route PUT /users/me Users UpdateMe
@@ -257,7 +257,7 @@ func (u UserControllerImpl) Update(w http.ResponseWriter, r *http.Request) {
 // - 401: ErrorDto
 // - 404: ErrorDto
 func (u UserControllerImpl) UpdateMe(w http.ResponseWriter, r *http.Request) {
-	slog.Debugf("%s: start", tools.GetCurrentFuncName())
+	log.Printf("%s: start", tools.GetCurrentFuncName())
 	user := utils.CheckUserIsActive(w, r, u.service)
 	if user == nil {
 		return
@@ -274,5 +274,5 @@ func (u UserControllerImpl) UpdateMe(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	utils.CreateResponse(w, http.StatusCreated, userUpdate)
-	slog.Debugf("%s: end", tools.GetCurrentFuncName())
+	log.Printf("%s: end", tools.GetCurrentFuncName())
 }

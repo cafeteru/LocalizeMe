@@ -54,3 +54,10 @@ type _ struct {
 	// type: string
 	Id string `json:"id"`
 }
+
+// swagger:parameters CreateStage
+type _ struct {
+	// in: body
+	// required: true
+	Stage dto.StageRequest
+}

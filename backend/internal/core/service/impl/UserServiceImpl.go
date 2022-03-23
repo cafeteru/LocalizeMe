@@ -3,7 +3,6 @@ package impl
 import (
 	"errors"
 	"github.com/go-chi/jwtauth/v5"
-	slog "github.com/go-eden/slf4go"
 	"github.com/golang-jwt/jwt"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/constants"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain"
@@ -12,6 +11,7 @@ import (
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/repository"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/tools"
 	"go.mongodb.org/mongo-driver/bson/primitive"
+	"log"
 	"os"
 	"time"
 )
@@ -26,7 +26,7 @@ func CreateUserService(r repository.UserRepository, e encrypt.Encrypt) *UserServ
 }
 
 func (u UserServiceImpl) Create(request dto.UserRequest) (domain.User, error) {
-	slog.Debugf("%s: start", tools.GetCurrentFuncName())
+	log.Printf("%s: start", tools.GetCurrentFuncName())
 	user, err := u.checkRequest(request)
 	if err != nil {
 		return user, err
@@ -34,15 +34,15 @@ func (u UserServiceImpl) Create(request dto.UserRequest) (domain.User, error) {
 	password, err := u.encrypt.EncryptPassword(request.Password)
 	user.Password = password
 	if err != nil {
-		slog.Errorf("%s: error", tools.GetCurrentFuncName())
+		log.Printf("%s: error", tools.GetCurrentFuncName())
 		return domain.User{}, tools.ErrorLogDetails(err, constants.EncryptPasswordUser, tools.GetCurrentFuncName())
 	}
 	resultId, err := u.repository.Create(user)
 	if err != nil {
-		slog.Errorf("%s: error", tools.GetCurrentFuncName())
+		log.Printf("%s: error", tools.GetCurrentFuncName())
 		return domain.User{}, err
 	}
-	slog.Debugf("%s: end", tools.GetCurrentFuncName())
+	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return domain.User{
 		ID:       resultId.InsertedID.(primitive.ObjectID),
 		Email:    user.Email,
@@ -53,7 +53,7 @@ func (u UserServiceImpl) Create(request dto.UserRequest) (domain.User, error) {
 }
 
 func (u UserServiceImpl) checkRequest(request dto.UserRequest) (domain.User, error) {
-	slog.Debugf("%s: start", tools.GetCurrentFuncName())
+	log.Printf("%s: start", tools.GetCurrentFuncName())
 	if request.Email == "" || request.Password == "" {
 		return domain.User{}, tools.ErrorLog(constants.InvalidUserRequest, tools.GetCurrentFuncName())
 	}
@@ -61,7 +61,7 @@ func (u UserServiceImpl) checkRequest(request dto.UserRequest) (domain.User, err
 	if user != nil {
 		return domain.User{}, tools.ErrorLog(constants.EmailAlreadyRegister, tools.GetCurrentFuncName())
 	}
-	slog.Debugf("%s: end", tools.GetCurrentFuncName())
+	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return domain.User{
 		Email:    request.Email,
 		Password: request.Password,
@@ -71,22 +71,22 @@ func (u UserServiceImpl) checkRequest(request dto.UserRequest) (domain.User, err
 }
 
 func (u UserServiceImpl) Delete(id primitive.ObjectID) (bool, error) {
-	slog.Debugf("%s: start", tools.GetCurrentFuncName())
+	log.Printf("%s: start", tools.GetCurrentFuncName())
 	user, err := u.repository.FindById(id)
 	if user == nil || err != nil {
 		return false, tools.ErrorLog(constants.FindUserById, tools.GetCurrentFuncName())
 	}
 	_, err = u.repository.Delete(id)
 	if err != nil {
-		slog.Errorf("%s: error", tools.GetCurrentFuncName())
+		log.Printf("%s: error", tools.GetCurrentFuncName())
 		return false, err
 	}
-	slog.Debugf("%s: end", tools.GetCurrentFuncName())
+	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return true, nil
 }
 
 func (u UserServiceImpl) Disable(id primitive.ObjectID) (*domain.User, error) {
-	slog.Debugf("%s: start", tools.GetCurrentFuncName())
+	log.Printf("%s: start", tools.GetCurrentFuncName())
 	user, err := u.repository.FindById(id)
 	if user == nil || err != nil {
 		return nil, tools.ErrorLog(constants.FindUserByEmail, tools.GetCurrentFuncName())
@@ -94,10 +94,10 @@ func (u UserServiceImpl) Disable(id primitive.ObjectID) (*domain.User, error) {
 	user.IsActive = !user.IsActive
 	_, err = u.repository.Update(id, *user)
 	if err != nil {
-		slog.Errorf("%s: error", tools.GetCurrentFuncName())
+		log.Printf("%s: error", tools.GetCurrentFuncName())
 		return nil, err
 	}
-	slog.Debugf("%s: end", tools.GetCurrentFuncName())
+	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return &domain.User{
 		ID:       user.ID,
 		Email:    user.Email,
@@ -107,59 +107,59 @@ func (u UserServiceImpl) Disable(id primitive.ObjectID) (*domain.User, error) {
 }
 
 func (u UserServiceImpl) FindAll() (*[]domain.User, error) {
-	slog.Debugf("%s: start", tools.GetCurrentFuncName())
+	log.Printf("%s: start", tools.GetCurrentFuncName())
 	users, err := u.repository.FindAll()
 	if err != nil {
-		slog.Errorf("%s: error", tools.GetCurrentFuncName())
+		log.Printf("%s: error", tools.GetCurrentFuncName())
 		return nil, err
 	}
-	slog.Debugf("%s: end", tools.GetCurrentFuncName())
+	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return users, nil
 }
 
 func (u UserServiceImpl) FindByEmail(email string) (*domain.User, error) {
-	slog.Debugf("%s: start", tools.GetCurrentFuncName())
+	log.Printf("%s: start", tools.GetCurrentFuncName())
 	if email == "" {
 		return nil, tools.ErrorLog(constants.InvalidUserRequest, tools.GetCurrentFuncName())
 	}
 	user, err := u.repository.FindByEmail(email)
 	if err != nil {
-		slog.Errorf("%s: error", tools.GetCurrentFuncName())
+		log.Printf("%s: error", tools.GetCurrentFuncName())
 		return nil, err
 	}
 	if !user.IsActive {
 		errActive := errors.New(constants.UserNoActive)
-		slog.Errorf("%s: error", tools.GetCurrentFuncName())
+		log.Printf("%s: error", tools.GetCurrentFuncName())
 		return nil, errActive
 	}
-	slog.Debugf("%s: end", tools.GetCurrentFuncName())
+	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return user, nil
 }
 
 func (u UserServiceImpl) FindById(id primitive.ObjectID) (*domain.User, error) {
-	slog.Debugf("%s: start", tools.GetCurrentFuncName())
+	log.Printf("%s: start", tools.GetCurrentFuncName())
 	user, err := u.repository.FindById(id)
 	if err != nil {
-		slog.Errorf("%s: error", tools.GetCurrentFuncName())
+		log.Printf("%s: error", tools.GetCurrentFuncName())
 		return nil, err
 	}
 	if !user.IsActive {
 		errActive := errors.New(constants.UserNoActive)
-		slog.Errorf("%s: error", tools.GetCurrentFuncName())
+		log.Printf("%s: error", tools.GetCurrentFuncName())
 		return nil, errActive
 	}
-	slog.Debugf("%s: end", tools.GetCurrentFuncName())
+	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return user, nil
 }
 
 func (u UserServiceImpl) Login(request dto.UserRequest) (*dto.TokenDto, error) {
 	user, err := u.repository.FindByEmail(request.Email)
 	if err != nil {
-		slog.Errorf("%s: error", tools.GetCurrentFuncName())
+		log.Printf("%s: error", tools.GetCurrentFuncName())
 		return nil, err
 	}
 	if !u.encrypt.CheckPassword(user.Password, request.Password) {
-		slog.Errorf("%s: error", tools.GetCurrentFuncName())
+		log.Printf("%s: error", tools.GetCurrentFuncName())
 		return nil, errors.New(constants.DataLogin)
 	}
 	claims := jwt.MapClaims{
@@ -179,7 +179,7 @@ func (u UserServiceImpl) Login(request dto.UserRequest) (*dto.TokenDto, error) {
 }
 
 func (u UserServiceImpl) Update(id primitive.ObjectID, request domain.User) (*domain.User, error) {
-	slog.Debugf("%s: start", tools.GetCurrentFuncName())
+	log.Printf("%s: start", tools.GetCurrentFuncName())
 	original, err := u.repository.FindById(id)
 	if original == nil || err != nil {
 		return nil, tools.ErrorLog(constants.FindUserById, tools.GetCurrentFuncName())
@@ -191,7 +191,7 @@ func (u UserServiceImpl) Update(id primitive.ObjectID, request domain.User) (*do
 	if request.Password != "" {
 		password, err := u.encrypt.EncryptPassword(request.Password)
 		if err != nil {
-			slog.Errorf("%s: error", tools.GetCurrentFuncName())
+			log.Printf("%s: error", tools.GetCurrentFuncName())
 			return nil, tools.ErrorLogDetails(err, constants.EncryptPasswordUser, tools.GetCurrentFuncName())
 		}
 		request.Password = password
@@ -200,10 +200,10 @@ func (u UserServiceImpl) Update(id primitive.ObjectID, request domain.User) (*do
 	}
 	_, err = u.repository.Update(id, request)
 	if err != nil {
-		slog.Errorf("%s: error", tools.GetCurrentFuncName())
+		log.Printf("%s: error", tools.GetCurrentFuncName())
 		return nil, err
 	}
-	slog.Debugf("%s: end", tools.GetCurrentFuncName())
+	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return &domain.User{
 		ID:       original.ID,
 		Email:    request.Email,
