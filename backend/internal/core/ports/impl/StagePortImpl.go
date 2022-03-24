@@ -7,6 +7,7 @@ import (
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/ports/controller/impl"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/ports/utils"
 	service "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/service/impl"
+	encrypt "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/utils/encrypt/impl"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/repository/mongodb"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/tools"
 	"log"
@@ -20,7 +21,9 @@ func CreateStagePort() *StagePortImpl {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
 	stageRepository := mongodb.CreateStageRepository()
 	stageService := service.CreateStageService(stageRepository)
-	stageController := impl.CreateStageController(stageService)
+	userRepository := mongodb.CreateUserRepository()
+	userService := service.CreateUserService(userRepository, encrypt.CreateEncryptPasswordImpl())
+	stageController := impl.CreateStageController(stageService, userService)
 	port := &StagePortImpl{stageController}
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return port
@@ -41,6 +44,7 @@ func (u StagePortImpl) CreateStageRoutes(r *chi.Mux) {
 		r.Use(jwtauth.Authenticator)
 		r.Route(pattern, func(r chi.Router) {
 			r.Post("/", u.controller.Create)
+			r.Get("/", u.controller.FindAll)
 		})
 	})
 	log.Printf("%s: end", tools.GetCurrentFuncName())

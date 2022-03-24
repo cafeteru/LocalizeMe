@@ -54,6 +54,24 @@
       }
     },
     "/stages": {
+      "get": {
+        "tags": [
+          "Stages"
+        ],
+        "summary": "Return all stages.",
+        "operationId": "FindAll",
+        "responses": {
+          "200": {
+            "description": "Stage",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Stage"
+              }
+            }
+          }
+        }
+      },
       "post": {
         "consumes": [
           "application/json"
@@ -89,12 +107,12 @@
         }
       }
     },
-    "/users": {
+    "/userService": {
       "get": {
         "tags": [
           "Users"
         ],
-        "summary": "Return all users.",
+        "summary": "Return all userService.",
         "operationId": "FindAll",
         "responses": {
           "200": {
@@ -143,7 +161,7 @@
         }
       }
     },
-    "/users/me": {
+    "/userService/me": {
       "get": {
         "consumes": [
           "application/json"
@@ -215,7 +233,7 @@
         }
       }
     },
-    "/users/{id}": {
+    "/userService/{id}": {
       "get": {
         "consumes": [
           "application/json"

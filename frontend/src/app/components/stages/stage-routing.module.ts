@@ -13,5 +13,4 @@ export const stageRoutes: Routes = [
     imports: [RouterModule.forChild(stageRoutes)],
     exports: [RouterModule],
 })
-export class StageRouting {
-}
+export class StageRouting {}

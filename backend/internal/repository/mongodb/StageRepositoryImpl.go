@@ -34,6 +34,32 @@ func (u *StageRepositoryImpl) Create(stage domain.Stage) (*mongo.InsertOneResult
 	return result, nil
 }
 
+func (u *StageRepositoryImpl) FindAll() (*[]domain.Stage, error) {
+	log.Printf("%s: start", tools.GetCurrentFuncName())
+	collection, err := u.GetCollection(u.name)
+	if err != nil {
+		return nil, tools.ErrorLogDetails(err, constants.CreateConnection, tools.GetCurrentFuncName())
+	}
+	var stages []domain.Stage
+	cursor, _ := collection.Find(context.TODO(), bson.D{})
+	for cursor.Next(context.TODO()) {
+		var stage domain.Stage
+		if err := cursor.Decode(&stage); err != nil {
+			return nil, tools.ErrorLogDetails(err, constants.ReadDatabase, tools.GetCurrentFuncName())
+		}
+		stages = append(stages, stage)
+	}
+	if err := cursor.Err(); err != nil {
+		return nil, tools.ErrorLogDetails(err, constants.ReadDatabase, tools.GetCurrentFuncName())
+	}
+	if err := cursor.Close(context.TODO()); err != nil {
+		return nil, tools.ErrorLogDetails(err, constants.ReadDatabase, tools.GetCurrentFuncName())
+	}
+	u.CloseConnection()
+	log.Printf("%s: end", tools.GetCurrentFuncName())
+	return &stages, nil
+}
+
 func (u *StageRepositoryImpl) FindByName(name string) (*domain.Stage, error) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
 	collection, err := u.GetCollection(u.name)

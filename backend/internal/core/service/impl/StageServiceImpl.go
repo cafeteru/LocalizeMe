@@ -21,13 +21,13 @@ func CreateStageService(r repository.StageRepository) *StageServiceImpl {
 	return service
 }
 
-func (u StageServiceImpl) Create(request dto.StageRequest) (domain.Stage, error) {
+func (s StageServiceImpl) Create(request dto.StageRequest) (domain.Stage, error) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
 	name := request.Name
 	if name == "" {
 		return domain.Stage{}, tools.ErrorLog(constants.StageInvalid, tools.GetCurrentFuncName())
 	}
-	findByName, _ := u.repository.FindByName(name)
+	findByName, _ := s.repository.FindByName(name)
 	if findByName != nil {
 		return domain.Stage{}, tools.ErrorLog(constants.StageAlreadyRegister, tools.GetCurrentFuncName())
 	}
@@ -35,7 +35,7 @@ func (u StageServiceImpl) Create(request dto.StageRequest) (domain.Stage, error)
 		Name:   request.Name,
 		Active: true,
 	}
-	resultId, err := u.repository.Create(stage)
+	resultId, err := s.repository.Create(stage)
 	if err != nil {
 		log.Printf("%s: error", tools.GetCurrentFuncName())
 		return domain.Stage{}, err
@@ -43,4 +43,15 @@ func (u StageServiceImpl) Create(request dto.StageRequest) (domain.Stage, error)
 	stage.ID = resultId.InsertedID.(primitive.ObjectID)
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return stage, nil
+}
+
+func (s StageServiceImpl) FindAll() (*[]domain.Stage, error) {
+	log.Printf("%s: start", tools.GetCurrentFuncName())
+	users, err := s.repository.FindAll()
+	if err != nil {
+		log.Printf("%s: error", tools.GetCurrentFuncName())
+		return nil, err
+	}
+	log.Printf("%s: end", tools.GetCurrentFuncName())
+	return users, nil
 }

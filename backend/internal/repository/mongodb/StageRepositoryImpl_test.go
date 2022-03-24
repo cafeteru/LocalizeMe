@@ -107,6 +107,50 @@ func TestStageRepositoryImpl_FindByName_NotFound(t *testing.T) {
 	})
 }
 
+func TestStageRepositoryImpl_FindAll_Success(t *testing.T) {
+	mt, u := createStageMocks(t)
+	mt.Run("FindAll_Success", func(mt *mtest.T) {
+		u.collection = mt.Coll
+		stage := domain.Stage{
+			ID:     primitive.NewObjectID(),
+			Name:   "name1",
+			Active: false,
+		}
+		stage2 := domain.Stage{
+			ID:     primitive.NewObjectID(),
+			Name:   "name2",
+			Active: true,
+		}
+		first := mtest.CreateCursorResponse(1, "foo.bar", mtest.FirstBatch, bson.D{
+			{Key: "_id", Value: stage.ID},
+			{Key: "Name", Value: stage.Name},
+			{Key: "Active", Value: stage.Active},
+		})
+		second := mtest.CreateCursorResponse(1, "foo.bar", mtest.NextBatch, bson.D{
+			{Key: "_id", Value: stage2.ID},
+			{Key: "Name", Value: stage2.Name},
+			{Key: "Active", Value: stage2.Active},
+		})
+		killCursors := mtest.CreateCursorResponse(0, "foo.bar", mtest.NextBatch)
+		mt.AddMockResponses(first, second, killCursors)
+		stages, err := u.FindAll()
+		assert.Nil(t, err)
+		assert.NotNil(t, stages)
+		assert.Equal(t, len(*stages), 2)
+		assert.Equal(t, (*stages)[0].Name, stage.Name)
+		assert.Equal(t, (*stages)[1].Name, stage2.Name)
+	})
+}
+
+func TestStageRepositoryImpl_FindAll_NotConnect(t *testing.T) {
+	mt, u := createStageMocks(t)
+	mt.Run("FindAll_Success", func(mt *mtest.T) {
+		_, err := u.FindAll()
+		assert.NotNil(t, err)
+		assert.Equal(t, err, errors.New(constants.CreateConnection))
+	})
+}
+
 func createStageMocks(t *testing.T) (*mtest.T, *StageRepositoryImpl) {
 	mt := mtest.New(t, mtest.NewOptions().ClientType(mtest.Mock))
 	defer mt.Close()
