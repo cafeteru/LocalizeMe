@@ -9,6 +9,7 @@ import (
 
 	gomock "github.com/golang/mock/gomock"
 	domain "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain"
+	dto "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain/dto"
 )
 
 // MockStageService is a mock of StageService interface.
@@ -35,7 +36,7 @@ func (m *MockStageService) EXPECT() *MockStageServiceMockRecorder {
 }
 
 // Create mocks base method.
-func (m *MockStageService) Create(request domain.Stage) (domain.Stage, error) {
+func (m *MockStageService) Create(request dto.StageRequest) (domain.Stage, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Create", request)
 	ret0, _ := ret[0].(domain.Stage)
@@ -47,4 +48,19 @@ func (m *MockStageService) Create(request domain.Stage) (domain.Stage, error) {
 func (mr *MockStageServiceMockRecorder) Create(request interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockStageService)(nil).Create), request)
+}
+
+// FindAll mocks base method.
+func (m *MockStageService) FindAll() (*[]domain.Stage, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "FindAll")
+	ret0, _ := ret[0].(*[]domain.Stage)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// FindAll indicates an expected call of FindAll.
+func (mr *MockStageServiceMockRecorder) FindAll() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindAll", reflect.TypeOf((*MockStageService)(nil).FindAll))
 }

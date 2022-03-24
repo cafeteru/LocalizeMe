@@ -69,7 +69,7 @@ func TestUserControllerImpl_Create_Successful(t *testing.T) {
 	}
 	marshal, _ := json.Marshal(userRequest)
 	body := bytes.NewBuffer(marshal)
-	r := httptest.NewRequest(http.MethodPost, "http://localhost:8080/users", body)
+	r := httptest.NewRequest(http.MethodPost, "http://localhost:8080/userService", body)
 	w := httptest.NewRecorder()
 	request := domain.User{
 		ID:       primitive.NewObjectID(),
@@ -86,7 +86,7 @@ func TestUserControllerImpl_Create_Successful(t *testing.T) {
 
 func TestUserControllerImpl_Create_Error_Body(t *testing.T) {
 	mockUserService := initMocks(t)
-	r := httptest.NewRequest(http.MethodPost, "http://localhost:8080/users", nil)
+	r := httptest.NewRequest(http.MethodPost, "http://localhost:8080/userService", nil)
 	w := httptest.NewRecorder()
 	controllerImpl := CreateUserController(mockUserService)
 	controllerImpl.Create(w, r)
@@ -102,7 +102,7 @@ func TestUserControllerImpl_Create_Error_Service(t *testing.T) {
 	}
 	marshal, _ := json.Marshal(userRequest)
 	body := bytes.NewBuffer(marshal)
-	r := httptest.NewRequest(http.MethodPost, "http://localhost:8080/users", body)
+	r := httptest.NewRequest(http.MethodPost, "http://localhost:8080/userService", body)
 	w := httptest.NewRecorder()
 	mockUserService.EXPECT().Create(gomock.Any()).Return(domain.User{}, errors.New(""))
 	controllerImpl := CreateUserController(mockUserService)

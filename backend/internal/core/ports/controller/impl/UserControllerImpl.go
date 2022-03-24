@@ -48,7 +48,7 @@ func (u UserControllerImpl) Login(w http.ResponseWriter, r *http.Request) {
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 }
 
-// swagger:route POST /users Users CreateUser
+// swagger:route POST /userService Users CreateUser
 // Create a new user.
 //
 // Consumes:
@@ -73,7 +73,7 @@ func (u UserControllerImpl) Create(w http.ResponseWriter, r *http.Request) {
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 }
 
-// swagger:route DELETE /users/{id} Users Delete
+// swagger:route DELETE /userService/{id} Users Delete
 // Return a user by email.
 //
 // Consumes:
@@ -106,7 +106,7 @@ func (u UserControllerImpl) Delete(w http.ResponseWriter, r *http.Request) {
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 }
 
-// swagger:route PATCH /users/{id} Users Disable
+// swagger:route PATCH /userService/{id} Users Disable
 // Disable of a user.
 //
 // Consumes:
@@ -139,8 +139,8 @@ func (u UserControllerImpl) Disable(w http.ResponseWriter, r *http.Request) {
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 }
 
-// swagger:route GET /users Users FindAll
-// Return all users.
+// swagger:route GET /userService Users FindAll
+// Return all userService.
 //
 // Responses:
 // - 200: []User
@@ -158,7 +158,7 @@ func (u UserControllerImpl) FindAll(w http.ResponseWriter, r *http.Request) {
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 }
 
-// swagger:route GET /users/me Users GetMe
+// swagger:route GET /userService/me Users GetMe
 // Return the information of the identified user.
 //
 // Consumes:
@@ -178,7 +178,7 @@ func (u UserControllerImpl) FindMe(w http.ResponseWriter, r *http.Request) {
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 }
 
-// swagger:route GET /users/{id} Users FindById
+// swagger:route GET /userService/{id} Users FindById
 // Return the information of the user by id.
 //
 // Consumes:
@@ -212,7 +212,7 @@ func (u UserControllerImpl) FindById(w http.ResponseWriter, r *http.Request) {
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 }
 
-// swagger:route PUT /users/{id} Users Update
+// swagger:route PUT /userService/{id} Users Update
 // Update the information of a user.
 //
 // Consumes:
@@ -245,7 +245,7 @@ func (u UserControllerImpl) Update(w http.ResponseWriter, r *http.Request) {
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 }
 
-// swagger:route PUT /users/me Users UpdateMe
+// swagger:route PUT /userService/me Users UpdateMe
 // Update the information of the identified user.
 //
 // Consumes:

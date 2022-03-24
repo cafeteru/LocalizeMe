@@ -7,5 +7,6 @@ import (
 
 type StageRepository interface {
 	Create(user domain.Stage) (*mongo.InsertOneResult, error)
+	FindAll() (*[]domain.Stage, error)
 	FindByName(name string) (*domain.Stage, error)
 }

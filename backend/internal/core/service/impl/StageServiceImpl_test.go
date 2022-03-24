@@ -79,3 +79,35 @@ func TestStageServiceImpl_Create_ErrorStageRequest_InvalidName(t *testing.T) {
 	_, err := stageService.Create(request)
 	assert.NotNil(t, err)
 }
+
+func TestStageServiceImpl_FindAll_Success(t *testing.T) {
+	mockCtrl := gomock.NewController(t)
+	defer mockCtrl.Finish()
+	repository := mock.NewMockStageRepository(mockCtrl)
+	stage := domain.Stage{
+		ID:     primitive.NewObjectID(),
+		Name:   "name1",
+		Active: false,
+	}
+	stage2 := domain.Stage{
+		ID:     primitive.NewObjectID(),
+		Name:   "name2",
+		Active: true,
+	}
+	stages := []domain.Stage{stage, stage2}
+	repository.EXPECT().FindAll().Return(&stages, nil)
+	service := CreateStageService(repository)
+	result, err := service.FindAll()
+	assert.Nil(t, err)
+	assert.Equal(t, len(*result), len(stages))
+}
+
+func TestStageServiceImpl_FindAll_Error(t *testing.T) {
+	mockCtrl := gomock.NewController(t)
+	defer mockCtrl.Finish()
+	repository := mock.NewMockStageRepository(mockCtrl)
+	repository.EXPECT().FindAll().Return(nil, errors.New(""))
+	service := CreateStageService(repository)
+	_, err := service.FindAll()
+	assert.NotNil(t, err)
+}
