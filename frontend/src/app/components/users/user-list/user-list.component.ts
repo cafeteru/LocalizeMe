@@ -8,6 +8,7 @@ import { UpdateUserComponent, UpdateUserData } from '../update-user/update-user.
 import { MatDialog } from '@angular/material/dialog';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
+import { tap } from 'rxjs';
 
 @Component({
     selector: 'app-user-list',
@@ -17,6 +18,7 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 export class UserListComponent extends BaseComponent implements OnInit {
     currentPageUsers: readonly User[] = [];
     users: readonly User[] = [];
+    isLoading = false;
 
     listOfColumns: ColumnHeader<User>[] = [
         {
@@ -50,10 +52,23 @@ export class UserListComponent extends BaseComponent implements OnInit {
 
     override ngOnInit(): void {
         super.ngOnInit();
-        const subscription = this.userService.findAll().subscribe({
-            next: (users) => (this.users = users),
-            error: () => (this.users = []),
-        });
+        this.loadUsers();
+    }
+
+    loadUsers(): void {
+        const subscription = this.userService
+            .findAll()
+            .pipe(tap(() => (this.isLoading = true)))
+            .subscribe({
+                next: (users) => {
+                    this.users = users;
+                    this.isLoading = false;
+                },
+                error: () => {
+                    this.users = [];
+                    this.isLoading = false;
+                },
+            });
         this.subscriptions.push(subscription);
     }
 
@@ -71,7 +86,11 @@ export class UserListComponent extends BaseComponent implements OnInit {
             maxWidth: '75%',
             data,
         });
-        const subscription = dialogRef.afterClosed().subscribe((result) => this.updateUsers(result));
+        const subscription = dialogRef.afterClosed().subscribe((result) => {
+            if (result) {
+                this.updateUsers(result);
+            }
+        });
         this.subscriptions.push(subscription);
     }
 

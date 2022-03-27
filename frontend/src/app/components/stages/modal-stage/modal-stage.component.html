@@ -3,22 +3,28 @@
 </header>
 <form [formGroup]="formGroup" class="login-form" (ngSubmit)="send()">
     <nz-form-item>
-        <nz-form-label nzRequired nzFor="name" nzSpan="7">Name</nz-form-label>
+        <nz-form-label nzRequired nzFor="Name" nzSpan="7">Name</nz-form-label>
         <nz-form-control [nzErrorTip]="errorName" nzSpan="17">
-            <nz-input-group nzPrefixIcon="user">
-                <input nz-input formControlName="name" id="name" />
+            <nz-input-group nzPrefixIcon="book">
+                <input nz-input formControlName="Name" id="Name" />
             </nz-input-group>
         </nz-form-control>
         <ng-template #errorName let-control>
             <ng-container *ngIf="control.hasError('required')">Please input a name</ng-container>
         </ng-template>
     </nz-form-item>
+    <nz-form-item *ngIf="stage.ID">
+        <nz-form-label nzFor="Active" nzRequired nzSpan="7">Active</nz-form-label>
+        <nz-form-control nzSpan="17">
+            <label nz-checkbox formControlName="Active"></label>
+        </nz-form-control>
+    </nz-form-item>
     <nz-form-item nz-row class="register-area btn-right">
         <button
             nz-button
             class="login-form-button login-form-margin"
             [nzType]="'primary'"
-            [disabled]="!formGroup.valid"
+            [disabled]="!formGroup.valid || isLoading"
         >
             <span *ngIf="!isLoading">Create</span>
             <span *ngIf="isLoading">

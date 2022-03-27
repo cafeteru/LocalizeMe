@@ -49,8 +49,8 @@ export class UpdateUserComponent extends BaseComponent implements OnInit {
                 ...this.data.user,
                 Email: this.formGroup.controls['email'].value,
                 Password: password ? password : '',
-                IsActive: this.formGroup.controls['isActive'].value,
-                IsAdmin: this.formGroup.controls['isAdmin'].value,
+                Active: this.formGroup.controls['isActive'].value,
+                Admin: this.formGroup.controls['isAdmin'].value,
             };
             const subscription = this.getObservable(user).subscribe({
                 next: () => {
@@ -88,8 +88,8 @@ export class UpdateUserComponent extends BaseComponent implements OnInit {
                 changePassword: new FormControl(false, Validators.required),
                 password: new FormControl(''),
                 checkPassword: new FormControl(''),
-                isActive: new FormControl(this.data.user.IsActive),
-                isAdmin: new FormControl(this.data.user.IsAdmin),
+                isActive: new FormControl(this.data.user.Active),
+                isAdmin: new FormControl(this.data.user.Admin),
             },
             { validators: IsSameValidator.isValid(password, checkPassword) }
         );

@@ -1,75 +1,92 @@
-<div class="btn-right">
-    <button
-        nz-button
-        nzType="primary"
-        nzSize="large"
-        nzShape="circle"
-        [nz-tooltip]="'Create a new stage'"
-        (click)="openModal()"
+<nz-spin [nzSpinning]="isLoading" nzSize="large">
+    <div class="btn-right">
+        <button
+            nz-button
+            nzType="primary"
+            nzSize="large"
+            nzShape="circle"
+            [nz-tooltip]="'Reload list'"
+            (click)="loadStages()"
+        >
+            <em nz-icon nzType="reload"></em>
+        </button>
+        <button
+            nz-button
+            nzType="primary"
+            nzSize="large"
+            nzShape="circle"
+            [nz-tooltip]="'Create a new stage'"
+            (click)="openModal()"
+        >
+            <em nz-icon nzType="download"></em>
+        </button>
+    </div>
+    <nz-table
+        #stagesTable
+        nzShowSizeChanger
+        [nzData]="stages"
+        (nzCurrentPageDataChange)="onCurrentPageDataChange($event)"
     >
-        <em nz-icon nzType="download"></em>
-    </button>
-</div>
-<nz-table #stagesTable nzShowSizeChanger [nzData]="stages" (nzCurrentPageDataChange)="onCurrentPageDataChange($event)">
-    <thead>
-        <tr>
-            <th
-                *ngFor="let column of listOfColumns"
-                [nzSortOrder]="column.sortOrder"
-                [nzSortFn]="column.sortFn"
-                [nzSortDirections]="column.sortDirections"
-                [id]="column.name + '-column'"
-            >
-                {{ column.name }}
-            </th>
-            <th id="stage-list-edit-column"></th>
-            <th id="stage-list-disable-column"></th>
-            <th id="stage-list-delete-column"></th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let stage of stagesTable.data">
-            <td>{{ stage.Name }}</td>
-            <td>
-                <app-boolean-icon [value]="stage.Active"></app-boolean-icon>
-            </td>
-            <td>
-                <button
-                    nzTooltipTitle="Update"
-                    nz-button
-                    nz-tooltip
-                    nzType="primary"
-                    nzShape="circle"
-                    (click)="openUpdate(stage)"
+        <thead>
+            <tr>
+                <th
+                    *ngFor="let column of listOfColumns"
+                    [nzSortOrder]="column.sortOrder"
+                    [nzSortFn]="column.sortFn"
+                    [nzSortDirections]="column.sortDirections"
+                    [id]="column.name + '-column'"
                 >
-                    <em nz-icon nzType="edit"></em>
-                </button>
-            </td>
-            <td>
-                <button
-                    nzTooltipTitle="Disable"
-                    nz-button
-                    nz-tooltip
-                    nzType="default"
-                    nzShape="circle"
-                    (click)="disable(stage)"
-                >
-                    <em nz-icon nzType="disconnect"></em>
-                </button>
-            </td>
-            <td>
-                <button
-                    nzTooltipTitle="Delete"
-                    nz-button
-                    nz-tooltip
-                    nzType="default"
-                    nzDanger
-                    nzShape="circle"
-                    (click)="showDeleteModal(stage)"
-                >
-                    <em nz-icon nzType="delete"></em>
-                </button>
-            </td>
-        </tr>
-    </tbody>
-</nz-table>
+                    {{ column.name }}
+                </th>
+                <th id="stage-list-edit-column"></th>
+                <th id="stage-list-disable-column"></th>
+                <th id="stage-list-delete-column"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let stage of stagesTable.data">
+                <td>{{ stage.Name }}</td>
+                <td>
+                    <app-boolean-icon [value]="stage.Active"></app-boolean-icon>
+                </td>
+                <td>
+                    <button
+                        nzTooltipTitle="Update"
+                        nz-button
+                        nz-tooltip="Update stage"
+                        nzType="primary"
+                        nzShape="circle"
+                        (click)="openModal(stage)"
+                    >
+                        <em nz-icon nzType="edit"></em>
+                    </button>
+                </td>
+                <td>
+                    <button
+                        nzTooltipTitle="Disable"
+                        nz-button
+                        nz-tooltip="Disable stage"
+                        nzType="default"
+                        nzShape="circle"
+                        (click)="disable(stage)"
+                    >
+                        <em nz-icon nzType="disconnect"></em>
+                    </button>
+                </td>
+                <td>
+                    <button
+                        nzTooltipTitle="Delete"
+                        nz-button
+                        nz-tooltip="Delete stage"
+                        nzType="default"
+                        nzDanger
+                        nzShape="circle"
+                        (click)="showDeleteModal(stage)"
+                    >
+                        <em nz-icon nzType="delete"></em>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </nz-table>
+</nz-spin>

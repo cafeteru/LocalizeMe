@@ -142,16 +142,16 @@ func (mr *MockUserServiceMockRecorder) Login(request interface{}) *gomock.Call {
 }
 
 // Update mocks base method.
-func (m *MockUserService) Update(id primitive.ObjectID, request domain.User) (*domain.User, error) {
+func (m *MockUserService) Update(request domain.User) (*domain.User, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Update", id, request)
+	ret := m.ctrl.Call(m, "Update", request)
 	ret0, _ := ret[0].(*domain.User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Update indicates an expected call of Update.
-func (mr *MockUserServiceMockRecorder) Update(id, request interface{}) *gomock.Call {
+func (mr *MockUserServiceMockRecorder) Update(request interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Update", reflect.TypeOf((*MockUserService)(nil).Update), id, request)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Update", reflect.TypeOf((*MockUserService)(nil).Update), request)
 }

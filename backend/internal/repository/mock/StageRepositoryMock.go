@@ -9,6 +9,7 @@ import (
 
 	gomock "github.com/golang/mock/gomock"
 	domain "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain"
+	primitive "go.mongodb.org/mongo-driver/bson/primitive"
 	mongo "go.mongodb.org/mongo-driver/mongo"
 )
 
@@ -36,18 +37,18 @@ func (m *MockStageRepository) EXPECT() *MockStageRepositoryMockRecorder {
 }
 
 // Create mocks base method.
-func (m *MockStageRepository) Create(user domain.Stage) (*mongo.InsertOneResult, error) {
+func (m *MockStageRepository) Create(stage domain.Stage) (*mongo.InsertOneResult, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Create", user)
+	ret := m.ctrl.Call(m, "Create", stage)
 	ret0, _ := ret[0].(*mongo.InsertOneResult)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Create indicates an expected call of Create.
-func (mr *MockStageRepositoryMockRecorder) Create(user interface{}) *gomock.Call {
+func (mr *MockStageRepositoryMockRecorder) Create(stage interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockStageRepository)(nil).Create), user)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockStageRepository)(nil).Create), stage)
 }
 
 // FindAll mocks base method.
@@ -65,6 +66,21 @@ func (mr *MockStageRepositoryMockRecorder) FindAll() *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindAll", reflect.TypeOf((*MockStageRepository)(nil).FindAll))
 }
 
+// FindById mocks base method.
+func (m *MockStageRepository) FindById(id primitive.ObjectID) (*domain.Stage, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "FindById", id)
+	ret0, _ := ret[0].(*domain.Stage)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// FindById indicates an expected call of FindById.
+func (mr *MockStageRepositoryMockRecorder) FindById(id interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindById", reflect.TypeOf((*MockStageRepository)(nil).FindById), id)
+}
+
 // FindByName mocks base method.
 func (m *MockStageRepository) FindByName(name string) (*domain.Stage, error) {
 	m.ctrl.T.Helper()
@@ -78,4 +94,19 @@ func (m *MockStageRepository) FindByName(name string) (*domain.Stage, error) {
 func (mr *MockStageRepositoryMockRecorder) FindByName(name interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindByName", reflect.TypeOf((*MockStageRepository)(nil).FindByName), name)
+}
+
+// Update mocks base method.
+func (m *MockStageRepository) Update(stage domain.Stage) (*mongo.UpdateResult, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Update", stage)
+	ret0, _ := ret[0].(*mongo.UpdateResult)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Update indicates an expected call of Update.
+func (mr *MockStageRepositoryMockRecorder) Update(stage interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Update", reflect.TypeOf((*MockStageRepository)(nil).Update), stage)
 }

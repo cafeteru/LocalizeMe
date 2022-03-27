@@ -9,13 +9,12 @@ import { UserReducer } from '../../store/reducers/user.reducer';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/app.reducer';
 import * as userActions from '../../store/actions/user.actions';
-import { User } from '../../types/user';
+import { createMockUser, User } from '../../types/user';
 import { getDefaultHttpOptions } from './default-http-options';
-import { createUserMock } from '../../types/mocks/user-mock';
 
 export interface LoginData {
-    email: string;
-    password: string;
+    Email: string;
+    Password: string;
 }
 
 @Injectable({
@@ -50,13 +49,13 @@ export class UserService {
         return this.httpClient.post<ResponseLogin>(`${this.url}/login`, loginData).pipe(
             map((responseLogin) => {
                 const iToken = jwt_decode<IToken>(responseLogin.Authorization);
-                if (iToken.IsActive) {
+                if (iToken.Active) {
                     const userReducer: UserReducer = {
                         ID: iToken.ID,
                         Email: iToken.Email,
                         Exp: iToken.exp,
-                        IsActive: iToken.IsActive,
-                        IsAdmin: iToken.IsAdmin,
+                        Active: iToken.Active,
+                        Admin: iToken.Admin,
                         Authorization: responseLogin.Authorization,
                     };
                     localStorage.setItem('Authorization', responseLogin.Authorization);
@@ -64,10 +63,10 @@ export class UserService {
                     this.store.dispatch(userActions.loadUser(userReducer));
                 }
                 return {
-                    ...createUserMock(),
+                    ...createMockUser(),
                     Email: iToken.Email,
-                    IsActive: iToken.IsActive,
-                    IsAdmin: iToken.IsAdmin,
+                    Active: iToken.Active,
+                    Admin: iToken.Admin,
                 };
             })
         );
@@ -79,7 +78,7 @@ export class UserService {
     }
 
     update(user: User): Observable<User> {
-        return this.httpClient.put<User>(`${this.urlUsers}/${user.ID}`, user, getDefaultHttpOptions());
+        return this.httpClient.put<User>(`${this.urlUsers}`, user, getDefaultHttpOptions());
     }
 
     updateMe(user: User): Observable<User> {

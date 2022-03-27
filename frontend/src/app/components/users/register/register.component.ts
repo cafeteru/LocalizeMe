@@ -44,8 +44,8 @@ export class RegisterComponent extends BaseComponent implements OnInit {
         if (FormGroupUtil.valid(this.formGroup)) {
             this.isLoading = true;
             const loginData: LoginData = {
-                email: this.formGroup.controls['email'].value,
-                password: this.formGroup.controls['password'].value,
+                Email: this.formGroup.controls['email'].value,
+                Password: this.formGroup.controls['password'].value,
             };
             const subscription = this.userService
                 .register(loginData)

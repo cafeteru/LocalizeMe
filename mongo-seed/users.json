@@ -3,18 +3,18 @@
     "_id": {
       "$oid": "62212b92ab63141a684739f3"
     },
-    "email": "admin@email.es",
-    "password": "$2a$14$N1QWrh/qKNfLMG1DB8ZZeefDm4L3juVZLI3n.Xl2NZxLXcrNLSRMS",
-    "isAdmin": true,
-    "isActive": true
+    "Email": "admin@email.es",
+    "Password": "$2a$14$N1QWrh/qKNfLMG1DB8ZZeefDm4L3juVZLI3n.Xl2NZxLXcrNLSRMS",
+    "Admin": true,
+    "Active": true
   },
   {
     "_id": {
       "$oid": "62212b9cab63141a684739f5"
     },
-    "email": "user@email.es",
-    "password": "$2a$14$hodn7xFA3jTxJ6VdnQHFSurPezeF77K/AIfod4kdJB5Y1XUg.it7q",
-    "isAdmin": false,
-    "isActive": true
+    "Email": "user@email.es",
+    "Password": "$2a$14$hodn7xFA3jTxJ6VdnQHFSurPezeF77K/AIfod4kdJB5Y1XUg.it7q",
+    "Admin": false,
+    "Active": true
   }
 ]

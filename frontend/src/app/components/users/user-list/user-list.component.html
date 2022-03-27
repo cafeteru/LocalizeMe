@@ -1,66 +1,85 @@
-<nz-table #usersTable nzShowSizeChanger [nzData]="users" (nzCurrentPageDataChange)="onCurrentPageDataChange($event)">
-    <thead>
-        <tr>
-            <th
-                *ngFor="let column of listOfColumns"
-                [nzSortOrder]="column.sortOrder"
-                [nzSortFn]="column.sortFn"
-                [nzSortDirections]="column.sortDirections"
-                [id]="column.name + '-column'"
-            >
-                {{ column.name }}
-            </th>
-            <th id="user-list-edit-column"></th>
-            <th id="user-list-disable-column"></th>
-            <th id="user-list-delete-column"></th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let user of usersTable.data">
-            <td>{{ user.Email }}</td>
-            <td>
-                <app-boolean-icon [value]="user.IsAdmin"></app-boolean-icon>
-            </td>
-            <td>
-                <app-boolean-icon [value]="user.IsActive"></app-boolean-icon>
-            </td>
-            <td>
-                <button
-                    nzTooltipTitle="Update"
-                    nz-button
-                    nz-tooltip="Update users"
-                    nzType="primary"
-                    nzShape="circle"
-                    (click)="openUpdate(user)"
+<nz-spin [nzSpinning]="isLoading" nzSize="large">
+    <div class="btn-right">
+        <button
+            nz-button
+            nzType="primary"
+            nzSize="large"
+            nzShape="circle"
+            [nz-tooltip]="'Reload list'"
+            (click)="loadUsers()"
+        >
+            <em nz-icon nzType="reload"></em>
+        </button>
+    </div>
+    <nz-table
+        #usersTable
+        nzShowSizeChanger
+        [nzData]="users"
+        (nzCurrentPageDataChange)="onCurrentPageDataChange($event)"
+    >
+        <thead>
+            <tr>
+                <th
+                    *ngFor="let column of listOfColumns"
+                    [nzSortOrder]="column.sortOrder"
+                    [nzSortFn]="column.sortFn"
+                    [nzSortDirections]="column.sortDirections"
+                    [id]="column.name + '-column'"
                 >
-                    <em nz-icon nzType="edit"></em>
-                </button>
-            </td>
-            <td>
-                <button
-                    nzTooltipTitle="Disable"
-                    nz-button
-                    nz-tooltip="Disable user"
-                    nzType="default"
-                    nzShape="circle"
-                    (click)="disable(user)"
-                >
-                    <em nz-icon nzType="disconnect"></em>
-                </button>
-            </td>
-            <td>
-                <button
-                    nzTooltipTitle="Delete"
-                    nz-button
-                    nz-tooltip="Delete user"
-                    nzType="default"
-                    nzDanger
-                    nzShape="circle"
-                    (click)="showDeleteModal(user)"
-                >
-                    <em nz-icon nzType="delete"></em>
-                </button>
-            </td>
-        </tr>
-    </tbody>
-</nz-table>
+                    {{ column.name }}
+                </th>
+                <th id="user-list-edit-column"></th>
+                <th id="user-list-disable-column"></th>
+                <th id="user-list-delete-column"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let user of usersTable.data">
+                <td>{{ user.Email }}</td>
+                <td>
+                    <app-boolean-icon [value]="user.Admin"></app-boolean-icon>
+                </td>
+                <td>
+                    <app-boolean-icon [value]="user.Active"></app-boolean-icon>
+                </td>
+                <td>
+                    <button
+                        nzTooltipTitle="Update"
+                        nz-button
+                        nz-tooltip="Update users"
+                        nzType="primary"
+                        nzShape="circle"
+                        (click)="openUpdate(user)"
+                    >
+                        <em nz-icon nzType="edit"></em>
+                    </button>
+                </td>
+                <td>
+                    <button
+                        nzTooltipTitle="Disable"
+                        nz-button
+                        nz-tooltip="Disable user"
+                        nzType="default"
+                        nzShape="circle"
+                        (click)="disable(user)"
+                    >
+                        <em nz-icon nzType="disconnect"></em>
+                    </button>
+                </td>
+                <td>
+                    <button
+                        nzTooltipTitle="Delete"
+                        nz-button
+                        nz-tooltip="Delete user"
+                        nzType="default"
+                        nzDanger
+                        nzShape="circle"
+                        (click)="showDeleteModal(user)"
+                    >
+                        <em nz-icon nzType="delete"></em>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </nz-table>
+</nz-spin>

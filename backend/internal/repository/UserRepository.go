@@ -12,5 +12,5 @@ type UserRepository interface {
 	FindAll() (*[]domain.User, error)
 	FindByEmail(email string) (*domain.User, error)
 	FindById(id primitive.ObjectID) (*domain.User, error)
-	Update(id primitive.ObjectID, user domain.User) (*mongo.UpdateResult, error)
+	Update(user domain.User) (*mongo.UpdateResult, error)
 }

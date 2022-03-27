@@ -49,8 +49,8 @@ namespace domain {
         + ID primitive.ObjectID
         + Email string
         + Password string
-        + IsAdmin bool
-        + IsActive bool
+        + Admin bool
+        + Active bool
 
     }
 }

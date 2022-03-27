@@ -6,8 +6,8 @@ export interface UserReducer {
     ID: string;
     Email: string;
     Exp: number;
-    IsActive: boolean;
-    IsAdmin: boolean;
+    Active: boolean;
+    Admin: boolean;
     Authorization: string;
 }
 
@@ -15,8 +15,8 @@ export const initialState: UserReducer = {
     ID: '',
     Email: '',
     Exp: 0,
-    IsActive: false,
-    IsAdmin: false,
+    Active: false,
+    Admin: false,
     Authorization: '',
 };
 
@@ -26,8 +26,8 @@ export function loadUser(state: UserReducer, userReducer: UserReducer): UserRedu
         ID: userReducer.ID,
         Email: userReducer.Email,
         Exp: userReducer.Exp,
-        IsActive: userReducer.IsActive,
-        IsAdmin: userReducer.IsAdmin,
+        Active: userReducer.Active,
+        Admin: userReducer.Admin,
         Authorization: userReducer.Authorization,
     };
 }
@@ -38,8 +38,8 @@ export function clearUser(state: UserReducer): UserReducer {
         ID: initialState.ID,
         Email: initialState.Email,
         Exp: initialState.Exp,
-        IsActive: initialState.IsActive,
-        IsAdmin: initialState.IsAdmin,
+        Active: initialState.Active,
+        Admin: initialState.Admin,
         Authorization: initialState.Authorization,
     };
 }

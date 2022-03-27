@@ -4,10 +4,10 @@ import { StageListComponent } from './stage-list/stage-list.component';
 import { CoreModule } from '../../core/core.module';
 import { SharedModule } from '../../shared/shared.module';
 import { StageRouting } from './stage-routing.module';
-import { CreateStageComponent } from './create-stage/create-stage.component';
+import { ModalStageComponent } from './modal-stage/modal-stage.component';
 
 @NgModule({
-    declarations: [StageListComponent, CreateStageComponent],
+    declarations: [StageListComponent, ModalStageComponent],
     imports: [CommonModule, CoreModule, SharedModule, StageRouting],
 })
 export class StagesModule {}

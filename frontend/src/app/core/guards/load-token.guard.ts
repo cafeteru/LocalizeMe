@@ -30,8 +30,8 @@ export class LoadTokenGuard implements CanActivate {
                         ID: iToken.ID,
                         Email: iToken.Email,
                         Exp: iToken.exp,
-                        IsActive: iToken.IsActive,
-                        IsAdmin: iToken.IsAdmin,
+                        Active: iToken.Active,
+                        Admin: iToken.Admin,
                         Authorization: authorization,
                     };
                     this.store.dispatch(userActions.loadUser(userReducer));

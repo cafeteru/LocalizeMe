@@ -26,4 +26,8 @@ export class StageService {
             .get<Stage[]>(this.url, getDefaultHttpOptions())
             .pipe(map((stages) => (stages ? stages : [])));
     }
+
+    update(stage: Stage): Observable<Stage> {
+        return this.httpClient.put<Stage>(this.url, stage, getDefaultHttpOptions());
+    }
 }

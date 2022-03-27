@@ -62,7 +62,7 @@
             nz-button
             class="login-form-button login-form-margin"
             [nzType]="'primary'"
-            [disabled]="!formGroup.valid"
+            [disabled]="!formGroup.valid || isLoading"
         >
             <span *ngIf="!isLoading">Update</span>
             <span *ngIf="isLoading">

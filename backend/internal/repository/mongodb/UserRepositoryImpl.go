@@ -60,7 +60,7 @@ func (u *UserRepositoryImpl) FindByEmail(email string) (*domain.User, error) {
 	if err != nil {
 		return nil, tools.ErrorLogDetails(err, constants.CreateConnection, tools.GetCurrentFuncName())
 	}
-	filter := bson.M{"email": bson.M{"$eq": email}}
+	filter := bson.M{"Email": bson.M{"$eq": email}}
 	result := collection.FindOne(context.TODO(), filter)
 	var user domain.User
 	if err = result.Decode(&user); err != nil {
@@ -115,19 +115,19 @@ func (u *UserRepositoryImpl) FindAll() (*[]domain.User, error) {
 	return &users, nil
 }
 
-func (u *UserRepositoryImpl) Update(id primitive.ObjectID, user domain.User) (*mongo.UpdateResult, error) {
+func (u *UserRepositoryImpl) Update(user domain.User) (*mongo.UpdateResult, error) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
 	collection, err := u.GetCollection(u.name)
 	if err != nil {
 		return nil, tools.ErrorLogDetails(err, constants.CreateConnection, tools.GetCurrentFuncName())
 	}
-	filter := bson.M{"_id": bson.M{"$eq": id}}
+	filter := bson.M{"_id": bson.M{"$eq": user.ID}}
 	update := bson.M{
 		"$set": bson.M{
-			"email":    user.Email,
-			"password": user.Password,
-			"isActive": user.IsActive,
-			"isAdmin":  user.IsAdmin,
+			"Email":    user.Email,
+			"Password": user.Password,
+			"Active":   user.Active,
+			"Admin":    user.Admin,
 		},
 	}
 	result, err := collection.UpdateOne(context.TODO(), filter, update)

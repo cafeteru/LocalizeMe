@@ -13,8 +13,8 @@ init-project:
 	go install gotest.tools/gotestsum@latest
 	go install github.com/go-swagger/go-swagger/cmd/swagger@latest
 	go install github.com/golang/mock/mockgen@latest
-	go install github.com/jfeliu007/goplantuml/parser
-	go install github.com/jfeliu007/goplantuml/cmd/goplantuml
+	go get github.com/jfeliu007/goplantuml/parser
+	go get github.com/jfeliu007/goplantuml/cmd/goplantuml
 	make install
 install:
 	go install ./...

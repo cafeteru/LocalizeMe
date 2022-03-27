@@ -14,44 +14,35 @@ import (
 	"testing"
 )
 
+var id string
+var userId primitive.ObjectID
+var user domain.User
+var request dto.UserRequest
+
 func TestUserServiceImpl_Create_Successful(t *testing.T) {
+	initValues()
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
 	repository := mock.NewMockUserRepository(mockCtrl)
 	encrypt := encryptMock.NewMockEncrypt(mockCtrl)
-	request := dto.UserRequest{
-		Email:    "email",
-		Password: "password",
-	}
-	id := primitive.NewObjectID()
 	result := mongo.InsertOneResult{
-		InsertedID: id,
+		InsertedID: userId,
 	}
 	encrypt.EXPECT().EncryptPassword(gomock.Any()).Return("", nil)
-	repository.EXPECT().FindByEmail(request.Email).Return(nil, nil)
+	repository.EXPECT().FindByEmail(gomock.Any()).Return(nil, nil)
 	repository.EXPECT().Create(gomock.Any()).Return(&result, nil)
 	service := CreateUserService(repository, encrypt)
 	user, err := service.Create(request)
 	assert.Nil(t, err)
-	assert.Equal(t, id, user.ID)
+	assert.Equal(t, userId, user.ID)
 }
 
 func TestUserServiceImpl_Create_Error_EmailRegister(t *testing.T) {
+	initValues()
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
 	repository := mock.NewMockUserRepository(mockCtrl)
 	encrypt := encryptMock.NewMockEncrypt(mockCtrl)
-	request := dto.UserRequest{
-		Email:    "email",
-		Password: "password",
-	}
-	user := domain.User{
-		ID:       primitive.NewObjectID(),
-		Email:    request.Email,
-		Password: request.Password,
-		IsAdmin:  false,
-		IsActive: true,
-	}
 	repository.EXPECT().FindByEmail(gomock.Any()).Return(&user, nil)
 	service := CreateUserService(repository, encrypt)
 	_, err := service.Create(request)
@@ -62,14 +53,11 @@ func TestUserServiceImpl_Create_Error_EmailRegister(t *testing.T) {
 }
 
 func TestUserServiceImpl_Create_ErrorRepository(t *testing.T) {
+	initValues()
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
 	repository := mock.NewMockUserRepository(mockCtrl)
 	encrypt := encryptMock.NewMockEncrypt(mockCtrl)
-	request := dto.UserRequest{
-		Email:    "email",
-		Password: "password",
-	}
 	expectedError := errors.New(constants.InsertUser)
 	encrypt.EXPECT().EncryptPassword(gomock.Any()).Return("", nil)
 	repository.EXPECT().FindByEmail(gomock.Any()).Return(nil, nil)
@@ -80,6 +68,7 @@ func TestUserServiceImpl_Create_ErrorRepository(t *testing.T) {
 }
 
 func TestUserServiceImpl_Create_ErrorUserRequest_InvalidEmail(t *testing.T) {
+	initValues()
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
 	repository := mock.NewMockUserRepository(mockCtrl)
@@ -94,30 +83,25 @@ func TestUserServiceImpl_Create_ErrorUserRequest_InvalidEmail(t *testing.T) {
 }
 
 func TestUserServiceImpl_Create_ErrorUserRequest_InvalidPassword(t *testing.T) {
+	initValues()
+	request.Password = ""
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
 	repository := mock.NewMockUserRepository(mockCtrl)
 	encrypt := encryptMock.NewMockEncrypt(mockCtrl)
 	service := CreateUserService(repository, encrypt)
-	request := dto.UserRequest{
-		Email:    "email",
-		Password: "",
-	}
 	_, err := service.Create(request)
 	assert.NotNil(t, err)
 }
 
 func TestUserServiceImpl_Create_ErrorEncrypt(t *testing.T) {
+	initValues()
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
 	repository := mock.NewMockUserRepository(mockCtrl)
 	encrypt := encryptMock.NewMockEncrypt(mockCtrl)
-	request := dto.UserRequest{
-		Email:    "email",
-		Password: "password",
-	}
 	expectedError := errors.New(constants.EncryptPasswordUser)
-	repository.EXPECT().FindByEmail(request.Email).Return(nil, nil)
+	repository.EXPECT().FindByEmail(gomock.Any()).Return(nil, nil)
 	encrypt.EXPECT().EncryptPassword(gomock.Any()).Return("", expectedError)
 	service := CreateUserService(repository, encrypt)
 	_, err := service.Create(request)
@@ -125,6 +109,7 @@ func TestUserServiceImpl_Create_ErrorEncrypt(t *testing.T) {
 }
 
 func TestUserServiceImpl_FindById_NotFound(t *testing.T) {
+	initValues()
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
 	repository := mock.NewMockUserRepository(mockCtrl)
@@ -137,79 +122,49 @@ func TestUserServiceImpl_FindById_NotFound(t *testing.T) {
 }
 
 func TestUserServiceImpl_FindByEmail_UserNotActive(t *testing.T) {
+	initValues()
+	user.Active = false
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
 	repository := mock.NewMockUserRepository(mockCtrl)
 	encrypt := encryptMock.NewMockEncrypt(mockCtrl)
-	email := "email@email.com"
-	objectID, _ := primitive.ObjectIDFromHex("1.1")
-	user := domain.User{
-		ID:       objectID,
-		Email:    email,
-		Password: email,
-		IsAdmin:  false,
-		IsActive: false,
-	}
 	repository.EXPECT().FindById(gomock.Any()).Return(&user, nil)
 	service := CreateUserService(repository, encrypt)
-	_, err := service.FindById(objectID)
+	_, err := service.FindById(userId)
 	assert.NotNil(t, err)
 }
 
 func TestUserServiceImpl_FindByEmail_Success(t *testing.T) {
+	initValues()
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
 	repository := mock.NewMockUserRepository(mockCtrl)
 	encrypt := encryptMock.NewMockEncrypt(mockCtrl)
-	email := "email@email.com"
-	objectID, _ := primitive.ObjectIDFromHex("1.1")
-	user := domain.User{
-		ID:       objectID,
-		Email:    email,
-		Password: email,
-		IsAdmin:  false,
-		IsActive: true,
-	}
 	repository.EXPECT().FindById(gomock.Any()).Return(&user, nil)
 	service := CreateUserService(repository, encrypt)
-	userById, err := service.FindById(objectID)
+	userById, err := service.FindById(userId)
 	assert.Nil(t, err)
 	assert.Equal(t, user.Email, userById.Email)
 }
 
 func TestUserServiceImpl_Login_NotFound(t *testing.T) {
+	initValues()
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
 	repository := mock.NewMockUserRepository(mockCtrl)
 	encrypt := encryptMock.NewMockEncrypt(mockCtrl)
-	email := "email@email.com"
-	repository.EXPECT().FindByEmail(email).Return(nil, errors.New(""))
+	repository.EXPECT().FindByEmail(gomock.Any()).Return(nil, errors.New(""))
 	service := CreateUserService(repository, encrypt)
-	request := dto.UserRequest{
-		Email:    email,
-		Password: email,
-	}
 	_, err := service.Login(request)
 	assert.NotNil(t, err)
 }
 
 func TestUserServiceImpl_Login_ErrorPassword(t *testing.T) {
+	initValues()
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
 	repository := mock.NewMockUserRepository(mockCtrl)
 	encrypt := encryptMock.NewMockEncrypt(mockCtrl)
-	request := dto.UserRequest{
-		Email:    "email",
-		Password: "",
-	}
-	email := "email@email.com"
-	user := domain.User{
-		ID:       primitive.NewObjectID(),
-		Email:    email,
-		Password: email,
-		IsAdmin:  false,
-		IsActive: true,
-	}
 	repository.EXPECT().FindByEmail(gomock.Any()).Return(&user, nil)
 	encrypt.EXPECT().CheckPassword(gomock.Any(), gomock.Any()).Return(false)
 	service := CreateUserService(repository, encrypt)
@@ -218,22 +173,11 @@ func TestUserServiceImpl_Login_ErrorPassword(t *testing.T) {
 }
 
 func TestUserServiceImpl_Login_Successful(t *testing.T) {
+	initValues()
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
 	repository := mock.NewMockUserRepository(mockCtrl)
 	encrypt := encryptMock.NewMockEncrypt(mockCtrl)
-	request := dto.UserRequest{
-		Email:    "email",
-		Password: "",
-	}
-	email := "email@email.com"
-	user := domain.User{
-		ID:       primitive.NewObjectID(),
-		Email:    email,
-		Password: email,
-		IsAdmin:  false,
-		IsActive: true,
-	}
 	repository.EXPECT().FindByEmail(gomock.Any()).Return(&user, nil)
 	encrypt.EXPECT().CheckPassword(gomock.Any(), gomock.Any()).Return(true)
 	service := CreateUserService(repository, encrypt)
@@ -242,23 +186,17 @@ func TestUserServiceImpl_Login_Successful(t *testing.T) {
 }
 
 func TestUserServiceImpl_FindAll_Success(t *testing.T) {
+	initValues()
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
 	repository := mock.NewMockUserRepository(mockCtrl)
 	encrypt := encryptMock.NewMockEncrypt(mockCtrl)
-	user := domain.User{
-		ID:       primitive.NewObjectID(),
-		Email:    "email@email.com",
-		Password: "email@email.com",
-		IsAdmin:  false,
-		IsActive: true,
-	}
 	user2 := domain.User{
 		ID:       primitive.NewObjectID(),
 		Email:    "email2@email.com",
 		Password: "email2@email.com",
-		IsAdmin:  true,
-		IsActive: false,
+		Admin:    true,
+		Active:   false,
 	}
 	users := []domain.User{user, user2}
 	repository.EXPECT().FindAll().Return(&users, nil)
@@ -269,6 +207,7 @@ func TestUserServiceImpl_FindAll_Success(t *testing.T) {
 }
 
 func TestUserServiceImpl_FindAll_Error(t *testing.T) {
+	initValues()
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
 	repository := mock.NewMockUserRepository(mockCtrl)
@@ -280,19 +219,11 @@ func TestUserServiceImpl_FindAll_Error(t *testing.T) {
 }
 
 func TestUserServiceImpl_Update_Successful(t *testing.T) {
+	initValues()
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
 	repository := mock.NewMockUserRepository(mockCtrl)
 	encrypt := encryptMock.NewMockEncrypt(mockCtrl)
-	id := "123"
-	userId, _ := primitive.ObjectIDFromHex(id)
-	user := domain.User{
-		ID:       userId,
-		Email:    "email2@email.com",
-		Password: "email2@email.com",
-		IsAdmin:  true,
-		IsActive: true,
-	}
 	repository.EXPECT().FindById(gomock.Any()).Return(&user, nil)
 	repository.EXPECT().FindByEmail(gomock.Any()).Return(nil, nil)
 	encrypt.EXPECT().EncryptPassword(gomock.Any()).Return("", nil)
@@ -302,74 +233,67 @@ func TestUserServiceImpl_Update_Successful(t *testing.T) {
 		UpsertedCount: 0,
 		UpsertedID:    nil,
 	}
-	repository.EXPECT().Update(gomock.Any(), gomock.Any()).Return(&mongoResult, nil)
+	repository.EXPECT().Update(gomock.Any()).Return(&mongoResult, nil)
 	service := CreateUserService(repository, encrypt)
-	result, err := service.Update(userId, user)
+	result, err := service.Update(user)
 	assert.Nil(t, err)
 	assert.Equal(t, result.ID, user.ID)
 }
 
 func TestUserServiceImpl_Update_Error_NotIdRegister(t *testing.T) {
+	initValues()
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
 	repository := mock.NewMockUserRepository(mockCtrl)
 	encrypt := encryptMock.NewMockEncrypt(mockCtrl)
-	id := "123"
-	userId, _ := primitive.ObjectIDFromHex(id)
-	user := domain.User{
-		ID:       userId,
-		Email:    "email2@email.com",
-		Password: "email2@email.com",
-		IsAdmin:  true,
-		IsActive: true,
-	}
 	repository.EXPECT().FindById(gomock.Any()).Return(nil, nil)
 	service := CreateUserService(repository, encrypt)
-	_, err := service.Update(userId, user)
+	_, err := service.Update(user)
 	assert.NotNil(t, err)
 }
 
 func TestUserServiceImpl_Update_Error_EncryptPassword(t *testing.T) {
+	initValues()
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
 	repository := mock.NewMockUserRepository(mockCtrl)
 	encrypt := encryptMock.NewMockEncrypt(mockCtrl)
-	id := "123"
-	userId, _ := primitive.ObjectIDFromHex(id)
-	user := domain.User{
-		ID:       userId,
-		Email:    "email2@email.com",
-		Password: "email2@email.com",
-		IsAdmin:  true,
-		IsActive: true,
-	}
 	repository.EXPECT().FindById(gomock.Any()).Return(&user, nil)
 	repository.EXPECT().FindByEmail(gomock.Any()).Return(nil, nil)
 	encrypt.EXPECT().EncryptPassword(gomock.Any()).Return("", errors.New(""))
 	service := CreateUserService(repository, encrypt)
-	_, err := service.Update(userId, user)
+	_, err := service.Update(user)
 	assert.NotNil(t, err)
 }
 
 func TestUserServiceImpl_Update_Error_Repository(t *testing.T) {
+	initValues()
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
 	repository := mock.NewMockUserRepository(mockCtrl)
 	encrypt := encryptMock.NewMockEncrypt(mockCtrl)
-	id := "123"
-	userId, _ := primitive.ObjectIDFromHex(id)
-	user := domain.User{
-		ID:       userId,
-		Email:    "email2@email.com",
-		Password: "email2@email.com",
-		IsAdmin:  true,
-		IsActive: true,
-	}
+
 	repository.EXPECT().FindById(gomock.Any()).Return(&user, nil)
 	repository.EXPECT().FindByEmail(gomock.Any()).Return(nil, nil)
 	encrypt.EXPECT().EncryptPassword(gomock.Any()).Return("", nil)
-	repository.EXPECT().Update(gomock.Any(), gomock.Any()).Return(nil, errors.New(""))
+	repository.EXPECT().Update(gomock.Any()).Return(nil, errors.New(""))
 	service := CreateUserService(repository, encrypt)
-	_, err := service.Update(userId, user)
+	_, err := service.Update(user)
 	assert.NotNil(t, err)
+}
+
+func initValues() {
+	id = "1"
+	userId, _ = primitive.ObjectIDFromHex(id)
+	user = domain.User{
+		ID:       userId,
+		Email:    "user@email.com",
+		Password: "password",
+		Admin:    true,
+		Active:   true,
+	}
+	request = dto.UserRequest{
+		Email:    user.Email,
+		Password: user.Password,
+	}
 }

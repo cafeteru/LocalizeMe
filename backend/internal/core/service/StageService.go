@@ -8,4 +8,5 @@ import (
 type StageService interface {
 	Create(request dto.StageRequest) (domain.Stage, error)
 	FindAll() (*[]domain.Stage, error)
+	Update(request domain.Stage) (*domain.Stage, error)
 }
