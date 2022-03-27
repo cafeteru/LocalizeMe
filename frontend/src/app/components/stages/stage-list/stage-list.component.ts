@@ -8,6 +8,7 @@ import { Stage } from '../../../types/stage';
 import { sortActive, sortName } from '../../../shared/sorts/stages-sorts';
 import { StageService } from '../../../core/services/stage.service';
 import { tap } from 'rxjs';
+import { User } from '../../../types/user';
 
 @Component({
     selector: 'app-stage-list',
@@ -87,7 +88,10 @@ export class StageListComponent extends BaseComponent implements OnInit {
         this.subscriptions.push(subscription);
     }
 
-    showDeleteModal(user: any) {}
+    disable(stage: Stage): void {
+        const subscription = this.stageService.disable(stage).subscribe((result) => this.loadStages());
+        this.subscriptions.push(subscription);
+    }
 
-    disable(user: any) {}
+    showDeleteModal(user: any) {}
 }

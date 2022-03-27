@@ -195,13 +195,52 @@
         }
       }
     },
+    "/stages/{id}": {
+      "patch": {
+        "tags": [
+          "Stages"
+        ],
+        "summary": "Disable of a stage.",
+        "operationId": "DisableStage",
+        "parameters": [
+          {
+            "type": "string",
+            "x-go-name": "Id",
+            "description": "The user´s id",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Stage",
+            "schema": {
+              "$ref": "#/definitions/Stage"
+            }
+          },
+          "400": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          },
+          "401": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          }
+        }
+      }
+    },
     "/users": {
       "get": {
         "tags": [
           "Users"
         ],
         "summary": "Return all users.",
-        "operationId": "FindAll",
+        "operationId": "FindUsersAll",
         "responses": {
           "200": {
             "description": "User",
@@ -451,9 +490,6 @@
         }
       },
       "delete": {
-        "consumes": [
-          "application/json"
-        ],
         "tags": [
           "Users"
         ],
@@ -488,9 +524,6 @@
         }
       },
       "patch": {
-        "consumes": [
-          "application/json"
-        ],
         "tags": [
           "Users"
         ],
@@ -578,14 +611,17 @@
     "Language": {
       "type": "object",
       "properties": {
-        "Description": {
-          "type": "string"
+        "CanWriteGroup": {
+          "type": "boolean"
+        },
+        "Group": {
+          "$ref": "#/definitions/Group"
         },
         "ID": {
           "$ref": "#/definitions/ObjectID"
         },
-        "IsoCode": {
-          "type": "string"
+        "User": {
+          "$ref": "#/definitions/User"
         }
       },
       "x-go-name": "Permission",

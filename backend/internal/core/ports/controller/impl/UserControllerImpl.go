@@ -80,9 +80,6 @@ func (u UserControllerImpl) Create(w http.ResponseWriter, r *http.Request) {
 // swagger:route DELETE /users/{id} Users DeleteUser
 // Return a user by email.
 //
-// Consumes:
-// - application/json
-//
 // Responses:
 // - 200: bool
 // - 400: ErrorDto
@@ -112,9 +109,6 @@ func (u UserControllerImpl) Delete(w http.ResponseWriter, r *http.Request) {
 // swagger:route PATCH /users/{id} Users DisableUser
 // Disable of a user.
 //
-// Consumes:
-// - application/json
-//
 // Responses:
 // - 200: User
 // - 400: ErrorDto
@@ -137,11 +131,11 @@ func (u UserControllerImpl) Disable(w http.ResponseWriter, r *http.Request) {
 		utils.CreateErrorResponse(w, err, http.StatusBadRequest)
 		return
 	}
-	utils.CreateResponse(w, http.StatusCreated, user)
+	utils.CreateResponse(w, http.StatusOK, user)
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 }
 
-// swagger:route GET /users Users FindAll
+// swagger:route GET /users Users FindUsersAll
 // Return all users.
 //
 // Responses:

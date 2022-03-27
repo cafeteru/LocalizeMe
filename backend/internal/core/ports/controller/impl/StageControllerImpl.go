@@ -2,11 +2,15 @@ package impl
 
 import (
 	"encoding/json"
+	"errors"
+	"github.com/go-chi/chi"
+	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/constants"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain/dto"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/ports/utils"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/service"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/tools"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"log"
 	"net/http"
 )
@@ -47,6 +51,35 @@ func (s StageControllerImpl) Create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	utils.CreateResponse(w, http.StatusCreated, user)
+	log.Printf("%s: end", tools.GetCurrentFuncName())
+}
+
+// swagger:route PATCH /stages/{id} Stages DisableStage
+// Disable of a stage.
+//
+// Responses:
+// - 200: Stage
+// - 400: ErrorDto
+// - 401: ErrorDto
+func (s StageControllerImpl) Disable(w http.ResponseWriter, r *http.Request) {
+	log.Printf("%s: start", tools.GetCurrentFuncName())
+	isAdmin := utils.CheckUserIsAdmin(w, r, s.userService)
+	if isAdmin == nil {
+		return
+	}
+	id := chi.URLParam(r, "id")
+	if id == "" {
+		err := errors.New(constants.IdNoValid)
+		utils.CreateErrorResponse(w, err, http.StatusBadRequest)
+		return
+	}
+	objectID, _ := primitive.ObjectIDFromHex(id)
+	stage, err := s.stageService.Disable(objectID)
+	if err != nil {
+		utils.CreateErrorResponse(w, err, http.StatusBadRequest)
+		return
+	}
+	utils.CreateResponse(w, http.StatusOK, stage)
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 }
 
