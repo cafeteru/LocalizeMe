@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 import { Stage } from '../../types/stage';
 import { getDefaultHttpOptions } from './default-http-options';
+import { User } from '../../types/user';
 
 export interface StageRequest {
     Name: string;
@@ -19,6 +20,10 @@ export class StageService {
 
     create(stageRequest: StageRequest): Observable<Stage> {
         return this.httpClient.post<Stage>(this.url, stageRequest, getDefaultHttpOptions());
+    }
+
+    disable(stage: Stage): Observable<Stage> {
+        return this.httpClient.patch<Stage>(`${this.url}/${stage.ID}`, stage, getDefaultHttpOptions());
     }
 
     findAll(): Observable<Stage[]> {

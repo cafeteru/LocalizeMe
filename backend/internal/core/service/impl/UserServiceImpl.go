@@ -98,12 +98,7 @@ func (u UserServiceImpl) Disable(id primitive.ObjectID) (*domain.User, error) {
 		return nil, err
 	}
 	log.Printf("%s: end", tools.GetCurrentFuncName())
-	return &domain.User{
-		ID:     user.ID,
-		Email:  user.Email,
-		Admin:  user.Admin,
-		Active: user.Active,
-	}, nil
+	return user, nil
 }
 
 func (u UserServiceImpl) FindAll() (*[]domain.User, error) {

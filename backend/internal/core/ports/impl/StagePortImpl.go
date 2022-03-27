@@ -46,6 +46,7 @@ func (s StagePortImpl) CreateStageRoutes(r *chi.Mux) {
 			r.Post("/", s.controller.Create)
 			r.Get("/", s.controller.FindAll)
 			r.Put("/", s.controller.Update)
+			r.Patch("/{id}", s.controller.Disable)
 		})
 	})
 	log.Printf("%s: end", tools.GetCurrentFuncName())

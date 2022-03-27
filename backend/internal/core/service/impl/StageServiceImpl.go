@@ -41,6 +41,22 @@ func (s StageServiceImpl) Create(request dto.StageRequest) (domain.Stage, error)
 	return stage, nil
 }
 
+func (s StageServiceImpl) Disable(id primitive.ObjectID) (*domain.Stage, error) {
+	log.Printf("%s: start", tools.GetCurrentFuncName())
+	stage, err := s.repository.FindById(id)
+	if stage == nil || err != nil {
+		return nil, tools.ErrorLog(constants.FindUserByEmail, tools.GetCurrentFuncName())
+	}
+	stage.Active = !stage.Active
+	_, err = s.repository.Update(*stage)
+	if err != nil {
+		log.Printf("%s: error", tools.GetCurrentFuncName())
+		return nil, err
+	}
+	log.Printf("%s: end", tools.GetCurrentFuncName())
+	return stage, nil
+}
+
 func (s StageServiceImpl) FindAll() (*[]domain.Stage, error) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
 	users, err := s.repository.FindAll()

@@ -46,7 +46,7 @@ type _ struct {
 	User domain.User
 }
 
-// swagger:parameters DeleteUser DisableUser FindUserById
+// swagger:parameters DeleteUser DisableUser FindUserById DisableStage
 type _ struct {
 	// The user´s id
 	// in: path

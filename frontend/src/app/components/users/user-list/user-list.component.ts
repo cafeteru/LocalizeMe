@@ -88,7 +88,7 @@ export class UserListComponent extends BaseComponent implements OnInit {
         });
         const subscription = dialogRef.afterClosed().subscribe((result) => {
             if (result) {
-                this.updateUsers(result);
+                this.loadUsers();
             }
         });
         this.subscriptions.push(subscription);
@@ -119,11 +119,7 @@ export class UserListComponent extends BaseComponent implements OnInit {
     }
 
     disable(user: User): void {
-        const subscription = this.userService.disable(user).subscribe((result) => this.updateUsers(result));
+        const subscription = this.userService.disable(user).subscribe((result) => this.loadUsers());
         this.subscriptions.push(subscription);
-    }
-
-    private updateUsers(result: User): void {
-        this.users = this.users.map((value) => (value.ID === result.ID ? { ...result } : { ...value }));
     }
 }
