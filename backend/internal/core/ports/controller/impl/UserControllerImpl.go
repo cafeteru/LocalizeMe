@@ -32,6 +32,8 @@ func CreateUserController(u service.UserService) *UserControllerImpl {
 // Responses:
 // - 200: TokenDto
 // - 400: ErrorDto
+// - 401: ErrorDto
+// - 422: ErrorDto
 func (u UserControllerImpl) Login(w http.ResponseWriter, r *http.Request) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
 	var request dto.UserRequest
@@ -48,7 +50,7 @@ func (u UserControllerImpl) Login(w http.ResponseWriter, r *http.Request) {
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 }
 
-// swagger:route POST /userService Users CreateUser
+// swagger:route POST /users Users CreateUser
 // Create a new user.
 //
 // Consumes:
@@ -57,6 +59,8 @@ func (u UserControllerImpl) Login(w http.ResponseWriter, r *http.Request) {
 // Responses:
 // - 200: User
 // - 400: ErrorDto
+// - 401: ErrorDto
+// - 422: ErrorDto
 func (u UserControllerImpl) Create(w http.ResponseWriter, r *http.Request) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
 	var request dto.UserRequest
@@ -73,7 +77,7 @@ func (u UserControllerImpl) Create(w http.ResponseWriter, r *http.Request) {
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 }
 
-// swagger:route DELETE /userService/{id} Users Delete
+// swagger:route DELETE /users/{id} Users DeleteUser
 // Return a user by email.
 //
 // Consumes:
@@ -83,7 +87,6 @@ func (u UserControllerImpl) Create(w http.ResponseWriter, r *http.Request) {
 // - 200: bool
 // - 400: ErrorDto
 // - 401: ErrorDto
-// - 404: ErrorDto
 func (u UserControllerImpl) Delete(w http.ResponseWriter, r *http.Request) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
 	user := utils.CheckUserIsAdmin(w, r, u.service)
@@ -106,7 +109,7 @@ func (u UserControllerImpl) Delete(w http.ResponseWriter, r *http.Request) {
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 }
 
-// swagger:route PATCH /userService/{id} Users Disable
+// swagger:route PATCH /users/{id} Users DisableUser
 // Disable of a user.
 //
 // Consumes:
@@ -116,7 +119,6 @@ func (u UserControllerImpl) Delete(w http.ResponseWriter, r *http.Request) {
 // - 200: User
 // - 400: ErrorDto
 // - 401: ErrorDto
-// - 404: ErrorDto
 func (u UserControllerImpl) Disable(w http.ResponseWriter, r *http.Request) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
 	isAdmin := utils.CheckUserIsAdmin(w, r, u.service)
@@ -139,11 +141,14 @@ func (u UserControllerImpl) Disable(w http.ResponseWriter, r *http.Request) {
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 }
 
-// swagger:route GET /userService Users FindAll
-// Return all userService.
+// swagger:route GET /users Users FindAll
+// Return all users.
 //
 // Responses:
 // - 200: []User
+// - 400: ErrorDto
+// - 401: ErrorDto
+// - 500: ErrorDto
 func (u UserControllerImpl) FindAll(w http.ResponseWriter, r *http.Request) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
 	if user := utils.CheckUserIsAdmin(w, r, u.service); user == nil {
@@ -158,7 +163,7 @@ func (u UserControllerImpl) FindAll(w http.ResponseWriter, r *http.Request) {
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 }
 
-// swagger:route GET /userService/me Users GetMe
+// swagger:route GET /users/me Users GetMe
 // Return the information of the identified user.
 //
 // Consumes:
@@ -167,6 +172,7 @@ func (u UserControllerImpl) FindAll(w http.ResponseWriter, r *http.Request) {
 // Responses:
 // - 200: User
 // - 400: ErrorDto
+// - 401: ErrorDto
 func (u UserControllerImpl) FindMe(w http.ResponseWriter, r *http.Request) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
 	user := utils.CheckUserIsActive(w, r, u.service)
@@ -178,7 +184,7 @@ func (u UserControllerImpl) FindMe(w http.ResponseWriter, r *http.Request) {
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 }
 
-// swagger:route GET /userService/{id} Users FindById
+// swagger:route GET /users/{id} Users FindUserById
 // Return the information of the user by id.
 //
 // Consumes:
@@ -191,8 +197,7 @@ func (u UserControllerImpl) FindMe(w http.ResponseWriter, r *http.Request) {
 // - 404: ErrorDto
 func (u UserControllerImpl) FindById(w http.ResponseWriter, r *http.Request) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
-	user := utils.CheckUserIsAdmin(w, r, u.service)
-	if user == nil {
+	if utils.CheckUserIsAdmin(w, r, u.service) == nil {
 		return
 	}
 	id := chi.URLParam(r, "id")
@@ -212,7 +217,7 @@ func (u UserControllerImpl) FindById(w http.ResponseWriter, r *http.Request) {
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 }
 
-// swagger:route PUT /userService/{id} Users Update
+// swagger:route PUT /users Users UpdateUser
 // Update the information of a user.
 //
 // Consumes:
@@ -222,7 +227,7 @@ func (u UserControllerImpl) FindById(w http.ResponseWriter, r *http.Request) {
 // - 200: User
 // - 400: ErrorDto
 // - 401: ErrorDto
-// - 404: ErrorDto
+// - 422: ErrorDto
 func (u UserControllerImpl) Update(w http.ResponseWriter, r *http.Request) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
 	isAdmin := utils.CheckUserIsAdmin(w, r, u.service)
@@ -234,9 +239,7 @@ func (u UserControllerImpl) Update(w http.ResponseWriter, r *http.Request) {
 		utils.CreateErrorResponse(w, err, http.StatusUnprocessableEntity)
 		return
 	}
-	id := chi.URLParam(r, "id")
-	objectID, _ := primitive.ObjectIDFromHex(id)
-	user, err := u.service.Update(objectID, request)
+	user, err := u.service.Update(request)
 	if err != nil {
 		utils.CreateErrorResponse(w, err, http.StatusBadRequest)
 		return
@@ -245,7 +248,7 @@ func (u UserControllerImpl) Update(w http.ResponseWriter, r *http.Request) {
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 }
 
-// swagger:route PUT /userService/me Users UpdateMe
+// swagger:route PUT /users/me Users UpdateMe
 // Update the information of the identified user.
 //
 // Consumes:
@@ -255,7 +258,7 @@ func (u UserControllerImpl) Update(w http.ResponseWriter, r *http.Request) {
 // - 200: User
 // - 400: ErrorDto
 // - 401: ErrorDto
-// - 404: ErrorDto
+// - 422: ErrorDto
 func (u UserControllerImpl) UpdateMe(w http.ResponseWriter, r *http.Request) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
 	user := utils.CheckUserIsActive(w, r, u.service)
@@ -267,8 +270,8 @@ func (u UserControllerImpl) UpdateMe(w http.ResponseWriter, r *http.Request) {
 		utils.CreateErrorResponse(w, err, http.StatusUnprocessableEntity)
 		return
 	}
-	request.IsAdmin = user.IsAdmin
-	userUpdate, err := u.service.Update(user.ID, request)
+	request.Admin = user.Admin
+	userUpdate, err := u.service.Update(request)
 	if err != nil {
 		utils.CreateErrorResponse(w, err, http.StatusBadRequest)
 		return

@@ -28,8 +28,8 @@ export class UserInfoComponent extends BaseComponent implements OnInit {
         const user: User = {
             ID: '',
             Email: this.email,
-            IsActive: true,
-            IsAdmin: false,
+            Active: true,
+            Admin: false,
             Password: '',
         };
         const dialogRef = this.dialog.open(UpdateUserComponent, {

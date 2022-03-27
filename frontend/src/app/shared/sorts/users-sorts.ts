@@ -7,9 +7,9 @@ export function sortEmail(a: User, b: User): number {
 }
 
 export function sortIsAdmin(a: User, b: User): number {
-    return checkNotNullParams(a.IsAdmin, b.IsAdmin);
+    return checkNotNullParams(a.Admin, b.Admin);
 }
 
 export function sortIsActive(a: User, b: User): number {
-    return checkNotNullParams(a.IsActive, b.IsActive);
+    return checkNotNullParams(a.Active, b.Active);
 }

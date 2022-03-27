@@ -39,14 +39,14 @@ type _ struct {
 	User dto.UserRequest
 }
 
-// swagger:parameters UpdateMe Update
+// swagger:parameters UpdateMe UpdateUser
 type _ struct {
 	// in: body
 	// required: true
 	User domain.User
 }
 
-// swagger:parameters Delete Disable FindById
+// swagger:parameters DeleteUser DisableUser FindUserById
 type _ struct {
 	// The user´s id
 	// in: path
@@ -60,4 +60,11 @@ type _ struct {
 	// in: body
 	// required: true
 	Stage dto.StageRequest
+}
+
+// swagger:parameters UpdateStage
+type _ struct {
+	// in: body
+	// required: true
+	Stage domain.Stage
 }

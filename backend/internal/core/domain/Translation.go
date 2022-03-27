@@ -8,12 +8,12 @@ import (
 // swagger:model Translation
 type Translation struct {
 	ID         primitive.ObjectID `bson:"_id,omitempty"`
-	Content    string             `bson:"content"`
-	Language   Language           `bson:"language"`
-	Version    int                `default:"1" bson:"version"`
-	Active     bool               `bson:"active"`
-	BaseString BaseString         `bson:"strings"`
-	Author     User               `bson:"author"`
-	Date       time.Time          `bson:"date"`
-	Stage      Stage              `bson:"stage"`
+	Content    string             `bson:"Content"`
+	Language   Language           `bson:"Language"`
+	Version    int                `default:"1" bson:"Version"`
+	Active     bool               `bson:"Active"`
+	BaseString BaseString         `bson:"BaseString"`
+	Author     User               `bson:"Author"`
+	Date       time.Time          `bson:"Date"`
+	Stage      Stage              `bson:"Stage"`
 }

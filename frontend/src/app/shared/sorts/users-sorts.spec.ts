@@ -7,16 +7,16 @@ describe('users-sorts', () => {
     beforeEach(() => {
         a = {
             ID: '1',
-            IsAdmin: true,
+            Admin: true,
             Email: 'a',
-            IsActive: true,
+            Active: true,
             Password: 'a',
         };
         b = {
             ID: '12',
-            IsAdmin: false,
+            Admin: false,
             Email: 'a1',
-            IsActive: false,
+            Active: false,
             Password: 'a1',
         };
     });
@@ -35,9 +35,9 @@ describe('users-sorts', () => {
         expect(sortIsActive(a, b)).toBeGreaterThanOrEqual(-1);
         expect(sortIsActive(b, a)).toBeLessThanOrEqual(1);
         expect(sortIsActive(a, a)).toBe(0);
-        b.IsActive = undefined;
+        b.Active = undefined;
         expect(sortIsActive(a, b)).toBe(-1);
-        a.IsActive = undefined;
+        a.Active = undefined;
         expect(sortIsActive(a, b)).toBe(1);
     });
 
@@ -45,9 +45,9 @@ describe('users-sorts', () => {
         expect(sortIsAdmin(a, b)).toBe(-1);
         expect(sortIsAdmin(b, a)).toBe(1);
         expect(sortIsAdmin(a, a)).toBe(0);
-        b.IsAdmin = undefined;
+        b.Admin = undefined;
         expect(sortIsAdmin(a, b)).toBe(-1);
-        a.IsAdmin = undefined;
+        a.Admin = undefined;
         expect(sortIsAdmin(a, b)).toBe(1);
     });
 });

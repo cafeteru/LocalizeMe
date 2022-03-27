@@ -20,11 +20,11 @@ import (
 func TestCheckTokenIsActive_CheckUserIsActive_IsActive(t *testing.T) {
 	mockUserService := initMocks(t)
 	user := createUser()
-	user.IsActive = true
+	user.Active = true
 	claims := jwt.MapClaims{
-		"Email":    user.Email,
-		"IsAdmin":  user.IsAdmin,
-		"IsActive": user.IsActive,
+		"Email":  user.Email,
+		"Admin":  user.Admin,
+		"Active": user.Active,
 	}
 	request, w := createRequestWithToken(claims)
 	mockUserService.EXPECT().FindByEmail(user.Email).Return(&user, nil)
@@ -35,12 +35,12 @@ func TestCheckTokenIsActive_CheckUserIsActive_IsActive(t *testing.T) {
 func TestCheckTokenIsActive_CheckUserIsActive_IsNotActive(t *testing.T) {
 	mockUserService := initMocks(t)
 	user := createUser()
-	user.IsActive = false
+	user.Active = false
 
 	claims := jwt.MapClaims{
-		"Email":    user.Email,
-		"IsAdmin":  user.IsAdmin,
-		"IsActive": user.IsActive,
+		"Email":  user.Email,
+		"Admin":  user.Admin,
+		"Active": user.Active,
 	}
 	request, w := createRequestWithToken(claims)
 	mockUserService.EXPECT().FindByEmail(user.Email).Return(&user, nil)
@@ -52,7 +52,7 @@ func TestCheckTokenIsActive_CheckUserIsActive_InvalidToken(t *testing.T) {
 	mockUserService := initMocks(t)
 	user := createUser()
 	claims := jwt.MapClaims{
-		"IsAdmin": user.IsAdmin,
+		"Admin": user.Admin,
 	}
 	request, w := createRequestWithToken(claims)
 	mockUserService.EXPECT().FindByEmail(user.Email).Return(&user, nil)
@@ -64,8 +64,8 @@ func TestCheckTokenIsActive_CheckUserIsActive_NotRegisterUser(t *testing.T) {
 	mockUserService := initMocks(t)
 	user := createUser()
 	claims := jwt.MapClaims{
-		"Email":   user.Email,
-		"IsAdmin": user.IsAdmin,
+		"Email": user.Email,
+		"Admin": user.Admin,
 	}
 	request, w := createRequestWithToken(claims)
 	mockUserService.EXPECT().FindByEmail(user.Email).Return(nil, nil)
@@ -77,8 +77,8 @@ func TestCheckTokenIsActive_CheckUserIsActive_ErrorUser(t *testing.T) {
 	mockUserService := initMocks(t)
 	user := createUser()
 	claims := jwt.MapClaims{
-		"Email":   user.Email,
-		"IsAdmin": user.IsAdmin,
+		"Email": user.Email,
+		"Admin": user.Admin,
 	}
 	request, w := createRequestWithToken(claims)
 	mockUserService.EXPECT().FindByEmail(user.Email).Return(nil, errors.New(constants.UserNoRegister))
@@ -98,8 +98,8 @@ func createUser() domain.User {
 		ID:       primitive.ObjectID{},
 		Email:    "username",
 		Password: "",
-		IsAdmin:  false,
-		IsActive: false,
+		Admin:    false,
+		Active:   false,
 	}
 	return user
 }

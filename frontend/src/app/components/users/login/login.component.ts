@@ -40,14 +40,14 @@ export class LoginComponent extends BaseComponent implements OnInit {
         this.isLoading = true;
         const subscription = this.userService
             .login({
-                email: this.formGroup.controls['email'].value,
-                password: this.formGroup.controls['password'].value,
+                Email: this.formGroup.controls['email'].value,
+                Password: this.formGroup.controls['password'].value,
             })
             .subscribe({
                 next: (user) => {
                     this.isLoading = false;
                     this.close();
-                    if (user.IsActive) {
+                    if (user.Active) {
                         this.createMessage('success', 'Successfully logged.');
                     } else {
                         this.userService.logout();

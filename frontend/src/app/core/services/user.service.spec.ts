@@ -5,7 +5,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { provideMockStore } from '@ngrx/store/testing';
 import { ResponseLogin } from '../../types/response-login';
 import { createAppStateMock } from '../../store/mocks/create-app-state-mock';
-import { createUserMock } from '../../types/mocks/user-mock';
+import { createMockUser } from '../../types/user';
 
 describe('UserService', () => {
     let service: UserService;
@@ -31,8 +31,8 @@ describe('UserService', () => {
 
     it('check login', () => {
         const loginData: LoginData = {
-            email: 'username',
-            password: 'password',
+            Email: 'username',
+            Password: 'password',
         };
         const token: ResponseLogin = {
             Authorization:
@@ -59,37 +59,37 @@ describe('UserService', () => {
         });
         const req = mockHttp.expectOne(`${service.urlUsers}/me`);
         expect(req.request.method).toBe('GET');
-        req.flush(createUserMock());
+        req.flush(createMockUser());
     });
 
     it('check register', () => {
         const loginData: LoginData = {
-            email: 'username',
-            password: 'password',
+            Email: 'username',
+            Password: 'password',
         };
         service.register(loginData).subscribe({
             error: (err) => fail(err),
         });
         const req = mockHttp.expectOne(`${service.urlUsers}`);
         expect(req.request.method).toBe('POST');
-        req.flush(createUserMock());
+        req.flush(createMockUser());
     });
 
     it('check updateMe', () => {
-        service.updateMe(createUserMock()).subscribe({
+        service.updateMe(createMockUser()).subscribe({
             error: (err) => fail(err),
         });
         const req = mockHttp.expectOne(`${service.urlUsers}/me`);
         expect(req.request.method).toBe('PUT');
-        req.flush(createUserMock());
+        req.flush(createMockUser());
     });
 
     it('check update', () => {
-        const user = createUserMock();
+        const user = createMockUser();
         service.update(user).subscribe({
             error: (err) => fail(err),
         });
-        const req = mockHttp.expectOne(`${service.urlUsers}/${user.ID}`);
+        const req = mockHttp.expectOne(`${service.urlUsers}`);
         expect(req.request.method).toBe('PUT');
         req.flush(user);
     });

@@ -15,6 +15,7 @@ import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
 
 @NgModule({
     imports: [
@@ -32,6 +33,7 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
         NzPopoverModule,
         NzRadioModule,
         NzSelectModule,
+        NzSpinModule,
         NzTableModule,
         NzToolTipModule,
     ],
@@ -50,6 +52,7 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
         NzPopoverModule,
         NzRadioModule,
         NzSelectModule,
+        NzSpinModule,
         NzTableModule,
         NzToolTipModule,
     ],

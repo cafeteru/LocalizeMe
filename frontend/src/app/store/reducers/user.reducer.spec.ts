@@ -5,8 +5,8 @@ describe('UserReducer', () => {
         ID: initialState.ID,
         Email: initialState.Email,
         Exp: initialState.Exp,
-        IsActive: initialState.IsActive,
-        IsAdmin: initialState.IsAdmin,
+        Active: initialState.Active,
+        Admin: initialState.Admin,
         Authorization: initialState.Authorization,
     };
 
@@ -15,8 +15,8 @@ describe('UserReducer', () => {
             ID: '1',
             Email: 'email@email.es',
             Exp: 1,
-            IsActive: true,
-            IsAdmin: true,
+            Active: true,
+            Admin: true,
             Authorization: 'Authorization',
         };
         const reduce = loadUser(userReducer, temp);

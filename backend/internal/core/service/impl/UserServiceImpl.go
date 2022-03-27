@@ -47,8 +47,8 @@ func (u UserServiceImpl) Create(request dto.UserRequest) (domain.User, error) {
 		ID:       resultId.InsertedID.(primitive.ObjectID),
 		Email:    user.Email,
 		Password: "",
-		IsAdmin:  user.IsAdmin,
-		IsActive: true,
+		Admin:    user.Admin,
+		Active:   true,
 	}, nil
 }
 
@@ -65,8 +65,8 @@ func (u UserServiceImpl) checkRequest(request dto.UserRequest) (domain.User, err
 	return domain.User{
 		Email:    request.Email,
 		Password: request.Password,
-		IsAdmin:  false,
-		IsActive: true,
+		Admin:    false,
+		Active:   true,
 	}, nil
 }
 
@@ -91,18 +91,18 @@ func (u UserServiceImpl) Disable(id primitive.ObjectID) (*domain.User, error) {
 	if user == nil || err != nil {
 		return nil, tools.ErrorLog(constants.FindUserByEmail, tools.GetCurrentFuncName())
 	}
-	user.IsActive = !user.IsActive
-	_, err = u.repository.Update(id, *user)
+	user.Active = !user.Active
+	_, err = u.repository.Update(*user)
 	if err != nil {
 		log.Printf("%s: error", tools.GetCurrentFuncName())
 		return nil, err
 	}
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return &domain.User{
-		ID:       user.ID,
-		Email:    user.Email,
-		IsAdmin:  user.IsAdmin,
-		IsActive: user.IsActive,
+		ID:     user.ID,
+		Email:  user.Email,
+		Admin:  user.Admin,
+		Active: user.Active,
 	}, nil
 }
 
@@ -127,7 +127,7 @@ func (u UserServiceImpl) FindByEmail(email string) (*domain.User, error) {
 		log.Printf("%s: error", tools.GetCurrentFuncName())
 		return nil, err
 	}
-	if !user.IsActive {
+	if !user.Active {
 		errActive := errors.New(constants.UserNoActive)
 		log.Printf("%s: error", tools.GetCurrentFuncName())
 		return nil, errActive
@@ -143,7 +143,7 @@ func (u UserServiceImpl) FindById(id primitive.ObjectID) (*domain.User, error) {
 		log.Printf("%s: error", tools.GetCurrentFuncName())
 		return nil, err
 	}
-	if !user.IsActive {
+	if !user.Active {
 		errActive := errors.New(constants.UserNoActive)
 		log.Printf("%s: error", tools.GetCurrentFuncName())
 		return nil, errActive
@@ -163,10 +163,10 @@ func (u UserServiceImpl) Login(request dto.UserRequest) (*dto.TokenDto, error) {
 		return nil, errors.New(constants.DataLogin)
 	}
 	claims := jwt.MapClaims{
-		"ID":       user.ID,
-		"Email":    user.Email,
-		"IsAdmin":  user.IsAdmin,
-		"IsActive": user.IsActive,
+		"ID":     user.ID,
+		"Email":  user.Email,
+		"Admin":  user.Admin,
+		"Active": user.Active,
 	}
 	tools.LoadEnv()
 	hours, _ := time.ParseDuration(os.Getenv("HOURS"))
@@ -178,14 +178,14 @@ func (u UserServiceImpl) Login(request dto.UserRequest) (*dto.TokenDto, error) {
 	return &dto.TokenDto{Authorization: tokenString}, nil
 }
 
-func (u UserServiceImpl) Update(id primitive.ObjectID, request domain.User) (*domain.User, error) {
+func (u UserServiceImpl) Update(request domain.User) (*domain.User, error) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
-	original, err := u.repository.FindById(id)
+	original, err := u.repository.FindById(request.ID)
 	if original == nil || err != nil {
 		return nil, tools.ErrorLog(constants.FindUserById, tools.GetCurrentFuncName())
 	}
-	byUserEmail, _ := u.repository.FindByEmail(request.Email)
-	if byUserEmail != nil && byUserEmail.ID != id {
+	userEmail, _ := u.repository.FindByEmail(request.Email)
+	if userEmail != nil && userEmail.ID != request.ID {
 		return nil, tools.ErrorLog(constants.EmailAlreadyRegister, tools.GetCurrentFuncName())
 	}
 	if request.Password != "" {
@@ -198,16 +198,16 @@ func (u UserServiceImpl) Update(id primitive.ObjectID, request domain.User) (*do
 	} else {
 		request.Password = original.Password
 	}
-	_, err = u.repository.Update(id, request)
+	_, err = u.repository.Update(request)
 	if err != nil {
 		log.Printf("%s: error", tools.GetCurrentFuncName())
 		return nil, err
 	}
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return &domain.User{
-		ID:       original.ID,
-		Email:    request.Email,
-		IsAdmin:  request.IsAdmin,
-		IsActive: request.IsActive,
+		ID:     original.ID,
+		Email:  request.Email,
+		Admin:  request.Admin,
+		Active: request.Active,
 	}, nil
 }

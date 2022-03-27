@@ -29,13 +29,13 @@ func CreateStagePort() *StagePortImpl {
 	return port
 }
 
-func (u StagePortImpl) InitStageRoutes(r *chi.Mux) {
+func (s StagePortImpl) InitStageRoutes(r *chi.Mux) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
-	u.CreateStageRoutes(r)
+	s.CreateStageRoutes(r)
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 }
 
-func (u StagePortImpl) CreateStageRoutes(r *chi.Mux) {
+func (s StagePortImpl) CreateStageRoutes(r *chi.Mux) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
 	pattern := "/stages"
 	tokenAuth := utils.ConfigJWTRoutes()
@@ -43,8 +43,9 @@ func (u StagePortImpl) CreateStageRoutes(r *chi.Mux) {
 		r.Use(jwtauth.Verifier(tokenAuth))
 		r.Use(jwtauth.Authenticator)
 		r.Route(pattern, func(r chi.Router) {
-			r.Post("/", u.controller.Create)
-			r.Get("/", u.controller.FindAll)
+			r.Post("/", s.controller.Create)
+			r.Get("/", s.controller.FindAll)
+			r.Put("/", s.controller.Update)
 		})
 	})
 	log.Printf("%s: end", tools.GetCurrentFuncName())

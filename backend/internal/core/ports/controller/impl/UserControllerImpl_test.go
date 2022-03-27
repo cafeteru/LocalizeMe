@@ -75,8 +75,8 @@ func TestUserControllerImpl_Create_Successful(t *testing.T) {
 		ID:       primitive.NewObjectID(),
 		Email:    "",
 		Password: "",
-		IsAdmin:  false,
-		IsActive: true,
+		Admin:    false,
+		Active:   true,
 	}
 	mockUserService.EXPECT().Create(gomock.Any()).Return(request, nil)
 	controllerImpl := CreateUserController(mockUserService)
@@ -119,10 +119,10 @@ func initMocks(t *testing.T) *mock.MockUserService {
 
 func createUser() domain.User {
 	user := domain.User{
-		ID:       primitive.NewObjectID(),
-		Email:    "username",
-		IsAdmin:  false,
-		IsActive: false,
+		ID:     primitive.NewObjectID(),
+		Email:  "username",
+		Admin:  false,
+		Active: false,
 	}
 	return user
 }

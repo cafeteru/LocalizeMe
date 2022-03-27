@@ -17,9 +17,9 @@ describe('UpdateUserComponent', () => {
         user: {
             ID: '',
             Email: '',
-            IsAdmin: false,
+            Admin: false,
             Password: '',
-            IsActive: true,
+            Active: true,
         },
     };
 

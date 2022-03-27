@@ -19,7 +19,7 @@ func CheckUserIsActive(w http.ResponseWriter, r *http.Request, u service.UserSer
 		return nil
 	}
 	user, err := u.FindByEmail(value.(string))
-	if err != nil || user == nil || !user.IsActive {
+	if err != nil || user == nil || !user.Active {
 		createErrorResponse(w)
 		return nil
 	}
@@ -31,7 +31,7 @@ func CheckUserIsAdmin(w http.ResponseWriter, r *http.Request, u service.UserServ
 	if user == nil {
 		return nil
 	}
-	if user != nil && user.IsAdmin {
+	if user != nil && user.Admin {
 		return user
 	}
 	err := errors.New(constants.UserNoAdmin)

@@ -49,6 +49,18 @@
             "schema": {
               "$ref": "#/definitions/ErrorDto"
             }
+          },
+          "401": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          },
+          "422": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
           }
         }
       }
@@ -59,7 +71,7 @@
           "Stages"
         ],
         "summary": "Return all stages.",
-        "operationId": "FindAll",
+        "operationId": "FindAllStages",
         "responses": {
           "200": {
             "description": "Stage",
@@ -68,6 +80,70 @@
               "items": {
                 "$ref": "#/definitions/Stage"
               }
+            }
+          },
+          "400": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          },
+          "401": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          },
+          "500": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          }
+        }
+      },
+      "put": {
+        "consumes": [
+          "application/json"
+        ],
+        "tags": [
+          "Stages"
+        ],
+        "summary": "Update the information of a stage.",
+        "operationId": "UpdateStage",
+        "parameters": [
+          {
+            "name": "Stage",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Stage"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Stage",
+            "schema": {
+              "$ref": "#/definitions/Stage"
+            }
+          },
+          "400": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          },
+          "401": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          },
+          "422": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
             }
           }
         }
@@ -103,16 +179,28 @@
             "schema": {
               "$ref": "#/definitions/ErrorDto"
             }
+          },
+          "401": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          },
+          "422": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
           }
         }
       }
     },
-    "/userService": {
+    "/users": {
       "get": {
         "tags": [
           "Users"
         ],
-        "summary": "Return all userService.",
+        "summary": "Return all users.",
         "operationId": "FindAll",
         "responses": {
           "200": {
@@ -122,6 +210,70 @@
               "items": {
                 "$ref": "#/definitions/User"
               }
+            }
+          },
+          "400": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          },
+          "401": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          },
+          "500": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          }
+        }
+      },
+      "put": {
+        "consumes": [
+          "application/json"
+        ],
+        "tags": [
+          "Users"
+        ],
+        "summary": "Update the information of a user.",
+        "operationId": "UpdateUser",
+        "parameters": [
+          {
+            "name": "User",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "400": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          },
+          "401": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          },
+          "422": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
             }
           }
         }
@@ -157,11 +309,23 @@
             "schema": {
               "$ref": "#/definitions/ErrorDto"
             }
+          },
+          "401": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          },
+          "422": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
           }
         }
       }
     },
-    "/userService/me": {
+    "/users/me": {
       "get": {
         "consumes": [
           "application/json"
@@ -179,6 +343,12 @@
             }
           },
           "400": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          },
+          "401": {
             "description": "ErrorDto",
             "schema": {
               "$ref": "#/definitions/ErrorDto"
@@ -224,7 +394,7 @@
               "$ref": "#/definitions/ErrorDto"
             }
           },
-          "404": {
+          "422": {
             "description": "ErrorDto",
             "schema": {
               "$ref": "#/definitions/ErrorDto"
@@ -233,7 +403,7 @@
         }
       }
     },
-    "/userService/{id}": {
+    "/users/{id}": {
       "get": {
         "consumes": [
           "application/json"
@@ -242,7 +412,7 @@
           "Users"
         ],
         "summary": "Return the information of the user by id.",
-        "operationId": "FindById",
+        "operationId": "FindUserById",
         "parameters": [
           {
             "type": "string",
@@ -251,52 +421,6 @@
             "name": "id",
             "in": "path",
             "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "User",
-            "schema": {
-              "$ref": "#/definitions/User"
-            }
-          },
-          "400": {
-            "description": "ErrorDto",
-            "schema": {
-              "$ref": "#/definitions/ErrorDto"
-            }
-          },
-          "401": {
-            "description": "ErrorDto",
-            "schema": {
-              "$ref": "#/definitions/ErrorDto"
-            }
-          },
-          "404": {
-            "description": "ErrorDto",
-            "schema": {
-              "$ref": "#/definitions/ErrorDto"
-            }
-          }
-        }
-      },
-      "put": {
-        "consumes": [
-          "application/json"
-        ],
-        "tags": [
-          "Users"
-        ],
-        "summary": "Update the information of a user.",
-        "operationId": "Update",
-        "parameters": [
-          {
-            "name": "User",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/User"
-            }
           }
         ],
         "responses": {
@@ -334,7 +458,7 @@
           "Users"
         ],
         "summary": "Return a user by email.",
-        "operationId": "Delete",
+        "operationId": "DeleteUser",
         "parameters": [
           {
             "type": "string",
@@ -360,12 +484,6 @@
             "schema": {
               "$ref": "#/definitions/ErrorDto"
             }
-          },
-          "404": {
-            "description": "ErrorDto",
-            "schema": {
-              "$ref": "#/definitions/ErrorDto"
-            }
           }
         }
       },
@@ -377,7 +495,7 @@
           "Users"
         ],
         "summary": "Disable of a user.",
-        "operationId": "Disable",
+        "operationId": "DisableUser",
         "parameters": [
           {
             "type": "string",
@@ -402,12 +520,6 @@
             }
           },
           "401": {
-            "description": "ErrorDto",
-            "schema": {
-              "$ref": "#/definitions/ErrorDto"
-            }
-          },
-          "404": {
             "description": "ErrorDto",
             "schema": {
               "$ref": "#/definitions/ErrorDto"
@@ -466,17 +578,14 @@
     "Language": {
       "type": "object",
       "properties": {
-        "CanWriteGroup": {
-          "type": "boolean"
-        },
-        "Group": {
-          "$ref": "#/definitions/Group"
+        "Description": {
+          "type": "string"
         },
         "ID": {
           "$ref": "#/definitions/ObjectID"
         },
-        "User": {
-          "$ref": "#/definitions/User"
+        "IsoCode": {
+          "type": "string"
         }
       },
       "x-go-name": "Permission",
@@ -562,17 +671,17 @@
     "User": {
       "type": "object",
       "properties": {
+        "Active": {
+          "type": "boolean"
+        },
+        "Admin": {
+          "type": "boolean"
+        },
         "Email": {
           "type": "string"
         },
         "ID": {
           "$ref": "#/definitions/ObjectID"
-        },
-        "IsActive": {
-          "type": "boolean"
-        },
-        "IsAdmin": {
-          "type": "boolean"
         },
         "Password": {
           "type": "string"
