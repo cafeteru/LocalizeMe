@@ -19,6 +19,40 @@ var user = domain.User{
 	Active:   true,
 }
 
+func TestUserRepositoryImpl_Delete_Success(t *testing.T) {
+	mt, u := createUserMocks(t)
+	mt.Run("Delete_User_Success", func(mt *mtest.T) {
+		u.collection = mt.Coll
+		mt.AddMockResponses(mtest.CreateCursorResponse(1, "foo.bar", mtest.FirstBatch, bson.D{
+			{Key: "DeletedCount", Value: 1},
+		}))
+		_, err := u.Delete(user.ID)
+		assert.Nil(t, err)
+	})
+}
+
+func TestUserRepositoryImpl_Delete_NotConnection(t *testing.T) {
+	mt, u := createUserMocks(t)
+	mt.Run("Delete_User_NotConnection", func(mt *mtest.T) {
+		_, err := u.Delete(user.ID)
+		assert.NotNil(t, err)
+		assert.Equal(t, err, errors.New(constants.CreateConnection))
+	})
+}
+
+func TestUserRepositoryImpl_Delete_NotFound(t *testing.T) {
+	mt, u := createUserMocks(t)
+	mt.Run("Delete_User_NotFound", func(mt *mtest.T) {
+		u.collection = mt.Coll
+		mt.AddMockResponses(mtest.CreateWriteErrorsResponse(mtest.WriteError{
+			Message: constants.DeleteUser,
+		}))
+		_, err := u.Delete(user.ID)
+		assert.NotNil(t, err)
+		assert.Equal(t, err, errors.New(constants.DeleteUser))
+	})
+}
+
 func TestUserRepositoryImpl_FindByEmail_Success(t *testing.T) {
 	mt, u := createUserMocks(t)
 	mt.Run("FindByEmail_User_Success", func(mt *mtest.T) {
@@ -55,6 +89,45 @@ func TestUserRepositoryImpl_FindByEmail_NotFound(t *testing.T) {
 		_, err := u.FindByEmail(user.Email)
 		assert.NotNil(t, err)
 		assert.Equal(t, err, errors.New(constants.FindUserByEmail))
+	})
+}
+
+func TestUserRepositoryImpl_FindById_Success(t *testing.T) {
+	mt, u := createUserMocks(t)
+	mt.Run("FindById_User_Success", func(mt *mtest.T) {
+		u.collection = mt.Coll
+		mt.AddMockResponses(mtest.CreateCursorResponse(1, "foo.bar", mtest.FirstBatch, bson.D{
+			{Key: "_id", Value: user.ID},
+			{Key: "Email", Value: user.Email},
+			{Key: "Password", Value: user.Password},
+			{Key: "Admin", Value: user.Admin},
+			{Key: "Active", Value: user.Active},
+		}))
+		response, err := u.FindById(user.ID)
+		assert.Nil(t, err)
+		assert.Equal(t, user.Email, response.Email)
+	})
+}
+
+func TestUserRepositoryImpl_FindById_NotConnection(t *testing.T) {
+	mt, u := createUserMocks(t)
+	mt.Run("FindById_User_NotConnection", func(mt *mtest.T) {
+		_, err := u.FindById(user.ID)
+		assert.NotNil(t, err)
+		assert.Equal(t, err, errors.New(constants.CreateConnection))
+	})
+}
+
+func TestUserRepositoryImpl_FindById_NotFound(t *testing.T) {
+	mt, u := createUserMocks(t)
+	mt.Run("FindById_User_NotFound", func(mt *mtest.T) {
+		u.collection = mt.Coll
+		mt.AddMockResponses(mtest.CreateWriteErrorsResponse(mtest.WriteError{
+			Message: constants.FindUserById,
+		}))
+		_, err := u.FindById(user.ID)
+		assert.NotNil(t, err)
+		assert.Equal(t, err, errors.New(constants.FindUserById))
 	})
 }
 

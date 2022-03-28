@@ -22,8 +22,8 @@ export class RegisterComponent extends BaseComponent implements OnInit {
     constructor(
         private matDialogRef: MatDialogRef<RegisterComponent>,
         private userService: UserService,
-        private message: NzMessageService,
-        public dialog: MatDialog
+        private nzMessageService: NzMessageService,
+        public matDialog: MatDialog
     ) {
         super();
     }
@@ -47,7 +47,7 @@ export class RegisterComponent extends BaseComponent implements OnInit {
                 Email: this.formGroup.controls['email'].value,
                 Password: this.formGroup.controls['password'].value,
             };
-            const subscription = this.userService
+            const subscription$ = this.userService
                 .register(loginData)
                 .pipe(switchMap(() => this.userService.login(loginData)))
                 .subscribe({
@@ -61,12 +61,12 @@ export class RegisterComponent extends BaseComponent implements OnInit {
                         this.createMessage('error', 'Register not complete. Check the fields.');
                     },
                 });
-            this.subscriptions.push(subscription);
+            this.subscriptions$.push(subscription$);
         }
     }
 
     createMessage(type: string, message: string): void {
-        this.message.create(type, message);
+        this.nzMessageService.create(type, message);
     }
 
     close(): void {
@@ -75,7 +75,7 @@ export class RegisterComponent extends BaseComponent implements OnInit {
 
     openRegister(): void {
         this.close();
-        this.dialog.open(LoginComponent, {
+        this.matDialog.open(LoginComponent, {
             maxWidth: '75%',
         });
     }

@@ -36,9 +36,10 @@ describe('UserService', () => {
         };
         const token: ResponseLogin = {
             Authorization:
-                'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGV' +
-                'tYWlsLmVzIiwiZXhwIjoxNjQ2NjU1MjAzLCJpc0FjdGl2ZSI6dHJ1ZSwiaXN' +
-                'BZG1pbiI6dHJ1ZX0.Mf2ooBSFbDNZdRBCJCR_R2-59VzDwt6jMYHrW7PHeOk',
+                'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJBY3RpdmUiOnRydWUsIk' +
+                'FkbWluIjp0cnVlLCJFbWFpbCI6ImFkbWluQGVtYWlsLmVzIiwiSUQiOiI2MjI' +
+                'xMmI5MmFiNjMxNDFhNjg0NzM5ZjMiLCJleHAiOjE2NDg1MzM5MTJ9.mWhtyw3' +
+                'B8HdW9j1wpW0Plx-pI4OSUQmRx1parMW1gko',
         };
         service.login(loginData).subscribe({
             error: (err) => fail(err),
@@ -92,5 +93,46 @@ describe('UserService', () => {
         const req = mockHttp.expectOne(`${service.urlUsers}`);
         expect(req.request.method).toBe('PUT');
         req.flush(user);
+    });
+
+    it('check findAll', () => {
+        service.findAll().subscribe({
+            error: (err) => fail(err),
+        });
+        const req = mockHttp.expectOne(`${service.urlUsers}`);
+        expect(req.request.method).toBe('GET');
+        req.flush([createMockUser()]);
+    });
+
+    it('check disable', () => {
+        const user = createMockUser();
+        service.disable(user).subscribe({
+            error: (err) => fail(err),
+        });
+        const req = mockHttp.expectOne(`${service.urlUsers}/${user.ID}`);
+        expect(req.request.method).toBe('PATCH');
+        req.flush(user);
+    });
+
+    it('check valid delete', () => {
+        const user = createMockUser();
+        service.delete(user).subscribe({
+            next: (res) => expect(res).toBeTrue(),
+            error: (err) => fail(err),
+        });
+        const req = mockHttp.expectOne(`${service.urlUsers}/${user.ID}`);
+        expect(req.request.method).toBe('DELETE');
+        req.flush(true);
+    });
+
+    it('check invalid delete', () => {
+        const user = createMockUser();
+        service.delete(user).subscribe({
+            next: (res) => expect(res).toBeFalse(),
+            error: (err) => fail(err),
+        });
+        const req = mockHttp.expectOne(`${service.urlUsers}/${user.ID}`);
+        expect(req.request.method).toBe('DELETE');
+        req.flush(true, { status: 400, statusText: 'Bad Request' });
     });
 });

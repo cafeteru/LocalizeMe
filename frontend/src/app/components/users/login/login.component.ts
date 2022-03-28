@@ -16,10 +16,10 @@ export class LoginComponent extends BaseComponent implements OnInit {
     isLoading = false;
 
     constructor(
-        private userService: UserService,
-        private messageService: NzMessageService,
         private matDialogRef: MatDialogRef<LoginComponent>,
-        public dialog: MatDialog
+        private nzMessageService: NzMessageService,
+        private userService: UserService,
+        public matDialog: MatDialog
     ) {
         super();
     }
@@ -33,12 +33,12 @@ export class LoginComponent extends BaseComponent implements OnInit {
     }
 
     createMessage(type: string, message: string): void {
-        this.messageService.create(type, message);
+        this.nzMessageService.create(type, message);
     }
 
     login(): void {
         this.isLoading = true;
-        const subscription = this.userService
+        const subscription$ = this.userService
             .login({
                 Email: this.formGroup.controls['email'].value,
                 Password: this.formGroup.controls['password'].value,
@@ -59,7 +59,7 @@ export class LoginComponent extends BaseComponent implements OnInit {
                     this.createMessage('error', 'Session not started. Check the fields.');
                 },
             });
-        this.subscriptions.push(subscription);
+        this.subscriptions$.push(subscription$);
     }
 
     close(): void {
@@ -68,7 +68,7 @@ export class LoginComponent extends BaseComponent implements OnInit {
 
     openRegister(): void {
         this.close();
-        this.dialog.open(RegisterComponent, {
+        this.matDialog.open(RegisterComponent, {
             minWidth: '550px',
             maxWidth: '75%',
         });

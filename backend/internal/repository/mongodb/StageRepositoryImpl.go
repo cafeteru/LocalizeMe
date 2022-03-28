@@ -35,6 +35,22 @@ func (s *StageRepositoryImpl) Create(stage domain.Stage) (*mongo.InsertOneResult
 	return result, nil
 }
 
+func (s *StageRepositoryImpl) Delete(id primitive.ObjectID) (*mongo.DeleteResult, error) {
+	log.Printf("%s: start", tools.GetCurrentFuncName())
+	collection, err := s.GetCollection(s.name)
+	if err != nil {
+		return nil, tools.ErrorLogDetails(err, constants.CreateConnection, tools.GetCurrentFuncName())
+	}
+	filter := bson.M{"_id": bson.M{"$eq": id}}
+	result, err := collection.DeleteOne(context.TODO(), filter)
+	if err != nil {
+		return nil, tools.ErrorLogDetails(err, constants.DeleteStage, tools.GetCurrentFuncName())
+	}
+	s.CloseConnection()
+	log.Printf("%s: end", tools.GetCurrentFuncName())
+	return result, nil
+}
+
 func (s *StageRepositoryImpl) FindAll() (*[]domain.Stage, error) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
 	collection, err := s.GetCollection(s.name)

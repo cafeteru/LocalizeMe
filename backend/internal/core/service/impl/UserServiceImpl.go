@@ -89,7 +89,7 @@ func (u UserServiceImpl) Disable(id primitive.ObjectID) (*domain.User, error) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
 	user, err := u.repository.FindById(id)
 	if user == nil || err != nil {
-		return nil, tools.ErrorLog(constants.FindUserByEmail, tools.GetCurrentFuncName())
+		return nil, tools.ErrorLog(constants.FindUserById, tools.GetCurrentFuncName())
 	}
 	user.Active = !user.Active
 	_, err = u.repository.Update(*user)
@@ -199,10 +199,5 @@ func (u UserServiceImpl) Update(request domain.User) (*domain.User, error) {
 		return nil, err
 	}
 	log.Printf("%s: end", tools.GetCurrentFuncName())
-	return &domain.User{
-		ID:     original.ID,
-		Email:  request.Email,
-		Admin:  request.Admin,
-		Active: request.Active,
-	}, nil
+	return &request, nil
 }

@@ -54,6 +54,35 @@ func (s StageControllerImpl) Create(w http.ResponseWriter, r *http.Request) {
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 }
 
+// swagger:route DELETE /stages/{id} Stages DeleteStage
+// Return a stage by id.
+//
+// Responses:
+// - 200: bool
+// - 400: ErrorDto
+// - 401: ErrorDto
+func (s StageControllerImpl) Delete(w http.ResponseWriter, r *http.Request) {
+	log.Printf("%s: start", tools.GetCurrentFuncName())
+	user := utils.CheckUserIsAdmin(w, r, s.userService)
+	if user == nil {
+		return
+	}
+	id := chi.URLParam(r, "id")
+	if id == "" {
+		err := errors.New(constants.IdNoValid)
+		utils.CreateErrorResponse(w, err, http.StatusBadRequest)
+		return
+	}
+	objectID, _ := primitive.ObjectIDFromHex(id)
+	result, err := s.stageService.Delete(objectID)
+	if err != nil {
+		utils.CreateErrorResponse(w, err, http.StatusNotFound)
+		return
+	}
+	utils.CreateResponse(w, http.StatusOK, result)
+	log.Printf("%s: end", tools.GetCurrentFuncName())
+}
+
 // swagger:route PATCH /stages/{id} Stages DisableStage
 // Disable of a stage.
 //

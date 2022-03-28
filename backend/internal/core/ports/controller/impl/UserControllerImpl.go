@@ -78,7 +78,7 @@ func (u UserControllerImpl) Create(w http.ResponseWriter, r *http.Request) {
 }
 
 // swagger:route DELETE /users/{id} Users DeleteUser
-// Return a user by email.
+// Return a user by ID.
 //
 // Responses:
 // - 200: bool

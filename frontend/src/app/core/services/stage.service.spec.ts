@@ -2,9 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { StageRequest, StageService } from './stage.service';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { LoginData } from './user.service';
-import { ResponseLogin } from '../../types/response-login';
-import { Stage } from '../../types/stage';
+import { createMockStage, Stage } from '../../types/stage';
 
 describe('StageService', () => {
     let service: StageService;
@@ -26,7 +24,7 @@ describe('StageService', () => {
         expect(service).toBeTruthy();
     });
 
-    it('check login', () => {
+    it('check create', () => {
         const stageRequest: StageRequest = {
             Name: 'name',
         };
@@ -41,5 +39,68 @@ describe('StageService', () => {
         const req = mockHttp.expectOne(`${service.url}`);
         expect(req.request.method).toBe('POST');
         req.flush(token);
+    });
+
+    it('check findAll', () => {
+        const response = [createMockStage()];
+        service.findAll().subscribe({
+            next: (value) => expect(value).toEqual(response),
+            error: (err) => fail(err),
+        });
+        const req = mockHttp.expectOne(`${service.url}`);
+        expect(req.request.method).toBe('GET');
+        req.flush(response);
+    });
+
+    it('check null findAll', () => {
+        service.findAll().subscribe({
+            next: (value) => expect(value).toEqual([]),
+            error: (err) => fail(err),
+        });
+        const req = mockHttp.expectOne(`${service.url}`);
+        expect(req.request.method).toBe('GET');
+        req.flush(null);
+    });
+
+    it('check disable', () => {
+        const stage = createMockStage();
+        service.disable(stage).subscribe({
+            error: (err) => fail(err),
+        });
+        const req = mockHttp.expectOne(`${service.url}/${stage.ID}`);
+        expect(req.request.method).toBe('PATCH');
+        req.flush(stage);
+    });
+
+    it('check valid delete', () => {
+        const stage = createMockStage();
+        service.delete(stage).subscribe({
+            next: (res) => expect(res).toBeTrue(),
+            error: (err) => fail(err),
+        });
+        const req = mockHttp.expectOne(`${service.url}/${stage.ID}`);
+        expect(req.request.method).toBe('DELETE');
+        req.flush(true);
+    });
+
+    it('check invalid delete', () => {
+        const stage = createMockStage();
+        service.delete(stage).subscribe({
+            next: (res) => expect(res).toBeFalse(),
+            error: (err) => fail(err),
+        });
+        const req = mockHttp.expectOne(`${service.url}/${stage.ID}`);
+        expect(req.request.method).toBe('DELETE');
+        req.flush(true, { status: 400, statusText: 'Bad Request' });
+    });
+
+    it('check update', () => {
+        const stage = createMockStage();
+        service.update(stage).subscribe({
+            error: (err) => fail(err),
+        });
+        const req = mockHttp.expectOne(`${service.url}`);
+        expect(req.request.method).toBe('PUT');
+        req.flush(stage);
     });
 });

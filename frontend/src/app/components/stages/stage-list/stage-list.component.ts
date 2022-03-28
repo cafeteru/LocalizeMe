@@ -8,7 +8,7 @@ import { Stage } from '../../../types/stage';
 import { sortActive, sortName } from '../../../shared/sorts/stages-sorts';
 import { StageService } from '../../../core/services/stage.service';
 import { tap } from 'rxjs';
-import { User } from '../../../types/user';
+import { NzModalService } from 'ng-zorro-antd/modal';
 
 @Component({
     selector: 'app-stage-list',
@@ -36,9 +36,10 @@ export class StageListComponent extends BaseComponent implements OnInit {
     ];
 
     constructor(
+        private nzMessageService: NzMessageService,
+        private nzModalService: NzModalService,
         private stageService: StageService,
-        public dialog: MatDialog,
-        private messageService: NzMessageService
+        public matDialog: MatDialog
     ) {
         super();
     }
@@ -49,7 +50,7 @@ export class StageListComponent extends BaseComponent implements OnInit {
     }
 
     loadStages(): void {
-        const subscription = this.stageService
+        const subscription$ = this.stageService
             .findAll()
             .pipe(tap(() => (this.isLoading = true)))
             .subscribe({
@@ -62,7 +63,7 @@ export class StageListComponent extends BaseComponent implements OnInit {
                     this.isLoading = false;
                 },
             });
-        this.subscriptions.push(subscription);
+        this.subscriptions$.push(subscription$);
     }
 
     onCurrentPageDataChange($event: readonly Stage[]): void {
@@ -75,23 +76,45 @@ export class StageListComponent extends BaseComponent implements OnInit {
             Active: true,
             ID: undefined,
         };
-        const dialogRef = this.dialog.open(ModalStageComponent, {
+        const dialogRef = this.matDialog.open(ModalStageComponent, {
             minWidth: '550px',
             maxWidth: '75%',
             data: stage ? stage : newStage,
         });
-        const subscription = dialogRef.afterClosed().subscribe((result: Stage) => {
+        const subscription$ = dialogRef.afterClosed().subscribe((result: Stage) => {
             if (result) {
                 this.loadStages();
             }
         });
-        this.subscriptions.push(subscription);
+        this.subscriptions$.push(subscription$);
     }
 
     disable(stage: Stage): void {
-        const subscription = this.stageService.disable(stage).subscribe((result) => this.loadStages());
-        this.subscriptions.push(subscription);
+        const subscription$ = this.stageService.disable(stage).subscribe(() => this.loadStages());
+        this.subscriptions$.push(subscription$);
     }
 
-    showDeleteModal(user: any) {}
+    showDeleteModal(stage: Stage): void {
+        this.nzModalService.confirm({
+            nzTitle: 'Are you sure delete this stage?',
+            nzOkText: 'Yes',
+            nzOkType: 'primary',
+            nzOkDanger: true,
+            nzOnOk: () => this.delete(stage),
+            nzCancelText: 'No',
+            nzAutofocus: 'cancel',
+        });
+    }
+
+    private delete(stage: Stage): void {
+        const subscription$ = this.stageService.delete(stage).subscribe((result) => {
+            if (result) {
+                this.loadStages();
+                this.nzMessageService.create('success', `${stage.Name} has been deleted`);
+            } else {
+                this.nzMessageService.create('error', 'Error deleting');
+            }
+        });
+        this.subscriptions$.push(subscription$);
+    }
 }

@@ -8,13 +8,13 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
  * Basic component that has the common properties
  */
 export abstract class BaseComponent implements OnInit, OnDestroy {
-    protected subscriptions: Subscription[] = [];
+    protected subscriptions$: Subscription[] = [];
 
     ngOnInit(): void {
-        this.subscriptions = [];
+        this.subscriptions$ = [];
     }
 
     ngOnDestroy(): void {
-        this.subscriptions.forEach((subscription) => subscription.unsubscribe());
+        this.subscriptions$.forEach((subscription) => subscription.unsubscribe());
     }
 }

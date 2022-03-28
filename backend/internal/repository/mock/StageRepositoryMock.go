@@ -51,6 +51,21 @@ func (mr *MockStageRepositoryMockRecorder) Create(stage interface{}) *gomock.Cal
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockStageRepository)(nil).Create), stage)
 }
 
+// Delete mocks base method.
+func (m *MockStageRepository) Delete(id primitive.ObjectID) (*mongo.DeleteResult, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Delete", id)
+	ret0, _ := ret[0].(*mongo.DeleteResult)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Delete indicates an expected call of Delete.
+func (mr *MockStageRepositoryMockRecorder) Delete(id interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delete", reflect.TypeOf((*MockStageRepository)(nil).Delete), id)
+}
+
 // FindAll mocks base method.
 func (m *MockStageRepository) FindAll() (*[]domain.Stage, error) {
 	m.ctrl.T.Helper()

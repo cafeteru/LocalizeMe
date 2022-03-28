@@ -47,7 +47,7 @@ func (u *UserRepositoryImpl) Delete(id primitive.ObjectID) (*mongo.DeleteResult,
 	filter := bson.M{"_id": bson.M{"$eq": id}}
 	result, err := collection.DeleteOne(context.TODO(), filter)
 	if err != nil {
-		return nil, tools.ErrorLogDetails(err, constants.DeleteUserByEmail, tools.GetCurrentFuncName())
+		return nil, tools.ErrorLogDetails(err, constants.DeleteUser, tools.GetCurrentFuncName())
 	}
 	u.CloseConnection()
 	log.Printf("%s: end", tools.GetCurrentFuncName())
