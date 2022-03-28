@@ -56,7 +56,7 @@ export class UserListComponent extends BaseComponent implements OnInit {
     }
 
     loadUsers(): void {
-        const subscription = this.userService
+        const subscription$ = this.userService
             .findAll()
             .pipe(tap(() => (this.isLoading = true)))
             .subscribe({
@@ -69,7 +69,7 @@ export class UserListComponent extends BaseComponent implements OnInit {
                     this.isLoading = false;
                 },
             });
-        this.subscriptions.push(subscription);
+        this.subscriptions$.push(subscription$);
     }
 
     onCurrentPageDataChange($event: readonly User[]): void {
@@ -86,12 +86,12 @@ export class UserListComponent extends BaseComponent implements OnInit {
             maxWidth: '75%',
             data,
         });
-        const subscription = dialogRef.afterClosed().subscribe((result) => {
+        const subscription$ = dialogRef.afterClosed().subscribe((result) => {
             if (result) {
                 this.loadUsers();
             }
         });
-        this.subscriptions.push(subscription);
+        this.subscriptions$.push(subscription$);
     }
 
     showDeleteModal(user: User): void {
@@ -107,19 +107,19 @@ export class UserListComponent extends BaseComponent implements OnInit {
     }
 
     private delete(user: User): void {
-        const subscription = this.userService.delete(user).subscribe((result) => {
+        const subscription$ = this.userService.delete(user).subscribe((result) => {
             if (result) {
-                this.users = this.users.filter((value) => value.ID !== user.ID);
+                this.loadUsers();
                 this.messageService.create('success', `${user.Email} has been deleted`);
             } else {
                 this.messageService.create('error', 'Error deleting');
             }
         });
-        this.subscriptions.push(subscription);
+        this.subscriptions$.push(subscription$);
     }
 
     disable(user: User): void {
-        const subscription = this.userService.disable(user).subscribe((result) => this.loadUsers());
-        this.subscriptions.push(subscription);
+        const subscription$ = this.userService.disable(user).subscribe(() => this.loadUsers());
+        this.subscriptions$.push(subscription$);
     }
 }

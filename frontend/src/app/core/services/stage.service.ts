@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { map, Observable } from 'rxjs';
+import { catchError, map, Observable, of } from 'rxjs';
 import { Stage } from '../../types/stage';
 import { getDefaultHttpOptions } from './default-http-options';
 import { User } from '../../types/user';
@@ -20,6 +20,13 @@ export class StageService {
 
     create(stageRequest: StageRequest): Observable<Stage> {
         return this.httpClient.post<Stage>(this.url, stageRequest, getDefaultHttpOptions());
+    }
+
+    delete(stage: Stage): Observable<boolean> {
+        return this.httpClient.delete<Stage>(`${this.url}/${stage.ID}`, getDefaultHttpOptions()).pipe(
+            map(() => true),
+            catchError(() => of(false))
+        );
     }
 
     disable(stage: Stage): Observable<Stage> {

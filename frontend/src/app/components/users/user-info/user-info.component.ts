@@ -20,8 +20,8 @@ export class UserInfoComponent extends BaseComponent implements OnInit {
 
     override ngOnInit(): void {
         super.ngOnInit();
-        const subscription = this.store.select('user').subscribe((user) => (this.email = user.Email));
-        this.subscriptions.push(subscription);
+        const subscription$ = this.store.select('user').subscribe((user) => (this.email = user.Email));
+        this.subscriptions$.push(subscription$);
     }
 
     openUpdate(): void {
@@ -40,9 +40,9 @@ export class UserInfoComponent extends BaseComponent implements OnInit {
                 user,
             },
         });
-        const subscription = dialogRef.afterClosed().subscribe((result: User) => {
+        const subscription$ = dialogRef.afterClosed().subscribe((result: User) => {
             this.email = result.Email;
         });
-        this.subscriptions.push(subscription);
+        this.subscriptions$.push(subscription$);
     }
 }

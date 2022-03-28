@@ -10,6 +10,7 @@ import (
 	gomock "github.com/golang/mock/gomock"
 	domain "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain"
 	dto "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain/dto"
+	primitive "go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 // MockStageService is a mock of StageService interface.
@@ -48,6 +49,21 @@ func (m *MockStageService) Create(request dto.StageRequest) (domain.Stage, error
 func (mr *MockStageServiceMockRecorder) Create(request interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockStageService)(nil).Create), request)
+}
+
+// Disable mocks base method.
+func (m *MockStageService) Disable(id primitive.ObjectID) (*domain.Stage, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Disable", id)
+	ret0, _ := ret[0].(*domain.Stage)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Disable indicates an expected call of Disable.
+func (mr *MockStageServiceMockRecorder) Disable(id interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Disable", reflect.TypeOf((*MockStageService)(nil).Disable), id)
 }
 
 // FindAll mocks base method.

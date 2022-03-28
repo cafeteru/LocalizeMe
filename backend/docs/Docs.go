@@ -46,9 +46,18 @@ type _ struct {
 	User domain.User
 }
 
-// swagger:parameters DeleteUser DisableUser FindUserById DisableStage
+// swagger:parameters DeleteUser DisableUser FindUserById
 type _ struct {
 	// The user´s id
+	// in: path
+	// required: true
+	// type: string
+	Id string `json:"id"`
+}
+
+// swagger:parameters DisableStage DeleteStage
+type _ struct {
+	// The stage´s id
 	// in: path
 	// required: true
 	// type: string

@@ -18,9 +18,9 @@ export class ModalStageComponent extends BaseComponent implements OnInit {
     isLoading = false;
 
     constructor(
-        protected matDialogRef: MatDialogRef<ModalStageComponent>,
         @Inject(MAT_DIALOG_DATA) public stage: Stage,
-        protected message: NzMessageService,
+        private matDialogRef: MatDialogRef<ModalStageComponent>,
+        private nzMessageService: NzMessageService,
         private stageService: StageService
     ) {
         super();
@@ -35,7 +35,7 @@ export class ModalStageComponent extends BaseComponent implements OnInit {
     }
 
     createMessage(type: string, message: string): void {
-        this.message.create(type, message);
+        this.nzMessageService.create(type, message);
     }
 
     close(stage?: Stage): void {
@@ -46,7 +46,7 @@ export class ModalStageComponent extends BaseComponent implements OnInit {
         if (FormGroupUtil.valid(this.formGroup)) {
             this.isLoading = true;
             const observable = this.stage.ID ? this.update() : this.create();
-            const subscription = observable.subscribe({
+            const subscription$ = observable.subscribe({
                 next: (data) => {
                     this.isLoading = false;
                     this.close(data);
@@ -61,7 +61,7 @@ export class ModalStageComponent extends BaseComponent implements OnInit {
                     this.createMessage('error', message);
                 },
             });
-            this.subscriptions.push(subscription);
+            this.subscriptions$.push(subscription$);
         }
     }
 

@@ -63,7 +63,7 @@ export class UpdateUserComponent extends BaseComponent implements OnInit {
                     this.createMessage('error', 'Update not complete. Check the fields.');
                 },
             });
-            this.subscriptions.push(subscription);
+            this.subscriptions$.push(subscription);
         }
     }
 
@@ -103,6 +103,6 @@ export class UpdateUserComponent extends BaseComponent implements OnInit {
                 FormGroupUtil.changeValidator(this.formGroup, checkPassword, []);
             }
         });
-        this.subscriptions.push(subscription);
+        this.subscriptions$.push(subscription);
     }
 }

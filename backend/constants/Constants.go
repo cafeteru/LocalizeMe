@@ -3,7 +3,8 @@ package constants
 const (
 	CreateConnection     = "starting the connection"
 	DataLogin            = "data invalid"
-	DeleteUserByEmail    = "error delete user by email"
+	DeleteStage          = "error delete stage"
+	DeleteUser           = "error delete user"
 	EmailAlreadyRegister = "email already registered"
 	EncryptPasswordUser  = "encrypting password"
 	FindStageByName      = "no found stage by name"

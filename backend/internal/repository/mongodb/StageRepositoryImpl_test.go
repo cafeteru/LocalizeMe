@@ -17,6 +17,40 @@ var stage = domain.Stage{
 	Active: true,
 }
 
+func TestStageRepositoryImpl_Delete_Success(t *testing.T) {
+	mt, u := createStageMocks(t)
+	mt.Run("Delete_Stage_Success", func(mt *mtest.T) {
+		u.collection = mt.Coll
+		mt.AddMockResponses(mtest.CreateCursorResponse(1, "foo.bar", mtest.FirstBatch, bson.D{
+			{Key: "DeletedCount", Value: 1},
+		}))
+		_, err := u.Delete(stage.ID)
+		assert.Nil(t, err)
+	})
+}
+
+func TestStageRepositoryImpl_Delete_NotConnection(t *testing.T) {
+	mt, s := createStageMocks(t)
+	mt.Run("Delete_Stage_NotConnection", func(mt *mtest.T) {
+		_, err := s.Delete(stage.ID)
+		assert.NotNil(t, err)
+		assert.Equal(t, err, errors.New(constants.CreateConnection))
+	})
+}
+
+func TestStageRepositoryImpl_Delete_NotFound(t *testing.T) {
+	mt, s := createStageMocks(t)
+	mt.Run("Delete_Stage_NotFound", func(mt *mtest.T) {
+		s.collection = mt.Coll
+		mt.AddMockResponses(mtest.CreateWriteErrorsResponse(mtest.WriteError{
+			Message: constants.DeleteStage,
+		}))
+		_, err := s.Delete(stage.ID)
+		assert.NotNil(t, err)
+		assert.Equal(t, err, errors.New(constants.DeleteStage))
+	})
+}
+
 func TestStageRepositoryImpl_Create_Success(t *testing.T) {
 	mt, u := createStageMocks(t)
 	mt.Run("Create_Stage_Success", func(mt *mtest.T) {

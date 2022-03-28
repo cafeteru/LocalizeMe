@@ -196,6 +196,40 @@
       }
     },
     "/stages/{id}": {
+      "delete": {
+        "tags": [
+          "Stages"
+        ],
+        "summary": "Return a stage by id.",
+        "operationId": "DeleteStage",
+        "parameters": [
+          {
+            "type": "string",
+            "x-go-name": "Id",
+            "description": "The stage´s id",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/bool"
+          },
+          "400": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          },
+          "401": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          }
+        }
+      },
       "patch": {
         "tags": [
           "Stages"
@@ -206,7 +240,7 @@
           {
             "type": "string",
             "x-go-name": "Id",
-            "description": "The user´s id",
+            "description": "The stage´s id",
             "name": "id",
             "in": "path",
             "required": true
@@ -493,7 +527,7 @@
         "tags": [
           "Users"
         ],
-        "summary": "Return a user by email.",
+        "summary": "Return a user by ID.",
         "operationId": "DeleteUser",
         "parameters": [
           {
