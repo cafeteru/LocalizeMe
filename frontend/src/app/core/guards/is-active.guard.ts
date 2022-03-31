@@ -14,7 +14,7 @@ export class IsActiveGuard implements CanActivate {
 
     canActivate(): Observable<boolean> {
         return this.store.select('user').pipe(
-            map((user) => user.Active),
+            map((user) => user.active),
             tap((isActive) => {
                 if (!isActive) {
                     this.userService.logout();

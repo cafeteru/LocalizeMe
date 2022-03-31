@@ -15,7 +15,7 @@ import (
 )
 
 var user domain.User
-var userRequest dto.UserRequest
+var userRequest dto.UserDto
 
 func TestUserServiceImpl_Create_Successful(t *testing.T) {
 	initUserValues()
@@ -68,7 +68,7 @@ func TestUserServiceImpl_Create_ErrorUserRequest_InvalidEmail(t *testing.T) {
 	defer mockCtrl.Finish()
 	repository := mock.NewMockUserRepository(mockCtrl)
 	encrypt := encryptMock.NewMockEncrypt(mockCtrl)
-	userRequest := dto.UserRequest{
+	userRequest := dto.UserDto{
 		Email:    "",
 		Password: "password",
 	}
@@ -483,7 +483,7 @@ func initUserValues() {
 		Admin:    true,
 		Active:   true,
 	}
-	userRequest = dto.UserRequest{
+	userRequest = dto.UserDto{
 		Email:    user.Email,
 		Password: user.Password,
 	}

@@ -36,7 +36,7 @@ import (
 type _ struct {
 	// in: body
 	// required: true
-	User dto.UserRequest
+	User dto.UserDto
 }
 
 // swagger:parameters UpdateMe UpdateUser
@@ -68,7 +68,7 @@ type _ struct {
 type _ struct {
 	// in: body
 	// required: true
-	Stage dto.StageRequest
+	Stage dto.StageDto
 }
 
 // swagger:parameters UpdateStage

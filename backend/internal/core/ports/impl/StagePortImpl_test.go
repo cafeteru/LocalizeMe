@@ -7,15 +7,15 @@ import (
 )
 
 func TestStagePortImpl_CreateUserPort(t *testing.T) {
-	userPort := CreateStagePort()
-	assert.NotNil(t, userPort)
-	assert.NotNil(t, userPort.controller)
+	port := CreateStagePort()
+	assert.NotNil(t, port)
+	assert.NotNil(t, port.controller)
 }
 
 func TestStagePortImpl_InitRoutes(t *testing.T) {
 	r := chi.NewRouter()
-	userPort := CreateStagePort()
-	userPort.InitStageRoutes(r)
-	assert.NotNil(t, userPort)
-	assert.NotNil(t, userPort.controller)
+	port := CreateStagePort()
+	port.InitRoutes(r)
+	assert.NotNil(t, port)
+	assert.NotNil(t, port.controller)
 }

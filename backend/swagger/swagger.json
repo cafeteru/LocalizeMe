@@ -17,6 +17,44 @@
   "host": "localhost:8080",
   "basePath": "/",
   "paths": {
+    "/languages": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "tags": [
+          "Languages"
+        ],
+        "summary": "Create a new language.",
+        "operationId": "CreateLanguage",
+        "responses": {
+          "200": {
+            "description": "Language",
+            "schema": {
+              "$ref": "#/definitions/Language"
+            }
+          },
+          "400": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          },
+          "401": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          },
+          "422": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          }
+        }
+      }
+    },
     "/login": {
       "post": {
         "consumes": [
@@ -33,7 +71,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/UserRequest"
+              "$ref": "#/definitions/UserDto"
             }
           }
         ],
@@ -163,7 +201,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/StageRequest"
+              "$ref": "#/definitions/StageDto"
             }
           }
         ],
@@ -366,7 +404,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/UserRequest"
+              "$ref": "#/definitions/UserDto"
             }
           }
         ],
@@ -600,19 +638,20 @@
     "BaseString": {
       "type": "object",
       "properties": {
-        "Author": {
+        "author": {
           "$ref": "#/definitions/User"
         },
-        "Description": {
-          "type": "string"
+        "description": {
+          "type": "string",
+          "x-go-name": "Description"
         },
-        "Group": {
+        "group": {
           "$ref": "#/definitions/Group"
         },
-        "ID": {
+        "id": {
           "$ref": "#/definitions/ObjectID"
         },
-        "SourceLanguage": {
+        "sourceLanguage": {
           "$ref": "#/definitions/Language"
         }
       },
@@ -621,8 +660,9 @@
     "ErrorDto": {
       "type": "object",
       "properties": {
-        "Message": {
-          "type": "string"
+        "message": {
+          "type": "string",
+          "x-go-name": "Message"
         }
       },
       "x-go-package": "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain/dto"
@@ -630,13 +670,14 @@
     "Group": {
       "type": "object",
       "properties": {
-        "ID": {
+        "id": {
           "$ref": "#/definitions/ObjectID"
         },
-        "Name": {
-          "type": "string"
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
         },
-        "Owner": {
+        "owner": {
           "$ref": "#/definitions/User"
         }
       },
@@ -645,21 +686,37 @@
     "Language": {
       "type": "object",
       "properties": {
-        "CanWriteGroup": {
-          "type": "boolean"
+        "active": {
+          "type": "boolean",
+          "x-go-name": "Active"
         },
-        "Group": {
-          "$ref": "#/definitions/Group"
+        "description": {
+          "type": "string",
+          "x-go-name": "Description"
         },
-        "ID": {
+        "id": {
           "$ref": "#/definitions/ObjectID"
         },
-        "User": {
-          "$ref": "#/definitions/User"
+        "isoCode": {
+          "type": "string",
+          "x-go-name": "IsoCode"
         }
       },
-      "x-go-name": "Permission",
       "x-go-package": "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain"
+    },
+    "LanguageDto": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string",
+          "x-go-name": "Description"
+        },
+        "isoCode": {
+          "type": "string",
+          "x-go-name": "IsoCode"
+        }
+      },
+      "x-go-package": "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain/dto"
     },
     "ObjectID": {
       "type": "array",
@@ -670,26 +727,48 @@
       },
       "x-go-package": "go.mongodb.org/mongo-driver/bson/primitive"
     },
-    "Stage": {
+    "Permission": {
       "type": "object",
       "properties": {
-        "Active": {
-          "type": "boolean"
+        "canWriteGroup": {
+          "type": "boolean",
+          "x-go-name": "CanWriteGroup"
         },
-        "ID": {
+        "group": {
+          "$ref": "#/definitions/Group"
+        },
+        "id": {
           "$ref": "#/definitions/ObjectID"
         },
-        "Name": {
-          "type": "string"
+        "user": {
+          "$ref": "#/definitions/User"
         }
       },
       "x-go-package": "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain"
     },
-    "StageRequest": {
+    "Stage": {
       "type": "object",
       "properties": {
-        "Name": {
-          "type": "string"
+        "active": {
+          "type": "boolean",
+          "x-go-name": "Active"
+        },
+        "id": {
+          "$ref": "#/definitions/ObjectID"
+        },
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        }
+      },
+      "x-go-package": "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain"
+    },
+    "StageDto": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
         }
       },
       "x-go-package": "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain/dto"
@@ -697,8 +776,9 @@
     "TokenDto": {
       "type": "object",
       "properties": {
-        "Authorization": {
-          "type": "string"
+        "authorization": {
+          "type": "string",
+          "x-go-name": "Authorization"
         }
       },
       "x-go-package": "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain/dto"
@@ -706,34 +786,38 @@
     "Translation": {
       "type": "object",
       "properties": {
-        "Active": {
-          "type": "boolean"
+        "active": {
+          "type": "boolean",
+          "x-go-name": "Active"
         },
-        "Author": {
+        "author": {
           "$ref": "#/definitions/User"
         },
-        "BaseString": {
+        "baseString": {
           "$ref": "#/definitions/BaseString"
         },
-        "Content": {
-          "type": "string"
-        },
-        "Date": {
+        "content": {
           "type": "string",
-          "format": "date-time"
+          "x-go-name": "Content"
         },
-        "ID": {
+        "date": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "Date"
+        },
+        "id": {
           "$ref": "#/definitions/ObjectID"
         },
-        "Language": {
+        "language": {
           "$ref": "#/definitions/Language"
         },
-        "Stage": {
+        "stage": {
           "$ref": "#/definitions/Stage"
         },
-        "Version": {
+        "version": {
           "type": "integer",
-          "format": "int64"
+          "format": "int64",
+          "x-go-name": "Version"
         }
       },
       "x-go-package": "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain"
@@ -741,32 +825,38 @@
     "User": {
       "type": "object",
       "properties": {
-        "Active": {
-          "type": "boolean"
+        "active": {
+          "type": "boolean",
+          "x-go-name": "Active"
         },
-        "Admin": {
-          "type": "boolean"
+        "admin": {
+          "type": "boolean",
+          "x-go-name": "Admin"
         },
-        "Email": {
-          "type": "string"
+        "email": {
+          "type": "string",
+          "x-go-name": "Email"
         },
-        "ID": {
+        "id": {
           "$ref": "#/definitions/ObjectID"
         },
-        "Password": {
-          "type": "string"
+        "password": {
+          "type": "string",
+          "x-go-name": "Password"
         }
       },
       "x-go-package": "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain"
     },
-    "UserRequest": {
+    "UserDto": {
       "type": "object",
       "properties": {
-        "Email": {
-          "type": "string"
+        "email": {
+          "type": "string",
+          "x-go-name": "Email"
         },
-        "Password": {
-          "type": "string"
+        "password": {
+          "type": "string",
+          "x-go-name": "Password"
         }
       },
       "x-go-package": "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain/dto"

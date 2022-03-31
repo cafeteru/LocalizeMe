@@ -21,7 +21,7 @@ func CreateStageService(r repository.StageRepository) *StageServiceImpl {
 	return service
 }
 
-func (s StageServiceImpl) Create(request dto.StageRequest) (domain.Stage, error) {
+func (s StageServiceImpl) Create(request dto.StageDto) (domain.Stage, error) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
 	findByName, errName, validName := s.checkUniqueName(request.Name)
 	if !validName {
@@ -104,7 +104,7 @@ func (s StageServiceImpl) Update(stage domain.Stage) (*domain.Stage, error) {
 
 func (s StageServiceImpl) checkUniqueName(name string) (domain.Stage, error, bool) {
 	if name == "" {
-		return domain.Stage{}, tools.ErrorLog(constants.StageInvalid, tools.GetCurrentFuncName()), false
+		return domain.Stage{}, tools.ErrorLog(constants.NameStageInvalid, tools.GetCurrentFuncName()), false
 	}
 	findByName, _ := s.repository.FindByName(name)
 	if findByName != nil {

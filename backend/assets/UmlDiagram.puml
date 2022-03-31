@@ -18,6 +18,7 @@ namespace domain {
         + ID primitive.ObjectID
         + IsoCode string
         + Description string
+        + Active bool
 
     }
     class Permission << (S,Aquamarine) >> {

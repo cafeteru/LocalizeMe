@@ -40,7 +40,7 @@ func (s StageControllerImpl) Create(w http.ResponseWriter, r *http.Request) {
 	if user := utils.CheckUserIsAdmin(w, r, s.userService); user == nil {
 		return
 	}
-	var request dto.StageRequest
+	var request dto.StageDto
 	if err := json.NewDecoder(r.Body).Decode(&request); err != nil {
 		utils.CreateErrorResponse(w, err, http.StatusUnprocessableEntity)
 		return

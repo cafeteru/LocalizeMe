@@ -15,7 +15,7 @@ func TestUserPortImpl_CreateUserPort(t *testing.T) {
 func TestUserPortImpl_InitRoutes(t *testing.T) {
 	r := chi.NewRouter()
 	userPort := CreateUserPort()
-	userPort.InitUserRoutes(r)
+	userPort.InitRoutes(r)
 	assert.NotNil(t, userPort)
 	assert.NotNil(t, userPort.controller)
 }

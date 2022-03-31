@@ -20,11 +20,11 @@
             </li>
             <li nz-menu-item nzMatchRouter *ngIf="isAdmin">
                 <em nz-icon nzType="book" nzTheme="outline"></em>
-                <a *ngIf="!isCollapsed" class="menu-item" routerLink="/stages">Stages</a>
+                <a *ngIf="!isCollapsed" class="menu-item" [routerLink]="'/' + Urls.stages">Stages</a>
             </li>
             <li nz-menu-item nzMatchRouter>
                 <em nz-icon nzType="flag" nzTheme="outline"></em>
-                <a *ngIf="!isCollapsed" class="menu-item" routerLink="/languages">Languages</a>
+                <a *ngIf="!isCollapsed" class="menu-item" [routerLink]="'/' + Urls.languages">Languages</a>
             </li>
             <li nz-menu-item nzMatchRouter>
                 <em nz-icon nzType="bars" nzTheme="outline"></em>

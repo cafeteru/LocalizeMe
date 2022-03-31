@@ -2,8 +2,8 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { StageRequest, StageService } from '../../../core/services/stage.service';
-import { Stage } from '../../../types/stage';
+import { StageService } from '../../../core/services/stage.service';
+import { Stage, StageDto } from '../../../types/stage';
 import { Observable } from 'rxjs';
 import { BaseComponent } from '../../../core/base/base.component';
 import { FormGroupUtil } from '../../../shared/utils/form-group-util';
@@ -29,8 +29,8 @@ export class ModalStageComponent extends BaseComponent implements OnInit {
     ngOnInit(): void {
         super.ngOnInit();
         this.formGroup = new FormGroup({
-            Name: new FormControl(this.stage.Name, Validators.required),
-            Active: new FormControl(this.stage.Active, Validators.required),
+            name: new FormControl(this.stage.name, Validators.required),
+            active: new FormControl(this.stage.active, Validators.required),
         });
     }
 
@@ -45,17 +45,17 @@ export class ModalStageComponent extends BaseComponent implements OnInit {
     send(): void {
         if (FormGroupUtil.valid(this.formGroup)) {
             this.isLoading = true;
-            const observable = this.stage.ID ? this.update() : this.create();
+            const observable = this.stage.id ? this.update() : this.create();
             const subscription$ = observable.subscribe({
                 next: (data) => {
                     this.isLoading = false;
                     this.close(data);
-                    const message = this.stage.ID ? 'Successfully updated stage' : 'Successfully created stage';
+                    const message = this.stage.id ? 'Successfully updated stage' : 'Successfully created stage';
                     this.createMessage('success', message);
                 },
                 error: () => {
                     this.isLoading = false;
-                    const message = this.stage.ID
+                    const message = this.stage.id
                         ? 'Update not complete. Check the fields.'
                         : 'Create not complete. Check the fields.';
                     this.createMessage('error', message);
@@ -66,8 +66,8 @@ export class ModalStageComponent extends BaseComponent implements OnInit {
     }
 
     private create(): Observable<Stage> {
-        const stageRequest: StageRequest = {
-            Name: this.formGroup.controls['Name'].value,
+        const stageRequest: StageDto = {
+            name: this.formGroup.controls['name'].value,
         };
         return this.stageService.create(stageRequest);
     }
@@ -75,8 +75,8 @@ export class ModalStageComponent extends BaseComponent implements OnInit {
     private update(): Observable<Stage> {
         this.stage = {
             ...this.stage,
-            Name: this.formGroup.controls['Name'].value,
-            Active: this.formGroup.controls['Active'].value,
+            name: this.formGroup.controls['name'].value,
+            active: this.formGroup.controls['active'].value,
         };
         return this.stageService.update(this.stage);
     }

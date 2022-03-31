@@ -33,8 +33,8 @@ export class AppComponent extends BaseComponent implements OnInit {
     override ngOnInit(): void {
         super.ngOnInit();
         const subscription = this.store.select('user').subscribe((user) => {
-            this.isLogged = Boolean(user.Email);
-            this.isAdmin = user.Admin;
+            this.isLogged = Boolean(user.email);
+            this.isAdmin = user.admin;
         });
         this.subscriptions$.push(subscription);
     }

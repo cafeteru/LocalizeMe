@@ -120,8 +120,8 @@ func (s *StageRepositoryImpl) Update(stage domain.Stage) (*mongo.UpdateResult, e
 	filter := bson.M{"_id": bson.M{"$eq": stage.ID}}
 	update := bson.M{
 		"$set": bson.M{
-			"Name":   stage.Name,
-			"Active": stage.Active,
+			"name":   stage.Name,
+			"active": stage.Active,
 		},
 	}
 	result, err := collection.UpdateOne(context.TODO(), filter, update)

@@ -7,7 +7,7 @@ import (
 )
 
 type StageService interface {
-	Create(request dto.StageRequest) (domain.Stage, error)
+	Create(request dto.StageDto) (domain.Stage, error)
 	Delete(id primitive.ObjectID) (bool, error)
 	Disable(id primitive.ObjectID) (*domain.Stage, error)
 	FindAll() (*[]domain.Stage, error)

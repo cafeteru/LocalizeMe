@@ -6,7 +6,7 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { UserInfoComponent } from './user-info/user-info.component';
 import { UserListComponent } from './user-list/user-list.component';
-import { UserRouting } from './user-routing.module';
+import { UserRouting } from './user-routing';
 import { UpdateUserComponent } from './update-user/update-user.component';
 
 @NgModule({

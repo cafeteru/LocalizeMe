@@ -15,11 +15,11 @@ describe('UpdateUserComponent', () => {
     const updateUserData: UpdateUserData = {
         isAdmin: false,
         user: {
-            ID: '',
-            Email: '',
-            Admin: false,
-            Password: '',
-            Active: true,
+            id: '',
+            email: '',
+            admin: false,
+            password: '',
+            active: true,
         },
     };
 

@@ -14,7 +14,7 @@ import (
 )
 
 var stage domain.Stage
-var stageRequest dto.StageRequest
+var stageRequest dto.StageDto
 
 func TestStageServiceImpl_Create_Successful(t *testing.T) {
 	initStageValues()
@@ -253,7 +253,7 @@ func initStageValues() {
 		Active: true,
 		Name:   "Name",
 	}
-	stageRequest = dto.StageRequest{
+	stageRequest = dto.StageDto{
 		Name: stage.Name,
 	}
 }

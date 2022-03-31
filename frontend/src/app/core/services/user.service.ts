@@ -9,32 +9,28 @@ import { UserReducer } from '../../store/reducers/user.reducer';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/app.reducer';
 import * as userActions from '../../store/actions/user.actions';
-import { createMockUser, User } from '../../types/user';
+import { createMockUser, LoginData, User } from '../../types/user';
 import { getDefaultHttpOptions } from './default-http-options';
-
-export interface LoginData {
-    Email: string;
-    Password: string;
-}
+import { Urls } from '../../shared/constants/urls';
 
 @Injectable({
     providedIn: 'root',
 })
 export class UserService {
     url = `${environment.urlApi}`;
-    urlUsers = `${environment.urlApi}/users`;
+    urlUsers = `${environment.urlApi}/${Urls.users}`;
 
     constructor(private httpClient: HttpClient, private store: Store<AppState>) {}
 
     delete(user: User): Observable<boolean> {
-        return this.httpClient.delete<User>(`${this.urlUsers}/${user.ID}`, getDefaultHttpOptions()).pipe(
+        return this.httpClient.delete<User>(`${this.urlUsers}/${user.id}`, getDefaultHttpOptions()).pipe(
             map(() => true),
             catchError(() => of(false))
         );
     }
 
     disable(user: User): Observable<User> {
-        return this.httpClient.patch<User>(`${this.urlUsers}/${user.ID}`, user, getDefaultHttpOptions());
+        return this.httpClient.patch<User>(`${this.urlUsers}/${user.id}`, user, getDefaultHttpOptions());
     }
 
     findAll(): Observable<User[]> {
@@ -48,25 +44,25 @@ export class UserService {
     login(loginData: LoginData): Observable<User> {
         return this.httpClient.post<ResponseLogin>(`${this.url}/login`, loginData).pipe(
             map((responseLogin) => {
-                const iToken = jwt_decode<IToken>(responseLogin.Authorization);
-                if (iToken.Active) {
+                const iToken = jwt_decode<IToken>(responseLogin.authorization);
+                if (iToken.active) {
                     const userReducer: UserReducer = {
-                        ID: iToken.ID,
-                        Email: iToken.Email,
-                        Exp: iToken.exp,
-                        Active: iToken.Active,
-                        Admin: iToken.Admin,
-                        Authorization: responseLogin.Authorization,
+                        id: iToken.id,
+                        email: iToken.email,
+                        exp: iToken.exp,
+                        active: iToken.active,
+                        admin: iToken.admin,
+                        authorization: responseLogin.authorization,
                     };
-                    localStorage.setItem('Authorization', responseLogin.Authorization);
+                    localStorage.setItem('Authorization', responseLogin.authorization);
                     localStorage.setItem('Exp', iToken.exp.toString());
                     this.store.dispatch(userActions.loadUser(userReducer));
                 }
                 return {
                     ...createMockUser(),
-                    Email: iToken.Email,
-                    Active: iToken.Active,
-                    Admin: iToken.Admin,
+                    email: iToken.email,
+                    active: iToken.active,
+                    admin: iToken.admin,
                 };
             })
         );

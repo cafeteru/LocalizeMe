@@ -2,14 +2,14 @@ import { checkNotNullParams, sortStrings } from './sort-columns';
 import { User } from '../../types/user';
 
 export function sortEmail(a: User, b: User): number {
-    const validParams = checkNotNullParams(a.Email, b.Email);
-    return validParams === 0 ? sortStrings(a.Email, b.Email) : validParams;
+    const validParams = checkNotNullParams(a.email, b.email);
+    return validParams === 0 ? sortStrings(a.email, b.email) : validParams;
 }
 
 export function sortIsAdmin(a: User, b: User): number {
-    return checkNotNullParams(a.Admin, b.Admin);
+    return checkNotNullParams(a.admin, b.admin);
 }
 
 export function sortIsActive(a: User, b: User): number {
-    return checkNotNullParams(a.Active, b.Active);
+    return checkNotNullParams(a.active, b.active);
 }

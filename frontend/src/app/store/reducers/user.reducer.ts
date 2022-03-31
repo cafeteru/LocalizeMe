@@ -3,44 +3,44 @@ import { ActionReducer, createReducer, on } from '@ngrx/store';
 import * as UserActions from '../actions/user.actions';
 
 export interface UserReducer {
-    ID: string;
-    Email: string;
-    Exp: number;
-    Active: boolean;
-    Admin: boolean;
-    Authorization: string;
+    id: string;
+    email: string;
+    exp: number;
+    active: boolean;
+    admin: boolean;
+    authorization: string;
 }
 
 export const initialState: UserReducer = {
-    ID: '',
-    Email: '',
-    Exp: 0,
-    Active: false,
-    Admin: false,
-    Authorization: '',
+    id: '',
+    email: '',
+    exp: 0,
+    active: false,
+    admin: false,
+    authorization: '',
 };
 
 export function loadUser(state: UserReducer, userReducer: UserReducer): UserReducer {
     return {
         ...state,
-        ID: userReducer.ID,
-        Email: userReducer.Email,
-        Exp: userReducer.Exp,
-        Active: userReducer.Active,
-        Admin: userReducer.Admin,
-        Authorization: userReducer.Authorization,
+        id: userReducer.id,
+        email: userReducer.email,
+        exp: userReducer.exp,
+        active: userReducer.active,
+        admin: userReducer.admin,
+        authorization: userReducer.authorization,
     };
 }
 
 export function clearUser(state: UserReducer): UserReducer {
     return {
         ...state,
-        ID: initialState.ID,
-        Email: initialState.Email,
-        Exp: initialState.Exp,
-        Active: initialState.Active,
-        Admin: initialState.Admin,
-        Authorization: initialState.Authorization,
+        id: initialState.id,
+        email: initialState.email,
+        exp: initialState.exp,
+        active: initialState.active,
+        admin: initialState.admin,
+        authorization: initialState.authorization,
     };
 }
 

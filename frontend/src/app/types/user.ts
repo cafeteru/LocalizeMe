@@ -1,17 +1,22 @@
+export interface LoginData {
+    email: string;
+    password: string;
+}
+
 export interface User {
-    ID: string;
-    Email: string;
-    Password: string;
-    Admin: boolean;
-    Active: boolean;
+    id: string;
+    email: string;
+    password: string;
+    admin: boolean;
+    active: boolean;
 }
 
 export function createMockUser(): User {
     return {
-        Active: true,
-        Password: 'Password',
-        Admin: false,
-        Email: 'Email',
-        ID: 'ID',
+        active: true,
+        password: 'Password',
+        admin: false,
+        email: 'Email',
+        id: 'ID',
     };
 }

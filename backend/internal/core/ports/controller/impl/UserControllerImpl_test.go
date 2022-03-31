@@ -19,7 +19,7 @@ import (
 func TestUserControllerImpl_Login_Successful(t *testing.T) {
 	mockUserService := initMocks(t)
 	user := createUser()
-	userRequest := dto.UserRequest{
+	userRequest := dto.UserDto{
 		Email:    user.Email,
 		Password: user.Password,
 	}
@@ -46,7 +46,7 @@ func TestUserControllerImpl_Login_EmptyBody(t *testing.T) {
 func TestUserControllerImpl_Login_NoRegister(t *testing.T) {
 	mockUserService := initMocks(t)
 	user := createUser()
-	userRequest := dto.UserRequest{
+	userRequest := dto.UserDto{
 		Email:    user.Email,
 		Password: user.Password,
 	}
@@ -63,7 +63,7 @@ func TestUserControllerImpl_Login_NoRegister(t *testing.T) {
 func TestUserControllerImpl_Create_Successful(t *testing.T) {
 	mockUserService := initMocks(t)
 	user := createUser()
-	userRequest := dto.UserRequest{
+	userRequest := dto.UserDto{
 		Email:    user.Email,
 		Password: user.Password,
 	}
@@ -96,7 +96,7 @@ func TestUserControllerImpl_Create_Error_Body(t *testing.T) {
 func TestUserControllerImpl_Create_Error_Service(t *testing.T) {
 	mockUserService := initMocks(t)
 	user := createUser()
-	userRequest := dto.UserRequest{
+	userRequest := dto.UserDto{
 		Email:    user.Email,
 		Password: user.Password,
 	}

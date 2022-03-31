@@ -6,14 +6,14 @@ describe('stages-sorts', () => {
     let b: Stage;
     beforeEach(() => {
         a = {
-            ID: '1',
-            Active: true,
-            Name: 'a',
+            id: '1',
+            active: true,
+            name: 'a',
         };
         b = {
-            ID: '12',
-            Active: false,
-            Name: 'b',
+            id: '12',
+            active: false,
+            name: 'b',
         };
     });
 
@@ -21,9 +21,9 @@ describe('stages-sorts', () => {
         expect(sortName(a, b)).toBeLessThanOrEqual(1);
         expect(sortName(b, a)).toBeGreaterThanOrEqual(1);
         expect(sortName(a, a)).toBe(0);
-        b.Name = undefined;
+        b.name = undefined;
         expect(sortName(a, b)).toBe(-1);
-        a.Name = undefined;
+        a.name = undefined;
         expect(sortName(a, b)).toBe(1);
     });
 
@@ -31,9 +31,9 @@ describe('stages-sorts', () => {
         expect(sortActive(a, b)).toBeGreaterThanOrEqual(-1);
         expect(sortActive(b, a)).toBeLessThanOrEqual(1);
         expect(sortActive(a, a)).toBe(0);
-        b.Active = undefined;
+        b.active = undefined;
         expect(sortActive(a, b)).toBe(-1);
-        a.Active = undefined;
+        a.active = undefined;
         expect(sortActive(a, b)).toBe(1);
     });
 });

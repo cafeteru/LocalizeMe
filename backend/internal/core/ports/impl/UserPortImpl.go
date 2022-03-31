@@ -27,13 +27,7 @@ func CreateUserPort() *UserPortImpl {
 	return port
 }
 
-func (u UserPortImpl) InitUserRoutes(r *chi.Mux) {
-	log.Printf("%s: start", tools.GetCurrentFuncName())
-	u.CreateUserRoutes(r)
-	log.Printf("%s: end", tools.GetCurrentFuncName())
-}
-
-func (u UserPortImpl) CreateUserRoutes(r *chi.Mux) {
+func (u UserPortImpl) InitRoutes(r *chi.Mux) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
 	pattern := "/users"
 	tokenAuth := utils.ConfigJWTRoutes()

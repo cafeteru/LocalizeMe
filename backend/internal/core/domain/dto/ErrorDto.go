@@ -2,5 +2,5 @@ package dto
 
 // swagger:model ErrorDto
 type ErrorDto struct {
-	Message string
+	Message string `json:"message"`
 }

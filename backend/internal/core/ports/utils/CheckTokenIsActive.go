@@ -13,7 +13,7 @@ import (
 func CheckUserIsActive(w http.ResponseWriter, r *http.Request, u service.UserService) *domain.User {
 	log.Printf("%s: start", r.Context())
 	_, tokenParts, _ := jwtauth.FromContext(r.Context())
-	value, exists := tokenParts["Email"]
+	value, exists := tokenParts["email"]
 	if !exists {
 		createErrorResponse(w)
 		return nil

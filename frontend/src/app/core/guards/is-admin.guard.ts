@@ -13,7 +13,7 @@ export class IsAdminGuard implements CanActivate {
 
     canActivate(): Observable<boolean> {
         return this.store.select('user').pipe(
-            map((user) => user.Admin),
+            map((user) => user.admin),
             tap((res) => {
                 if (!res) {
                     this.router.navigateByUrl(Urls.menu).then();
