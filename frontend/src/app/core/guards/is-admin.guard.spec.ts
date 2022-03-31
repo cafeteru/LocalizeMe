@@ -36,7 +36,7 @@ describe('IsAdminGuard', () => {
             ...appState,
             user: {
                 ...appState.user,
-                Admin: true,
+                admin: true,
             },
         };
         store.setState(newAppState);
@@ -50,7 +50,7 @@ describe('IsAdminGuard', () => {
             ...appState,
             user: {
                 ...appState.user,
-                Admin: false,
+                admin: false,
             },
         };
         store.setState(newAppState);

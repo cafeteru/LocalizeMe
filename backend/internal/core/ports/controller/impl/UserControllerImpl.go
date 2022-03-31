@@ -36,7 +36,7 @@ func CreateUserController(u service.UserService) *UserControllerImpl {
 // - 422: ErrorDto
 func (u UserControllerImpl) Login(w http.ResponseWriter, r *http.Request) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
-	var request dto.UserRequest
+	var request dto.UserDto
 	if err := json.NewDecoder(r.Body).Decode(&request); err != nil {
 		utils.CreateErrorResponse(w, err, http.StatusUnprocessableEntity)
 		return
@@ -63,7 +63,7 @@ func (u UserControllerImpl) Login(w http.ResponseWriter, r *http.Request) {
 // - 422: ErrorDto
 func (u UserControllerImpl) Create(w http.ResponseWriter, r *http.Request) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
-	var request dto.UserRequest
+	var request dto.UserDto
 	if err := json.NewDecoder(r.Body).Decode(&request); err != nil {
 		utils.CreateErrorResponse(w, err, http.StatusUnprocessableEntity)
 		return

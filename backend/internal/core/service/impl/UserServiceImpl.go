@@ -25,7 +25,7 @@ func CreateUserService(r repository.UserRepository, e encrypt.Encrypt) *UserServ
 	return &UserServiceImpl{r, e}
 }
 
-func (u UserServiceImpl) Create(request dto.UserRequest) (domain.User, error) {
+func (u UserServiceImpl) Create(request dto.UserDto) (domain.User, error) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
 	user, err := u.checkRequest(request)
 	if err != nil {
@@ -52,7 +52,7 @@ func (u UserServiceImpl) Create(request dto.UserRequest) (domain.User, error) {
 	}, nil
 }
 
-func (u UserServiceImpl) checkRequest(request dto.UserRequest) (domain.User, error) {
+func (u UserServiceImpl) checkRequest(request dto.UserDto) (domain.User, error) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
 	if request.Email == "" || request.Password == "" {
 		return domain.User{}, tools.ErrorLog(constants.InvalidUserRequest, tools.GetCurrentFuncName())
@@ -147,7 +147,7 @@ func (u UserServiceImpl) FindById(id primitive.ObjectID) (*domain.User, error) {
 	return user, nil
 }
 
-func (u UserServiceImpl) Login(request dto.UserRequest) (*dto.TokenDto, error) {
+func (u UserServiceImpl) Login(request dto.UserDto) (*dto.TokenDto, error) {
 	user, err := u.repository.FindByEmail(request.Email)
 	if err != nil {
 		log.Printf("%s: error", tools.GetCurrentFuncName())
@@ -158,10 +158,10 @@ func (u UserServiceImpl) Login(request dto.UserRequest) (*dto.TokenDto, error) {
 		return nil, errors.New(constants.DataLogin)
 	}
 	claims := jwt.MapClaims{
-		"ID":     user.ID,
-		"Email":  user.Email,
-		"Admin":  user.Admin,
-		"Active": user.Active,
+		"id":     user.ID,
+		"email":  user.Email,
+		"admin":  user.Admin,
+		"active": user.Active,
 	}
 	tools.LoadEnv()
 	hours, _ := time.ParseDuration(os.Getenv("HOURS"))

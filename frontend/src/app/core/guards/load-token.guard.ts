@@ -24,15 +24,15 @@ export class LoadTokenGuard implements CanActivate {
         }
         return this.store.select('user').pipe(
             map((user) => {
-                if (!user.Email) {
+                if (!user.email) {
                     const iToken = jwt_decode<IToken>(authorization);
                     const userReducer: UserReducer = {
-                        ID: iToken.ID,
-                        Email: iToken.Email,
-                        Exp: iToken.exp,
-                        Active: iToken.Active,
-                        Admin: iToken.Admin,
-                        Authorization: authorization,
+                        id: iToken.id,
+                        email: iToken.email,
+                        exp: iToken.exp,
+                        active: iToken.active,
+                        admin: iToken.admin,
+                        authorization: authorization,
                     };
                     this.store.dispatch(userActions.loadUser(userReducer));
                 }

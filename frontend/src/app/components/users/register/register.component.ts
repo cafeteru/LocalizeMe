@@ -4,10 +4,11 @@ import { BaseComponent } from '../../../core/base/base.component';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { IsSameValidator } from '../../../core/validators/is-same-validator';
 import { FormGroupUtil } from '../../../shared/utils/form-group-util';
-import { LoginData, UserService } from '../../../core/services/user.service';
+import { UserService } from '../../../core/services/user.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { switchMap } from 'rxjs';
 import { LoginComponent } from '../login/login.component';
+import { LoginData } from '../../../types/user';
 
 @Component({
     selector: 'app-register',
@@ -44,8 +45,8 @@ export class RegisterComponent extends BaseComponent implements OnInit {
         if (FormGroupUtil.valid(this.formGroup)) {
             this.isLoading = true;
             const loginData: LoginData = {
-                Email: this.formGroup.controls['email'].value,
-                Password: this.formGroup.controls['password'].value,
+                email: this.formGroup.controls['email'].value,
+                password: this.formGroup.controls['password'].value,
             };
             const subscription$ = this.userService
                 .register(loginData)

@@ -36,7 +36,7 @@ describe('IsActiveGuard', () => {
             ...appState,
             user: {
                 ...appState.user,
-                Active: true,
+                active: true,
             },
         };
         store.setState(newAppState);
@@ -50,7 +50,7 @@ describe('IsActiveGuard', () => {
             ...appState,
             user: {
                 ...appState.user,
-                Active: false,
+                active: false,
             },
         };
         store.setState(newAppState);

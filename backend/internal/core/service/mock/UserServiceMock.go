@@ -37,7 +37,7 @@ func (m *MockUserService) EXPECT() *MockUserServiceMockRecorder {
 }
 
 // Create mocks base method.
-func (m *MockUserService) Create(request dto.UserRequest) (domain.User, error) {
+func (m *MockUserService) Create(request dto.UserDto) (domain.User, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Create", request)
 	ret0, _ := ret[0].(domain.User)
@@ -127,7 +127,7 @@ func (mr *MockUserServiceMockRecorder) FindById(id interface{}) *gomock.Call {
 }
 
 // Login mocks base method.
-func (m *MockUserService) Login(request dto.UserRequest) (*dto.TokenDto, error) {
+func (m *MockUserService) Login(request dto.UserDto) (*dto.TokenDto, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Login", request)
 	ret0, _ := ret[0].(*dto.TokenDto)

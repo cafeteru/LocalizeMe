@@ -72,9 +72,9 @@ export class StageListComponent extends BaseComponent implements OnInit {
 
     openModal(stage?: Stage): void {
         const newStage: Stage = {
-            Name: undefined,
-            Active: true,
-            ID: undefined,
+            name: undefined,
+            active: true,
+            id: undefined,
         };
         const dialogRef = this.matDialog.open(ModalStageComponent, {
             minWidth: '550px',
@@ -110,7 +110,7 @@ export class StageListComponent extends BaseComponent implements OnInit {
         const subscription$ = this.stageService.delete(stage).subscribe((result) => {
             if (result) {
                 this.loadStages();
-                this.nzMessageService.create('success', `${stage.Name} has been deleted`);
+                this.nzMessageService.create('success', `${stage.name} has been deleted`);
             } else {
                 this.nzMessageService.create('error', 'Error deleting');
             }

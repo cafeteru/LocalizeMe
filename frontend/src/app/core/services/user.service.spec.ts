@@ -1,11 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 
-import { LoginData, UserService } from './user.service';
+import { UserService } from './user.service';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { provideMockStore } from '@ngrx/store/testing';
 import { ResponseLogin } from '../../types/response-login';
 import { createAppStateMock } from '../../store/mocks/create-app-state-mock';
-import { createMockUser } from '../../types/user';
+import { createMockUser, LoginData } from '../../types/user';
 
 describe('UserService', () => {
     let service: UserService;
@@ -31,11 +31,11 @@ describe('UserService', () => {
 
     it('check login', () => {
         const loginData: LoginData = {
-            Email: 'username',
-            Password: 'password',
+            email: 'username',
+            password: 'password',
         };
         const token: ResponseLogin = {
-            Authorization:
+            authorization:
                 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJBY3RpdmUiOnRydWUsIk' +
                 'FkbWluIjp0cnVlLCJFbWFpbCI6ImFkbWluQGVtYWlsLmVzIiwiSUQiOiI2MjI' +
                 'xMmI5MmFiNjMxNDFhNjg0NzM5ZjMiLCJleHAiOjE2NDg1MzM5MTJ9.mWhtyw3' +
@@ -51,7 +51,7 @@ describe('UserService', () => {
 
     it('check logout', () => {
         service.logout();
-        expect(appState.user.Email).toEqual('');
+        expect(appState.user.email).toEqual('');
     });
 
     it('check findMe', () => {
@@ -65,8 +65,8 @@ describe('UserService', () => {
 
     it('check register', () => {
         const loginData: LoginData = {
-            Email: 'username',
-            Password: 'password',
+            email: 'username',
+            password: 'password',
         };
         service.register(loginData).subscribe({
             error: (err) => fail(err),
@@ -109,7 +109,7 @@ describe('UserService', () => {
         service.disable(user).subscribe({
             error: (err) => fail(err),
         });
-        const req = mockHttp.expectOne(`${service.urlUsers}/${user.ID}`);
+        const req = mockHttp.expectOne(`${service.urlUsers}/${user.id}`);
         expect(req.request.method).toBe('PATCH');
         req.flush(user);
     });
@@ -120,7 +120,7 @@ describe('UserService', () => {
             next: (res) => expect(res).toBeTrue(),
             error: (err) => fail(err),
         });
-        const req = mockHttp.expectOne(`${service.urlUsers}/${user.ID}`);
+        const req = mockHttp.expectOne(`${service.urlUsers}/${user.id}`);
         expect(req.request.method).toBe('DELETE');
         req.flush(true);
     });
@@ -131,7 +131,7 @@ describe('UserService', () => {
             next: (res) => expect(res).toBeFalse(),
             error: (err) => fail(err),
         });
-        const req = mockHttp.expectOne(`${service.urlUsers}/${user.ID}`);
+        const req = mockHttp.expectOne(`${service.urlUsers}/${user.id}`);
         expect(req.request.method).toBe('DELETE');
         req.flush(true, { status: 400, statusText: 'Bad Request' });
     });

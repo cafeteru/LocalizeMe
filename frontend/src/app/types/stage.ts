@@ -1,13 +1,17 @@
+export interface StageDto {
+    name: string;
+}
+
 export interface Stage {
-    ID: string;
-    Name: string;
-    Active: boolean;
+    id: string;
+    name: string;
+    active: boolean;
 }
 
 export function createMockStage(): Stage {
     return {
-        Active: true,
-        ID: '1',
-        Name: 'name',
+        active: true,
+        id: '1',
+        name: 'name',
     };
 }

@@ -110,7 +110,7 @@ export class UserListComponent extends BaseComponent implements OnInit {
         const subscription$ = this.userService.delete(user).subscribe((result) => {
             if (result) {
                 this.loadUsers();
-                this.messageService.create('success', `${user.Email} has been deleted`);
+                this.messageService.create('success', `${user.email} has been deleted`);
             } else {
                 this.messageService.create('error', 'Error deleting');
             }

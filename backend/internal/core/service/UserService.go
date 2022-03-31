@@ -7,12 +7,12 @@ import (
 )
 
 type UserService interface {
-	Create(request dto.UserRequest) (domain.User, error)
+	Create(request dto.UserDto) (domain.User, error)
 	Delete(id primitive.ObjectID) (bool, error)
 	Disable(id primitive.ObjectID) (*domain.User, error)
 	FindAll() (*[]domain.User, error)
 	FindByEmail(email string) (*domain.User, error)
 	FindById(id primitive.ObjectID) (*domain.User, error)
-	Login(request dto.UserRequest) (*dto.TokenDto, error)
+	Login(request dto.UserDto) (*dto.TokenDto, error)
 	Update(request domain.User) (*domain.User, error)
 }

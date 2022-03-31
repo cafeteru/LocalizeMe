@@ -6,9 +6,9 @@ import (
 
 // swagger:model User
 type User struct {
-	ID       primitive.ObjectID `bson:"_id,omitempty"`
-	Email    string             `bson:"Email"`
-	Password string             `bson:"Password"`
-	Admin    bool               `bson:"Admin"`
-	Active   bool               `bson:"Active"`
+	ID       primitive.ObjectID `bson:"_id,omitempty" json:"id,omitempty"`
+	Email    string             `bson:"email" json:"email"`
+	Password string             `bson:"password" json:"password"`
+	Admin    bool               `bson:"admin" json:"admin"`
+	Active   bool               `bson:"active" json:"active"`
 }

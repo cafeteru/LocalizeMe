@@ -37,7 +37,7 @@ func (m *MockStageService) EXPECT() *MockStageServiceMockRecorder {
 }
 
 // Create mocks base method.
-func (m *MockStageService) Create(request dto.StageRequest) (domain.Stage, error) {
+func (m *MockStageService) Create(request dto.StageDto) (domain.Stage, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Create", request)
 	ret0, _ := ret[0].(domain.Stage)
@@ -49,6 +49,21 @@ func (m *MockStageService) Create(request dto.StageRequest) (domain.Stage, error
 func (mr *MockStageServiceMockRecorder) Create(request interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockStageService)(nil).Create), request)
+}
+
+// Delete mocks base method.
+func (m *MockStageService) Delete(id primitive.ObjectID) (bool, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Delete", id)
+	ret0, _ := ret[0].(bool)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Delete indicates an expected call of Delete.
+func (mr *MockStageServiceMockRecorder) Delete(id interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delete", reflect.TypeOf((*MockStageService)(nil).Delete), id)
 }
 
 // Disable mocks base method.

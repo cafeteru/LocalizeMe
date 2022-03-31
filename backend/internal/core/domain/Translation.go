@@ -7,13 +7,13 @@ import (
 
 // swagger:model Translation
 type Translation struct {
-	ID         primitive.ObjectID `bson:"_id,omitempty"`
-	Content    string             `bson:"Content"`
-	Language   Language           `bson:"Language"`
-	Version    int                `default:"1" bson:"Version"`
-	Active     bool               `bson:"Active"`
-	BaseString BaseString         `bson:"BaseString"`
-	Author     User               `bson:"Author"`
-	Date       time.Time          `bson:"Date"`
-	Stage      Stage              `bson:"Stage"`
+	ID         primitive.ObjectID `bson:"_id,omitempty" json:"id,omitempty"`
+	Content    string             `bson:"content" json:"content"`
+	Language   Language           `bson:"language" json:"language"`
+	Version    int                `default:"1" bson:"version" json:"version"`
+	Active     bool               `bson:"active" json:"active"`
+	BaseString BaseString         `bson:"baseString" json:"baseString"`
+	Author     User               `bson:"author" json:"author"`
+	Date       time.Time          `bson:"date" json:"date"`
+	Stage      Stage              `bson:"stage" json:"stage"`
 }

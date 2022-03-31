@@ -45,9 +45,9 @@
         </thead>
         <tbody>
             <tr *ngFor="let stage of stagesTable.data">
-                <td>{{ stage.Name }}</td>
+                <td>{{ stage.name }}</td>
                 <td>
-                    <app-boolean-icon [value]="stage.Active"></app-boolean-icon>
+                    <app-boolean-icon [value]="stage.active"></app-boolean-icon>
                 </td>
                 <td>
                     <button

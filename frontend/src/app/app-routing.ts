@@ -20,6 +20,11 @@ export const routes: Routes = [
         canActivate: [LoadTokenGuard, CheckTokenGuard, IsActiveGuard, IsAdminGuard],
     },
     {
+        path: Urls.languages,
+        loadChildren: () => import('./components/languages/languages.module').then((l) => l.LanguagesModule),
+        canActivate: [LoadTokenGuard, CheckTokenGuard, IsActiveGuard, IsAdminGuard],
+    },
+    {
         path: '**',
         redirectTo: Urls.menu,
     },

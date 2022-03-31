@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 
-import { StageRequest, StageService } from './stage.service';
+import { StageService } from './stage.service';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { createMockStage, Stage } from '../../types/stage';
+import { createMockStage, Stage, StageDto } from '../../types/stage';
 
 describe('StageService', () => {
     let service: StageService;
@@ -25,13 +25,13 @@ describe('StageService', () => {
     });
 
     it('check create', () => {
-        const stageRequest: StageRequest = {
-            Name: 'name',
+        const stageRequest: StageDto = {
+            name: 'name',
         };
         const token: Stage = {
-            ID: '',
-            Name: 'name',
-            Active: true,
+            id: '',
+            name: 'name',
+            active: true,
         };
         service.create(stageRequest).subscribe({
             error: (err) => fail(err),
@@ -67,7 +67,7 @@ describe('StageService', () => {
         service.disable(stage).subscribe({
             error: (err) => fail(err),
         });
-        const req = mockHttp.expectOne(`${service.url}/${stage.ID}`);
+        const req = mockHttp.expectOne(`${service.url}/${stage.id}`);
         expect(req.request.method).toBe('PATCH');
         req.flush(stage);
     });
@@ -78,7 +78,7 @@ describe('StageService', () => {
             next: (res) => expect(res).toBeTrue(),
             error: (err) => fail(err),
         });
-        const req = mockHttp.expectOne(`${service.url}/${stage.ID}`);
+        const req = mockHttp.expectOne(`${service.url}/${stage.id}`);
         expect(req.request.method).toBe('DELETE');
         req.flush(true);
     });
@@ -89,7 +89,7 @@ describe('StageService', () => {
             next: (res) => expect(res).toBeFalse(),
             error: (err) => fail(err),
         });
-        const req = mockHttp.expectOne(`${service.url}/${stage.ID}`);
+        const req = mockHttp.expectOne(`${service.url}/${stage.id}`);
         expect(req.request.method).toBe('DELETE');
         req.flush(true, { status: 400, statusText: 'Bad Request' });
     });

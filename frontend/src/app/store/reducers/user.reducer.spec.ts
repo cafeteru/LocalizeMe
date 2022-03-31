@@ -2,22 +2,22 @@ import { clearUser, getUserReducer, initialState, loadUser, UserReducer } from '
 
 describe('UserReducer', () => {
     const userReducer: UserReducer = {
-        ID: initialState.ID,
-        Email: initialState.Email,
-        Exp: initialState.Exp,
-        Active: initialState.Active,
-        Admin: initialState.Admin,
-        Authorization: initialState.Authorization,
+        id: initialState.id,
+        email: initialState.email,
+        exp: initialState.exp,
+        active: initialState.active,
+        admin: initialState.admin,
+        authorization: initialState.authorization,
     };
 
     it('check loadUser', () => {
         const temp: UserReducer = {
-            ID: '1',
-            Email: 'email@email.es',
-            Exp: 1,
-            Active: true,
-            Admin: true,
-            Authorization: 'Authorization',
+            id: '1',
+            email: 'email@email.es',
+            exp: 1,
+            active: true,
+            admin: true,
+            authorization: 'Authorization',
         };
         const reduce = loadUser(userReducer, temp);
         expect(reduce).toEqual(temp);

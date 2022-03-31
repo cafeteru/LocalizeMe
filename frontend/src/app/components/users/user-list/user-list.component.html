@@ -35,12 +35,12 @@
         </thead>
         <tbody>
             <tr *ngFor="let user of usersTable.data">
-                <td>{{ user.Email }}</td>
+                <td>{{ user.email }}</td>
                 <td>
-                    <app-boolean-icon [value]="user.Admin"></app-boolean-icon>
+                    <app-boolean-icon [value]="user.admin"></app-boolean-icon>
                 </td>
                 <td>
-                    <app-boolean-icon [value]="user.Active"></app-boolean-icon>
+                    <app-boolean-icon [value]="user.active"></app-boolean-icon>
                 </td>
                 <td>
                     <button

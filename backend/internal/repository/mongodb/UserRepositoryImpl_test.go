@@ -59,10 +59,10 @@ func TestUserRepositoryImpl_FindByEmail_Success(t *testing.T) {
 		u.collection = mt.Coll
 		mt.AddMockResponses(mtest.CreateCursorResponse(1, "foo.bar", mtest.FirstBatch, bson.D{
 			{Key: "_id", Value: user.ID},
-			{Key: "Email", Value: user.Email},
-			{Key: "Password", Value: user.Password},
-			{Key: "Admin", Value: user.Admin},
-			{Key: "Active", Value: user.Active},
+			{Key: "email", Value: user.Email},
+			{Key: "password", Value: user.Password},
+			{Key: "admin", Value: user.Admin},
+			{Key: "active", Value: user.Active},
 		}))
 		response, err := u.FindByEmail(user.Email)
 		assert.Nil(t, err)
@@ -98,10 +98,10 @@ func TestUserRepositoryImpl_FindById_Success(t *testing.T) {
 		u.collection = mt.Coll
 		mt.AddMockResponses(mtest.CreateCursorResponse(1, "foo.bar", mtest.FirstBatch, bson.D{
 			{Key: "_id", Value: user.ID},
-			{Key: "Email", Value: user.Email},
-			{Key: "Password", Value: user.Password},
-			{Key: "Admin", Value: user.Admin},
-			{Key: "Active", Value: user.Active},
+			{Key: "email", Value: user.Email},
+			{Key: "password", Value: user.Password},
+			{Key: "admin", Value: user.Admin},
+			{Key: "active", Value: user.Active},
 		}))
 		response, err := u.FindById(user.ID)
 		assert.Nil(t, err)
@@ -178,17 +178,17 @@ func TestUserRepositoryImpl_FindAll_Success(t *testing.T) {
 		}
 		first := mtest.CreateCursorResponse(1, "foo.bar", mtest.FirstBatch, bson.D{
 			{Key: "_id", Value: user.ID},
-			{Key: "Email", Value: user.Email},
-			{Key: "Password", Value: user.Password},
-			{Key: "Admin", Value: user.Admin},
-			{Key: "Active", Value: user.Active},
+			{Key: "email", Value: user.Email},
+			{Key: "password", Value: user.Password},
+			{Key: "admin", Value: user.Admin},
+			{Key: "active", Value: user.Active},
 		})
 		second := mtest.CreateCursorResponse(1, "foo.bar", mtest.NextBatch, bson.D{
 			{Key: "_id", Value: user2.ID},
-			{Key: "Email", Value: user2.Email},
-			{Key: "Password", Value: user2.Password},
-			{Key: "Admin", Value: user2.Admin},
-			{Key: "Active", Value: user2.Active},
+			{Key: "email", Value: user2.Email},
+			{Key: "password", Value: user2.Password},
+			{Key: "admin", Value: user2.Admin},
+			{Key: "active", Value: user2.Active},
 		})
 		killCursors := mtest.CreateCursorResponse(0, "foo.bar", mtest.NextBatch)
 		mt.AddMockResponses(first, second, killCursors)

@@ -20,17 +20,17 @@ export class UserInfoComponent extends BaseComponent implements OnInit {
 
     override ngOnInit(): void {
         super.ngOnInit();
-        const subscription$ = this.store.select('user').subscribe((user) => (this.email = user.Email));
+        const subscription$ = this.store.select('user').subscribe((user) => (this.email = user.email));
         this.subscriptions$.push(subscription$);
     }
 
     openUpdate(): void {
         const user: User = {
-            ID: '',
-            Email: this.email,
-            Active: true,
-            Admin: false,
-            Password: '',
+            id: '',
+            email: this.email,
+            active: true,
+            admin: false,
+            password: '',
         };
         const dialogRef = this.dialog.open(UpdateUserComponent, {
             minWidth: '550px',
@@ -41,7 +41,7 @@ export class UserInfoComponent extends BaseComponent implements OnInit {
             },
         });
         const subscription$ = dialogRef.afterClosed().subscribe((result: User) => {
-            this.email = result.Email;
+            this.email = result.email;
         });
         this.subscriptions$.push(subscription$);
     }

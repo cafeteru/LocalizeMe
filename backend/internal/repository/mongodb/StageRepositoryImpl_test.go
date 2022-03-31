@@ -91,8 +91,8 @@ func TestStageRepositoryImpl_FindById_Success(t *testing.T) {
 		u.collection = mt.Coll
 		mt.AddMockResponses(mtest.CreateCursorResponse(1, "foo.bar", mtest.FirstBatch, bson.D{
 			{Key: "_id", Value: stage.ID},
-			{Key: "Name", Value: stage.Name},
-			{Key: "Active", Value: stage.Active},
+			{Key: "name", Value: stage.Name},
+			{Key: "active", Value: stage.Active},
 		}))
 		response, err := u.FindById(stage.ID)
 		assert.Nil(t, err)
@@ -128,8 +128,8 @@ func TestStageRepositoryImpl_FindByName_Success(t *testing.T) {
 		u.collection = mt.Coll
 		mt.AddMockResponses(mtest.CreateCursorResponse(1, "foo.bar", mtest.FirstBatch, bson.D{
 			{Key: "_id", Value: stage.ID},
-			{Key: "Name", Value: stage.Name},
-			{Key: "Active", Value: stage.Active},
+			{Key: "name", Value: stage.Name},
+			{Key: "active", Value: stage.Active},
 		}))
 		response, err := u.FindByName(stage.Name)
 		assert.Nil(t, err)
@@ -170,13 +170,13 @@ func TestStageRepositoryImpl_FindAll_Success(t *testing.T) {
 		}
 		first := mtest.CreateCursorResponse(1, "foo.bar", mtest.FirstBatch, bson.D{
 			{Key: "_id", Value: stage.ID},
-			{Key: "Name", Value: stage.Name},
-			{Key: "Active", Value: stage.Active},
+			{Key: "name", Value: stage.Name},
+			{Key: "active", Value: stage.Active},
 		})
 		second := mtest.CreateCursorResponse(1, "foo.bar", mtest.NextBatch, bson.D{
 			{Key: "_id", Value: stage2.ID},
-			{Key: "Name", Value: stage2.Name},
-			{Key: "Active", Value: stage2.Active},
+			{Key: "name", Value: stage2.Name},
+			{Key: "active", Value: stage2.Active},
 		})
 		killCursors := mtest.CreateCursorResponse(0, "foo.bar", mtest.NextBatch)
 		mt.AddMockResponses(first, second, killCursors)
