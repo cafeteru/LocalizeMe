@@ -20,8 +20,7 @@ services:
       - database
     volumes:
       - ./mongo-seed:/mongo-seed
-    command:
-      /mongo-seed/import.sh
+    command: /mongo-seed/import.sh
     networks:
       - localize-me-network
   backend:
@@ -52,7 +51,7 @@ services:
     networks:
       - localize-me-network
     environment:
-         urlApi: 'http://backend'
+      urlApi: 'http://backend'
 
 networks:
   localize-me-network:

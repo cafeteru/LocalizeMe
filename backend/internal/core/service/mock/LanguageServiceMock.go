@@ -36,7 +36,7 @@ func (m *MockLanguageService) EXPECT() *MockLanguageServiceMockRecorder {
 }
 
 // Create mocks base method.
-func (m *MockLanguageService) Create(request dto.StageDto) (domain.Language, error) {
+func (m *MockLanguageService) Create(request dto.LanguageDto) (domain.Language, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Create", request)
 	ret0, _ := ret[0].(domain.Language)
@@ -48,4 +48,19 @@ func (m *MockLanguageService) Create(request dto.StageDto) (domain.Language, err
 func (mr *MockLanguageServiceMockRecorder) Create(request interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockLanguageService)(nil).Create), request)
+}
+
+// FindAll mocks base method.
+func (m *MockLanguageService) FindAll() (*[]domain.Language, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "FindAll")
+	ret0, _ := ret[0].(*[]domain.Language)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// FindAll indicates an expected call of FindAll.
+func (mr *MockLanguageServiceMockRecorder) FindAll() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindAll", reflect.TypeOf((*MockLanguageService)(nil).FindAll))
 }

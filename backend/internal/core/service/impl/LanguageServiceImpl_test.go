@@ -67,6 +67,36 @@ func TestLanguageServiceImpl_Create_ErrorStageRequest_InvalidName(t *testing.T) 
 	assert.NotNil(t, err)
 }
 
+func TestLanguageServiceImpl_FindAll_Success(t *testing.T) {
+	initLanguageValues()
+	mockCtrl := gomock.NewController(t)
+	defer mockCtrl.Finish()
+	repository := mock.NewMockLanguageRepository(mockCtrl)
+	language2 := domain.Language{
+		ID:          primitive.NewObjectID(),
+		IsoCode:     "isoCode",
+		Description: "description",
+		Active:      true,
+	}
+	languages := []domain.Language{language, language2}
+	repository.EXPECT().FindAll().Return(&languages, nil)
+	service := CreateLanguageService(repository)
+	result, err := service.FindAll()
+	assert.Nil(t, err)
+	assert.Equal(t, len(*result), len(languages))
+}
+
+func TestLanguageServiceImpl_FindAll_Error(t *testing.T) {
+	initLanguageValues()
+	mockCtrl := gomock.NewController(t)
+	defer mockCtrl.Finish()
+	repository := mock.NewMockLanguageRepository(mockCtrl)
+	repository.EXPECT().FindAll().Return(nil, errors.New(""))
+	service := CreateLanguageService(repository)
+	_, err := service.FindAll()
+	assert.NotNil(t, err)
+}
+
 func initLanguageValues() {
 	id := "1"
 	objectID, _ := primitive.ObjectIDFromHex(id)

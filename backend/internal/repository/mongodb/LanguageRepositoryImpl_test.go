@@ -47,6 +47,48 @@ func TestLanguageRepositoryImpl_Create_Error(t *testing.T) {
 	})
 }
 
+func TestLanguageRepositoryImpl_FindAll_Success(t *testing.T) {
+	mt, l := createLanguageMocks(t)
+	mt.Run("FindAll_Language_Success", func(mt *mtest.T) {
+		l.collection = mt.Coll
+		language2 := domain.Language{
+			ID:          primitive.NewObjectID(),
+			IsoCode:     "isoCode",
+			Description: "description",
+			Active:      true,
+		}
+		first := mtest.CreateCursorResponse(1, "foo.bar", mtest.FirstBatch, bson.D{
+			{Key: "_id", Value: language.ID},
+			{Key: "isoCode", Value: language.IsoCode},
+			{Key: "description", Value: language.Description},
+			{Key: "active", Value: language.Active},
+		})
+		second := mtest.CreateCursorResponse(1, "foo.bar", mtest.NextBatch, bson.D{
+			{Key: "_id", Value: language2.ID},
+			{Key: "isoCode", Value: language2.IsoCode},
+			{Key: "description", Value: language2.Description},
+			{Key: "active", Value: language2.Active},
+		})
+		killCursors := mtest.CreateCursorResponse(0, "foo.bar", mtest.NextBatch)
+		mt.AddMockResponses(first, second, killCursors)
+		stages, err := l.FindAll()
+		assert.Nil(t, err)
+		assert.NotNil(t, stages)
+		assert.Equal(t, len(*stages), 2)
+		assert.Equal(t, (*stages)[0].IsoCode, language.IsoCode)
+		assert.Equal(t, (*stages)[1].IsoCode, language2.IsoCode)
+	})
+}
+
+func TestLanguageRepositoryImpl_FindAll_NotConnect(t *testing.T) {
+	mt, u := createLanguageMocks(t)
+	mt.Run("FindAll_Language_NotConnect", func(mt *mtest.T) {
+		_, err := u.FindAll()
+		assert.NotNil(t, err)
+		assert.Equal(t, err, errors.New(constants.CreateConnection))
+	})
+}
+
 func TestLanguageRepositoryImpl_FindByIsoCode_Success(t *testing.T) {
 	mt, l := createLanguageMocks(t)
 	mt.Run("FindByIsoCode_Language_Success", func(mt *mtest.T) {

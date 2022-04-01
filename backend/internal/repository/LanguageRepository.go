@@ -7,5 +7,6 @@ import (
 
 type LanguageRepository interface {
 	Create(language domain.Language) (*mongo.InsertOneResult, error)
+	FindAll() (*[]domain.Language, error)
 	FindByIsoCode(isoCode string) (*domain.Language, error)
 }

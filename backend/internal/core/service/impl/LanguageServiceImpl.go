@@ -52,3 +52,14 @@ func (l LanguageServiceImpl) checkUniqueIsoCode(isoCode string) (domain.Language
 	}
 	return domain.Language{}, nil, true
 }
+
+func (l LanguageServiceImpl) FindAll() (*[]domain.Language, error) {
+	log.Printf("%s: start", tools.GetCurrentFuncName())
+	users, err := l.repository.FindAll()
+	if err != nil {
+		log.Printf("%s: error", tools.GetCurrentFuncName())
+		return nil, err
+	}
+	log.Printf("%s: end", tools.GetCurrentFuncName())
+	return users, nil
+}

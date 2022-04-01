@@ -34,6 +34,32 @@ func (l *LanguageRepositoryImpl) Create(language domain.Language) (*mongo.Insert
 	return result, nil
 }
 
+func (l *LanguageRepositoryImpl) FindAll() (*[]domain.Language, error) {
+	log.Printf("%s: start", tools.GetCurrentFuncName())
+	collection, err := l.GetCollection(l.name)
+	if err != nil {
+		return nil, tools.ErrorLogDetails(err, constants.CreateConnection, tools.GetCurrentFuncName())
+	}
+	var languages []domain.Language
+	cursor, _ := collection.Find(context.TODO(), bson.D{})
+	for cursor.Next(context.TODO()) {
+		var language domain.Language
+		if err := cursor.Decode(&language); err != nil {
+			return nil, tools.ErrorLogDetails(err, constants.ReadDatabase, tools.GetCurrentFuncName())
+		}
+		languages = append(languages, language)
+	}
+	if err := cursor.Err(); err != nil {
+		return nil, tools.ErrorLogDetails(err, constants.ReadDatabase, tools.GetCurrentFuncName())
+	}
+	if err := cursor.Close(context.TODO()); err != nil {
+		return nil, tools.ErrorLogDetails(err, constants.ReadDatabase, tools.GetCurrentFuncName())
+	}
+	l.CloseConnection()
+	log.Printf("%s: end", tools.GetCurrentFuncName())
+	return &languages, nil
+}
+
 func (l *LanguageRepositoryImpl) FindByIsoCode(isoCode string) (*domain.Language, error) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
 	collection, err := l.GetCollection(l.name)

@@ -56,19 +56,17 @@ export class UserListComponent extends BaseComponent implements OnInit {
     }
 
     loadUsers(): void {
-        const subscription$ = this.userService
-            .findAll()
-            .pipe(tap(() => (this.isLoading = true)))
-            .subscribe({
-                next: (users) => {
-                    this.users = users;
-                    this.isLoading = false;
-                },
-                error: () => {
-                    this.users = [];
-                    this.isLoading = false;
-                },
-            });
+        this.isLoading = true;
+        const subscription$ = this.userService.findAll().subscribe({
+            next: (users) => {
+                this.users = users;
+                this.isLoading = false;
+            },
+            error: () => {
+                this.users = [];
+                this.isLoading = false;
+            },
+        });
         this.subscriptions$.push(subscription$);
     }
 
