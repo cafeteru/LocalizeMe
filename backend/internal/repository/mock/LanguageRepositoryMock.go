@@ -50,17 +50,32 @@ func (mr *MockLanguageRepositoryMockRecorder) Create(language interface{}) *gomo
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockLanguageRepository)(nil).Create), language)
 }
 
-// FindByIsoCode mocks base method.
-func (m *MockLanguageRepository) FindByIsoCode(name string) (*domain.Language, error) {
+// FindAll mocks base method.
+func (m *MockLanguageRepository) FindAll() (*[]domain.Language, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "FindByIsoCode", name)
+	ret := m.ctrl.Call(m, "FindAll")
+	ret0, _ := ret[0].(*[]domain.Language)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// FindAll indicates an expected call of FindAll.
+func (mr *MockLanguageRepositoryMockRecorder) FindAll() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindAll", reflect.TypeOf((*MockLanguageRepository)(nil).FindAll))
+}
+
+// FindByIsoCode mocks base method.
+func (m *MockLanguageRepository) FindByIsoCode(isoCode string) (*domain.Language, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "FindByIsoCode", isoCode)
 	ret0, _ := ret[0].(*domain.Language)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // FindByIsoCode indicates an expected call of FindByIsoCode.
-func (mr *MockLanguageRepositoryMockRecorder) FindByIsoCode(name interface{}) *gomock.Call {
+func (mr *MockLanguageRepositoryMockRecorder) FindByIsoCode(isoCode interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindByIsoCode", reflect.TypeOf((*MockLanguageRepository)(nil).FindByIsoCode), name)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindByIsoCode", reflect.TypeOf((*MockLanguageRepository)(nil).FindByIsoCode), isoCode)
 }

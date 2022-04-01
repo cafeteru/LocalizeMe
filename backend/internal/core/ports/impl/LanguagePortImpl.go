@@ -29,7 +29,7 @@ func CreateLanguagePort() *LanguagePortImpl {
 	return port
 }
 
-func (s LanguagePortImpl) InitRoutes(r *chi.Mux) {
+func (l LanguagePortImpl) InitRoutes(r *chi.Mux) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
 	pattern := "/languages"
 	tokenAuth := utils.ConfigJWTRoutes()
@@ -37,7 +37,8 @@ func (s LanguagePortImpl) InitRoutes(r *chi.Mux) {
 		r.Use(jwtauth.Verifier(tokenAuth))
 		r.Use(jwtauth.Authenticator)
 		r.Route(pattern, func(r chi.Router) {
-			r.Post("/", s.controller.Create)
+			r.Post("/", l.controller.Create)
+			r.Get("/", l.controller.FindAll)
 		})
 	})
 	log.Printf("%s: end", tools.GetCurrentFuncName())

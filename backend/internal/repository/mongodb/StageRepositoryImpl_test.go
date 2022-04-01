@@ -191,7 +191,7 @@ func TestStageRepositoryImpl_FindAll_Success(t *testing.T) {
 
 func TestStageRepositoryImpl_FindAll_NotConnect(t *testing.T) {
 	mt, u := createStageMocks(t)
-	mt.Run("FindAll_Stage_Success", func(mt *mtest.T) {
+	mt.Run("FindAll_Stage_NotConnect", func(mt *mtest.T) {
 		_, err := u.FindAll()
 		assert.NotNil(t, err)
 		assert.Equal(t, err, errors.New(constants.CreateConnection))
