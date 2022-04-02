@@ -8,4 +8,5 @@ import (
 type LanguageService interface {
 	Create(request dto.LanguageDto) (domain.Language, error)
 	FindAll() (*[]domain.Language, error)
+	Update(request domain.Language) (*domain.Language, error)
 }

@@ -35,6 +35,14 @@ export class ModalLanguageComponent extends BaseComponent implements OnInit {
         });
     }
 
+    get titleModal(): string {
+        return this.language.id ? 'Update language' : 'Create language';
+    }
+
+    get btnModal(): string {
+        return this.language.id ? 'Update' : 'Create';
+    }
+
     createMessage(type: string, message: string): void {
         this.nzMessageService.create(type, message);
     }
@@ -79,6 +87,9 @@ export class ModalLanguageComponent extends BaseComponent implements OnInit {
     private update(): Observable<Language> {
         this.language = {
             ...this.language,
+            description: this.formGroup.controls['description'].value,
+            isoCode: this.formGroup.controls['isoCode'].value,
+            active: this.formGroup.controls['active'].value,
         };
         return this.languageService.update(this.language);
     }

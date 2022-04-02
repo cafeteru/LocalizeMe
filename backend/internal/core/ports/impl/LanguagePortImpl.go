@@ -39,6 +39,7 @@ func (l LanguagePortImpl) InitRoutes(r *chi.Mux) {
 		r.Route(pattern, func(r chi.Router) {
 			r.Post("/", l.controller.Create)
 			r.Get("/", l.controller.FindAll)
+			r.Put("/", l.controller.Update)
 		})
 	})
 	log.Printf("%s: end", tools.GetCurrentFuncName())

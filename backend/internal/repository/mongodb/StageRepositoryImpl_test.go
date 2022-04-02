@@ -18,13 +18,13 @@ var stage = domain.Stage{
 }
 
 func TestStageRepositoryImpl_Delete_Success(t *testing.T) {
-	mt, u := createStageMocks(t)
+	mt, s := createStageMocks(t)
 	mt.Run("Delete_Stage_Success", func(mt *mtest.T) {
-		u.collection = mt.Coll
+		s.collection = mt.Coll
 		mt.AddMockResponses(mtest.CreateCursorResponse(1, "foo.bar", mtest.FirstBatch, bson.D{
 			{Key: "DeletedCount", Value: 1},
 		}))
-		_, err := u.Delete(stage.ID)
+		_, err := s.Delete(stage.ID)
 		assert.Nil(t, err)
 	})
 }
@@ -52,117 +52,117 @@ func TestStageRepositoryImpl_Delete_NotFound(t *testing.T) {
 }
 
 func TestStageRepositoryImpl_Create_Success(t *testing.T) {
-	mt, u := createStageMocks(t)
+	mt, s := createStageMocks(t)
 	mt.Run("Create_Stage_Success", func(mt *mtest.T) {
-		u.collection = mt.Coll
+		s.collection = mt.Coll
 		mt.AddMockResponses(mtest.CreateCursorResponse(1, "foo.bar", mtest.FirstBatch, bson.D{
 			{Key: "InsertedID", Value: primitive.NewObjectID()},
 		}))
-		_, err := u.Create(stage)
+		_, err := s.Create(stage)
 		assert.Nil(t, err)
 	})
 }
 
 func TestStageRepositoryImpl_Create_NotConnection(t *testing.T) {
-	mt, u := createStageMocks(t)
+	mt, s := createStageMocks(t)
 	mt.Run("Create_Stage_NotConnection", func(mt *mtest.T) {
-		_, err := u.Create(stage)
+		_, err := s.Create(stage)
 		assert.NotNil(t, err)
 		assert.Equal(t, err, errors.New(constants.CreateConnection))
 	})
 }
 
 func TestStageRepositoryImpl_Create_Error(t *testing.T) {
-	mt, u := createStageMocks(t)
+	mt, s := createStageMocks(t)
 	mt.Run("Create_Stage_ErrorCreate", func(mt *mtest.T) {
-		u.collection = mt.Coll
+		s.collection = mt.Coll
 		mt.AddMockResponses(mtest.CreateWriteErrorsResponse(mtest.WriteError{
 			Message: constants.InsertStage,
 		}))
-		_, err := u.Create(stage)
+		_, err := s.Create(stage)
 		assert.NotNil(t, err)
 		assert.Equal(t, err, errors.New(constants.InsertStage))
 	})
 }
 
 func TestStageRepositoryImpl_FindById_Success(t *testing.T) {
-	mt, u := createStageMocks(t)
+	mt, s := createStageMocks(t)
 	mt.Run("FindById_Stage_Success", func(mt *mtest.T) {
-		u.collection = mt.Coll
+		s.collection = mt.Coll
 		mt.AddMockResponses(mtest.CreateCursorResponse(1, "foo.bar", mtest.FirstBatch, bson.D{
 			{Key: "_id", Value: stage.ID},
 			{Key: "name", Value: stage.Name},
 			{Key: "active", Value: stage.Active},
 		}))
-		response, err := u.FindById(stage.ID)
+		response, err := s.FindById(stage.ID)
 		assert.Nil(t, err)
 		assert.Equal(t, stage.Name, response.Name)
 	})
 }
 
 func TestStageRepositoryImpl_FindById_NotConnection(t *testing.T) {
-	mt, u := createStageMocks(t)
+	mt, s := createStageMocks(t)
 	mt.Run("FindById_Stage_NotConnection", func(mt *mtest.T) {
-		_, err := u.FindById(primitive.NewObjectID())
+		_, err := s.FindById(primitive.NewObjectID())
 		assert.NotNil(t, err)
 		assert.Equal(t, err, errors.New(constants.CreateConnection))
 	})
 }
 
 func TestStageRepositoryImpl_FindById_NotFound(t *testing.T) {
-	mt, u := createStageMocks(t)
+	mt, s := createStageMocks(t)
 	mt.Run("FindById_Stage_NotFound", func(mt *mtest.T) {
-		u.collection = mt.Coll
+		s.collection = mt.Coll
 		mt.AddMockResponses(mtest.CreateWriteErrorsResponse(mtest.WriteError{
 			Message: constants.FindStageById,
 		}))
-		_, err := u.FindById(stage.ID)
+		_, err := s.FindById(stage.ID)
 		assert.NotNil(t, err)
 		assert.Equal(t, err, errors.New(constants.FindStageById))
 	})
 }
 
 func TestStageRepositoryImpl_FindByName_Success(t *testing.T) {
-	mt, u := createStageMocks(t)
+	mt, s := createStageMocks(t)
 	mt.Run("FindByName_Stage_Success", func(mt *mtest.T) {
-		u.collection = mt.Coll
+		s.collection = mt.Coll
 		mt.AddMockResponses(mtest.CreateCursorResponse(1, "foo.bar", mtest.FirstBatch, bson.D{
 			{Key: "_id", Value: stage.ID},
 			{Key: "name", Value: stage.Name},
 			{Key: "active", Value: stage.Active},
 		}))
-		response, err := u.FindByName(stage.Name)
+		response, err := s.FindByName(stage.Name)
 		assert.Nil(t, err)
 		assert.Equal(t, stage.Name, response.Name)
 	})
 }
 
 func TestStageRepositoryImpl_FindByName_NotConnection(t *testing.T) {
-	mt, u := createStageMocks(t)
+	mt, s := createStageMocks(t)
 	mt.Run("FindByName_Stage_NotConnection", func(mt *mtest.T) {
-		_, err := u.FindByName("email")
+		_, err := s.FindByName("email")
 		assert.NotNil(t, err)
 		assert.Equal(t, err, errors.New(constants.CreateConnection))
 	})
 }
 
 func TestStageRepositoryImpl_FindByName_NotFound(t *testing.T) {
-	mt, u := createStageMocks(t)
+	mt, s := createStageMocks(t)
 	mt.Run("FindByName_Stage_NotFound", func(mt *mtest.T) {
-		u.collection = mt.Coll
+		s.collection = mt.Coll
 		mt.AddMockResponses(mtest.CreateWriteErrorsResponse(mtest.WriteError{
 			Message: constants.FindStageByName,
 		}))
-		_, err := u.FindByName(stage.Name)
+		_, err := s.FindByName(stage.Name)
 		assert.NotNil(t, err)
 		assert.Equal(t, err, errors.New(constants.FindStageByName))
 	})
 }
 
 func TestStageRepositoryImpl_FindAll_Success(t *testing.T) {
-	mt, u := createStageMocks(t)
+	mt, s := createStageMocks(t)
 	mt.Run("FindAll_Stage_Success", func(mt *mtest.T) {
-		u.collection = mt.Coll
+		s.collection = mt.Coll
 		stage2 := domain.Stage{
 			ID:     primitive.NewObjectID(),
 			Name:   "name2",
@@ -180,7 +180,7 @@ func TestStageRepositoryImpl_FindAll_Success(t *testing.T) {
 		})
 		killCursors := mtest.CreateCursorResponse(0, "foo.bar", mtest.NextBatch)
 		mt.AddMockResponses(first, second, killCursors)
-		stages, err := u.FindAll()
+		stages, err := s.FindAll()
 		assert.Nil(t, err)
 		assert.NotNil(t, stages)
 		assert.Equal(t, len(*stages), 2)
@@ -190,33 +190,33 @@ func TestStageRepositoryImpl_FindAll_Success(t *testing.T) {
 }
 
 func TestStageRepositoryImpl_FindAll_NotConnect(t *testing.T) {
-	mt, u := createStageMocks(t)
+	mt, s := createStageMocks(t)
 	mt.Run("FindAll_Stage_NotConnect", func(mt *mtest.T) {
-		_, err := u.FindAll()
+		_, err := s.FindAll()
 		assert.NotNil(t, err)
 		assert.Equal(t, err, errors.New(constants.CreateConnection))
 	})
 }
 
 func TestStageRepositoryImpl_Update_Success(t *testing.T) {
-	mt, u := createStageMocks(t)
+	mt, s := createStageMocks(t)
 	mt.Run("Update_Stage_Success", func(mt *mtest.T) {
-		u.collection = mt.Coll
+		s.collection = mt.Coll
 		mt.AddMockResponses(mtest.CreateCursorResponse(1, "foo.bar", mtest.FirstBatch, bson.D{
 			{Key: "MatchedCount", Value: 0},
 			{Key: "ModifiedCount", Value: 1},
 			{Key: "UpsertedCount", Value: 0},
 			{Key: "UpsertedID", Value: stage.ID},
 		}))
-		_, err := u.Update(stage)
+		_, err := s.Update(stage)
 		assert.Nil(t, err)
 	})
 }
 
-func TestRepositoryImpl_Update_NotConnection(t *testing.T) {
-	mt, u := createStageMocks(t)
+func TestStageRepositoryImpl_Update_NotConnection(t *testing.T) {
+	mt, s := createStageMocks(t)
 	mt.Run("Update_Stage_NotConnection", func(mt *mtest.T) {
-		_, err := u.Update(stage)
+		_, err := s.Update(stage)
 		assert.NotNil(t, err)
 		assert.Equal(t, err, errors.New(constants.CreateConnection))
 	})
@@ -238,6 +238,6 @@ func TestStageRepositoryImpl_Update_Error(t *testing.T) {
 func createStageMocks(t *testing.T) (*mtest.T, *StageRepositoryImpl) {
 	mt := mtest.New(t, mtest.NewOptions().ClientType(mtest.Mock))
 	defer mt.Close()
-	u := CreateStageRepository()
-	return mt, u
+	repository := CreateStageRepository()
+	return mt, repository
 }

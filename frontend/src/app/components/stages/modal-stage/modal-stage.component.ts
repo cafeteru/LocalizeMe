@@ -34,6 +34,14 @@ export class ModalStageComponent extends BaseComponent implements OnInit {
         });
     }
 
+    get titleModal(): string {
+        return this.stage.id ? 'Update stage' : 'Create stage';
+    }
+
+    get btnModal(): string {
+        return this.stage.id ? 'Update' : 'Create';
+    }
+
     createMessage(type: string, message: string): void {
         this.nzMessageService.create(type, message);
     }

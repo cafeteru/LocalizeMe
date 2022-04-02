@@ -6,6 +6,7 @@ import (
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/tools"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"log"
 )
@@ -60,6 +61,23 @@ func (l *LanguageRepositoryImpl) FindAll() (*[]domain.Language, error) {
 	return &languages, nil
 }
 
+func (l *LanguageRepositoryImpl) FindById(id primitive.ObjectID) (*domain.Language, error) {
+	log.Printf("%s: start", tools.GetCurrentFuncName())
+	collection, err := l.GetCollection(l.name)
+	if err != nil {
+		return nil, tools.ErrorLogDetails(err, constants.CreateConnection, tools.GetCurrentFuncName())
+	}
+	filter := bson.M{"_id": bson.M{"$eq": id}}
+	result := collection.FindOne(context.TODO(), filter)
+	var language domain.Language
+	if err = result.Decode(&language); err != nil {
+		return nil, tools.ErrorLogDetails(err, constants.FindLanguageById, tools.GetCurrentFuncName())
+	}
+	l.CloseConnection()
+	log.Printf("%s: end", tools.GetCurrentFuncName())
+	return &language, nil
+}
+
 func (l *LanguageRepositoryImpl) FindByIsoCode(isoCode string) (*domain.Language, error) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
 	collection, err := l.GetCollection(l.name)
@@ -75,4 +93,27 @@ func (l *LanguageRepositoryImpl) FindByIsoCode(isoCode string) (*domain.Language
 	l.CloseConnection()
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return &stage, nil
+}
+
+func (l *LanguageRepositoryImpl) Update(language domain.Language) (*mongo.UpdateResult, error) {
+	log.Printf("%s: start", tools.GetCurrentFuncName())
+	collection, err := l.GetCollection(l.name)
+	if err != nil {
+		return nil, tools.ErrorLogDetails(err, constants.CreateConnection, tools.GetCurrentFuncName())
+	}
+	filter := bson.M{"_id": bson.M{"$eq": language.ID}}
+	update := bson.M{
+		"$set": bson.M{
+			"description": language.Description,
+			"isoCode":     language.IsoCode,
+			"active":      language.Active,
+		},
+	}
+	result, err := collection.UpdateOne(context.TODO(), filter, update)
+	if err != nil {
+		return nil, tools.ErrorLogDetails(err, constants.UpdateLanguage, tools.GetCurrentFuncName())
+	}
+	l.CloseConnection()
+	log.Printf("%s: end", tools.GetCurrentFuncName())
+	return result, nil
 }

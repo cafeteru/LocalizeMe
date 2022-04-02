@@ -64,3 +64,18 @@ func (mr *MockLanguageServiceMockRecorder) FindAll() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindAll", reflect.TypeOf((*MockLanguageService)(nil).FindAll))
 }
+
+// Update mocks base method.
+func (m *MockLanguageService) Update(request domain.Language) (*domain.Language, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Update", request)
+	ret0, _ := ret[0].(*domain.Language)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Update indicates an expected call of Update.
+func (mr *MockLanguageServiceMockRecorder) Update(request interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Update", reflect.TypeOf((*MockLanguageService)(nil).Update), request)
+}

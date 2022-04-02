@@ -63,3 +63,22 @@ func (l LanguageServiceImpl) FindAll() (*[]domain.Language, error) {
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return users, nil
 }
+
+func (l LanguageServiceImpl) Update(language domain.Language) (*domain.Language, error) {
+	log.Printf("%s: start", tools.GetCurrentFuncName())
+	original, err := l.repository.FindById(language.ID)
+	if original == nil || err != nil {
+		return nil, tools.ErrorLog(constants.FindLanguageById, tools.GetCurrentFuncName())
+	}
+	_, errName, validName := l.checkUniqueIsoCode(language.IsoCode)
+	if !validName {
+		return nil, errName
+	}
+	_, err = l.repository.Update(language)
+	if err != nil {
+		log.Printf("%s: error", tools.GetCurrentFuncName())
+		return nil, err
+	}
+	log.Printf("%s: end", tools.GetCurrentFuncName())
+	return &language, nil
+}

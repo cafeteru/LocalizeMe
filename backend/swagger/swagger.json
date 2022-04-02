@@ -17,6 +17,54 @@
   "host": "localhost:8080",
   "basePath": "/",
   "paths": {
+    "/language": {
+      "put": {
+        "consumes": [
+          "application/json"
+        ],
+        "tags": [
+          "Languages"
+        ],
+        "summary": "Update the information of a language.",
+        "operationId": "UpdateLanguage",
+        "parameters": [
+          {
+            "name": "Language",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Language"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Language",
+            "schema": {
+              "$ref": "#/definitions/Language"
+            }
+          },
+          "400": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          },
+          "401": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          },
+          "422": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          }
+        }
+      }
+    },
     "/languages": {
       "get": {
         "tags": [
@@ -63,6 +111,16 @@
         ],
         "summary": "Create a new language.",
         "operationId": "CreateLanguage",
+        "parameters": [
+          {
+            "name": "LanguageDto",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/LanguageDto"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Language",
@@ -233,7 +291,7 @@
         "operationId": "CreateStage",
         "parameters": [
           {
-            "name": "Stage",
+            "name": "StageDto",
             "in": "body",
             "required": true,
             "schema": {
