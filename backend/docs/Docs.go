@@ -68,7 +68,7 @@ type _ struct {
 type _ struct {
 	// in: body
 	// required: true
-	Stage dto.StageDto
+	StageDto dto.StageDto
 }
 
 // swagger:parameters UpdateStage
@@ -76,4 +76,18 @@ type _ struct {
 	// in: body
 	// required: true
 	Stage domain.Stage
+}
+
+// swagger:parameters CreateLanguage
+type _ struct {
+	// in: body
+	// required: true
+	LanguageDto dto.LanguageDto
+}
+
+// swagger:parameters UpdateLanguage
+type _ struct {
+	// in: body
+	// required: true
+	Language domain.Language
 }

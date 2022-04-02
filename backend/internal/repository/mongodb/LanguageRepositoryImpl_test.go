@@ -81,11 +81,49 @@ func TestLanguageRepositoryImpl_FindAll_Success(t *testing.T) {
 }
 
 func TestLanguageRepositoryImpl_FindAll_NotConnect(t *testing.T) {
-	mt, u := createLanguageMocks(t)
+	mt, l := createLanguageMocks(t)
 	mt.Run("FindAll_Language_NotConnect", func(mt *mtest.T) {
-		_, err := u.FindAll()
+		_, err := l.FindAll()
 		assert.NotNil(t, err)
 		assert.Equal(t, err, errors.New(constants.CreateConnection))
+	})
+}
+
+func TestLanguageRepositoryImpl_FindById_Success(t *testing.T) {
+	mt, l := createLanguageMocks(t)
+	mt.Run("FindById_Language_Success", func(mt *mtest.T) {
+		l.collection = mt.Coll
+		mt.AddMockResponses(mtest.CreateCursorResponse(1, "foo.bar", mtest.FirstBatch, bson.D{
+			{Key: "_id", Value: language.ID},
+			{Key: "description", Value: language.Description},
+			{Key: "isoCode", Value: language.IsoCode},
+			{Key: "active", Value: language.Active},
+		}))
+		response, err := l.FindById(language.ID)
+		assert.Nil(t, err)
+		assert.Equal(t, language.IsoCode, response.IsoCode)
+	})
+}
+
+func TestLanguageRepositoryImpl_FindById_NotConnection(t *testing.T) {
+	mt, l := createLanguageMocks(t)
+	mt.Run("FindById_Language_NotConnection", func(mt *mtest.T) {
+		_, err := l.FindById(primitive.NewObjectID())
+		assert.NotNil(t, err)
+		assert.Equal(t, err, errors.New(constants.CreateConnection))
+	})
+}
+
+func TestLanguageRepositoryImpl_FindById_NotFound(t *testing.T) {
+	mt, l := createLanguageMocks(t)
+	mt.Run("FindById_Language_NotFound", func(mt *mtest.T) {
+		l.collection = mt.Coll
+		mt.AddMockResponses(mtest.CreateWriteErrorsResponse(mtest.WriteError{
+			Message: constants.FindLanguageById,
+		}))
+		_, err := l.FindById(stage.ID)
+		assert.NotNil(t, err)
+		assert.Equal(t, err, errors.New(constants.FindLanguageById))
 	})
 }
 
@@ -124,6 +162,43 @@ func TestLanguageRepositoryImpl_FindByIsoCode_NotFound(t *testing.T) {
 		_, err := l.FindByIsoCode(language.IsoCode)
 		assert.NotNil(t, err)
 		assert.Equal(t, err, errors.New(constants.FindLanguageByIsoCode))
+	})
+}
+
+func TestLanguageRepositoryImpl_Update_Success(t *testing.T) {
+	mt, l := createLanguageMocks(t)
+	mt.Run("Update_Stage_Success", func(mt *mtest.T) {
+		l.collection = mt.Coll
+		mt.AddMockResponses(mtest.CreateCursorResponse(1, "foo.bar", mtest.FirstBatch, bson.D{
+			{Key: "MatchedCount", Value: 0},
+			{Key: "ModifiedCount", Value: 1},
+			{Key: "UpsertedCount", Value: 0},
+			{Key: "UpsertedID", Value: stage.ID},
+		}))
+		_, err := l.Update(language)
+		assert.Nil(t, err)
+	})
+}
+
+func TestLanguageRepositoryImpl_Update_NotConnection(t *testing.T) {
+	mt, l := createLanguageMocks(t)
+	mt.Run("Update_Language_NotConnection", func(mt *mtest.T) {
+		_, err := l.Update(language)
+		assert.NotNil(t, err)
+		assert.Equal(t, err, errors.New(constants.CreateConnection))
+	})
+}
+
+func TestLanguageRepositoryImpl_Update_Error(t *testing.T) {
+	mt, l := createLanguageMocks(t)
+	mt.Run("Update_Language_Error", func(mt *mtest.T) {
+		l.collection = mt.Coll
+		mt.AddMockResponses(mtest.CreateWriteErrorsResponse(mtest.WriteError{
+			Message: constants.UpdateLanguage,
+		}))
+		_, err := l.Update(language)
+		assert.NotNil(t, err)
+		assert.Equal(t, err, errors.New(constants.UpdateLanguage))
 	})
 }
 

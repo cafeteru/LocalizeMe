@@ -97,6 +97,67 @@ func TestLanguageServiceImpl_FindAll_Error(t *testing.T) {
 	assert.NotNil(t, err)
 }
 
+func TestLanguageServiceImpl_Update_Successful(t *testing.T) {
+	initLanguageValues()
+	mockCtrl := gomock.NewController(t)
+	defer mockCtrl.Finish()
+	repository := mock.NewMockLanguageRepository(mockCtrl)
+	repository.EXPECT().FindById(gomock.Any()).Return(&language, nil)
+	repository.EXPECT().FindByIsoCode(gomock.Any()).Return(nil, nil)
+	mongoResult := mongo.UpdateResult{
+		MatchedCount:  0,
+		ModifiedCount: 1,
+		UpsertedCount: 0,
+		UpsertedID:    nil,
+	}
+	repository.EXPECT().Update(gomock.Any()).Return(&mongoResult, nil)
+	service := CreateLanguageService(repository)
+	result, err := service.Update(language)
+	assert.Nil(t, err)
+	assert.Equal(t, result.ID, language.ID)
+}
+
+func TestLanguageServiceImpl_Update_Error_NotIdRegister(t *testing.T) {
+	initLanguageValues()
+	mockCtrl := gomock.NewController(t)
+	defer mockCtrl.Finish()
+	repository := mock.NewMockLanguageRepository(mockCtrl)
+	repository.EXPECT().FindById(gomock.Any()).Return(nil, nil)
+	service := CreateLanguageService(repository)
+	_, err := service.Update(language)
+	assert.NotNil(t, err)
+}
+
+func TestLanguageServiceImpl_Update_Error_Repository(t *testing.T) {
+	initLanguageValues()
+	mockCtrl := gomock.NewController(t)
+	defer mockCtrl.Finish()
+	repository := mock.NewMockLanguageRepository(mockCtrl)
+	repository.EXPECT().FindById(gomock.Any()).Return(&language, nil)
+	repository.EXPECT().FindByIsoCode(gomock.Any()).Return(nil, nil)
+	repository.EXPECT().Update(gomock.Any()).Return(nil, errors.New(""))
+	service := CreateLanguageService(repository)
+	_, err := service.Update(language)
+	assert.NotNil(t, err)
+}
+
+func TestLanguageServiceImpl_Update_NameAlreadyRegister(t *testing.T) {
+	initLanguageValues()
+	mockCtrl := gomock.NewController(t)
+	defer mockCtrl.Finish()
+	repository := mock.NewMockLanguageRepository(mockCtrl)
+	repository.EXPECT().FindById(gomock.Any()).Return(&language, nil)
+	repository.EXPECT().FindByIsoCode(gomock.Any()).Return(&domain.Language{
+		ID:          primitive.NewObjectID(),
+		IsoCode:     language.IsoCode,
+		Description: "",
+		Active:      false,
+	}, nil)
+	service := CreateLanguageService(repository)
+	_, err := service.Update(language)
+	assert.NotNil(t, err)
+}
+
 func initLanguageValues() {
 	id := "1"
 	objectID, _ := primitive.ObjectIDFromHex(id)

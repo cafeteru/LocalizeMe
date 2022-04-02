@@ -1,5 +1,5 @@
 <header class="modal-header-material">
-    <h1 mat-dialog-title>Create stage</h1>
+    <h1 mat-dialog-title>{{ titleModal }}</h1>
 </header>
 <form [formGroup]="formGroup" class="login-form" (ngSubmit)="send()">
     <nz-form-item>
@@ -26,7 +26,7 @@
             [nzType]="'primary'"
             [disabled]="!formGroup.valid || isLoading"
         >
-            <span *ngIf="!isLoading">Create</span>
+            <span *ngIf="!isLoading">{{ btnModal }}</span>
             <span *ngIf="isLoading">
                 <em nz-icon nzType="loading"></em>
                 Loading

@@ -2,6 +2,7 @@ package impl
 
 import (
 	"encoding/json"
+	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain/dto"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/ports/utils"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/service"
@@ -68,5 +69,36 @@ func (l LanguageControllerImpl) FindAll(w http.ResponseWriter, r *http.Request) 
 		return
 	}
 	utils.CreateResponse(w, http.StatusOK, stages)
+	log.Printf("%s: end", tools.GetCurrentFuncName())
+}
+
+// swagger:route PUT /language Languages UpdateLanguage
+// Update the information of a language.
+//
+// Consumes:
+// - application/json
+//
+// Responses:
+// - 200: Language
+// - 400: ErrorDto
+// - 401: ErrorDto
+// - 422: ErrorDto
+func (l LanguageControllerImpl) Update(w http.ResponseWriter, r *http.Request) {
+	log.Printf("%s: start", tools.GetCurrentFuncName())
+	isAdmin := utils.CheckUserIsAdmin(w, r, l.userService)
+	if isAdmin == nil {
+		return
+	}
+	var request domain.Language
+	if err := json.NewDecoder(r.Body).Decode(&request); err != nil {
+		utils.CreateErrorResponse(w, err, http.StatusUnprocessableEntity)
+		return
+	}
+	user, err := l.languageService.Update(request)
+	if err != nil {
+		utils.CreateErrorResponse(w, err, http.StatusBadRequest)
+		return
+	}
+	utils.CreateResponse(w, http.StatusCreated, user)
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 }

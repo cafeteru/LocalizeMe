@@ -9,6 +9,7 @@ import (
 
 	gomock "github.com/golang/mock/gomock"
 	domain "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain"
+	primitive "go.mongodb.org/mongo-driver/bson/primitive"
 	mongo "go.mongodb.org/mongo-driver/mongo"
 )
 
@@ -65,6 +66,21 @@ func (mr *MockLanguageRepositoryMockRecorder) FindAll() *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindAll", reflect.TypeOf((*MockLanguageRepository)(nil).FindAll))
 }
 
+// FindById mocks base method.
+func (m *MockLanguageRepository) FindById(id primitive.ObjectID) (*domain.Language, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "FindById", id)
+	ret0, _ := ret[0].(*domain.Language)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// FindById indicates an expected call of FindById.
+func (mr *MockLanguageRepositoryMockRecorder) FindById(id interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindById", reflect.TypeOf((*MockLanguageRepository)(nil).FindById), id)
+}
+
 // FindByIsoCode mocks base method.
 func (m *MockLanguageRepository) FindByIsoCode(isoCode string) (*domain.Language, error) {
 	m.ctrl.T.Helper()
@@ -78,4 +94,19 @@ func (m *MockLanguageRepository) FindByIsoCode(isoCode string) (*domain.Language
 func (mr *MockLanguageRepositoryMockRecorder) FindByIsoCode(isoCode interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindByIsoCode", reflect.TypeOf((*MockLanguageRepository)(nil).FindByIsoCode), isoCode)
+}
+
+// Update mocks base method.
+func (m *MockLanguageRepository) Update(language domain.Language) (*mongo.UpdateResult, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Update", language)
+	ret0, _ := ret[0].(*mongo.UpdateResult)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Update indicates an expected call of Update.
+func (mr *MockLanguageRepositoryMockRecorder) Update(language interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Update", reflect.TypeOf((*MockLanguageRepository)(nil).Update), language)
 }

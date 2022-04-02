@@ -229,7 +229,7 @@ func TestStageServiceImpl_Update_Error_Repository(t *testing.T) {
 	assert.NotNil(t, err)
 }
 
-func TestStageServiceImpl_Update_EmailAlreadyRegister(t *testing.T) {
+func TestStageServiceImpl_Update_NameAlreadyRegister(t *testing.T) {
 	initStageValues()
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
