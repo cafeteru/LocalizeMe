@@ -10,6 +10,7 @@ import (
 	gomock "github.com/golang/mock/gomock"
 	domain "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain"
 	dto "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain/dto"
+	primitive "go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 // MockLanguageService is a mock of LanguageService interface.
@@ -48,6 +49,21 @@ func (m *MockLanguageService) Create(request dto.LanguageDto) (domain.Language, 
 func (mr *MockLanguageServiceMockRecorder) Create(request interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockLanguageService)(nil).Create), request)
+}
+
+// Disable mocks base method.
+func (m *MockLanguageService) Disable(id primitive.ObjectID) (*domain.Language, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Disable", id)
+	ret0, _ := ret[0].(*domain.Language)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Disable indicates an expected call of Disable.
+func (mr *MockLanguageServiceMockRecorder) Disable(id interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Disable", reflect.TypeOf((*MockLanguageService)(nil).Disable), id)
 }
 
 // FindAll mocks base method.

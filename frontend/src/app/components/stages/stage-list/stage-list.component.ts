@@ -88,7 +88,10 @@ export class StageListComponent extends BaseComponent implements OnInit {
     }
 
     disable(stage: Stage): void {
-        const subscription$ = this.stageService.disable(stage).subscribe(() => this.loadStages());
+        const subscription$ = this.stageService.disable(stage).subscribe({
+            next: () => this.loadStages(),
+            error: () => this.nzMessageService.create('error', 'Error disabling'),
+        });
         this.subscriptions$.push(subscription$);
     }
 

@@ -149,6 +149,45 @@
         }
       }
     },
+    "/languages/{id}": {
+      "patch": {
+        "tags": [
+          "Languages"
+        ],
+        "summary": "Disable of a language.",
+        "operationId": "DisableLanguage",
+        "parameters": [
+          {
+            "type": "string",
+            "x-go-name": "Id",
+            "description": "The language´s id",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Language",
+            "schema": {
+              "$ref": "#/definitions/Language"
+            }
+          },
+          "400": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          },
+          "401": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          }
+        }
+      }
+    },
     "/login": {
       "post": {
         "consumes": [
