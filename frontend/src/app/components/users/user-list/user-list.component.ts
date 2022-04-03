@@ -8,7 +8,6 @@ import { UpdateUserComponent, UpdateUserData } from '../update-user/update-user.
 import { MatDialog } from '@angular/material/dialog';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { tap } from 'rxjs';
 
 @Component({
     selector: 'app-user-list',
@@ -44,7 +43,7 @@ export class UserListComponent extends BaseComponent implements OnInit {
     constructor(
         private userService: UserService,
         public dialog: MatDialog,
-        private messageService: NzMessageService,
+        private nzMessageService: NzMessageService,
         private modal: NzModalService
     ) {
         super();
@@ -108,16 +107,19 @@ export class UserListComponent extends BaseComponent implements OnInit {
         const subscription$ = this.userService.delete(user).subscribe((result) => {
             if (result) {
                 this.loadUsers();
-                this.messageService.create('success', `${user.email} has been deleted`);
+                this.nzMessageService.create('success', `${user.email} has been deleted`);
             } else {
-                this.messageService.create('error', 'Error deleting');
+                this.nzMessageService.create('error', 'Error deleting');
             }
         });
         this.subscriptions$.push(subscription$);
     }
 
     disable(user: User): void {
-        const subscription$ = this.userService.disable(user).subscribe(() => this.loadUsers());
+        const subscription$ = this.userService.disable(user).subscribe({
+            next: () => this.loadUsers(),
+            error: () => this.nzMessageService.create('error', 'Error disabling'),
+        });
         this.subscriptions$.push(subscription$);
     }
 }

@@ -91,3 +91,12 @@ type _ struct {
 	// required: true
 	Language domain.Language
 }
+
+// swagger:parameters DisableLanguage
+type _ struct {
+	// The language´s id
+	// in: path
+	// required: true
+	// type: string
+	Id string `json:"id"`
+}

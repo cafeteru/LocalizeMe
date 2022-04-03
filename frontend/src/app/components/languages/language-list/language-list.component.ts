@@ -5,7 +5,6 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 import { MatDialog } from '@angular/material/dialog';
 import { Language } from '../../../types/language';
 import { ModalLanguageComponent } from '../modal-language/modal-language.component';
-import { delay, tap } from 'rxjs';
 import { LanguageService } from '../../../core/services/language.service';
 import { ColumnHeader, sortDirections } from '../../../shared/components/utils/nz-table-utils';
 import { sortActive, sortDescription, sortIsoCode } from '../../../shared/sorts/languages-sorts';
@@ -94,7 +93,13 @@ export class LanguageListComponent extends BaseComponent implements OnInit {
         this.subscriptions$.push(subscription$);
     }
 
-    disable(language: Language): void {}
+    disable(language: Language): void {
+        const subscription$ = this.languageService.disable(language).subscribe({
+            next: () => this.loadLanguages(),
+            error: () => this.nzMessageService.create('error', 'Error disabling'),
+        });
+        this.subscriptions$.push(subscription$);
+    }
 
     showDeleteModal(language: Language): void {}
 }

@@ -67,6 +67,52 @@ func TestLanguageServiceImpl_Create_ErrorStageRequest_InvalidName(t *testing.T) 
 	assert.NotNil(t, err)
 }
 
+func TestLanguageServiceImpl_Disable_Successful(t *testing.T) {
+	initLanguageValues()
+	mockCtrl := gomock.NewController(t)
+	defer mockCtrl.Finish()
+	repository := mock.NewMockLanguageRepository(mockCtrl)
+	repository.EXPECT().FindById(gomock.Any()).Return(&language, nil)
+	mongoResult := mongo.UpdateResult{
+		MatchedCount:  0,
+		ModifiedCount: 1,
+		UpsertedCount: 0,
+		UpsertedID:    nil,
+	}
+	repository.EXPECT().Update(gomock.Any()).Return(&mongoResult, nil)
+	service := CreateLanguageService(repository)
+	result, err := service.Disable(stage.ID)
+	assert.Nil(t, err)
+	assert.Equal(t, result.ID, stage.ID)
+}
+
+func TestLanguageServiceImpl_Disable_NotFoundById(t *testing.T) {
+	initLanguageValues()
+	mockCtrl := gomock.NewController(t)
+	defer mockCtrl.Finish()
+	repository := mock.NewMockLanguageRepository(mockCtrl)
+	err := errors.New(constants.FindLanguageById)
+	repository.EXPECT().FindById(gomock.Any()).Return(nil, err)
+	service := CreateLanguageService(repository)
+	_, expectedError := service.Disable(stage.ID)
+	assert.NotNil(t, expectedError)
+	assert.Equal(t, expectedError, err)
+}
+
+func TestLanguageServiceImpl_Disable_ErrorRepository(t *testing.T) {
+	initLanguageValues()
+	mockCtrl := gomock.NewController(t)
+	defer mockCtrl.Finish()
+	repository := mock.NewMockLanguageRepository(mockCtrl)
+	repository.EXPECT().FindById(gomock.Any()).Return(&language, nil)
+	err := errors.New(constants.UpdateLanguage)
+	repository.EXPECT().Update(gomock.Any()).Return(nil, err)
+	service := CreateLanguageService(repository)
+	_, expectedError := service.Disable(language.ID)
+	assert.NotNil(t, expectedError)
+	assert.Equal(t, expectedError, err)
+}
+
 func TestLanguageServiceImpl_FindAll_Success(t *testing.T) {
 	initLanguageValues()
 	mockCtrl := gomock.NewController(t)
