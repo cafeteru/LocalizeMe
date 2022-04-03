@@ -53,6 +53,21 @@ func (l LanguageServiceImpl) checkUniqueIsoCode(isoCode string) (domain.Language
 	return domain.Language{}, nil, true
 }
 
+func (l LanguageServiceImpl) Delete(id primitive.ObjectID) (bool, error) {
+	log.Printf("%s: start", tools.GetCurrentFuncName())
+	language, err := l.repository.FindById(id)
+	if language == nil || err != nil {
+		return false, tools.ErrorLog(constants.FindLanguageById, tools.GetCurrentFuncName())
+	}
+	_, err = l.repository.Delete(id)
+	if err != nil {
+		log.Printf("%s: error", tools.GetCurrentFuncName())
+		return false, err
+	}
+	log.Printf("%s: end", tools.GetCurrentFuncName())
+	return true, nil
+}
+
 func (l LanguageServiceImpl) Disable(id primitive.ObjectID) (*domain.Language, error) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
 	language, err := l.repository.FindById(id)

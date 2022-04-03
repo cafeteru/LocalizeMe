@@ -51,6 +51,21 @@ func (mr *MockLanguageServiceMockRecorder) Create(request interface{}) *gomock.C
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockLanguageService)(nil).Create), request)
 }
 
+// Delete mocks base method.
+func (m *MockLanguageService) Delete(id primitive.ObjectID) (bool, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Delete", id)
+	ret0, _ := ret[0].(bool)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Delete indicates an expected call of Delete.
+func (mr *MockLanguageServiceMockRecorder) Delete(id interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delete", reflect.TypeOf((*MockLanguageService)(nil).Delete), id)
+}
+
 // Disable mocks base method.
 func (m *MockLanguageService) Disable(id primitive.ObjectID) (*domain.Language, error) {
 	m.ctrl.T.Helper()

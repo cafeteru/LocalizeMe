@@ -67,6 +67,49 @@ func TestLanguageServiceImpl_Create_ErrorStageRequest_InvalidName(t *testing.T) 
 	assert.NotNil(t, err)
 }
 
+func TestLanguageServiceImpl_Delete_Successful(t *testing.T) {
+	initLanguageValues()
+	mockCtrl := gomock.NewController(t)
+	defer mockCtrl.Finish()
+	repository := mock.NewMockLanguageRepository(mockCtrl)
+	repository.EXPECT().FindById(gomock.Any()).Return(&language, nil)
+	mongoResult := mongo.DeleteResult{
+		DeletedCount: 1,
+	}
+	repository.EXPECT().Delete(gomock.Any()).Return(&mongoResult, nil)
+	service := CreateLanguageService(repository)
+	result, err := service.Delete(language.ID)
+	assert.Nil(t, err)
+	assert.True(t, result)
+}
+
+func TestLanguageServiceImpl_Delete_NotFoundById(t *testing.T) {
+	initLanguageValues()
+	mockCtrl := gomock.NewController(t)
+	defer mockCtrl.Finish()
+	repository := mock.NewMockLanguageRepository(mockCtrl)
+	err := errors.New(constants.FindLanguageById)
+	repository.EXPECT().FindById(gomock.Any()).Return(nil, err)
+	service := CreateLanguageService(repository)
+	_, expectedError := service.Delete(language.ID)
+	assert.NotNil(t, expectedError)
+	assert.Equal(t, expectedError, err)
+}
+
+func TestLanguageServiceImpl_Delete_ErrorRepository(t *testing.T) {
+	initLanguageValues()
+	mockCtrl := gomock.NewController(t)
+	defer mockCtrl.Finish()
+	repository := mock.NewMockLanguageRepository(mockCtrl)
+	repository.EXPECT().FindById(gomock.Any()).Return(&language, nil)
+	err := errors.New(constants.DeleteLanguage)
+	repository.EXPECT().Delete(gomock.Any()).Return(nil, err)
+	service := CreateLanguageService(repository)
+	_, expectedError := service.Delete(language.ID)
+	assert.NotNil(t, expectedError)
+	assert.Equal(t, expectedError, err)
+}
+
 func TestLanguageServiceImpl_Disable_Successful(t *testing.T) {
 	initLanguageValues()
 	mockCtrl := gomock.NewController(t)

@@ -43,8 +43,8 @@ func (s StageServiceImpl) Create(request dto.StageDto) (domain.Stage, error) {
 
 func (s StageServiceImpl) Delete(id primitive.ObjectID) (bool, error) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
-	user, err := s.repository.FindById(id)
-	if user == nil || err != nil {
+	stage, err := s.repository.FindById(id)
+	if stage == nil || err != nil {
 		return false, tools.ErrorLog(constants.FindStageById, tools.GetCurrentFuncName())
 	}
 	_, err = s.repository.Delete(id)
