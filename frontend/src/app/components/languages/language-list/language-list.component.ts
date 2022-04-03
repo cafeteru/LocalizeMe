@@ -101,5 +101,27 @@ export class LanguageListComponent extends BaseComponent implements OnInit {
         this.subscriptions$.push(subscription$);
     }
 
-    showDeleteModal(language: Language): void {}
+    showDeleteModal(language: Language): void {
+        this.nzModalService.confirm({
+            nzTitle: 'Are you sure delete this language?',
+            nzOkText: 'Yes',
+            nzOkType: 'primary',
+            nzOkDanger: true,
+            nzOnOk: () => this.delete(language),
+            nzCancelText: 'No',
+            nzAutofocus: 'cancel',
+        });
+    }
+
+    private delete(language: Language): void {
+        const subscription$ = this.languageService.delete(language).subscribe((result) => {
+            if (result) {
+                this.loadLanguages();
+                this.nzMessageService.create('success', `${language.isoCode} has been deleted`);
+            } else {
+                this.nzMessageService.create('error', 'Error deleting');
+            }
+        });
+        this.subscriptions$.push(subscription$);
+    }
 }
