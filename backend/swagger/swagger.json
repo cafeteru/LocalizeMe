@@ -150,6 +150,40 @@
       }
     },
     "/languages/{id}": {
+      "delete": {
+        "tags": [
+          "Languages"
+        ],
+        "summary": "Return a language by id.",
+        "operationId": "DeleteLanguage",
+        "parameters": [
+          {
+            "type": "string",
+            "x-go-name": "Id",
+            "description": "The language´s id",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/bool"
+          },
+          "400": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          },
+          "401": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          }
+        }
+      },
       "patch": {
         "tags": [
           "Languages"

@@ -92,7 +92,7 @@ type _ struct {
 	Language domain.Language
 }
 
-// swagger:parameters DisableLanguage
+// swagger:parameters DisableLanguage DeleteLanguage
 type _ struct {
 	// The language´s id
 	// in: path

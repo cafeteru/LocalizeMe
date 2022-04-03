@@ -41,6 +41,7 @@ func (l LanguagePortImpl) InitRoutes(r *chi.Mux) {
 			r.Get("/", l.controller.FindAll)
 			r.Put("/", l.controller.Update)
 			r.Patch("/{id}", l.controller.Disable)
+			r.Delete("/{id}", l.controller.Delete)
 		})
 	})
 	log.Printf("%s: end", tools.GetCurrentFuncName())

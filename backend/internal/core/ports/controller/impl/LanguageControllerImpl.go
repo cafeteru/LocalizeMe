@@ -54,6 +54,35 @@ func (l LanguageControllerImpl) Create(w http.ResponseWriter, r *http.Request) {
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 }
 
+// swagger:route DELETE /languages/{id} Languages DeleteLanguage
+// Return a language by id.
+//
+// Responses:
+// - 200: bool
+// - 400: ErrorDto
+// - 401: ErrorDto
+func (l LanguageControllerImpl) Delete(w http.ResponseWriter, r *http.Request) {
+	log.Printf("%s: start", tools.GetCurrentFuncName())
+	user := utils.CheckUserIsAdmin(w, r, l.userService)
+	if user == nil {
+		return
+	}
+	id := chi.URLParam(r, "id")
+	if id == "" {
+		err := errors.New(constants.IdNoValid)
+		utils.CreateErrorResponse(w, err, http.StatusBadRequest)
+		return
+	}
+	objectID, _ := primitive.ObjectIDFromHex(id)
+	result, err := l.languageService.Delete(objectID)
+	if err != nil {
+		utils.CreateErrorResponse(w, err, http.StatusNotFound)
+		return
+	}
+	utils.CreateResponse(w, http.StatusOK, result)
+	log.Printf("%s: end", tools.GetCurrentFuncName())
+}
+
 // swagger:route PATCH /languages/{id} Languages DisableLanguage
 // Disable of a language.
 //
