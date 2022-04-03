@@ -4,6 +4,7 @@ const (
 	CreateConnection        = "starting the connection"
 	DataLogin               = "data invalid"
 	DeleteStage             = "error delete stage"
+	DeleteLanguage          = "error delete language"
 	DeleteUser              = "error delete user"
 	EmailAlreadyRegister    = "email already registered"
 	EncryptPasswordUser     = "encrypting password"

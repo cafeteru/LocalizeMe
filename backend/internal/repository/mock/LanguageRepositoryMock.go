@@ -51,6 +51,21 @@ func (mr *MockLanguageRepositoryMockRecorder) Create(language interface{}) *gomo
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockLanguageRepository)(nil).Create), language)
 }
 
+// Delete mocks base method.
+func (m *MockLanguageRepository) Delete(id primitive.ObjectID) (*mongo.DeleteResult, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Delete", id)
+	ret0, _ := ret[0].(*mongo.DeleteResult)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Delete indicates an expected call of Delete.
+func (mr *MockLanguageRepositoryMockRecorder) Delete(id interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delete", reflect.TypeOf((*MockLanguageRepository)(nil).Delete), id)
+}
+
 // FindAll mocks base method.
 func (m *MockLanguageRepository) FindAll() (*[]domain.Language, error) {
 	m.ctrl.T.Helper()

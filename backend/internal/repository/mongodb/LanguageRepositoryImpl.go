@@ -35,6 +35,22 @@ func (l *LanguageRepositoryImpl) Create(language domain.Language) (*mongo.Insert
 	return result, nil
 }
 
+func (l *LanguageRepositoryImpl) Delete(id primitive.ObjectID) (*mongo.DeleteResult, error) {
+	log.Printf("%s: start", tools.GetCurrentFuncName())
+	collection, err := l.GetCollection(l.name)
+	if err != nil {
+		return nil, tools.ErrorLogDetails(err, constants.CreateConnection, tools.GetCurrentFuncName())
+	}
+	filter := bson.M{"_id": bson.M{"$eq": id}}
+	result, err := collection.DeleteOne(context.TODO(), filter)
+	if err != nil {
+		return nil, tools.ErrorLogDetails(err, constants.DeleteLanguage, tools.GetCurrentFuncName())
+	}
+	l.CloseConnection()
+	log.Printf("%s: end", tools.GetCurrentFuncName())
+	return result, nil
+}
+
 func (l *LanguageRepositoryImpl) FindAll() (*[]domain.Language, error) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
 	collection, err := l.GetCollection(l.name)

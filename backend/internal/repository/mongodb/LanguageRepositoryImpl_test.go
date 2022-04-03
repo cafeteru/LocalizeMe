@@ -47,6 +47,40 @@ func TestLanguageRepositoryImpl_Create_Error(t *testing.T) {
 	})
 }
 
+func TestLanguageRepositoryImpl_Delete_Success(t *testing.T) {
+	mt, s := createLanguageMocks(t)
+	mt.Run("Delete_Language_Success", func(mt *mtest.T) {
+		s.collection = mt.Coll
+		mt.AddMockResponses(mtest.CreateCursorResponse(1, "foo.bar", mtest.FirstBatch, bson.D{
+			{Key: "DeletedCount", Value: 1},
+		}))
+		_, err := s.Delete(language.ID)
+		assert.Nil(t, err)
+	})
+}
+
+func TestLanguageRepositoryImpl_Delete_NotConnection(t *testing.T) {
+	mt, s := createLanguageMocks(t)
+	mt.Run("Delete_Language_NotConnection", func(mt *mtest.T) {
+		_, err := s.Delete(language.ID)
+		assert.NotNil(t, err)
+		assert.Equal(t, err, errors.New(constants.CreateConnection))
+	})
+}
+
+func TestLanguageRepositoryImpl_Delete_NotFound(t *testing.T) {
+	mt, s := createLanguageMocks(t)
+	mt.Run("Delete_Language_NotFound", func(mt *mtest.T) {
+		s.collection = mt.Coll
+		mt.AddMockResponses(mtest.CreateWriteErrorsResponse(mtest.WriteError{
+			Message: constants.DeleteLanguage,
+		}))
+		_, err := s.Delete(stage.ID)
+		assert.NotNil(t, err)
+		assert.Equal(t, err, errors.New(constants.DeleteLanguage))
+	})
+}
+
 func TestLanguageRepositoryImpl_FindAll_Success(t *testing.T) {
 	mt, l := createLanguageMocks(t)
 	mt.Run("FindAll_Language_Success", func(mt *mtest.T) {
