@@ -6,12 +6,14 @@ namespace domain {
         + Description string
         + Group Group
         + Author User
+        + Active bool
 
     }
     class Group << (S,Aquamarine) >> {
         + ID primitive.ObjectID
         + Name string
         + Owner User
+        + Active bool
 
     }
     class Language << (S,Aquamarine) >> {
