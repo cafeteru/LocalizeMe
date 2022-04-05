@@ -25,6 +25,11 @@ export const routes: Routes = [
         canActivate: [LoadTokenGuard, CheckTokenGuard, IsActiveGuard, IsAdminGuard],
     },
     {
+        path: Urls.groups,
+        loadChildren: () => import('./components/groups/groups.module').then((g) => g.GroupsModule),
+        canActivate: [LoadTokenGuard, CheckTokenGuard, IsActiveGuard],
+    },
+    {
         path: '**',
         redirectTo: Urls.menu,
     },

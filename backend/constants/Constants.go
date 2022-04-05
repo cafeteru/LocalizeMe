@@ -15,6 +15,7 @@ const (
 	FindUserByEmail         = "no found user by email"
 	FindUserById            = "no found user by id"
 	IdNoValid               = "id no valid"
+	InsertGroup             = "insert group"
 	InsertLanguage          = "insert language"
 	InsertStage             = "insert stage"
 	InsertUser              = "insert user"
