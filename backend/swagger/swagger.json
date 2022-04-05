@@ -805,6 +805,10 @@
     "BaseString": {
       "type": "object",
       "properties": {
+        "active": {
+          "type": "boolean",
+          "x-go-name": "Active"
+        },
         "author": {
           "$ref": "#/definitions/User"
         },
@@ -837,6 +841,10 @@
     "Group": {
       "type": "object",
       "properties": {
+        "active": {
+          "type": "boolean",
+          "x-go-name": "Active"
+        },
         "id": {
           "$ref": "#/definitions/ObjectID"
         },

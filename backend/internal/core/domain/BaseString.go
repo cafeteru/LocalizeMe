@@ -9,4 +9,5 @@ type BaseString struct {
 	Description    string             `bson:"description" json:"description"`
 	Group          Group              `bson:"group" json:"group"`
 	Author         User               `bson:"author" json:"author"`
+	Active         bool               `bson:"active" json:"active"`
 }

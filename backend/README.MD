@@ -67,9 +67,12 @@ These steps are configured in Makefile
 ### Add token to work Swagger
 
 1. Click in this button.
-   ![swagger_authorization_button.png](assets/img/swagger_authorization_button.png)
+
+![swagger_authorization_button.png](assets/img/swagger_authorization_button.png)
+
 2. Enter the token with the text `Bearer`
-   ![swagger_available_authorizations](assets/img/swagger_available_authorizations.png)
+
+![swagger_available_authorizations](assets/img/swagger_available_authorizations.png)
 
 ## How to generate a Mock from an interface
 
