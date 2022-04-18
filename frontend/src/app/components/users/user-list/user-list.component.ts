@@ -3,7 +3,7 @@ import { BaseComponent } from '../../../core/base/base.component';
 import { User } from '../../../types/user';
 import { UserService } from '../../../core/services/user.service';
 import { ColumnHeader, sortDirections } from '../../../shared/components/utils/nz-table-utils';
-import { sortEmail, sortIsActive, sortIsAdmin } from '../../../shared/sorts/users-sorts';
+import { sortUsersByEmail, sortUsersByIsActive, sortUsersByIsAdmin } from '../../../shared/sorts/users-sorts';
 import { UpdateUserComponent, UpdateUserData } from '../update-user/update-user.component';
 import { MatDialog } from '@angular/material/dialog';
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -23,19 +23,19 @@ export class UserListComponent extends BaseComponent implements OnInit {
         {
             name: 'Email',
             sortOrder: null,
-            sortFn: sortEmail,
+            sortFn: sortUsersByEmail,
             sortDirections,
         },
         {
             name: 'Admin',
             sortOrder: null,
-            sortFn: sortIsAdmin,
+            sortFn: sortUsersByIsAdmin,
             sortDirections,
         },
         {
             name: 'Active',
             sortOrder: null,
-            sortFn: sortIsActive,
+            sortFn: sortUsersByIsActive,
             sortDirections,
         },
     ];

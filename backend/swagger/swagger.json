@@ -18,6 +18,42 @@
   "basePath": "/",
   "paths": {
     "/groups": {
+      "get": {
+        "tags": [
+          "Groups"
+        ],
+        "summary": "Return all groups.",
+        "operationId": "FindAllGroups",
+        "responses": {
+          "200": {
+            "description": "Group",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Group"
+              }
+            }
+          },
+          "400": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          },
+          "401": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          },
+          "500": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          }
+        }
+      },
       "post": {
         "consumes": [
           "application/json"

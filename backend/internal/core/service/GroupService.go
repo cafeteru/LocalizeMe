@@ -7,4 +7,5 @@ import (
 
 type GroupService interface {
 	Create(request dto.GroupDto) (domain.Group, error)
+	FindAll() (*[]domain.Group, error)
 }

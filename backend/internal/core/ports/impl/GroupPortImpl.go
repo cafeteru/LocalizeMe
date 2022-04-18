@@ -31,6 +31,7 @@ func (g GroupPortImpl) InitRoutes(r *chi.Mux) {
 		r.Use(jwtauth.Authenticator)
 		r.Route(pattern, func(r chi.Router) {
 			r.Post("/", g.controller.Create)
+			r.Get("/", g.controller.FindAll)
 		})
 	})
 	log.Printf("%s: end", tools.GetCurrentFuncName())

@@ -49,3 +49,25 @@ func (g GroupControllerImpl) Create(w http.ResponseWriter, r *http.Request) {
 	utils.CreateResponse(w, http.StatusCreated, user)
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 }
+
+// swagger:route GET /groups Groups FindAllGroups
+// Return all groups.
+//
+// Responses:
+// - 200: []Group
+// - 400: ErrorDto
+// - 401: ErrorDto
+// - 500: ErrorDto
+func (l GroupControllerImpl) FindAll(w http.ResponseWriter, r *http.Request) {
+	log.Printf("%s: start", tools.GetCurrentFuncName())
+	if user := utils.CheckUserIsAdmin(w, r, l.userService); user == nil {
+		return
+	}
+	stages, err := l.groupService.FindAll()
+	if err != nil {
+		utils.CreateErrorResponse(w, err, http.StatusInternalServerError)
+		return
+	}
+	utils.CreateResponse(w, http.StatusOK, stages)
+	log.Printf("%s: end", tools.GetCurrentFuncName())
+}

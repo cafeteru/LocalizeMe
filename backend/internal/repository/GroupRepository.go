@@ -7,5 +7,6 @@ import (
 
 type GroupRepository interface {
 	Create(group domain.Group) (*mongo.InsertOneResult, error)
+	FindAll() (*[]domain.Group, error)
 	FindByName(name string) (*domain.Group, error)
 }

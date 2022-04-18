@@ -33,7 +33,7 @@ export class LanguageService {
     findAll(): Observable<Language[]> {
         return this.httpClient
             .get<Language[]>(this.url, getDefaultHttpOptions())
-            .pipe(map((stages) => (stages ? stages : [])));
+            .pipe(map((languages) => (languages ? languages : [])));
     }
 
     update(language: Language): Observable<Language> {

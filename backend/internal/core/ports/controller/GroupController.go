@@ -6,4 +6,5 @@ import (
 
 type GroupController interface {
 	Create(w http.ResponseWriter, r *http.Request)
+	FindAll(w http.ResponseWriter, r *http.Request)
 }
