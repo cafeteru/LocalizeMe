@@ -1,4 +1,4 @@
-import { sortActive, sortDescription, sortIsoCode } from './languages-sorts';
+import { sortLanguagesByActive, sortLanguagesByDescription, sortLanguagesByIsoCode } from './languages-sorts';
 import { Language } from '../../types/language';
 
 describe('languages-sorts', () => {
@@ -21,32 +21,32 @@ describe('languages-sorts', () => {
     });
 
     it('check sortIsoCode', () => {
-        expect(sortIsoCode(a, b)).toBeLessThanOrEqual(1);
-        expect(sortIsoCode(b, a)).toBeGreaterThanOrEqual(1);
-        expect(sortIsoCode(a, a)).toBe(0);
+        expect(sortLanguagesByIsoCode(a, b)).toBeLessThanOrEqual(1);
+        expect(sortLanguagesByIsoCode(b, a)).toBeGreaterThanOrEqual(1);
+        expect(sortLanguagesByIsoCode(a, a)).toBe(0);
         b.isoCode = undefined;
-        expect(sortIsoCode(a, b)).toBe(-1);
+        expect(sortLanguagesByIsoCode(a, b)).toBe(-1);
         a.isoCode = undefined;
-        expect(sortIsoCode(a, b)).toBe(1);
+        expect(sortLanguagesByIsoCode(a, b)).toBe(1);
     });
 
     it('check sortDescription', () => {
-        expect(sortDescription(a, b)).toBeLessThanOrEqual(1);
-        expect(sortDescription(b, a)).toBeGreaterThanOrEqual(1);
-        expect(sortDescription(a, a)).toBe(0);
+        expect(sortLanguagesByDescription(a, b)).toBeLessThanOrEqual(1);
+        expect(sortLanguagesByDescription(b, a)).toBeGreaterThanOrEqual(1);
+        expect(sortLanguagesByDescription(a, a)).toBe(0);
         b.description = undefined;
-        expect(sortDescription(a, b)).toBe(-1);
+        expect(sortLanguagesByDescription(a, b)).toBe(-1);
         a.description = undefined;
-        expect(sortDescription(a, b)).toBe(1);
+        expect(sortLanguagesByDescription(a, b)).toBe(1);
     });
 
     it('check sortActive', () => {
-        expect(sortActive(b, a)).toBeLessThanOrEqual(1);
-        expect(sortActive(a, a)).toBe(0);
-        expect(sortActive(a, b)).toBeGreaterThanOrEqual(-1);
+        expect(sortLanguagesByActive(b, a)).toBeLessThanOrEqual(1);
+        expect(sortLanguagesByActive(a, a)).toBe(0);
+        expect(sortLanguagesByActive(a, b)).toBeGreaterThanOrEqual(-1);
         b.active = undefined;
-        expect(sortActive(a, b)).toBe(-1);
+        expect(sortLanguagesByActive(a, b)).toBe(-1);
         a.active = undefined;
-        expect(sortActive(a, b)).toBe(1);
+        expect(sortLanguagesByActive(a, b)).toBe(1);
     });
 });

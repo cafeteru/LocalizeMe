@@ -44,6 +44,17 @@ func (g GroupServiceImpl) Create(request dto.GroupDto) (domain.Group, error) {
 	return group, nil
 }
 
+func (g GroupServiceImpl) FindAll() (*[]domain.Group, error) {
+	log.Printf("%s: start", tools.GetCurrentFuncName())
+	groups, err := g.repository.FindAll()
+	if err != nil {
+		log.Printf("%s: error", tools.GetCurrentFuncName())
+		return nil, err
+	}
+	log.Printf("%s: end", tools.GetCurrentFuncName())
+	return groups, nil
+}
+
 func (g GroupServiceImpl) checkUniqueName(name string) (domain.Group, error, bool) {
 	if name == "" {
 		return domain.Group{}, tools.ErrorLog(constants.NameGroupInvalid, tools.GetCurrentFuncName()), false

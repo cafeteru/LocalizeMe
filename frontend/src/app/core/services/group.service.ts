@@ -3,7 +3,7 @@ import { environment } from '../../../environments/environment';
 import { Urls } from '../../shared/constants/urls';
 import { HttpClient } from '@angular/common/http';
 import { Language, LanguageDto } from '../../types/language';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { getDefaultHttpOptions } from './default-http-options';
 import { Group, GroupDto } from '../../types/group';
 
@@ -17,5 +17,11 @@ export class GroupService {
 
     create(groupDto: GroupDto): Observable<Group> {
         return this.httpClient.post<Group>(this.url, groupDto, getDefaultHttpOptions());
+    }
+
+    findAll(): Observable<Group[]> {
+        return this.httpClient
+            .get<Group[]>(this.url, getDefaultHttpOptions())
+            .pipe(map((groups) => (groups ? groups : [])));
     }
 }

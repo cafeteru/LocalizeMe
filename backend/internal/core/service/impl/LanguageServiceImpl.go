@@ -87,13 +87,13 @@ func (l LanguageServiceImpl) Disable(id primitive.ObjectID) (*domain.Language, e
 
 func (l LanguageServiceImpl) FindAll() (*[]domain.Language, error) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
-	users, err := l.repository.FindAll()
+	languages, err := l.repository.FindAll()
 	if err != nil {
 		log.Printf("%s: error", tools.GetCurrentFuncName())
 		return nil, err
 	}
 	log.Printf("%s: end", tools.GetCurrentFuncName())
-	return users, nil
+	return languages, nil
 }
 
 func (l LanguageServiceImpl) Update(language domain.Language) (*domain.Language, error) {

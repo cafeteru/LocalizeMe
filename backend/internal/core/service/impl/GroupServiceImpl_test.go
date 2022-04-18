@@ -73,6 +73,37 @@ func TestGroupServiceImpl_Create_ErrorRequest_InvalidName(t *testing.T) {
 	assert.NotNil(t, err)
 }
 
+func TestGroupServiceImpl_FindAll_Success(t *testing.T) {
+	initGroupValues()
+	mockCtrl := gomock.NewController(t)
+	defer mockCtrl.Finish()
+	repository := mock.NewMockGroupRepository(mockCtrl)
+	language2 := domain.Group{
+		ID:          primitive.NewObjectID(),
+		Name:        "group2",
+		Owner:       domain.User{},
+		Permissions: nil,
+		Active:      true,
+	}
+	languages := []domain.Group{group, language2}
+	repository.EXPECT().FindAll().Return(&languages, nil)
+	service := GroupServiceImpl{repository}
+	result, err := service.FindAll()
+	assert.Nil(t, err)
+	assert.Equal(t, len(*result), len(languages))
+}
+
+func TestGroupServiceImpl_FindAll_Error(t *testing.T) {
+	initGroupValues()
+	mockCtrl := gomock.NewController(t)
+	defer mockCtrl.Finish()
+	repository := mock.NewMockGroupRepository(mockCtrl)
+	repository.EXPECT().FindAll().Return(nil, errors.New(""))
+	service := GroupServiceImpl{repository}
+	_, err := service.FindAll()
+	assert.NotNil(t, err)
+}
+
 func initGroupValues() {
 	id := "1"
 	objectID, _ := primitive.ObjectIDFromHex(id)

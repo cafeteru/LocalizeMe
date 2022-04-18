@@ -7,7 +7,11 @@ import { Language } from '../../../types/language';
 import { ModalLanguageComponent } from '../modal-language/modal-language.component';
 import { LanguageService } from '../../../core/services/language.service';
 import { ColumnHeader, sortDirections } from '../../../shared/components/utils/nz-table-utils';
-import { sortActive, sortDescription, sortIsoCode } from '../../../shared/sorts/languages-sorts';
+import {
+    sortLanguagesByActive,
+    sortLanguagesByDescription,
+    sortLanguagesByIsoCode,
+} from '../../../shared/sorts/languages-sorts';
 
 @Component({
     selector: 'app-language-list',
@@ -23,19 +27,19 @@ export class LanguageListComponent extends BaseComponent implements OnInit {
         {
             name: 'Description',
             sortOrder: null,
-            sortFn: sortDescription,
+            sortFn: sortLanguagesByDescription,
             sortDirections,
         },
         {
             name: 'IsoCode',
             sortOrder: null,
-            sortFn: sortIsoCode,
+            sortFn: sortLanguagesByIsoCode,
             sortDirections,
         },
         {
             name: 'Active',
             sortOrder: null,
-            sortFn: sortActive,
+            sortFn: sortLanguagesByActive,
             sortDirections,
         },
     ];
@@ -58,7 +62,7 @@ export class LanguageListComponent extends BaseComponent implements OnInit {
         this.languages = [];
         this.isLoading = true;
         const subscription$ = this.languageService.findAll().subscribe({
-            next: (stages) => (this.languages = stages),
+            next: (languages) => (this.languages = languages),
             error: () => (this.isLoading = false),
             complete: () => (this.isLoading = false),
         });

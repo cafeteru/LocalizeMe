@@ -1,5 +1,5 @@
 import { User } from '../../types/user';
-import { sortEmail, sortIsActive, sortIsAdmin } from './users-sorts';
+import { sortUsersByEmail, sortUsersByIsActive, sortUsersByIsAdmin } from './users-sorts';
 
 describe('users-sorts', () => {
     let a: User;
@@ -22,32 +22,32 @@ describe('users-sorts', () => {
     });
 
     it('check sortEmail', () => {
-        expect(sortEmail(a, b)).toBeLessThanOrEqual(1);
-        expect(sortEmail(b, a)).toBeGreaterThanOrEqual(1);
-        expect(sortEmail(a, a)).toBe(0);
+        expect(sortUsersByEmail(a, b)).toBeLessThanOrEqual(1);
+        expect(sortUsersByEmail(b, a)).toBeGreaterThanOrEqual(1);
+        expect(sortUsersByEmail(a, a)).toBe(0);
         b.email = undefined;
-        expect(sortEmail(a, b)).toBe(-1);
+        expect(sortUsersByEmail(a, b)).toBe(-1);
         a.email = undefined;
-        expect(sortEmail(a, b)).toBe(1);
+        expect(sortUsersByEmail(a, b)).toBe(1);
     });
 
     it('check sortIsActive', () => {
-        expect(sortIsActive(a, b)).toBeGreaterThanOrEqual(-1);
-        expect(sortIsActive(b, a)).toBeLessThanOrEqual(1);
-        expect(sortIsActive(a, a)).toBe(0);
+        expect(sortUsersByIsActive(a, b)).toBeGreaterThanOrEqual(-1);
+        expect(sortUsersByIsActive(b, a)).toBeLessThanOrEqual(1);
+        expect(sortUsersByIsActive(a, a)).toBe(0);
         b.active = undefined;
-        expect(sortIsActive(a, b)).toBe(-1);
+        expect(sortUsersByIsActive(a, b)).toBe(-1);
         a.active = undefined;
-        expect(sortIsActive(a, b)).toBe(1);
+        expect(sortUsersByIsActive(a, b)).toBe(1);
     });
 
     it('check sortIsAdmin', () => {
-        expect(sortIsAdmin(a, b)).toBe(-1);
-        expect(sortIsAdmin(b, a)).toBe(1);
-        expect(sortIsAdmin(a, a)).toBe(0);
+        expect(sortUsersByIsAdmin(a, b)).toBe(-1);
+        expect(sortUsersByIsAdmin(b, a)).toBe(1);
+        expect(sortUsersByIsAdmin(a, a)).toBe(0);
         b.admin = undefined;
-        expect(sortIsAdmin(a, b)).toBe(-1);
+        expect(sortUsersByIsAdmin(a, b)).toBe(-1);
         a.admin = undefined;
-        expect(sortIsAdmin(a, b)).toBe(1);
+        expect(sortUsersByIsAdmin(a, b)).toBe(1);
     });
 });

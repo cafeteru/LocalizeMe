@@ -5,7 +5,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { ModalStageComponent } from '../modal-stage/modal-stage.component';
 import { ColumnHeader, sortDirections } from '../../../shared/components/utils/nz-table-utils';
 import { Stage } from '../../../types/stage';
-import { sortActive, sortName } from '../../../shared/sorts/stages-sorts';
+import { sortStagesByActive, sortStagesByName } from '../../../shared/sorts/stages-sorts';
 import { StageService } from '../../../core/services/stage.service';
 import { tap } from 'rxjs';
 import { NzModalService } from 'ng-zorro-antd/modal';
@@ -24,13 +24,13 @@ export class StageListComponent extends BaseComponent implements OnInit {
         {
             name: 'Email',
             sortOrder: null,
-            sortFn: sortName,
+            sortFn: sortStagesByName,
             sortDirections,
         },
         {
             name: 'Active',
             sortOrder: null,
-            sortFn: sortActive,
+            sortFn: sortStagesByActive,
             sortDirections,
         },
     ];

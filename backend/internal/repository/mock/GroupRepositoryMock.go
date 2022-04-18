@@ -50,6 +50,21 @@ func (mr *MockGroupRepositoryMockRecorder) Create(group interface{}) *gomock.Cal
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockGroupRepository)(nil).Create), group)
 }
 
+// FindAll mocks base method.
+func (m *MockGroupRepository) FindAll() (*[]domain.Group, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "FindAll")
+	ret0, _ := ret[0].(*[]domain.Group)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// FindAll indicates an expected call of FindAll.
+func (mr *MockGroupRepositoryMockRecorder) FindAll() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindAll", reflect.TypeOf((*MockGroupRepository)(nil).FindAll))
+}
+
 // FindByName mocks base method.
 func (m *MockGroupRepository) FindByName(name string) (*domain.Group, error) {
 	m.ctrl.T.Helper()
