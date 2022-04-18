@@ -9,12 +9,14 @@ Development of a simple Rest API with [Go](https://golang.org/).
 If you have installed `make`
 
 ```shell
+curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.45.2
 make init-project
 ```
 
 Else
 
 ```shell
+curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.45.2
 go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
 go install gotest.tools/gotestsum@latest
 go install github.com/go-swagger/go-swagger/cmd/swagger@latest

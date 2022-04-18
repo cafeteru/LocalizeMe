@@ -11,7 +11,7 @@ import { LoginComponent } from './components/users/login/login.component';
 
 describe('AppComponent', () => {
     const appState: AppState = {
-        user: user.initialState,
+        userInfo: user.initialState,
     };
 
     beforeEach(async () => {

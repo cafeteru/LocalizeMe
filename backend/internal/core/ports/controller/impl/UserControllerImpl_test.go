@@ -17,7 +17,7 @@ import (
 )
 
 func TestUserControllerImpl_Login_Successful(t *testing.T) {
-	mockUserService := initMocks(t)
+	service := initMocks(t)
 	user := createUser()
 	userRequest := dto.UserDto{
 		Email:    user.Email,
@@ -28,23 +28,23 @@ func TestUserControllerImpl_Login_Successful(t *testing.T) {
 	r := httptest.NewRequest(http.MethodPost, "http://localhost:8080/login", body)
 	w := httptest.NewRecorder()
 	tokenDto := dto.TokenDto{Authorization: ""}
-	mockUserService.EXPECT().Login(gomock.Any()).Return(&tokenDto, nil)
-	controllerImpl := CreateUserController(mockUserService)
+	service.EXPECT().Login(gomock.Any()).Return(&tokenDto, nil)
+	controllerImpl := UserControllerImpl{service}
 	controllerImpl.Login(w, r)
 	assert.Equal(t, w.Code, http.StatusOK)
 }
 
 func TestUserControllerImpl_Login_EmptyBody(t *testing.T) {
-	mockUserService := initMocks(t)
+	service := initMocks(t)
 	r := httptest.NewRequest(http.MethodPost, "http://localhost:8080/login", nil)
 	w := httptest.NewRecorder()
-	controllerImpl := CreateUserController(mockUserService)
+	controllerImpl := UserControllerImpl{service}
 	controllerImpl.Login(w, r)
 	assert.Equal(t, w.Code, http.StatusUnprocessableEntity)
 }
 
 func TestUserControllerImpl_Login_NoRegister(t *testing.T) {
-	mockUserService := initMocks(t)
+	service := initMocks(t)
 	user := createUser()
 	userRequest := dto.UserDto{
 		Email:    user.Email,
@@ -54,14 +54,14 @@ func TestUserControllerImpl_Login_NoRegister(t *testing.T) {
 	body := bytes.NewBuffer(marshal)
 	r := httptest.NewRequest(http.MethodPost, "http://localhost:8080/login", body)
 	w := httptest.NewRecorder()
-	mockUserService.EXPECT().Login(gomock.Any()).Return(nil, errors.New(constants.UserNoRegister))
-	controllerImpl := CreateUserController(mockUserService)
+	service.EXPECT().Login(gomock.Any()).Return(nil, errors.New(constants.UserNoRegister))
+	controllerImpl := UserControllerImpl{service}
 	controllerImpl.Login(w, r)
 	assert.Equal(t, w.Code, http.StatusBadRequest)
 }
 
 func TestUserControllerImpl_Create_Successful(t *testing.T) {
-	mockUserService := initMocks(t)
+	service := initMocks(t)
 	user := createUser()
 	userRequest := dto.UserDto{
 		Email:    user.Email,
@@ -78,23 +78,23 @@ func TestUserControllerImpl_Create_Successful(t *testing.T) {
 		Admin:    false,
 		Active:   true,
 	}
-	mockUserService.EXPECT().Create(gomock.Any()).Return(request, nil)
-	controllerImpl := CreateUserController(mockUserService)
+	service.EXPECT().Create(gomock.Any()).Return(request, nil)
+	controllerImpl := UserControllerImpl{service}
 	controllerImpl.Create(w, r)
 	assert.Equal(t, w.Code, http.StatusCreated)
 }
 
 func TestUserControllerImpl_Create_Error_Body(t *testing.T) {
-	mockUserService := initMocks(t)
+	service := initMocks(t)
 	r := httptest.NewRequest(http.MethodPost, "http://localhost:8080/userService", nil)
 	w := httptest.NewRecorder()
-	controllerImpl := CreateUserController(mockUserService)
+	controllerImpl := UserControllerImpl{service}
 	controllerImpl.Create(w, r)
 	assert.Equal(t, w.Code, http.StatusUnprocessableEntity)
 }
 
 func TestUserControllerImpl_Create_Error_Service(t *testing.T) {
-	mockUserService := initMocks(t)
+	service := initMocks(t)
 	user := createUser()
 	userRequest := dto.UserDto{
 		Email:    user.Email,
@@ -104,8 +104,8 @@ func TestUserControllerImpl_Create_Error_Service(t *testing.T) {
 	body := bytes.NewBuffer(marshal)
 	r := httptest.NewRequest(http.MethodPost, "http://localhost:8080/userService", body)
 	w := httptest.NewRecorder()
-	mockUserService.EXPECT().Create(gomock.Any()).Return(domain.User{}, errors.New(""))
-	controllerImpl := CreateUserController(mockUserService)
+	service.EXPECT().Create(gomock.Any()).Return(domain.User{}, errors.New(""))
+	controllerImpl := UserControllerImpl{service}
 	controllerImpl.Create(w, r)
 	assert.Equal(t, w.Code, http.StatusBadRequest)
 }

@@ -5,6 +5,7 @@ import (
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain/dto"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/repository"
+	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/repository/mongodb"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/tools"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"log"
@@ -14,9 +15,9 @@ type LanguageServiceImpl struct {
 	repository repository.LanguageRepository
 }
 
-func CreateLanguageService(r repository.LanguageRepository) *LanguageServiceImpl {
+func CreateLanguageService() *LanguageServiceImpl {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
-	service := &LanguageServiceImpl{r}
+	service := &LanguageServiceImpl{mongodb.CreateLanguageRepository()}
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return service
 }

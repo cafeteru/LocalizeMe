@@ -1,10 +1,10 @@
 <header class="modal-header-material">
     <h1 mat-dialog-title>Update user</h1>
 </header>
-<form [formGroup]="formGroup" class="login-form" (ngSubmit)="send()">
+<form [formGroup]="formGroup" (ngSubmit)="send()">
     <nz-form-item>
         <nz-form-label nzRequired nzFor="email" nzSpan="7">E-mail</nz-form-label>
-        <nz-form-control [nzErrorTip]="errorEmail" nzSpan="17">
+        <nz-form-control nzHasFeedback [nzErrorTip]="errorEmail" nzSpan="17">
             <nz-input-group nzPrefixIcon="user">
                 <input nz-input formControlName="email" id="email" />
             </nz-input-group>
@@ -16,7 +16,7 @@
     </nz-form-item>
     <nz-form-item>
         <nz-form-label nzRequired nzFor="changePassword" nzSpan="7">Change Password?</nz-form-label>
-        <nz-form-control nzSpan="17">
+        <nz-form-control nzHasFeedback nzSpan="17">
             <nz-radio-group formControlName="changePassword">
                 <label nz-radio [nzValue]="true">Yes</label>
                 <label nz-radio [nzValue]="false">No</label>
@@ -33,7 +33,7 @@
     </nz-form-item>
     <nz-form-item *ngIf="wantToChangePassword()">
         <nz-form-label nzFor="checkPassword" nzRequired nzSpan="7">Confirm Password</nz-form-label>
-        <nz-form-control [nzErrorTip]="errorTpl" nzSpan="17">
+        <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl" nzSpan="17">
             <nz-input-group nzPrefixIcon="lock">
                 <input nz-input type="password" formControlName="checkPassword" id="checkPassword" />
             </nz-input-group>
@@ -58,12 +58,7 @@
         </nz-form-control>
     </nz-form-item>
     <nz-form-item nz-row class="register-area btn-right">
-        <button
-            nz-button
-            class="login-form-button login-form-margin"
-            [nzType]="'primary'"
-            [disabled]="!formGroup.valid || isLoading"
-        >
+        <button nz-button [nzType]="'primary'" [disabled]="!formGroup.valid || isLoading">
             <span *ngIf="!isLoading">Update</span>
             <span *ngIf="isLoading">
                 <em nz-icon nzType="loading"></em>

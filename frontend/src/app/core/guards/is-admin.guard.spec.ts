@@ -34,23 +34,29 @@ describe('IsAdminGuard', () => {
     it('check when user is active', fakeAsync(() => {
         const newAppState: AppState = {
             ...appState,
-            user: {
-                ...appState.user,
-                admin: true,
+            userInfo: {
+                ...appState.userInfo,
+                user: {
+                    ...appState.userInfo.user,
+                    admin: true,
+                },
             },
         };
         store.setState(newAppState);
         guard.canActivate().subscribe((res) => {
-            expect(res).toEqual(true);
+            expect(res).toBeTrue();
         });
     }));
 
     it('check when user is not active', fakeAsync(() => {
         const newAppState: AppState = {
             ...appState,
-            user: {
-                ...appState.user,
-                admin: false,
+            userInfo: {
+                ...appState.userInfo,
+                user: {
+                    ...appState.userInfo.user,
+                    admin: false,
+                },
             },
         };
         store.setState(newAppState);

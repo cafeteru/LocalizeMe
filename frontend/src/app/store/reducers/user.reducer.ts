@@ -1,46 +1,41 @@
 import { ActionReducer, createReducer, on } from '@ngrx/store';
 
 import * as UserActions from '../actions/user.actions';
+import { User } from '../../types/user';
 
 export interface UserReducer {
-    id: string;
-    email: string;
-    exp: number;
-    active: boolean;
-    admin: boolean;
     authorization: string;
+    exp: number;
+    user: User;
 }
 
 export const initialState: UserReducer = {
-    id: '',
-    email: '',
     exp: 0,
-    active: false,
-    admin: false,
     authorization: '',
+    user: {
+        id: '',
+        admin: false,
+        active: false,
+        email: '',
+        password: '',
+    },
 };
 
 export function loadUser(state: UserReducer, userReducer: UserReducer): UserReducer {
     return {
         ...state,
-        id: userReducer.id,
-        email: userReducer.email,
-        exp: userReducer.exp,
-        active: userReducer.active,
-        admin: userReducer.admin,
         authorization: userReducer.authorization,
+        exp: userReducer.exp,
+        user: userReducer.user,
     };
 }
 
 export function clearUser(state: UserReducer): UserReducer {
     return {
         ...state,
-        id: initialState.id,
-        email: initialState.email,
-        exp: initialState.exp,
-        active: initialState.active,
-        admin: initialState.admin,
         authorization: initialState.authorization,
+        exp: initialState.exp,
+        user: initialState.user,
     };
 }
 

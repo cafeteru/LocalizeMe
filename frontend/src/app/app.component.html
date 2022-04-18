@@ -26,7 +26,7 @@
                 <em nz-icon nzType="flag" nzTheme="outline"></em>
                 <a *ngIf="!isCollapsed" class="menu-item" [routerLink]="'/' + Urls.languages">Languages</a>
             </li>
-            <li nz-menu-item nzMatchRouter>
+            <li nz-menu-item nzMatchRouter *ngIf="isLogged">
                 <em nz-icon nzType="group" nzTheme="outline"></em>
                 <a *ngIf="!isCollapsed" class="menu-item" [routerLink]="'/' + Urls.groups">Groups</a>
             </li>

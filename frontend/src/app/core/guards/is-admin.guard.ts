@@ -12,10 +12,10 @@ export class IsAdminGuard implements CanActivate {
     constructor(private store: Store<AppState>, private router: Router) {}
 
     canActivate(): Observable<boolean> {
-        return this.store.select('user').pipe(
-            map((user) => user.admin),
-            tap((res) => {
-                if (!res) {
+        return this.store.select('userInfo').pipe(
+            map((userReducer) => userReducer.user.admin),
+            tap((isAdmin) => {
+                if (!isAdmin) {
                     this.router.navigateByUrl(Urls.menu).then();
                 }
             })

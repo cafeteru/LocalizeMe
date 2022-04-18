@@ -101,7 +101,7 @@ func (u *UserRepositoryImpl) FindAll() (*[]domain.User, error) {
 		if err := cursor.Decode(&user); err != nil {
 			return nil, tools.ErrorLogDetails(err, constants.ReadDatabase, tools.GetCurrentFuncName())
 		}
-		user.Password = ""
+		user.ClearPassword()
 		users = append(users, user)
 	}
 	if err := cursor.Err(); err != nil {

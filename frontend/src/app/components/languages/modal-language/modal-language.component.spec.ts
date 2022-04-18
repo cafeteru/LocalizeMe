@@ -6,7 +6,6 @@ import { CoreModule } from '../../../core/core.module';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { matDialogRefMock } from '../../../core/mocks/mock-tests';
-import { createMockStage } from '../../../types/stage';
 import { createMockLanguage } from '../../../types/language';
 
 describe('ModalLanguageComponent', () => {

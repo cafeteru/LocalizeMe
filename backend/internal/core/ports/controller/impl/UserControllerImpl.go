@@ -9,6 +9,7 @@ import (
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain/dto"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/ports/utils"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/service"
+	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/service/impl"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/tools"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"log"
@@ -19,8 +20,8 @@ type UserControllerImpl struct {
 	service service.UserService
 }
 
-func CreateUserController(u service.UserService) *UserControllerImpl {
-	return &UserControllerImpl{u}
+func CreateUserController() *UserControllerImpl {
+	return &UserControllerImpl{impl.CreateUserService()}
 }
 
 // swagger:route POST /login Users Login
@@ -173,7 +174,7 @@ func (u UserControllerImpl) FindMe(w http.ResponseWriter, r *http.Request) {
 	if user == nil {
 		return
 	}
-	user.Password = ""
+	user.ClearPassword()
 	utils.CreateResponse(w, http.StatusOK, user)
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 }
@@ -206,7 +207,7 @@ func (u UserControllerImpl) FindById(w http.ResponseWriter, r *http.Request) {
 		utils.CreateErrorResponse(w, err, http.StatusNotFound)
 		return
 	}
-	user.Password = ""
+	user.ClearPassword()
 	utils.CreateResponse(w, http.StatusOK, user)
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 }

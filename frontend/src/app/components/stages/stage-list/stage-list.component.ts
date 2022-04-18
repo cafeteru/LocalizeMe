@@ -50,16 +50,12 @@ export class StageListComponent extends BaseComponent implements OnInit {
     }
 
     loadStages(): void {
+        this.stages = [];
         this.isLoading = true;
         const subscription$ = this.stageService.findAll().subscribe({
-            next: (stages) => {
-                this.stages = stages;
-                this.isLoading = false;
-            },
-            error: () => {
-                this.stages = [];
-                this.isLoading = false;
-            },
+            next: (stages) => (this.stages = stages),
+            error: () => (this.isLoading = false),
+            complete: () => (this.isLoading = false),
         });
         this.subscriptions$.push(subscription$);
     }

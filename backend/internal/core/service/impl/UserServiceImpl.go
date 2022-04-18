@@ -8,7 +8,9 @@ import (
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain/dto"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/utils/encrypt"
+	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/utils/encrypt/impl"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/repository"
+	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/repository/mongodb"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/tools"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"log"
@@ -21,8 +23,8 @@ type UserServiceImpl struct {
 	encrypt    encrypt.Encrypt
 }
 
-func CreateUserService(r repository.UserRepository, e encrypt.Encrypt) *UserServiceImpl {
-	return &UserServiceImpl{r, e}
+func CreateUserService() *UserServiceImpl {
+	return &UserServiceImpl{mongodb.CreateUserRepository(), impl.CreateEncryptPasswordImpl()}
 }
 
 func (u UserServiceImpl) Create(request dto.UserDto) (domain.User, error) {

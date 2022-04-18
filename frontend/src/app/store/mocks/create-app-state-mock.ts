@@ -3,6 +3,6 @@ import { initialState } from '../reducers/user.reducer';
 
 export const createAppStateMock = (): AppState => {
     return {
-        user: initialState,
+        userInfo: initialState,
     };
 };

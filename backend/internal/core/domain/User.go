@@ -12,3 +12,7 @@ type User struct {
 	Admin    bool               `bson:"admin" json:"admin"`
 	Active   bool               `bson:"active" json:"active"`
 }
+
+func (u *User) ClearPassword() {
+	u.Password = ""
+}

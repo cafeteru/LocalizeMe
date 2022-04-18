@@ -55,16 +55,12 @@ export class LanguageListComponent extends BaseComponent implements OnInit {
     }
 
     loadLanguages(): void {
+        this.languages = [];
         this.isLoading = true;
         const subscription$ = this.languageService.findAll().subscribe({
-            next: (stages) => {
-                this.languages = stages;
-                this.isLoading = false;
-            },
-            error: () => {
-                this.languages = [];
-                this.isLoading = false;
-            },
+            next: (stages) => (this.languages = stages),
+            error: () => (this.isLoading = false),
+            complete: () => (this.isLoading = false),
         });
         this.subscriptions$.push(subscription$);
     }

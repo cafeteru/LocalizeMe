@@ -8,6 +8,7 @@ import { LoginComponent } from './components/users/login/login.component';
 import { Urls } from './shared/constants/urls';
 import { Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { map } from 'rxjs';
 
 @Component({
     selector: 'app-root',
@@ -32,11 +33,15 @@ export class AppComponent extends BaseComponent implements OnInit {
 
     override ngOnInit(): void {
         super.ngOnInit();
-        const subscription = this.store.select('user').subscribe((user) => {
-            this.isLogged = Boolean(user.email);
-            this.isAdmin = user.admin;
-        });
-        this.subscriptions$.push(subscription);
+        const subscription$ = this.store
+            .select('userInfo')
+            .pipe(map((userReducer) => userReducer.user))
+            .subscribe((user) => {
+                this.isLogged = Boolean(user.email);
+                this.isAdmin = user.admin;
+                this.isCollapsed = !this.isLogged;
+            });
+        this.subscriptions$.push(subscription$);
     }
 
     showLogin(): void {

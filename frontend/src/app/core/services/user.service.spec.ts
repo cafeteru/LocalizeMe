@@ -6,13 +6,15 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { ResponseLogin } from '../../types/response-login';
 import { createAppStateMock } from '../../store/mocks/create-app-state-mock';
 import { createMockUser, LoginData } from '../../types/user';
+import { AppState } from '../../store/app.reducer';
 
 describe('UserService', () => {
     let service: UserService;
     let mockHttp: HttpTestingController;
-    const appState = createAppStateMock();
+    let appState: AppState;
 
     beforeEach(() => {
+        appState = createAppStateMock();
         TestBed.configureTestingModule({
             imports: [HttpClientTestingModule],
             providers: [provideMockStore({ initialState: appState })],
@@ -36,10 +38,30 @@ describe('UserService', () => {
         };
         const token: ResponseLogin = {
             authorization:
-                'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJBY3RpdmUiOnRydWUsIk' +
-                'FkbWluIjp0cnVlLCJFbWFpbCI6ImFkbWluQGVtYWlsLmVzIiwiSUQiOiI2MjI' +
-                'xMmI5MmFiNjMxNDFhNjg0NzM5ZjMiLCJleHAiOjE2NDg1MzM5MTJ9.mWhtyw3' +
-                'B8HdW9j1wpW0Plx-pI4OSUQmRx1parMW1gko',
+                'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY3RpdmUiOnRydWU' +
+                'sImFkbWluIjp0cnVlLCJlbWFpbCI6ImFkbWluQGVtYWlsLmVzIiwiZXhwIjox' +
+                'NjUwMzIxMDE5LCJpZCI6IjYyMjEyYjkyYWI2MzE0MWE2ODQ3MzlmMyJ9.hGw' +
+                '3Seg9PqVpLauF9XZiC_XhWNwBVWc-jbW5mCzARi4',
+        };
+        service.login(loginData).subscribe({
+            error: (err) => fail(err),
+        });
+        const req = mockHttp.expectOne(`${service.url}/login`);
+        expect(req.request.method).toBe('POST');
+        req.flush(token);
+    });
+
+    it('check login not active', () => {
+        const loginData: LoginData = {
+            email: 'username',
+            password: 'password',
+        };
+        const token: ResponseLogin = {
+            authorization:
+                'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY3RpdmUiOmZhbHNlLC' +
+                'JhZG1pbiI6dHJ1ZSwiZW1haWwiOiJhZG1pbkBlbWFpbC5lcyIsImV4cCI6MTY1' +
+                'MDMyMDk2NywiaWQiOiI2MjIxMmI5MmFiNjMxNDFhNjg0NzM5ZjMifQ.aqk_ukbf' +
+                'GT72o-DmPyxCid6r4zcjVc4HY9uPAnUJ_cY',
         };
         service.login(loginData).subscribe({
             error: (err) => fail(err),
@@ -51,7 +73,7 @@ describe('UserService', () => {
 
     it('check logout', () => {
         service.logout();
-        expect(appState.user.email).toEqual('');
+        expect(appState.userInfo.user.email).toEqual('');
     });
 
     it('check findMe', () => {
