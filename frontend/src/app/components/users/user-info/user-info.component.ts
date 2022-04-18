@@ -5,6 +5,7 @@ import { BaseComponent } from '../../../core/base/base.component';
 import { MatDialog } from '@angular/material/dialog';
 import { UpdateUserComponent } from '../update-user/update-user.component';
 import { User } from '../../../types/user';
+import { map } from 'rxjs';
 
 @Component({
     selector: 'app-user-info',
@@ -20,7 +21,10 @@ export class UserInfoComponent extends BaseComponent implements OnInit {
 
     override ngOnInit(): void {
         super.ngOnInit();
-        const subscription$ = this.store.select('user').subscribe((user) => (this.email = user.email));
+        const subscription$ = this.store
+            .select('userInfo')
+            .pipe(map((userReducer) => userReducer.user))
+            .subscribe((user) => (this.email = user.email));
         this.subscriptions$.push(subscription$);
     }
 
@@ -41,7 +45,9 @@ export class UserInfoComponent extends BaseComponent implements OnInit {
             },
         });
         const subscription$ = dialogRef.afterClosed().subscribe((result: User) => {
-            this.email = result.email;
+            if (result) {
+                this.email = result.email;
+            }
         });
         this.subscriptions$.push(subscription$);
     }

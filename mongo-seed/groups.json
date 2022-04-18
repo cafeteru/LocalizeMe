@@ -1,0 +1,16 @@
+[{
+  "_id": {
+    "$oid": "625d18cb147c4da4bfde0383"
+  },
+  "name": "group",
+  "owner": {
+    "_id": {
+      "$oid": "62212b92ab63141a684739f3"
+    },
+    "email": "admin@email.es",
+    "admin": true,
+    "active": true
+  },
+  "permissions": null,
+  "active": true
+}]

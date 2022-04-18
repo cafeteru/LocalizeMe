@@ -100,7 +100,7 @@ func (l *LanguageRepositoryImpl) FindByIsoCode(isoCode string) (*domain.Language
 	if err != nil {
 		return nil, tools.ErrorLogDetails(err, constants.CreateConnection, tools.GetCurrentFuncName())
 	}
-	filter := bson.M{"IsoCode": bson.M{"$eq": isoCode}}
+	filter := bson.M{"isoCode": bson.M{"$eq": isoCode}}
 	result := collection.FindOne(context.TODO(), filter)
 	var stage domain.Language
 	if err = result.Decode(&stage); err != nil {

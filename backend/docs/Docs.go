@@ -100,3 +100,10 @@ type _ struct {
 	// type: string
 	Id string `json:"id"`
 }
+
+// swagger:parameters CreateGroup
+type _ struct {
+	// in: body
+	// required: true
+	GroupDto dto.GroupDto
+}

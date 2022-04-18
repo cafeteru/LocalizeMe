@@ -3,7 +3,7 @@
 </header>
 <form [formGroup]="formGroup" class="login-form" (ngSubmit)="login()">
     <nz-form-item>
-        <nz-form-control [nzErrorTip]="errorTpl">
+        <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
             <nz-input-group nzPrefixIcon="user">
                 <input type="text" nz-input formControlName="email" placeholder="email" />
             </nz-input-group>
@@ -14,7 +14,7 @@
         </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-        <nz-form-control nzErrorTip="Please input your Password!">
+        <nz-form-control nzHasFeedback nzErrorTip="Please input your Password!">
             <nz-input-group nzPrefixIcon="lock">
                 <input type="password" nz-input formControlName="password" placeholder="Password" />
             </nz-input-group>

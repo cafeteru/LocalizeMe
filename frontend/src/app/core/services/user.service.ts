@@ -47,15 +47,18 @@ export class UserService {
                 const iToken = jwt_decode<IToken>(responseLogin.authorization);
                 if (iToken.active) {
                     const userReducer: UserReducer = {
-                        id: iToken.id,
-                        email: iToken.email,
                         exp: iToken.exp,
-                        active: iToken.active,
-                        admin: iToken.admin,
                         authorization: responseLogin.authorization,
+                        user: {
+                            id: iToken.id,
+                            email: iToken.email,
+                            active: iToken.active,
+                            admin: iToken.admin,
+                            password: '',
+                        },
                     };
-                    localStorage.setItem('Authorization', responseLogin.authorization);
-                    localStorage.setItem('Exp', iToken.exp.toString());
+                    localStorage.setItem('authorization', responseLogin.authorization);
+                    localStorage.setItem('exp', iToken.exp.toString());
                     this.store.dispatch(userActions.loadUser(userReducer));
                 }
                 return {

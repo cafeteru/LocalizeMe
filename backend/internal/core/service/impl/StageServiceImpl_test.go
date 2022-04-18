@@ -16,6 +16,12 @@ import (
 var stage domain.Stage
 var stageRequest dto.StageDto
 
+func TestStageServiceImpl_CreateGroupService(t *testing.T) {
+	service := CreateStageService()
+	assert.NotNil(t, service)
+	assert.NotNil(t, service.repository)
+}
+
 func TestStageServiceImpl_Create_Successful(t *testing.T) {
 	initStageValues()
 	mockCtrl := gomock.NewController(t)
@@ -26,7 +32,7 @@ func TestStageServiceImpl_Create_Successful(t *testing.T) {
 	}
 	repository.EXPECT().FindByName(gomock.Any()).Return(nil, nil)
 	repository.EXPECT().Create(gomock.Any()).Return(&oneResult, nil)
-	service := CreateStageService(repository)
+	service := StageServiceImpl{repository}
 	result, err := service.Create(stageRequest)
 	assert.Nil(t, err)
 	assert.Equal(t, result.ID, stage.ID)
@@ -38,7 +44,7 @@ func TestStageServiceImpl_Create_Error_NameRegister(t *testing.T) {
 	defer mockCtrl.Finish()
 	repository := mock.NewMockStageRepository(mockCtrl)
 	repository.EXPECT().FindByName(gomock.Any()).Return(&stage, nil)
-	service := CreateStageService(repository)
+	service := StageServiceImpl{repository}
 	_, err := service.Create(stageRequest)
 	assert.NotNil(t, err)
 }
@@ -51,7 +57,7 @@ func TestStageServiceImpl_Create_ErrorRepository(t *testing.T) {
 	expectedError := errors.New(constants.InsertStage)
 	repository.EXPECT().FindByName(gomock.Any()).Return(nil, nil)
 	repository.EXPECT().Create(gomock.Any()).Return(nil, expectedError)
-	service := CreateStageService(repository)
+	service := StageServiceImpl{repository}
 	_, err := service.Create(stageRequest)
 	assert.NotNil(t, err)
 }
@@ -62,8 +68,8 @@ func TestStageServiceImpl_Create_ErrorStageRequest_InvalidName(t *testing.T) {
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
 	repository := mock.NewMockStageRepository(mockCtrl)
-	stageService := CreateStageService(repository)
-	_, err := stageService.Create(stageRequest)
+	service := StageServiceImpl{repository}
+	_, err := service.Create(stageRequest)
 	assert.NotNil(t, err)
 }
 
@@ -77,7 +83,7 @@ func TestStageServiceImpl_Delete_Successful(t *testing.T) {
 		DeletedCount: 1,
 	}
 	repository.EXPECT().Delete(gomock.Any()).Return(&mongoResult, nil)
-	service := CreateStageService(repository)
+	service := StageServiceImpl{repository}
 	result, err := service.Delete(stage.ID)
 	assert.Nil(t, err)
 	assert.True(t, result)
@@ -90,7 +96,7 @@ func TestStageServiceImpl_Delete_NotFoundById(t *testing.T) {
 	repository := mock.NewMockStageRepository(mockCtrl)
 	err := errors.New(constants.FindStageById)
 	repository.EXPECT().FindById(gomock.Any()).Return(nil, err)
-	service := CreateStageService(repository)
+	service := StageServiceImpl{repository}
 	_, expectedError := service.Delete(stage.ID)
 	assert.NotNil(t, expectedError)
 	assert.Equal(t, expectedError, err)
@@ -104,7 +110,7 @@ func TestStageServiceImpl_Delete_ErrorRepository(t *testing.T) {
 	repository.EXPECT().FindById(gomock.Any()).Return(&stage, nil)
 	err := errors.New(constants.DeleteStage)
 	repository.EXPECT().Delete(gomock.Any()).Return(nil, err)
-	service := CreateStageService(repository)
+	service := StageServiceImpl{repository}
 	_, expectedError := service.Delete(stage.ID)
 	assert.NotNil(t, expectedError)
 	assert.Equal(t, expectedError, err)
@@ -123,7 +129,7 @@ func TestStageServiceImpl_Disable_Successful(t *testing.T) {
 		UpsertedID:    nil,
 	}
 	repository.EXPECT().Update(gomock.Any()).Return(&mongoResult, nil)
-	service := CreateStageService(repository)
+	service := StageServiceImpl{repository}
 	result, err := service.Disable(stage.ID)
 	assert.Nil(t, err)
 	assert.Equal(t, result.ID, stage.ID)
@@ -136,7 +142,7 @@ func TestStageServiceImpl_Disable_NotFoundById(t *testing.T) {
 	repository := mock.NewMockStageRepository(mockCtrl)
 	err := errors.New(constants.FindStageById)
 	repository.EXPECT().FindById(gomock.Any()).Return(nil, err)
-	service := CreateStageService(repository)
+	service := StageServiceImpl{repository}
 	_, expectedError := service.Disable(stage.ID)
 	assert.NotNil(t, expectedError)
 	assert.Equal(t, expectedError, err)
@@ -150,7 +156,7 @@ func TestStageServiceImpl_Disable_ErrorRepository(t *testing.T) {
 	repository.EXPECT().FindById(gomock.Any()).Return(&stage, nil)
 	err := errors.New(constants.UpdateStage)
 	repository.EXPECT().Update(gomock.Any()).Return(nil, err)
-	service := CreateStageService(repository)
+	service := StageServiceImpl{repository}
 	_, expectedError := service.Disable(stage.ID)
 	assert.NotNil(t, expectedError)
 	assert.Equal(t, expectedError, err)
@@ -168,7 +174,7 @@ func TestStageServiceImpl_FindAll_Success(t *testing.T) {
 	}
 	stages := []domain.Stage{stage, stage2}
 	repository.EXPECT().FindAll().Return(&stages, nil)
-	service := CreateStageService(repository)
+	service := StageServiceImpl{repository}
 	result, err := service.FindAll()
 	assert.Nil(t, err)
 	assert.Equal(t, len(*result), len(stages))
@@ -180,7 +186,7 @@ func TestStageServiceImpl_FindAll_Error(t *testing.T) {
 	defer mockCtrl.Finish()
 	repository := mock.NewMockStageRepository(mockCtrl)
 	repository.EXPECT().FindAll().Return(nil, errors.New(""))
-	service := CreateStageService(repository)
+	service := StageServiceImpl{repository}
 	_, err := service.FindAll()
 	assert.NotNil(t, err)
 }
@@ -199,7 +205,7 @@ func TestStageServiceImpl_Update_Successful(t *testing.T) {
 		UpsertedID:    nil,
 	}
 	repository.EXPECT().Update(gomock.Any()).Return(&mongoResult, nil)
-	service := CreateStageService(repository)
+	service := StageServiceImpl{repository}
 	result, err := service.Update(stage)
 	assert.Nil(t, err)
 	assert.Equal(t, result.ID, stage.ID)
@@ -211,7 +217,7 @@ func TestStageServiceImpl_Update_Error_NotIdRegister(t *testing.T) {
 	defer mockCtrl.Finish()
 	repository := mock.NewMockStageRepository(mockCtrl)
 	repository.EXPECT().FindById(gomock.Any()).Return(nil, nil)
-	service := CreateStageService(repository)
+	service := StageServiceImpl{repository}
 	_, err := service.Update(stage)
 	assert.NotNil(t, err)
 }
@@ -224,7 +230,7 @@ func TestStageServiceImpl_Update_Error_Repository(t *testing.T) {
 	repository.EXPECT().FindById(gomock.Any()).Return(&stage, nil)
 	repository.EXPECT().FindByName(gomock.Any()).Return(nil, nil)
 	repository.EXPECT().Update(gomock.Any()).Return(nil, errors.New(""))
-	service := CreateStageService(repository)
+	service := StageServiceImpl{repository}
 	_, err := service.Update(stage)
 	assert.NotNil(t, err)
 }
@@ -240,7 +246,7 @@ func TestStageServiceImpl_Update_NameAlreadyRegister(t *testing.T) {
 		Name:   stage.Name,
 		Active: false,
 	}, nil)
-	service := CreateStageService(repository)
+	service := StageServiceImpl{repository}
 	_, err := service.Update(stage)
 	assert.NotNil(t, err)
 }

@@ -2,11 +2,11 @@ import { ActionReducerMap } from '@ngrx/store';
 import { getUserReducer, UserReducer } from './reducers/user.reducer';
 
 export interface AppState {
-    user: UserReducer;
+    userInfo: UserReducer;
 }
 
 export function getAppReducers(): ActionReducerMap<AppState> {
     return {
-        user: getUserReducer(),
+        userInfo: getUserReducer(),
     };
 }

@@ -100,7 +100,7 @@ func (s *StageRepositoryImpl) FindByName(name string) (*domain.Stage, error) {
 	if err != nil {
 		return nil, tools.ErrorLogDetails(err, constants.CreateConnection, tools.GetCurrentFuncName())
 	}
-	filter := bson.M{"Name": bson.M{"$eq": name}}
+	filter := bson.M{"name": bson.M{"$eq": name}}
 	result := collection.FindOne(context.TODO(), filter)
 	var stage domain.Stage
 	if err = result.Decode(&stage); err != nil {

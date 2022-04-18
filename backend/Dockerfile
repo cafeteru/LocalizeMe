@@ -1,4 +1,4 @@
-FROM golang:1.17.8
+FROM golang:latest
 
 WORKDIR /localizeMe
 
@@ -6,6 +6,7 @@ COPY . /localizeMe
 COPY scripts/docker.sh docker.sh
 
 RUN apt-get update
+RUN curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.45.2
 RUN make init-project -B
 RUN swagger generate spec -o swagger/swagger.json --scan-models
 

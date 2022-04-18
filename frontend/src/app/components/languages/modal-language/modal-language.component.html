@@ -1,10 +1,10 @@
 <header class="modal-header-material">
     <h1 mat-dialog-title>{{ titleModal }}</h1>
 </header>
-<form [formGroup]="formGroup" class="login-form" (ngSubmit)="send()">
+<form [formGroup]="formGroup" (ngSubmit)="send()">
     <nz-form-item>
         <nz-form-label nzRequired nzFor="isoCode" nzSpan="7">Iso Code</nz-form-label>
-        <nz-form-control [nzErrorTip]="errorIsoCode" nzSpan="17">
+        <nz-form-control nzHasFeedback [nzErrorTip]="errorIsoCode" nzSpan="17">
             <nz-input-group nzPrefixIcon="book">
                 <input nz-input formControlName="isoCode" id="isoCode" />
             </nz-input-group>
@@ -31,12 +31,7 @@
         </nz-form-control>
     </nz-form-item>
     <nz-form-item nz-row class="register-area btn-right">
-        <button
-            nz-button
-            class="login-form-button login-form-margin"
-            [nzType]="'primary'"
-            [disabled]="!formGroup.valid || isLoading"
-        >
+        <button nz-button [nzType]="'primary'" [disabled]="!formGroup.valid || isLoading">
             <span *ngIf="!isLoading">{{ btnModal }}</span>
             <span *ngIf="isLoading">
                 <em nz-icon nzType="loading"></em>

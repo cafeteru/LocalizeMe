@@ -15,7 +15,7 @@ var language domain.Language
 
 func TestLanguageRepositoryImpl_Create_Success(t *testing.T) {
 	mt, l := createLanguageMocks(t)
-	mt.Run("Create_Stage_Success", func(mt *mtest.T) {
+	mt.Run("Create_Language_Success", func(mt *mtest.T) {
 		l.collection = mt.Coll
 		mt.AddMockResponses(mtest.CreateCursorResponse(1, "foo.bar", mtest.FirstBatch, bson.D{
 			{Key: "InsertedID", Value: primitive.NewObjectID()},
@@ -27,7 +27,7 @@ func TestLanguageRepositoryImpl_Create_Success(t *testing.T) {
 
 func TestLanguageRepositoryImpl_Create_NotConnection(t *testing.T) {
 	mt, l := createLanguageMocks(t)
-	mt.Run("Create_Stage_NotConnection", func(mt *mtest.T) {
+	mt.Run("Create_Language_NotConnection", func(mt *mtest.T) {
 		_, err := l.Create(language)
 		assert.NotNil(t, err)
 		assert.Equal(t, err, errors.New(constants.CreateConnection))
@@ -36,10 +36,10 @@ func TestLanguageRepositoryImpl_Create_NotConnection(t *testing.T) {
 
 func TestLanguageRepositoryImpl_Create_Error(t *testing.T) {
 	mt, l := createLanguageMocks(t)
-	mt.Run("Create_Stage_ErrorCreate", func(mt *mtest.T) {
+	mt.Run("Create_Language_ErrorCreate", func(mt *mtest.T) {
 		l.collection = mt.Coll
 		mt.AddMockResponses(mtest.CreateWriteErrorsResponse(mtest.WriteError{
-			Message: constants.InsertStage,
+			Message: constants.InsertLanguage,
 		}))
 		_, err := l.Create(language)
 		assert.NotNil(t, err)
@@ -75,7 +75,7 @@ func TestLanguageRepositoryImpl_Delete_NotFound(t *testing.T) {
 		mt.AddMockResponses(mtest.CreateWriteErrorsResponse(mtest.WriteError{
 			Message: constants.DeleteLanguage,
 		}))
-		_, err := s.Delete(stage.ID)
+		_, err := s.Delete(language.ID)
 		assert.NotNil(t, err)
 		assert.Equal(t, err, errors.New(constants.DeleteLanguage))
 	})
@@ -105,12 +105,12 @@ func TestLanguageRepositoryImpl_FindAll_Success(t *testing.T) {
 		})
 		killCursors := mtest.CreateCursorResponse(0, "foo.bar", mtest.NextBatch)
 		mt.AddMockResponses(first, second, killCursors)
-		stages, err := l.FindAll()
+		languages, err := l.FindAll()
 		assert.Nil(t, err)
-		assert.NotNil(t, stages)
-		assert.Equal(t, len(*stages), 2)
-		assert.Equal(t, (*stages)[0].IsoCode, language.IsoCode)
-		assert.Equal(t, (*stages)[1].IsoCode, language2.IsoCode)
+		assert.NotNil(t, languages)
+		assert.Equal(t, len(*languages), 2)
+		assert.Equal(t, (*languages)[0].IsoCode, language.IsoCode)
+		assert.Equal(t, (*languages)[1].IsoCode, language2.IsoCode)
 	})
 }
 
@@ -155,7 +155,7 @@ func TestLanguageRepositoryImpl_FindById_NotFound(t *testing.T) {
 		mt.AddMockResponses(mtest.CreateWriteErrorsResponse(mtest.WriteError{
 			Message: constants.FindLanguageById,
 		}))
-		_, err := l.FindById(stage.ID)
+		_, err := l.FindById(language.ID)
 		assert.NotNil(t, err)
 		assert.Equal(t, err, errors.New(constants.FindLanguageById))
 	})
@@ -201,13 +201,13 @@ func TestLanguageRepositoryImpl_FindByIsoCode_NotFound(t *testing.T) {
 
 func TestLanguageRepositoryImpl_Update_Success(t *testing.T) {
 	mt, l := createLanguageMocks(t)
-	mt.Run("Update_Stage_Success", func(mt *mtest.T) {
+	mt.Run("Update_Language_Success", func(mt *mtest.T) {
 		l.collection = mt.Coll
 		mt.AddMockResponses(mtest.CreateCursorResponse(1, "foo.bar", mtest.FirstBatch, bson.D{
 			{Key: "MatchedCount", Value: 0},
 			{Key: "ModifiedCount", Value: 1},
 			{Key: "UpsertedCount", Value: 0},
-			{Key: "UpsertedID", Value: stage.ID},
+			{Key: "UpsertedID", Value: language.ID},
 		}))
 		_, err := l.Update(language)
 		assert.Nil(t, err)

@@ -57,8 +57,10 @@ func initControllers(r *chi.Mux) {
 	userPort := impl.CreateUserPort()
 	stagePort := impl.CreateStagePort()
 	languagePort := impl.CreateLanguagePort()
+	groupPort := impl.CreateGroupPort()
 	userPort.InitRoutes(r)
 	stagePort.InitRoutes(r)
 	languagePort.InitRoutes(r)
+	groupPort.InitRoutes(r)
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 }

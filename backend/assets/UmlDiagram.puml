@@ -13,6 +13,7 @@ namespace domain {
         + ID primitive.ObjectID
         + Name string
         + Owner User
+        + Permissions []Permission
         + Active bool
 
     }
@@ -26,7 +27,6 @@ namespace domain {
     class Permission << (S,Aquamarine) >> {
         + ID primitive.ObjectID
         + User User
-        + Group Group
         + CanWriteGroup bool
 
     }
@@ -55,6 +55,8 @@ namespace domain {
         + Admin bool
         + Active bool
 
+        + ClearPassword() 
+
     }
 }
 
@@ -62,8 +64,8 @@ namespace domain {
 "domain.BaseString" o-- "domain.Group"
 "domain.BaseString" o-- "domain.Language"
 "domain.BaseString" o-- "domain.User"
+"domain.Group" o-- "domain.Permission"
 "domain.Group" o-- "domain.User"
-"domain.Permission" o-- "domain.Group"
 "domain.Permission" o-- "domain.User"
 "domain.Translation" o-- "domain.BaseString"
 "domain.Translation" o-- "domain.Language"

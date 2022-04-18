@@ -1,6 +1,6 @@
 export interface LanguageDto {
-    description: 'description';
-    isoCode: 'isoCode';
+    description: string;
+    isoCode: string;
 }
 
 export interface Language {

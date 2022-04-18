@@ -4,7 +4,7 @@
 <form [formGroup]="formGroup" class="login-form" (ngSubmit)="send()">
     <nz-form-item>
         <nz-form-label nzRequired nzFor="email" nzSpan="7">E-mail</nz-form-label>
-        <nz-form-control [nzErrorTip]="errorEmail" nzSpan="17">
+        <nz-form-control nzHasFeedback [nzErrorTip]="errorEmail" nzSpan="17">
             <nz-input-group nzPrefixIcon="user">
                 <input nz-input formControlName="email" id="email" />
             </nz-input-group>
@@ -16,7 +16,7 @@
     </nz-form-item>
     <nz-form-item>
         <nz-form-label nzFor="password" nzRequired nzSpan="7">Password</nz-form-label>
-        <nz-form-control nzErrorTip="Please input your password" nzSpan="17">
+        <nz-form-control nzHasFeedback nzErrorTip="Please input your password" nzSpan="17">
             <nz-input-group nzPrefixIcon="lock">
                 <input nz-input type="password" id="password" formControlName="password" />
             </nz-input-group>
@@ -24,7 +24,7 @@
     </nz-form-item>
     <nz-form-item>
         <nz-form-label nzFor="checkPassword" nzRequired nzSpan="7">Confirm Password</nz-form-label>
-        <nz-form-control [nzErrorTip]="errorTpl" nzSpan="17">
+        <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl" nzSpan="17">
             <nz-input-group nzPrefixIcon="lock">
                 <input nz-input type="password" formControlName="checkPassword" id="checkPassword" />
             </nz-input-group>

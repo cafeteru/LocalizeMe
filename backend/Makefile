@@ -7,9 +7,11 @@ mocks:
 	mockgen -source=internal/repository/UserRepository.go -destination=internal/repository/mock/UserRepositoryMock.go -package=mock
 	mockgen -source=internal/repository/StageRepository.go -destination=internal/repository/mock/StageRepositoryMock.go -package=mock
 	mockgen -source=internal/repository/LanguageRepository.go -destination=internal/repository/mock/LanguageRepositoryMock.go -package=mock
+	mockgen -source=internal/repository/GroupRepository.go -destination=internal/repository/mock/GroupRepositoryMock.go -package=mock
 	mockgen -source=internal/core/service/UserService.go -destination=internal/core/service/mock/UserServiceMock.go -package=mock
 	mockgen -source=internal/core/service/StageService.go -destination=internal/core/service/mock/StageServiceMock.go -package=mock
 	mockgen -source=internal/core/service/LanguageService.go -destination=internal/core/service/mock/LanguageServiceMock.go -package=mock
+	mockgen -source=internal/core/service/GroupService.go -destination=internal/core/service/mock/GroupServiceMock.go -package=mock
 init-project:
 	go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
 	go install gotest.tools/gotestsum@latest
@@ -26,6 +28,7 @@ lint:
 pre-commit:
 	make update
 	make lint
+	make mocks -B
 	make test
 	swagger generate spec -o swagger/swagger.json --scan-models
 	make uml -B

@@ -1,0 +1,31 @@
+<header class="modal-header-material">
+    <h1 mat-dialog-title>{{ titleModal }}</h1>
+</header>
+<form [formGroup]="formGroup" (ngSubmit)="send()">
+    <nz-form-item>
+        <nz-form-label nzRequired nzFor="name" nzSpan="7">Name</nz-form-label>
+        <nz-form-control nzHasFeedback [nzErrorTip]="errorName" nzSpan="17">
+            <nz-input-group nzPrefixIcon="book">
+                <input nz-input formControlName="name" id="name" />
+            </nz-input-group>
+        </nz-form-control>
+        <ng-template #errorName let-control>
+            <ng-container *ngIf="control.hasError('required')">Please input a name</ng-container>
+        </ng-template>
+    </nz-form-item>
+    <nz-form-item *ngIf="group.id">
+        <nz-form-label nzFor="active" nzRequired nzSpan="7">Active</nz-form-label>
+        <nz-form-control nzSpan="17">
+            <label nz-checkbox formControlName="active"></label>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nz-row class="register-area btn-right">
+        <button nz-button [nzType]="'primary'" [disabled]="!formGroup.valid || isLoading">
+            <span *ngIf="!isLoading">{{ btnModal }}</span>
+            <span *ngIf="isLoading">
+                <em nz-icon nzType="loading"></em>
+                Loading
+            </span>
+        </button>
+    </nz-form-item>
+</form>

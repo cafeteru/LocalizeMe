@@ -1,23 +1,14 @@
 import { clearUser, getUserReducer, initialState, loadUser, UserReducer } from './user.reducer';
+import { createMockUser } from '../../types/user';
 
 describe('UserReducer', () => {
-    const userReducer: UserReducer = {
-        id: initialState.id,
-        email: initialState.email,
-        exp: initialState.exp,
-        active: initialState.active,
-        admin: initialState.admin,
-        authorization: initialState.authorization,
-    };
+    const userReducer: UserReducer = { ...initialState };
 
     it('check loadUser', () => {
         const temp: UserReducer = {
-            id: '1',
-            email: 'email@email.es',
             exp: 1,
-            active: true,
-            admin: true,
-            authorization: 'Authorization',
+            authorization: 'authorization',
+            user: createMockUser(),
         };
         const reduce = loadUser(userReducer, temp);
         expect(reduce).toEqual(temp);

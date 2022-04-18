@@ -23,7 +23,7 @@ export const getDefaultHttpOptions = (): DefaultHttpOptions => {
         responseType: 'json',
         headers: new HttpHeaders({
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${localStorage.Authorization}`,
+            authorization: `Bearer ${localStorage.authorization}`,
         }),
     };
 };

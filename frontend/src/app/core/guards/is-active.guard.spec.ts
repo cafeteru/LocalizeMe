@@ -34,9 +34,12 @@ describe('IsActiveGuard', () => {
     it('check when user is active', fakeAsync(() => {
         const newAppState: AppState = {
             ...appState,
-            user: {
-                ...appState.user,
-                active: true,
+            userInfo: {
+                ...appState.userInfo,
+                user: {
+                    ...appState.userInfo.user,
+                    active: true,
+                },
             },
         };
         store.setState(newAppState);
@@ -48,9 +51,12 @@ describe('IsActiveGuard', () => {
     it('check when user is not active', fakeAsync(() => {
         const newAppState: AppState = {
             ...appState,
-            user: {
-                ...appState.user,
-                active: false,
+            userInfo: {
+                ...appState.userInfo,
+                user: {
+                    ...appState.userInfo.user,
+                    active: false,
+                },
             },
         };
         store.setState(newAppState);

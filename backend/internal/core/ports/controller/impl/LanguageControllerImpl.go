@@ -9,6 +9,7 @@ import (
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain/dto"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/ports/utils"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/service"
+	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/service/impl"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/tools"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"log"
@@ -20,8 +21,8 @@ type LanguageControllerImpl struct {
 	userService     service.UserService
 }
 
-func CreateLanguageController(l service.LanguageService, u service.UserService) *LanguageControllerImpl {
-	return &LanguageControllerImpl{l, u}
+func CreateLanguageController() *LanguageControllerImpl {
+	return &LanguageControllerImpl{impl.CreateLanguageService(), impl.CreateUserService()}
 }
 
 // swagger:route POST /languages Languages CreateLanguage

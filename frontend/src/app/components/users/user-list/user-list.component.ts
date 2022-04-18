@@ -55,16 +55,12 @@ export class UserListComponent extends BaseComponent implements OnInit {
     }
 
     loadUsers(): void {
+        this.users = [];
         this.isLoading = true;
         const subscription$ = this.userService.findAll().subscribe({
-            next: (users) => {
-                this.users = users;
-                this.isLoading = false;
-            },
-            error: () => {
-                this.users = [];
-                this.isLoading = false;
-            },
+            next: (users) => (this.users = users),
+            error: () => (this.isLoading = false),
+            complete: () => (this.isLoading = false),
         });
         this.subscriptions$.push(subscription$);
     }
@@ -104,13 +100,16 @@ export class UserListComponent extends BaseComponent implements OnInit {
     }
 
     private delete(user: User): void {
-        const subscription$ = this.userService.delete(user).subscribe((result) => {
-            if (result) {
-                this.loadUsers();
-                this.nzMessageService.create('success', `${user.email} has been deleted`);
-            } else {
-                this.nzMessageService.create('error', 'Error deleting');
-            }
+        const subscription$ = this.userService.delete(user).subscribe({
+            next: (result) => {
+                if (result) {
+                    this.loadUsers();
+                    this.nzMessageService.create('success', `${user.email} has been deleted`);
+                } else {
+                    this.nzMessageService.create('error', 'Error deleting');
+                }
+            },
+            error: () => this.nzMessageService.create('error', 'Error deleting'),
         });
         this.subscriptions$.push(subscription$);
     }

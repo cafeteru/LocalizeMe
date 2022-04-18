@@ -9,6 +9,7 @@ import (
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain/dto"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/ports/utils"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/service"
+	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/service/impl"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/tools"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"log"
@@ -20,8 +21,8 @@ type StageControllerImpl struct {
 	userService  service.UserService
 }
 
-func CreateStageController(s service.StageService, u service.UserService) *StageControllerImpl {
-	return &StageControllerImpl{s, u}
+func CreateStageController() *StageControllerImpl {
+	return &StageControllerImpl{impl.CreateStageService(), impl.CreateUserService()}
 }
 
 // swagger:route POST /stages Stages CreateStage

@@ -25,20 +25,16 @@ describe('StageService', () => {
     });
 
     it('check create', () => {
+        const stage = createMockStage();
         const stageRequest: StageDto = {
-            name: 'name',
-        };
-        const token: Stage = {
-            id: '',
-            name: 'name',
-            active: true,
+            name: stage.name,
         };
         service.create(stageRequest).subscribe({
             error: (err) => fail(err),
         });
         const req = mockHttp.expectOne(`${service.url}`);
         expect(req.request.method).toBe('POST');
-        req.flush(token);
+        req.flush(stage);
     });
 
     it('check findAll', () => {
