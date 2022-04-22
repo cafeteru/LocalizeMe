@@ -93,8 +93,8 @@ func (g GroupControllerImpl) FindAll(w http.ResponseWriter, r *http.Request) {
 // - 422: ErrorDto
 func (g GroupControllerImpl) Update(w http.ResponseWriter, r *http.Request) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
-	isAdmin := utils.CheckUserIsActive(w, r, g.userService)
-	if isAdmin == nil {
+	user := utils.CheckUserIsActive(w, r, g.userService)
+	if user == nil {
 		return
 	}
 	var request domain.Group
@@ -102,11 +102,11 @@ func (g GroupControllerImpl) Update(w http.ResponseWriter, r *http.Request) {
 		utils.CreateErrorResponse(w, err, http.StatusUnprocessableEntity)
 		return
 	}
-	user, err := g.groupService.Update(request)
+	group, err := g.groupService.Update(request, user)
 	if err != nil {
 		utils.CreateErrorResponse(w, err, http.StatusBadRequest)
 		return
 	}
-	utils.CreateResponse(w, http.StatusCreated, user)
+	utils.CreateResponse(w, http.StatusCreated, group)
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 }
