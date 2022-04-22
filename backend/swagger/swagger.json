@@ -147,6 +147,41 @@
         }
       }
     },
+    "/groups/{id}": {
+      "patch": {
+        "tags": [
+          "Groups"
+        ],
+        "summary": "Disable of a group.",
+        "operationId": "DisableGroup",
+        "responses": {
+          "200": {
+            "description": "Group",
+            "schema": {
+              "$ref": "#/definitions/Group"
+            }
+          },
+          "400": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          },
+          "401": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          },
+          "403": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          }
+        }
+      }
+    },
     "/language": {
       "put": {
         "consumes": [
@@ -181,6 +216,12 @@
             }
           },
           "401": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          },
+          "403": {
             "description": "ErrorDto",
             "schema": {
               "$ref": "#/definitions/ErrorDto"
@@ -224,7 +265,7 @@
               "$ref": "#/definitions/ErrorDto"
             }
           },
-          "500": {
+          "403": {
             "description": "ErrorDto",
             "schema": {
               "$ref": "#/definitions/ErrorDto"
@@ -265,6 +306,12 @@
             }
           },
           "401": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          },
+          "403": {
             "description": "ErrorDto",
             "schema": {
               "$ref": "#/definitions/ErrorDto"
@@ -311,6 +358,12 @@
             "schema": {
               "$ref": "#/definitions/ErrorDto"
             }
+          },
+          "403": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
           }
         }
       },
@@ -344,6 +397,12 @@
             }
           },
           "401": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          },
+          "403": {
             "description": "ErrorDto",
             "schema": {
               "$ref": "#/definitions/ErrorDto"

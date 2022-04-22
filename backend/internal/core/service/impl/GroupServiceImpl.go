@@ -51,6 +51,26 @@ func (g GroupServiceImpl) Create(request dto.GroupDto) (domain.Group, error) {
 	return group, nil
 }
 
+func (g GroupServiceImpl) Disable(id primitive.ObjectID, user *domain.User) (*domain.Group, error) {
+	log.Printf("%s: start", tools.GetCurrentFuncName())
+	group, err := g.repository.FindById(id)
+	if group == nil || err != nil {
+		return nil, tools.ErrorLog(constants.FindGroupById, tools.GetCurrentFuncName())
+	}
+	errPermission := g.checkPermission(*group, *user)
+	if errPermission != nil {
+		return nil, tools.ErrorLog(constants.GroupNotHavePermissions, tools.GetCurrentFuncName())
+	}
+	group.Active = !group.Active
+	_, err = g.repository.Update(*group)
+	if err != nil {
+		log.Printf("%s: error", tools.GetCurrentFuncName())
+		return nil, err
+	}
+	log.Printf("%s: end", tools.GetCurrentFuncName())
+	return group, nil
+}
+
 func (g GroupServiceImpl) FindAll() (*[]domain.Group, error) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
 	groups, err := g.repository.FindAll()
@@ -75,8 +95,8 @@ func (g GroupServiceImpl) FindByPermissions(email string) (*[]domain.Group, erro
 
 func (g GroupServiceImpl) Update(group domain.Group, user *domain.User) (*domain.Group, error) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
-	err2 := g.checkPermission(group, *user)
-	if err2 != nil {
+	errPermission := g.checkPermission(group, *user)
+	if errPermission != nil {
 		return nil, tools.ErrorLog(constants.GroupNotHavePermissions, tools.GetCurrentFuncName())
 	}
 	original, err := g.repository.FindById(group.ID)
@@ -89,7 +109,7 @@ func (g GroupServiceImpl) Update(group domain.Group, user *domain.User) (*domain
 			return nil, errName
 		}
 	}
-	errPermission := g.createPermissions(group.Permissions)
+	errPermission = g.createPermissions(group.Permissions)
 	if errPermission != nil {
 		return nil, errPermission
 	}
@@ -121,7 +141,7 @@ func (g GroupServiceImpl) checkPermission(group domain.Group, user domain.User) 
 		return nil
 	}
 	for _, permission := range group.Permissions {
-		if permission.User.ID == user.ID {
+		if permission.User.ID == user.ID && permission.CanWriteGroup {
 			return nil
 		}
 	}
