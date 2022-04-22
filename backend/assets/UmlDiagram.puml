@@ -15,6 +15,7 @@ namespace domain {
         + Owner User
         + Permissions []Permission
         + Active bool
+        + Public bool
 
     }
     class Language << (S,Aquamarine) >> {
@@ -25,7 +26,6 @@ namespace domain {
 
     }
     class Permission << (S,Aquamarine) >> {
-        + ID primitive.ObjectID
         + User User
         + CanWriteGroup bool
 

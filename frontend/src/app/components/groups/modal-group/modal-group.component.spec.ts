@@ -9,6 +9,7 @@ import { matDialogRefMock } from '../../../core/mocks/mock-tests';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { createAppStateMock } from '../../../store/mocks/create-app-state-mock';
 import { createMockGroup } from '../../../types/group';
+import { UsersFinderComponent } from '../../users/users-finder/users-finder.component';
 
 describe('ModalGroupComponent', () => {
     let component: ModalGroupComponent;
@@ -17,7 +18,7 @@ describe('ModalGroupComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [ModalGroupComponent],
+            declarations: [ModalGroupComponent, UsersFinderComponent],
             imports: [SharedModule, CoreModule, HttpClientTestingModule],
             providers: [
                 {

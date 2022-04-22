@@ -17,11 +17,11 @@ docker run --rm --name frontend -p 80:80 localize-me-frontend &
 - Create tag to publish image to Docker Hub
 
 ```shell
-docker tag localize-me-frontend igm1990/localize-me-frontend:latest
+docker tag localize-me-frontend cafeteru/localize-me-frontend:latest
 ```
 
 - Publish the image to Docker Hub
 
 ```shell
-docker push igm1990/localize-me-frontend:latest
+docker push cafeteru/localize-me-frontend:latest
 ```

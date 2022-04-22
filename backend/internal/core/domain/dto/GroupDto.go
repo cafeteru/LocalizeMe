@@ -7,4 +7,5 @@ type GroupDto struct {
 	Name        string          `json:"name"`
 	Owner       domain.User     `json:"owner"`
 	Permissions []PermissionDto `json:"permissions"`
+	Public      bool            `json:"public"`
 }

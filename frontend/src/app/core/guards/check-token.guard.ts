@@ -15,11 +15,15 @@ export class CheckTokenGuard implements CanActivate {
         if (!exp || isNaN(exp)) {
             return false;
         }
-        const time = Number(exp) * 1_000;
-        const validToken = Date.now() < time;
+        const validToken = checkToken(exp);
         if (!validToken) {
             this.router.navigateByUrl(Urls.menu).then();
         }
         return validToken;
     }
+}
+
+export function checkToken(exp: string): boolean {
+    const time = Number(exp) * 1_000;
+    return Date.now() < time;
 }

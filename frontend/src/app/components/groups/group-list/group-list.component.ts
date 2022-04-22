@@ -4,7 +4,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { ModalGroupComponent } from '../modal-group/modal-group.component';
 import { Group } from '../../../types/group';
 import { ColumnHeader, sortDirections } from '../../../shared/components/utils/nz-table-utils';
-import { sortGroupByActive, sortGroupByName, sortGroupByOwnerEmail } from '../../../shared/sorts/groups-sorts';
+import {
+    sortGroupByActive,
+    sortGroupByName,
+    sortGroupByOwnerEmail,
+    sortGroupByPublic,
+} from '../../../shared/sorts/groups-sorts';
 import { GroupService } from '../../../core/services/group.service';
 
 @Component({
@@ -28,6 +33,12 @@ export class GroupListComponent extends BaseComponent implements OnInit {
             name: 'Owner',
             sortOrder: null,
             sortFn: sortGroupByOwnerEmail,
+            sortDirections,
+        },
+        {
+            name: 'Public',
+            sortOrder: null,
+            sortFn: sortGroupByPublic,
             sortDirections,
         },
         {
@@ -69,6 +80,7 @@ export class GroupListComponent extends BaseComponent implements OnInit {
             name: undefined,
             permissions: [],
             owner: undefined,
+            public: true,
         };
         const dialogRef = this.matDialog.open(ModalGroupComponent, {
             minWidth: '550px',

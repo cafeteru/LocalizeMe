@@ -27,12 +27,13 @@ func TestGroupServiceImpl_Create_Successful(t *testing.T) {
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
 	repository := mock.NewMockGroupRepository(mockCtrl)
+	userRepository := mock.NewMockUserRepository(mockCtrl)
 	oneResult := mongo.InsertOneResult{
 		InsertedID: stage.ID,
 	}
 	repository.EXPECT().FindByName(gomock.Any()).Return(nil, nil)
 	repository.EXPECT().Create(gomock.Any()).Return(&oneResult, nil)
-	service := GroupServiceImpl{repository}
+	service := GroupServiceImpl{repository, userRepository}
 	result, err := service.Create(groupDto)
 	assert.Nil(t, err)
 	assert.Equal(t, result.ID, stage.ID)
@@ -43,8 +44,9 @@ func TestGroupServiceImpl_Create_Error_NameRegister(t *testing.T) {
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
 	repository := mock.NewMockGroupRepository(mockCtrl)
+	userRepository := mock.NewMockUserRepository(mockCtrl)
 	repository.EXPECT().FindByName(gomock.Any()).Return(&group, nil)
-	service := GroupServiceImpl{repository}
+	service := GroupServiceImpl{repository, userRepository}
 	_, err := service.Create(groupDto)
 	assert.NotNil(t, err)
 }
@@ -54,10 +56,11 @@ func TestGroupServiceImpl_Create_ErrorRepository(t *testing.T) {
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
 	repository := mock.NewMockGroupRepository(mockCtrl)
+	userRepository := mock.NewMockUserRepository(mockCtrl)
 	expectedError := errors.New(constants.InsertGroup)
 	repository.EXPECT().FindByName(gomock.Any()).Return(nil, nil)
 	repository.EXPECT().Create(gomock.Any()).Return(nil, expectedError)
-	service := GroupServiceImpl{repository}
+	service := GroupServiceImpl{repository, userRepository}
 	_, err := service.Create(groupDto)
 	assert.NotNil(t, err)
 }
@@ -68,7 +71,8 @@ func TestGroupServiceImpl_Create_ErrorRequest_InvalidName(t *testing.T) {
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
 	repository := mock.NewMockGroupRepository(mockCtrl)
-	service := GroupServiceImpl{repository}
+	userRepository := mock.NewMockUserRepository(mockCtrl)
+	service := GroupServiceImpl{repository, userRepository}
 	_, err := service.Create(groupDto)
 	assert.NotNil(t, err)
 }
@@ -78,6 +82,7 @@ func TestGroupServiceImpl_FindAll_Success(t *testing.T) {
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
 	repository := mock.NewMockGroupRepository(mockCtrl)
+	userRepository := mock.NewMockUserRepository(mockCtrl)
 	language2 := domain.Group{
 		ID:          primitive.NewObjectID(),
 		Name:        "group2",
@@ -87,7 +92,7 @@ func TestGroupServiceImpl_FindAll_Success(t *testing.T) {
 	}
 	languages := []domain.Group{group, language2}
 	repository.EXPECT().FindAll().Return(&languages, nil)
-	service := GroupServiceImpl{repository}
+	service := GroupServiceImpl{repository, userRepository}
 	result, err := service.FindAll()
 	assert.Nil(t, err)
 	assert.Equal(t, len(*result), len(languages))
@@ -98,8 +103,9 @@ func TestGroupServiceImpl_FindAll_Error(t *testing.T) {
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
 	repository := mock.NewMockGroupRepository(mockCtrl)
+	userRepository := mock.NewMockUserRepository(mockCtrl)
 	repository.EXPECT().FindAll().Return(nil, errors.New(""))
-	service := GroupServiceImpl{repository}
+	service := GroupServiceImpl{repository, userRepository}
 	_, err := service.FindAll()
 	assert.NotNil(t, err)
 }

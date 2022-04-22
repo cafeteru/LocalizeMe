@@ -945,6 +945,10 @@
             "$ref": "#/definitions/Permission"
           },
           "x-go-name": "Permissions"
+        },
+        "public": {
+          "type": "boolean",
+          "x-go-name": "Public"
         }
       },
       "x-go-package": "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain"
@@ -965,6 +969,10 @@
             "$ref": "#/definitions/PermissionDto"
           },
           "x-go-name": "Permissions"
+        },
+        "public": {
+          "type": "boolean",
+          "x-go-name": "Public"
         }
       },
       "x-go-package": "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain/dto"
@@ -1019,9 +1027,6 @@
         "canWriteGroup": {
           "type": "boolean",
           "x-go-name": "CanWriteGroup"
-        },
-        "id": {
-          "$ref": "#/definitions/ObjectID"
         },
         "user": {
           "$ref": "#/definitions/User"

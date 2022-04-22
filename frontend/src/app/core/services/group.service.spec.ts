@@ -31,6 +31,7 @@ describe('GroupService', () => {
             name: group.name,
             permissions: [],
             owner: createMockUser(),
+            public: true,
         };
         service.create(groupDto).subscribe({
             error: (err) => fail(err),

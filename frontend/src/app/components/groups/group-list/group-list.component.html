@@ -48,6 +48,9 @@
                 <td>{{ group.name }}</td>
                 <td>{{ group.owner.email }}</td>
                 <td>
+                    <app-boolean-icon [value]="group.public"></app-boolean-icon>
+                </td>
+                <td>
                     <app-boolean-icon [value]="group.active"></app-boolean-icon>
                 </td>
                 <td>

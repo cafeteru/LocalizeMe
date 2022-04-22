@@ -64,3 +64,18 @@ func (mr *MockGroupServiceMockRecorder) FindAll() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindAll", reflect.TypeOf((*MockGroupService)(nil).FindAll))
 }
+
+// FindByPermissions mocks base method.
+func (m *MockGroupService) FindByPermissions(email string) (*[]domain.Group, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "FindByPermissions", email)
+	ret0, _ := ret[0].(*[]domain.Group)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// FindByPermissions indicates an expected call of FindByPermissions.
+func (mr *MockGroupServiceMockRecorder) FindByPermissions(email interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindByPermissions", reflect.TypeOf((*MockGroupService)(nil).FindByPermissions), email)
+}

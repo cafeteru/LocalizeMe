@@ -146,7 +146,7 @@ func (u UserControllerImpl) Disable(w http.ResponseWriter, r *http.Request) {
 // - 500: ErrorDto
 func (u UserControllerImpl) FindAll(w http.ResponseWriter, r *http.Request) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
-	if user := utils.CheckUserIsAdmin(w, r, u.service); user == nil {
+	if user := utils.CheckUserIsActive(w, r, u.service); user == nil {
 		return
 	}
 	users, err := u.service.FindAll()

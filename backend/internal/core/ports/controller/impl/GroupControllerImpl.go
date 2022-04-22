@@ -2,6 +2,7 @@ package impl
 
 import (
 	"encoding/json"
+	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain/dto"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/ports/utils"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/service"
@@ -60,14 +61,21 @@ func (g GroupControllerImpl) Create(w http.ResponseWriter, r *http.Request) {
 // - 500: ErrorDto
 func (l GroupControllerImpl) FindAll(w http.ResponseWriter, r *http.Request) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
-	if user := utils.CheckUserIsAdmin(w, r, l.userService); user == nil {
+	user := utils.CheckUserIsActive(w, r, l.userService)
+	if user == nil {
 		return
 	}
-	stages, err := l.groupService.FindAll()
+	var groups *[]domain.Group
+	var err error
+	if user.Admin {
+		groups, err = l.groupService.FindAll()
+	} else {
+		groups, err = l.groupService.FindByPermissions(user.Email)
+	}
 	if err != nil {
 		utils.CreateErrorResponse(w, err, http.StatusInternalServerError)
 		return
 	}
-	utils.CreateResponse(w, http.StatusOK, stages)
+	utils.CreateResponse(w, http.StatusOK, groups)
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 }
