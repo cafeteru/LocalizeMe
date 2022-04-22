@@ -8,4 +8,5 @@ import (
 type GroupService interface {
 	Create(request dto.GroupDto) (domain.Group, error)
 	FindAll() (*[]domain.Group, error)
+	FindByPermissions(email string) (*[]domain.Group, error)
 }

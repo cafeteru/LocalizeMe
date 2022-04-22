@@ -79,3 +79,18 @@ func (mr *MockGroupRepositoryMockRecorder) FindByName(name interface{}) *gomock.
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindByName", reflect.TypeOf((*MockGroupRepository)(nil).FindByName), name)
 }
+
+// FindByPermissions mocks base method.
+func (m *MockGroupRepository) FindByPermissions(email string) (*[]domain.Group, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "FindByPermissions", email)
+	ret0, _ := ret[0].(*[]domain.Group)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// FindByPermissions indicates an expected call of FindByPermissions.
+func (mr *MockGroupRepositoryMockRecorder) FindByPermissions(email interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindByPermissions", reflect.TypeOf((*MockGroupRepository)(nil).FindByPermissions), email)
+}

@@ -1,6 +1,6 @@
 import { Group } from '../../types/group';
 import { createMockUser } from '../../types/user';
-import { sortGroupByActive, sortGroupByName, sortGroupByOwnerEmail } from './groups-sorts';
+import { sortGroupByActive, sortGroupByName, sortGroupByOwnerEmail, sortGroupByPublic } from './groups-sorts';
 
 describe('groups-sorts', () => {
     let a: Group;
@@ -13,6 +13,7 @@ describe('groups-sorts', () => {
             name: 'a',
             owner: createMockUser(),
             permissions: [],
+            public: true,
         };
         b = {
             id: '2',
@@ -20,6 +21,7 @@ describe('groups-sorts', () => {
             name: 'b',
             owner: createMockUser(),
             permissions: [],
+            public: false,
         };
         b.owner.email = 'zzzz@email.es';
     });
@@ -44,7 +46,7 @@ describe('groups-sorts', () => {
         expect(sortGroupByOwnerEmail(a, b)).toBe(1);
     });
 
-    it('check sortActive', () => {
+    it('check sortGroupByActive', () => {
         expect(sortGroupByActive(b, a)).toBeLessThanOrEqual(1);
         expect(sortGroupByActive(a, a)).toBe(0);
         expect(sortGroupByActive(a, b)).toBeGreaterThanOrEqual(-1);
@@ -52,5 +54,15 @@ describe('groups-sorts', () => {
         expect(sortGroupByActive(a, b)).toBe(-1);
         a.active = undefined;
         expect(sortGroupByActive(a, b)).toBe(1);
+    });
+
+    it('check sortGroupByPublic', () => {
+        expect(sortGroupByPublic(b, a)).toBeLessThanOrEqual(1);
+        expect(sortGroupByPublic(a, a)).toBe(0);
+        expect(sortGroupByPublic(a, b)).toBeGreaterThanOrEqual(-1);
+        b.public = undefined;
+        expect(sortGroupByPublic(a, b)).toBe(-1);
+        a.public = undefined;
+        expect(sortGroupByPublic(a, b)).toBe(1);
     });
 });

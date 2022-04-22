@@ -10,6 +10,7 @@ import { AppState } from '../../../store/app.reducer';
 import { createMockGroup, Group, GroupDto } from '../../../types/group';
 import { FormGroupUtil } from '../../../shared/utils/form-group-util';
 import { Observable, of } from 'rxjs';
+import { Permission } from '../../../types/permission';
 
 @Component({
     selector: 'app-modal-group',
@@ -36,6 +37,7 @@ export class ModalGroupComponent extends BaseComponent implements OnInit {
         this.formGroup = new FormGroup({
             name: new FormControl(this.group.name, Validators.required),
             active: new FormControl(this.group.active),
+            public: new FormControl(this.group.public),
         });
         const subscription$ = this.store.select('userInfo').subscribe((userReducer) => (this.owner = userReducer.user));
         this.subscriptions$.push(subscription$);
@@ -57,13 +59,17 @@ export class ModalGroupComponent extends BaseComponent implements OnInit {
         this.matDialogRef.close(group);
     }
 
+    setPermission($event: Permission[]) {
+        this.group.permissions = $event;
+    }
+
     send(): void {
         if (FormGroupUtil.valid(this.formGroup)) {
             this.isLoading = true;
             const observable = this.group.id ? this.update() : this.create();
             const subscription$ = observable.subscribe({
-                next: (data) => {
-                    this.close(data);
+                next: (group) => {
+                    this.close(group);
                     const message = this.group.id ? 'Successfully updated group' : 'Successfully created group';
                     this.createMessage('success', message);
                 },
@@ -83,8 +89,14 @@ export class ModalGroupComponent extends BaseComponent implements OnInit {
     private create(): Observable<Group> {
         const groupDto: GroupDto = {
             name: this.formGroup.controls['name'].value,
+            public: this.formGroup.controls['public'].value,
             owner: this.owner,
-            permissions: [],
+            permissions: this.group.permissions.map((permission) => {
+                return {
+                    canWriteGroup: permission.canWriteGroup,
+                    email: permission.user.email,
+                };
+            }),
         };
         return this.groupService.create(groupDto);
     }

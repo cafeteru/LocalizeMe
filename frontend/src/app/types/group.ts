@@ -5,6 +5,7 @@ export interface GroupDto {
     name: string;
     owner: User;
     permissions: PermissionDto[];
+    public: boolean;
 }
 
 export interface Group {
@@ -13,6 +14,7 @@ export interface Group {
     owner: User;
     permissions: Permission[];
     active: boolean;
+    public: boolean;
 }
 
 export function createMockGroup(): Group {
@@ -22,5 +24,6 @@ export function createMockGroup(): Group {
         owner: createMockUser(),
         active: true,
         permissions: [],
+        public: true,
     };
 }

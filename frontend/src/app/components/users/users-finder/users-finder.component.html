@@ -1,0 +1,60 @@
+<nz-spin [nzSpinning]="isLoading" nzSize="large">
+    <h3>Users:</h3>
+    <input
+        placeholder="Select the users you want to give permission to"
+        nz-input
+        (input)="searchUserByEmail($event)"
+        [(ngModel)]="inputValue"
+        [nzAutocomplete]="autoCompleteUsers"
+        id="autoCompleteUsersInput"
+    />
+    <nz-autocomplete
+        [nzDataSource]="options"
+        nzBackfill
+        #autoCompleteUsers
+        (selectionChange)="add($event.nzValue)"
+    ></nz-autocomplete>
+    <nz-table
+        #usersTable
+        nzShowSizeChanger
+        nzShowPagination
+        nzShowQuickJumper
+        [nzData]="selectedUsers"
+        (nzCurrentPageDataChange)="onCurrentPageDataChange($event)"
+    >
+        <thead>
+            <tr>
+                <th
+                    *ngFor="let column of listOfColumns"
+                    [nzSortOrder]="column.sortOrder"
+                    [nzSortFn]="column.sortFn"
+                    [nzSortDirections]="column.sortDirections"
+                    [id]="column.name + '-column'"
+                >
+                    {{ column.name }}
+                </th>
+                <th id="user-finder-can-write-column">Can write?</th>
+                <th id="user-list-delete-column"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let userElement of usersTable.data">
+                <td>{{ userElement.user.email }}</td>
+                <td><label nz-checkbox [ngModel]="userElement.canWrite"></label></td>
+                <td>
+                    <button
+                        nzTooltipTitle="Delete"
+                        nz-button
+                        nz-tooltip="Delete user"
+                        nzType="default"
+                        nzDanger
+                        nzShape="circle"
+                        (click)="delete(userElement)"
+                    >
+                        <em nz-icon nzType="delete"></em>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </nz-table>
+</nz-spin>

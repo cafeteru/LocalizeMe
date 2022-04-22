@@ -121,13 +121,13 @@ docker run --rm --name backend -p 8080:8080 -p 9090:9090 localize-me-backend &
 - Create tag to publish image to Docker Hub
 
 ```shell
-docker tag localize-me-backend igm1990/localize-me-backend:latest
+docker tag localize-me-backend cafeteru/localize-me-backend:latest
 ```
 
 - Publish the image to Docker Hub
 
 ```shell
-docker push igm1990/localize-me-backend:latest
+docker push cafeteru/localize-me-backend:latest
 ```
 
 ## Generate UML model

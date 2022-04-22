@@ -15,6 +15,10 @@ export function sortGroupByOwnerEmail(a: Group, b: Group): number {
     return validNames === 0 ? sortStrings(a.owner.email, b.owner.email) : validNames;
 }
 
+export function sortGroupByPublic(a: Group, b: Group): number {
+    return checkNotNullParams(a.public, b.public);
+}
+
 export function sortGroupByActive(a: Group, b: Group): number {
     return checkNotNullParams(a.active, b.active);
 }

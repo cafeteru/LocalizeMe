@@ -9,4 +9,5 @@ type Group struct {
 	Owner       User               `bson:"owner" json:"owner"`
 	Permissions []Permission       `bson:"permissions" json:"permissions"`
 	Active      bool               `bson:"active" json:"active"`
+	Public      bool               `bson:"public" json:"public"`
 }

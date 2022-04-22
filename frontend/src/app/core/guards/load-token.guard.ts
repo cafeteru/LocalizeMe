@@ -7,6 +7,7 @@ import jwt_decode from 'jwt-decode';
 import { IToken } from '../../types/itoken';
 import { UserReducer } from '../../store/reducers/user.reducer';
 import * as userActions from '../../store/actions/user.actions';
+import { checkToken } from './check-token.guard';
 
 @Injectable({
     providedIn: 'root',
@@ -33,6 +34,10 @@ export class LoadTokenGuard implements CanActivate {
 
     private loadUser(authorization: string): void {
         const iToken = jwt_decode<IToken>(authorization);
+        if (!checkToken(String(iToken.exp))) {
+            this.clearUser();
+            return;
+        }
         const reducer: UserReducer = {
             exp: iToken.exp,
             authorization: authorization,
