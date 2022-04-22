@@ -22,7 +22,7 @@ export class StageListComponent extends BaseComponent implements OnInit {
 
     listOfColumns: ColumnHeader<Stage>[] = [
         {
-            name: 'Email',
+            name: 'Name',
             sortOrder: null,
             sortFn: sortStagesByName,
             sortDirections,

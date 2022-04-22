@@ -1,7 +1,7 @@
 <header class="modal-header-material">
     <h1 mat-dialog-title>Update user</h1>
 </header>
-<form [formGroup]="formGroup" (ngSubmit)="send()">
+<form [formGroup]="formGroup">
     <nz-form-item>
         <nz-form-label nzRequired nzFor="email" nzSpan="7">E-mail</nz-form-label>
         <nz-form-control nzHasFeedback [nzErrorTip]="errorEmail" nzSpan="17">
@@ -58,12 +58,13 @@
         </nz-form-control>
     </nz-form-item>
     <nz-form-item nz-row class="register-area btn-right">
-        <button nz-button [nzType]="'primary'" [disabled]="!formGroup.valid || isLoading">
+        <button nz-button [nzType]="'primary'" [disabled]="!formGroup.valid || isLoading" (click)="send()">
             <span *ngIf="!isLoading">Update</span>
             <span *ngIf="isLoading">
                 <em nz-icon nzType="loading"></em>
                 Loading
             </span>
         </button>
+        <button nz-button [nzType]="'default'" (click)="close()">Close</button>
     </nz-form-item>
 </form>

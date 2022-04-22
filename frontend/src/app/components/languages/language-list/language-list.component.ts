@@ -31,7 +31,7 @@ export class LanguageListComponent extends BaseComponent implements OnInit {
             sortDirections,
         },
         {
-            name: 'IsoCode',
+            name: 'Iso Code',
             sortOrder: null,
             sortFn: sortLanguagesByIsoCode,
             sortDirections,

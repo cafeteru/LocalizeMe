@@ -75,7 +75,7 @@ export class UpdateUserComponent extends BaseComponent implements OnInit {
         this.message.create(type, message);
     }
 
-    close(user: User): void {
+    close(user?: User): void {
         this.matDialogRef.close(user);
     }
 
