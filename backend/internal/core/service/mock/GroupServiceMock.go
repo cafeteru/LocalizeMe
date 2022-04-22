@@ -10,6 +10,7 @@ import (
 	gomock "github.com/golang/mock/gomock"
 	domain "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain"
 	dto "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain/dto"
+	primitive "go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 // MockGroupService is a mock of GroupService interface.
@@ -48,6 +49,21 @@ func (m *MockGroupService) Create(request dto.GroupDto) (domain.Group, error) {
 func (mr *MockGroupServiceMockRecorder) Create(request interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockGroupService)(nil).Create), request)
+}
+
+// Disable mocks base method.
+func (m *MockGroupService) Disable(id primitive.ObjectID, user *domain.User) (*domain.Group, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Disable", id, user)
+	ret0, _ := ret[0].(*domain.Group)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Disable indicates an expected call of Disable.
+func (mr *MockGroupServiceMockRecorder) Disable(id, user interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Disable", reflect.TypeOf((*MockGroupService)(nil).Disable), id, user)
 }
 
 // FindAll mocks base method.

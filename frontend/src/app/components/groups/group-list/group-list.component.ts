@@ -11,6 +11,7 @@ import {
     sortGroupByPublic,
 } from '../../../shared/sorts/groups-sorts';
 import { GroupService } from '../../../core/services/group.service';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
     selector: 'app-group-list',
@@ -49,7 +50,11 @@ export class GroupListComponent extends BaseComponent implements OnInit {
         },
     ];
 
-    constructor(private groupService: GroupService, public matDialog: MatDialog) {
+    constructor(
+        private nzMessageService: NzMessageService,
+        private groupService: GroupService,
+        public matDialog: MatDialog
+    ) {
         super();
     }
 
@@ -95,7 +100,13 @@ export class GroupListComponent extends BaseComponent implements OnInit {
         this.subscriptions$.push(subscription$);
     }
 
-    disable(group: Group): void {}
+    disable(group: Group): void {
+        const subscription$ = this.groupService.disable(group).subscribe({
+            next: () => this.loadGroups(),
+            error: () => this.nzMessageService.create('error', 'Error disabling'),
+        });
+        this.subscriptions$.push(subscription$);
+    }
 
     showDeleteModal(group: Group): void {}
 }

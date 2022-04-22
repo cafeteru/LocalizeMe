@@ -35,6 +35,7 @@ func CreateLanguageController() *LanguageControllerImpl {
 // - 200: Language
 // - 400: ErrorDto
 // - 401: ErrorDto
+// - 403: ErrorDto
 // - 422: ErrorDto
 func (l LanguageControllerImpl) Create(w http.ResponseWriter, r *http.Request) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
@@ -62,6 +63,7 @@ func (l LanguageControllerImpl) Create(w http.ResponseWriter, r *http.Request) {
 // - 200: bool
 // - 400: ErrorDto
 // - 401: ErrorDto
+// - 403: ErrorDto
 func (l LanguageControllerImpl) Delete(w http.ResponseWriter, r *http.Request) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
 	user := utils.CheckUserIsAdmin(w, r, l.userService)
@@ -91,6 +93,7 @@ func (l LanguageControllerImpl) Delete(w http.ResponseWriter, r *http.Request) {
 // - 200: Language
 // - 400: ErrorDto
 // - 401: ErrorDto
+// - 403: ErrorDto
 func (l LanguageControllerImpl) Disable(w http.ResponseWriter, r *http.Request) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
 	isAdmin := utils.CheckUserIsAdmin(w, r, l.userService)
@@ -120,7 +123,7 @@ func (l LanguageControllerImpl) Disable(w http.ResponseWriter, r *http.Request) 
 // - 200: []Language
 // - 400: ErrorDto
 // - 401: ErrorDto
-// - 500: ErrorDto
+// - 403: ErrorDto
 func (l LanguageControllerImpl) FindAll(w http.ResponseWriter, r *http.Request) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
 	if user := utils.CheckUserIsAdmin(w, r, l.userService); user == nil {
@@ -145,6 +148,7 @@ func (l LanguageControllerImpl) FindAll(w http.ResponseWriter, r *http.Request) 
 // - 200: Language
 // - 400: ErrorDto
 // - 401: ErrorDto
+// - 403: ErrorDto
 // - 422: ErrorDto
 func (l LanguageControllerImpl) Update(w http.ResponseWriter, r *http.Request) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
