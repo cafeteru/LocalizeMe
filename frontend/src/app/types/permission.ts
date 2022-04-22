@@ -1,10 +1,5 @@
 import { createMockUser, User } from './user';
 
-export interface PermissionDto {
-    email: string;
-    canWriteGroup: boolean;
-}
-
 export interface Permission {
     id: string;
     user: User;

@@ -102,9 +102,11 @@ func (l LanguageServiceImpl) Update(language domain.Language) (*domain.Language,
 	if original == nil || err != nil {
 		return nil, tools.ErrorLog(constants.FindLanguageById, tools.GetCurrentFuncName())
 	}
-	_, errName, validName := l.checkUniqueIsoCode(language.IsoCode)
-	if !validName {
-		return nil, errName
+	if original.IsoCode != language.IsoCode {
+		_, errName, validName := l.checkUniqueIsoCode(language.IsoCode)
+		if !validName {
+			return nil, errName
+		}
 	}
 	_, err = l.repository.Update(language)
 	if err != nil {

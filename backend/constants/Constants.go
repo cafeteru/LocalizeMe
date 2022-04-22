@@ -8,6 +8,7 @@ const (
 	DeleteUser              = "error delete user"
 	EmailAlreadyRegister    = "email already registered"
 	EncryptPasswordUser     = "encrypting password"
+	FindGroupById           = "no found group by id"
 	FindGroupByName         = "no found group by name"
 	FindLanguageById        = "no found language by id"
 	FindLanguageByIsoCode   = "no found language by isoCode"

@@ -32,6 +32,7 @@ func (g GroupPortImpl) InitRoutes(r *chi.Mux) {
 		r.Route(pattern, func(r chi.Router) {
 			r.Post("/", g.controller.Create)
 			r.Get("/", g.controller.FindAll)
+			r.Put("/", g.controller.Update)
 		})
 	})
 	log.Printf("%s: end", tools.GetCurrentFuncName())

@@ -198,7 +198,6 @@ func TestLanguageServiceImpl_Update_Successful(t *testing.T) {
 	defer mockCtrl.Finish()
 	repository := mock.NewMockLanguageRepository(mockCtrl)
 	repository.EXPECT().FindById(gomock.Any()).Return(&language, nil)
-	repository.EXPECT().FindByIsoCode(gomock.Any()).Return(nil, nil)
 	mongoResult := mongo.UpdateResult{
 		MatchedCount:  0,
 		ModifiedCount: 1,
@@ -229,7 +228,6 @@ func TestLanguageServiceImpl_Update_Error_Repository(t *testing.T) {
 	defer mockCtrl.Finish()
 	repository := mock.NewMockLanguageRepository(mockCtrl)
 	repository.EXPECT().FindById(gomock.Any()).Return(&language, nil)
-	repository.EXPECT().FindByIsoCode(gomock.Any()).Return(nil, nil)
 	repository.EXPECT().Update(gomock.Any()).Return(nil, errors.New(""))
 	service := LanguageServiceImpl{repository}
 	_, err := service.Update(language)
@@ -249,7 +247,13 @@ func TestLanguageServiceImpl_Update_NameAlreadyRegister(t *testing.T) {
 		Active:      false,
 	}, nil)
 	service := LanguageServiceImpl{repository}
-	_, err := service.Update(language)
+	newLanguage := domain.Language{
+		ID:          language.ID,
+		IsoCode:     "Existed",
+		Description: language.Description,
+		Active:      language.Active,
+	}
+	_, err := service.Update(newLanguage)
 	assert.NotNil(t, err)
 }
 

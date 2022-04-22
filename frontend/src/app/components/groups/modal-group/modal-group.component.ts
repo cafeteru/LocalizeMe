@@ -91,17 +91,15 @@ export class ModalGroupComponent extends BaseComponent implements OnInit {
             name: this.formGroup.controls['name'].value,
             public: this.formGroup.controls['public'].value,
             owner: this.owner,
-            permissions: this.group.permissions.map((permission) => {
-                return {
-                    canWriteGroup: permission.canWriteGroup,
-                    email: permission.user.email,
-                };
-            }),
+            permissions: this.group.permissions,
         };
         return this.groupService.create(groupDto);
     }
 
     private update(): Observable<Group> {
-        return of(createMockGroup());
+        this.group.name = this.formGroup.controls['name'].value;
+        this.group.public = this.formGroup.controls['public'].value;
+        this.group.active = this.formGroup.controls['active'].value;
+        return this.groupService.update(this.group);
     }
 }

@@ -85,7 +85,7 @@ export class GroupListComponent extends BaseComponent implements OnInit {
         const dialogRef = this.matDialog.open(ModalGroupComponent, {
             minWidth: '550px',
             maxWidth: '75%',
-            data: newGroup,
+            data: group ? group : newGroup,
         });
         const subscription$ = dialogRef.afterClosed().subscribe((result) => {
             if (result) {

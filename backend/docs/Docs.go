@@ -107,3 +107,10 @@ type _ struct {
 	// required: true
 	GroupDto dto.GroupDto
 }
+
+// swagger:parameters UpdateGroup
+type _ struct {
+	// in: body
+	// required: true
+	Group domain.Group
+}

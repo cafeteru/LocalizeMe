@@ -90,9 +90,11 @@ func (s StageServiceImpl) Update(stage domain.Stage) (*domain.Stage, error) {
 	if original == nil || err != nil {
 		return nil, tools.ErrorLog(constants.FindStageById, tools.GetCurrentFuncName())
 	}
-	_, errName, validName := s.checkUniqueName(stage.Name)
-	if !validName {
-		return nil, errName
+	if original.Name != stage.Name {
+		_, errName, validName := s.checkUniqueName(stage.Name)
+		if !validName {
+			return nil, errName
+		}
 	}
 	_, err = s.repository.Update(stage)
 	if err != nil {

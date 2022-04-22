@@ -29,16 +29,16 @@ func (g GroupServiceImpl) Create(request dto.GroupDto) (domain.Group, error) {
 	if !validName {
 		return findByName, errName
 	}
-	permissions, d, err2 := g.createPermissions(request)
-	if err2 != nil {
-		return d, err2
+	errPermissions := g.createPermissions(request.Permissions)
+	if errPermissions != nil {
+		return domain.Group{}, errPermissions
 	}
 	group := domain.Group{
 		Name:        request.Name,
 		Owner:       request.Owner,
 		Active:      true,
 		Public:      request.Public,
-		Permissions: permissions,
+		Permissions: request.Permissions,
 	}
 	group.Owner.ClearPassword()
 	resultId, err := g.repository.Create(group)
@@ -49,23 +49,6 @@ func (g GroupServiceImpl) Create(request dto.GroupDto) (domain.Group, error) {
 	group.ID = resultId.InsertedID.(primitive.ObjectID)
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return group, nil
-}
-
-func (g GroupServiceImpl) createPermissions(request dto.GroupDto) ([]domain.Permission, domain.Group, error) {
-	var permissions []domain.Permission
-	for _, permissionDto := range request.Permissions {
-		email := permissionDto.Email
-		user, err := g.userRepository.FindByEmail(email)
-		if err != nil {
-			return nil, domain.Group{}, err
-		}
-		permission := domain.Permission{
-			User:          *user,
-			CanWriteGroup: permissionDto.CanWriteGroup,
-		}
-		permissions = append(permissions, permission)
-	}
-	return permissions, domain.Group{}, nil
 }
 
 func (g GroupServiceImpl) FindAll() (*[]domain.Group, error) {
@@ -88,6 +71,42 @@ func (g GroupServiceImpl) FindByPermissions(email string) (*[]domain.Group, erro
 	}
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return groups, nil
+}
+
+func (g GroupServiceImpl) Update(group domain.Group) (*domain.Group, error) {
+	log.Printf("%s: start", tools.GetCurrentFuncName())
+	original, err := g.repository.FindById(group.ID)
+	if original == nil || err != nil {
+		return nil, tools.ErrorLog(constants.FindGroupById, tools.GetCurrentFuncName())
+	}
+	if original.Name != group.Name {
+		_, errName, validName := g.checkUniqueName(group.Name)
+		if !validName {
+			return nil, errName
+		}
+	}
+	errPermission := g.createPermissions(group.Permissions)
+	if errPermission != nil {
+		return nil, errPermission
+	}
+	_, err = g.repository.Update(group)
+	if err != nil {
+		log.Printf("%s: error", tools.GetCurrentFuncName())
+		return nil, err
+	}
+	log.Printf("%s: end", tools.GetCurrentFuncName())
+	return &group, nil
+}
+
+func (g GroupServiceImpl) createPermissions(request []domain.Permission) error {
+	for _, permission := range request {
+		email := permission.User.Email
+		_, err := g.userRepository.FindByEmail(email)
+		if err != nil {
+			return err
+		}
+	}
+	return nil
 }
 
 func (g GroupServiceImpl) checkUniqueName(name string) (domain.Group, error, bool) {
