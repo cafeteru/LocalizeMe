@@ -4,6 +4,9 @@ import { UserService } from '../../../core/services/user.service';
 import { BaseComponent } from '../../../core/base/base.component';
 import { checkNotNullParams, sortStrings } from '../../../shared/sorts/sort-columns';
 import { Permission } from '../../../types/permission';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../../store/app.reducer';
+import { map } from 'rxjs';
 
 @Component({
     selector: 'app-users-finder',
@@ -31,17 +34,28 @@ export class UsersFinderComponent extends BaseComponent implements OnInit {
             sortDirections,
         },
     ];
+    private email: string;
 
-    constructor(private userService: UserService, private changeDetector: ChangeDetectorRef) {
+    constructor(
+        private store: Store<AppState>,
+        private userService: UserService,
+        private changeDetector: ChangeDetectorRef
+    ) {
         super();
     }
 
     ngOnInit() {
         super.ngOnInit();
+        const userSubscription$ = this.store
+            .select('userInfo')
+            .pipe(map((userReducer) => userReducer.user))
+            .subscribe((user) => (this.email = user.email));
+        this.subscriptions$.push(userSubscription$);
         const subscription$ = this.userService.findAll().subscribe({
             next: (users) =>
                 (this.users = users
                     .filter((user) => user.active)
+                    .filter((user) => user.email !== this.email)
                     .map((user) => {
                         return {
                             user: user,

@@ -54,6 +54,52 @@
           }
         }
       },
+      "put": {
+        "consumes": [
+          "application/json"
+        ],
+        "tags": [
+          "Groups"
+        ],
+        "summary": "Update the information of a group.",
+        "operationId": "UpdateGroup",
+        "parameters": [
+          {
+            "name": "Group",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Group"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Group",
+            "schema": {
+              "$ref": "#/definitions/Group"
+            }
+          },
+          "400": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          },
+          "401": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          },
+          "422": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          }
+        }
+      },
       "post": {
         "consumes": [
           "application/json"
@@ -966,7 +1012,7 @@
         "permissions": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/PermissionDto"
+            "$ref": "#/definitions/Permission"
           },
           "x-go-name": "Permissions"
         },
@@ -1033,20 +1079,6 @@
         }
       },
       "x-go-package": "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain"
-    },
-    "PermissionDto": {
-      "type": "object",
-      "properties": {
-        "canWriteGroup": {
-          "type": "boolean",
-          "x-go-name": "CanWriteGroup"
-        },
-        "email": {
-          "type": "string",
-          "x-go-name": "Email"
-        }
-      },
-      "x-go-package": "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain/dto"
     },
     "Stage": {
       "type": "object",

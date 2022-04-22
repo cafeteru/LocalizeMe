@@ -197,7 +197,6 @@ func TestStageServiceImpl_Update_Successful(t *testing.T) {
 	defer mockCtrl.Finish()
 	repository := mock.NewMockStageRepository(mockCtrl)
 	repository.EXPECT().FindById(gomock.Any()).Return(&stage, nil)
-	repository.EXPECT().FindByName(gomock.Any()).Return(nil, nil)
 	mongoResult := mongo.UpdateResult{
 		MatchedCount:  0,
 		ModifiedCount: 1,
@@ -228,7 +227,6 @@ func TestStageServiceImpl_Update_Error_Repository(t *testing.T) {
 	defer mockCtrl.Finish()
 	repository := mock.NewMockStageRepository(mockCtrl)
 	repository.EXPECT().FindById(gomock.Any()).Return(&stage, nil)
-	repository.EXPECT().FindByName(gomock.Any()).Return(nil, nil)
 	repository.EXPECT().Update(gomock.Any()).Return(nil, errors.New(""))
 	service := StageServiceImpl{repository}
 	_, err := service.Update(stage)
@@ -247,7 +245,12 @@ func TestStageServiceImpl_Update_NameAlreadyRegister(t *testing.T) {
 		Active: false,
 	}, nil)
 	service := StageServiceImpl{repository}
-	_, err := service.Update(stage)
+	newStage := domain.Stage{
+		ID:     stage.ID,
+		Name:   "newName",
+		Active: stage.Active,
+	}
+	_, err := service.Update(newStage)
 	assert.NotNil(t, err)
 }
 

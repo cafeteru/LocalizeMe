@@ -1,10 +1,10 @@
 import { createMockUser, User } from './user';
-import { Permission, PermissionDto } from './permission';
+import { Permission } from './permission';
 
 export interface GroupDto {
     name: string;
     owner: User;
-    permissions: PermissionDto[];
+    permissions: Permission[];
     public: boolean;
 }
 

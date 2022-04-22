@@ -24,4 +24,8 @@ export class GroupService {
             .get<Group[]>(this.url, getDefaultHttpOptions())
             .pipe(map((groups) => (groups ? groups : [])));
     }
+
+    update(group: Group): Observable<Group> {
+        return this.httpClient.put<Group>(this.url, group, getDefaultHttpOptions());
+    }
 }

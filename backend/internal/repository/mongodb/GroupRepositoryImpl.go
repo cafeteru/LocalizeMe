@@ -6,6 +6,7 @@ import (
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/tools"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"log"
 )
@@ -93,6 +94,23 @@ func (g *GroupRepositoryImpl) FindByPermissions(email string) (*[]domain.Group, 
 	return &groups, nil
 }
 
+func (g *GroupRepositoryImpl) FindById(id primitive.ObjectID) (*domain.Group, error) {
+	log.Printf("%s: start", tools.GetCurrentFuncName())
+	collection, err := g.GetCollection(g.name)
+	if err != nil {
+		return nil, tools.ErrorLogDetails(err, constants.CreateConnection, tools.GetCurrentFuncName())
+	}
+	filter := bson.M{"_id": bson.M{"$eq": id}}
+	result := collection.FindOne(context.TODO(), filter)
+	var group domain.Group
+	if err = result.Decode(&group); err != nil {
+		return nil, tools.ErrorLogDetails(err, constants.FindGroupById, tools.GetCurrentFuncName())
+	}
+	g.CloseConnection()
+	log.Printf("%s: end", tools.GetCurrentFuncName())
+	return &group, nil
+}
+
 func (g *GroupRepositoryImpl) FindByName(name string) (*domain.Group, error) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
 	collection, err := g.GetCollection(g.name)
@@ -108,4 +126,29 @@ func (g *GroupRepositoryImpl) FindByName(name string) (*domain.Group, error) {
 	g.CloseConnection()
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return &group, nil
+}
+
+func (g *GroupRepositoryImpl) Update(group domain.Group) (*mongo.UpdateResult, error) {
+	log.Printf("%s: start", tools.GetCurrentFuncName())
+	collection, err := g.GetCollection(g.name)
+	if err != nil {
+		return nil, tools.ErrorLogDetails(err, constants.CreateConnection, tools.GetCurrentFuncName())
+	}
+	filter := bson.M{"_id": bson.M{"$eq": group.ID}}
+	update := bson.M{
+		"$set": bson.M{
+			"owner":       group.Owner,
+			"name":        group.Name,
+			"active":      group.Active,
+			"permissions": group.Permissions,
+			"Public":      group.Public,
+		},
+	}
+	result, err := collection.UpdateOne(context.TODO(), filter, update)
+	if err != nil {
+		return nil, tools.ErrorLogDetails(err, constants.UpdateLanguage, tools.GetCurrentFuncName())
+	}
+	g.CloseConnection()
+	log.Printf("%s: end", tools.GetCurrentFuncName())
+	return result, nil
 }
