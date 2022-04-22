@@ -16,6 +16,7 @@ const (
 	FindStageByName         = "no found stage by name"
 	FindUserByEmail         = "no found user by email"
 	FindUserById            = "no found user by id"
+	GroupNotHavePermissions = "user have not permissions to update the group"
 	GroupAlreadyRegister    = "group already registered"
 	IdNoValid               = "id no valid"
 	InsertGroup             = "insert group"

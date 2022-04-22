@@ -9,5 +9,5 @@ type GroupService interface {
 	Create(request dto.GroupDto) (domain.Group, error)
 	FindAll() (*[]domain.Group, error)
 	FindByPermissions(email string) (*[]domain.Group, error)
-	Update(group domain.Group) (*domain.Group, error)
+	Update(group domain.Group, user *domain.User) (*domain.Group, error)
 }

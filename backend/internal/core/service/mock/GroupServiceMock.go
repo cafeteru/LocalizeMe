@@ -81,16 +81,16 @@ func (mr *MockGroupServiceMockRecorder) FindByPermissions(email interface{}) *go
 }
 
 // Update mocks base method.
-func (m *MockGroupService) Update(group domain.Group) (*domain.Group, error) {
+func (m *MockGroupService) Update(group domain.Group, user *domain.User) (*domain.Group, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Update", group)
+	ret := m.ctrl.Call(m, "Update", group, user)
 	ret0, _ := ret[0].(*domain.Group)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Update indicates an expected call of Update.
-func (mr *MockGroupServiceMockRecorder) Update(group interface{}) *gomock.Call {
+func (mr *MockGroupServiceMockRecorder) Update(group, user interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Update", reflect.TypeOf((*MockGroupService)(nil).Update), group)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Update", reflect.TypeOf((*MockGroupService)(nil).Update), group, user)
 }

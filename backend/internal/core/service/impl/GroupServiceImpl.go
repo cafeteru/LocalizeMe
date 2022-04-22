@@ -73,8 +73,12 @@ func (g GroupServiceImpl) FindByPermissions(email string) (*[]domain.Group, erro
 	return groups, nil
 }
 
-func (g GroupServiceImpl) Update(group domain.Group) (*domain.Group, error) {
+func (g GroupServiceImpl) Update(group domain.Group, user *domain.User) (*domain.Group, error) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
+	err2 := g.checkPermission(group, *user)
+	if err2 != nil {
+		return nil, tools.ErrorLog(constants.GroupNotHavePermissions, tools.GetCurrentFuncName())
+	}
 	original, err := g.repository.FindById(group.ID)
 	if original == nil || err != nil {
 		return nil, tools.ErrorLog(constants.FindGroupById, tools.GetCurrentFuncName())
@@ -99,6 +103,7 @@ func (g GroupServiceImpl) Update(group domain.Group) (*domain.Group, error) {
 }
 
 func (g GroupServiceImpl) createPermissions(request []domain.Permission) error {
+	log.Printf("%s: start", tools.GetCurrentFuncName())
 	for _, permission := range request {
 		email := permission.User.Email
 		_, err := g.userRepository.FindByEmail(email)
@@ -106,10 +111,26 @@ func (g GroupServiceImpl) createPermissions(request []domain.Permission) error {
 			return err
 		}
 	}
+	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return nil
 }
 
+func (g GroupServiceImpl) checkPermission(group domain.Group, user domain.User) error {
+	log.Printf("%s: start", tools.GetCurrentFuncName())
+	if user.Admin || group.Public || group.Owner.ID == user.ID {
+		return nil
+	}
+	for _, permission := range group.Permissions {
+		if permission.User.ID == user.ID {
+			return nil
+		}
+	}
+	log.Printf("%s: end", tools.GetCurrentFuncName())
+	return tools.ErrorLog(constants.GroupNotHavePermissions, tools.GetCurrentFuncName())
+}
+
 func (g GroupServiceImpl) checkUniqueName(name string) (domain.Group, error, bool) {
+	log.Printf("%s: start", tools.GetCurrentFuncName())
 	if name == "" {
 		return domain.Group{}, tools.ErrorLog(constants.NameGroupInvalid, tools.GetCurrentFuncName()), false
 	}
@@ -117,5 +138,6 @@ func (g GroupServiceImpl) checkUniqueName(name string) (domain.Group, error, boo
 	if findByName != nil {
 		return domain.Group{}, tools.ErrorLog(constants.GroupAlreadyRegister, tools.GetCurrentFuncName()), false
 	}
+	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return domain.Group{}, nil, true
 }
