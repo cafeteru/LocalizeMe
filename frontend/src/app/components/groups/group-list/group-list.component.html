@@ -55,6 +55,7 @@
                 </td>
                 <td>
                     <button
+                        *ngIf="canEdit(group)"
                         nzTooltipTitle="Update"
                         nz-button
                         nz-tooltip="Update stage"
@@ -67,6 +68,7 @@
                 </td>
                 <td>
                     <button
+                        *ngIf="canEdit(group)"
                         nzTooltipTitle="Disable"
                         nz-button
                         nz-tooltip="Disable stage"
@@ -79,6 +81,7 @@
                 </td>
                 <td>
                     <button
+                        *ngIf="canDelete(group)"
                         nzTooltipTitle="Delete"
                         nz-button
                         nz-tooltip="Delete stage"

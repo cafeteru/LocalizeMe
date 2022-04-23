@@ -51,6 +51,24 @@ func (g GroupServiceImpl) Create(request dto.GroupDto) (domain.Group, error) {
 	return group, nil
 }
 
+func (g GroupServiceImpl) Delete(id primitive.ObjectID, user *domain.User) (bool, error) {
+	log.Printf("%s: start", tools.GetCurrentFuncName())
+	group, err := g.repository.FindById(id)
+	if group == nil || err != nil {
+		return false, tools.ErrorLog(constants.FindGroupById, tools.GetCurrentFuncName())
+	}
+	if !user.Admin && group.Owner.ID != user.ID {
+		return false, tools.ErrorLog(constants.GroupNotHavePermissions, tools.GetCurrentFuncName())
+	}
+	_, err = g.repository.Delete(id)
+	if err != nil {
+		log.Printf("%s: error", tools.GetCurrentFuncName())
+		return false, err
+	}
+	log.Printf("%s: end", tools.GetCurrentFuncName())
+	return true, nil
+}
+
 func (g GroupServiceImpl) Disable(id primitive.ObjectID, user *domain.User) (*domain.Group, error) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
 	group, err := g.repository.FindById(id)
@@ -106,6 +124,7 @@ func (g GroupServiceImpl) Update(group domain.Group, user *domain.User) (*domain
 	if original.Name != group.Name {
 		_, errName, validName := g.checkUniqueName(group.Name)
 		if !validName {
+			log.Printf("%s: error", tools.GetCurrentFuncName())
 			return nil, errName
 		}
 	}
@@ -128,6 +147,7 @@ func (g GroupServiceImpl) createPermissions(request []domain.Permission) error {
 		email := permission.User.Email
 		_, err := g.userRepository.FindByEmail(email)
 		if err != nil {
+			log.Printf("%s: error", tools.GetCurrentFuncName())
 			return err
 		}
 	}

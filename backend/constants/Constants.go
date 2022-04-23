@@ -3,6 +3,7 @@ package constants
 const (
 	CreateConnection        = "starting the connection"
 	DataLogin               = "data invalid"
+	DeleteGroup             = "error delete group"
 	DeleteLanguage          = "error delete language"
 	DeleteStage             = "error delete stage"
 	DeleteUser              = "error delete user"
@@ -16,8 +17,8 @@ const (
 	FindStageByName         = "no found stage by name"
 	FindUserByEmail         = "no found user by email"
 	FindUserById            = "no found user by id"
-	GroupNotHavePermissions = "user have not permissions to update the group"
 	GroupAlreadyRegister    = "group already registered"
+	GroupNotHavePermissions = "user have not permissions to update the group"
 	IdNoValid               = "id no valid"
 	InsertGroup             = "insert group"
 	InsertLanguage          = "insert language"

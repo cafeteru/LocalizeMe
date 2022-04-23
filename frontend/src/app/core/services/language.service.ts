@@ -20,10 +20,9 @@ export class LanguageService {
     }
 
     delete(language: Language): Observable<boolean> {
-        return this.httpClient.delete<Language>(`${this.url}/${language.id}`, getDefaultHttpOptions()).pipe(
-            map(() => true),
-            catchError(() => of(false))
-        );
+        return this.httpClient
+            .delete<boolean>(`${this.url}/${language.id}`, getDefaultHttpOptions())
+            .pipe(catchError(() => of(false)));
     }
 
     disable(language: Language): Observable<Language> {

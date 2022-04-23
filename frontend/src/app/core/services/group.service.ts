@@ -2,9 +2,10 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { Urls } from '../../shared/constants/urls';
 import { HttpClient } from '@angular/common/http';
-import { map, Observable } from 'rxjs';
+import { catchError, map, Observable, of } from 'rxjs';
 import { getDefaultHttpOptions } from './default-http-options';
 import { Group, GroupDto } from '../../types/group';
+import { Language } from '../../types/language';
 
 @Injectable({
     providedIn: 'root',
@@ -16,6 +17,12 @@ export class GroupService {
 
     create(groupDto: GroupDto): Observable<Group> {
         return this.httpClient.post<Group>(this.url, groupDto, getDefaultHttpOptions());
+    }
+
+    delete(group: Group): Observable<boolean> {
+        return this.httpClient
+            .delete<boolean>(`${this.url}/${group.id}`, getDefaultHttpOptions())
+            .pipe(catchError(() => of(false)));
     }
 
     disable(group: Group): Observable<Group> {

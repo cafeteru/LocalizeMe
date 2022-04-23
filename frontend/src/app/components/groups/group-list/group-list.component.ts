@@ -12,6 +12,11 @@ import {
 } from '../../../shared/sorts/groups-sorts';
 import { GroupService } from '../../../core/services/group.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzModalService } from 'ng-zorro-antd/modal';
+import { map } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../../store/app.reducer';
+import { createMockUser, User } from '../../../types/user';
 
 @Component({
     selector: 'app-group-list',
@@ -22,6 +27,7 @@ export class GroupListComponent extends BaseComponent implements OnInit {
     currentPageGroup: readonly Group[] = [];
     groups: readonly Group[] = [];
     isLoading = false;
+    user: User = createMockUser();
 
     listOfColumns: ColumnHeader<Group>[] = [
         {
@@ -51,7 +57,9 @@ export class GroupListComponent extends BaseComponent implements OnInit {
     ];
 
     constructor(
+        private store: Store<AppState>,
         private nzMessageService: NzMessageService,
+        private nzModalService: NzModalService,
         private groupService: GroupService,
         public matDialog: MatDialog
     ) {
@@ -60,6 +68,11 @@ export class GroupListComponent extends BaseComponent implements OnInit {
 
     ngOnInit(): void {
         super.ngOnInit();
+        const subscription$ = this.store
+            .select('userInfo')
+            .pipe(map((userReducer) => userReducer.user))
+            .subscribe((user) => (this.user = user));
+        this.subscriptions$.push(subscription$);
         this.loadGroups();
     }
 
@@ -108,5 +121,43 @@ export class GroupListComponent extends BaseComponent implements OnInit {
         this.subscriptions$.push(subscription$);
     }
 
-    showDeleteModal(group: Group): void {}
+    showDeleteModal(group: Group): void {
+        this.nzModalService.confirm({
+            nzTitle: 'Are you sure delete this group?',
+            nzOkText: 'Yes',
+            nzOkType: 'primary',
+            nzOkDanger: true,
+            nzOnOk: () => this.delete(group),
+            nzCancelText: 'No',
+            nzAutofocus: 'cancel',
+        });
+    }
+
+    canEdit(group: Group): boolean {
+        if (this.user.admin || group.public || group.owner.id === this.user.id) {
+            return true;
+        }
+        group.permissions.forEach((permission) => {
+            if (permission.user.id === this.user.id && permission.canWriteGroup) {
+                return true;
+            }
+        });
+        return false;
+    }
+
+    canDelete(group: Group): boolean {
+        return this.user.admin || group.owner.id === this.user.id;
+    }
+
+    private delete(group: Group): void {
+        const subscription$ = this.groupService.delete(group).subscribe((result) => {
+            if (result) {
+                this.loadGroups();
+                this.nzMessageService.create('success', `${group.name} has been deleted`);
+            } else {
+                this.nzMessageService.create('error', 'Error deleting');
+            }
+        });
+        this.subscriptions$.push(subscription$);
+    }
 }

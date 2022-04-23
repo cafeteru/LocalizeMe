@@ -35,6 +35,22 @@ func (g *GroupRepositoryImpl) Create(group domain.Group) (*mongo.InsertOneResult
 	return result, nil
 }
 
+func (g *GroupRepositoryImpl) Delete(id primitive.ObjectID) (*mongo.DeleteResult, error) {
+	log.Printf("%s: start", tools.GetCurrentFuncName())
+	collection, err := g.GetCollection(g.name)
+	if err != nil {
+		return nil, tools.ErrorLogDetails(err, constants.CreateConnection, tools.GetCurrentFuncName())
+	}
+	filter := bson.M{"_id": bson.M{"$eq": id}}
+	result, err := collection.DeleteOne(context.TODO(), filter)
+	if err != nil {
+		return nil, tools.ErrorLogDetails(err, constants.DeleteGroup, tools.GetCurrentFuncName())
+	}
+	g.CloseConnection()
+	log.Printf("%s: end", tools.GetCurrentFuncName())
+	return result, nil
+}
+
 func (g *GroupRepositoryImpl) FindAll() (*[]domain.Group, error) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
 	collection, err := g.GetCollection(g.name)

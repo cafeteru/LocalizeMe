@@ -8,6 +8,7 @@ import (
 
 type GroupService interface {
 	Create(request dto.GroupDto) (domain.Group, error)
+	Delete(id primitive.ObjectID, user *domain.User) (bool, error)
 	Disable(id primitive.ObjectID, user *domain.User) (*domain.Group, error)
 	FindAll() (*[]domain.Group, error)
 	FindByPermissions(email string) (*[]domain.Group, error)
