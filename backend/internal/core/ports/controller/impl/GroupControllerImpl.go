@@ -55,6 +55,36 @@ func (g GroupControllerImpl) Create(w http.ResponseWriter, r *http.Request) {
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 }
 
+// swagger:route DELETE /groups/{id} Groups DeleteGroup
+// Return a group by id.
+//
+// Responses:
+// - 200: bool
+// - 400: ErrorDto
+// - 401: ErrorDto
+// - 403: ErrorDto
+func (g GroupControllerImpl) Delete(w http.ResponseWriter, r *http.Request) {
+	log.Printf("%s: start", tools.GetCurrentFuncName())
+	user := utils.CheckUserIsActive(w, r, g.userService)
+	if user == nil {
+		return
+	}
+	id := chi.URLParam(r, "id")
+	if id == "" {
+		err := errors.New(constants.IdNoValid)
+		utils.CreateErrorResponse(w, err, http.StatusBadRequest)
+		return
+	}
+	objectID, _ := primitive.ObjectIDFromHex(id)
+	result, err := g.groupService.Delete(objectID, user)
+	if err != nil {
+		utils.CreateErrorResponse(w, err, http.StatusNotFound)
+		return
+	}
+	utils.CreateResponse(w, http.StatusOK, result)
+	log.Printf("%s: end", tools.GetCurrentFuncName())
+}
+
 // swagger:route PATCH /groups/{id} Groups DisableGroup
 // Disable of a group.
 //

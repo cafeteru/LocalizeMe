@@ -51,6 +51,21 @@ func (mr *MockGroupServiceMockRecorder) Create(request interface{}) *gomock.Call
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockGroupService)(nil).Create), request)
 }
 
+// Delete mocks base method.
+func (m *MockGroupService) Delete(id primitive.ObjectID, user *domain.User) (bool, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Delete", id, user)
+	ret0, _ := ret[0].(bool)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Delete indicates an expected call of Delete.
+func (mr *MockGroupServiceMockRecorder) Delete(id, user interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delete", reflect.TypeOf((*MockGroupService)(nil).Delete), id, user)
+}
+
 // Disable mocks base method.
 func (m *MockGroupService) Disable(id primitive.ObjectID, user *domain.User) (*domain.Group, error) {
 	m.ctrl.T.Helper()

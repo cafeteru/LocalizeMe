@@ -34,6 +34,7 @@ func (g GroupPortImpl) InitRoutes(r *chi.Mux) {
 			r.Get("/", g.controller.FindAll)
 			r.Put("/", g.controller.Update)
 			r.Patch("/{id}", g.controller.Disable)
+			r.Delete("/{id}", g.controller.Delete)
 		})
 	})
 	log.Printf("%s: end", tools.GetCurrentFuncName())

@@ -19,10 +19,9 @@ export class StageService {
     }
 
     delete(stage: Stage): Observable<boolean> {
-        return this.httpClient.delete<Stage>(`${this.url}/${stage.id}`, getDefaultHttpOptions()).pipe(
-            map(() => true),
-            catchError(() => of(false))
-        );
+        return this.httpClient
+            .delete<boolean>(`${this.url}/${stage.id}`, getDefaultHttpOptions())
+            .pipe(catchError(() => of(false)));
     }
 
     disable(stage: Stage): Observable<Stage> {

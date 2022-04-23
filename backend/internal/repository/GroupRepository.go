@@ -8,6 +8,7 @@ import (
 
 type GroupRepository interface {
 	Create(group domain.Group) (*mongo.InsertOneResult, error)
+	Delete(id primitive.ObjectID) (*mongo.DeleteResult, error)
 	FindAll() (*[]domain.Group, error)
 	FindById(id primitive.ObjectID) (*domain.Group, error)
 	FindByPermissions(email string) (*[]domain.Group, error)

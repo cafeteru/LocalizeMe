@@ -23,10 +23,9 @@ export class UserService {
     constructor(private httpClient: HttpClient, private store: Store<AppState>) {}
 
     delete(user: User): Observable<boolean> {
-        return this.httpClient.delete<User>(`${this.urlUsers}/${user.id}`, getDefaultHttpOptions()).pipe(
-            map(() => true),
-            catchError(() => of(false))
-        );
+        return this.httpClient
+            .delete<boolean>(`${this.urlUsers}/${user.id}`, getDefaultHttpOptions())
+            .pipe(catchError(() => of(false)));
     }
 
     disable(user: User): Observable<User> {

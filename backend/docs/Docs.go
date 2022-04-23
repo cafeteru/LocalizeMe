@@ -114,3 +114,12 @@ type _ struct {
 	// required: true
 	Group domain.Group
 }
+
+// swagger:parameters DisableGroup DeleteGroup
+type _ struct {
+	// The group´s id
+	// in: path
+	// required: true
+	// type: string
+	Id string `json:"id"`
+}
