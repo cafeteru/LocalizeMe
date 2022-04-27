@@ -8,7 +8,7 @@ import { UserInfoComponent } from './user-info/user-info.component';
 import { UserListComponent } from './user-list/user-list.component';
 import { UserRouting } from './user-routing';
 import { UpdateUserComponent } from './update-user/update-user.component';
-import { UsersFinderComponent } from './users-finder/users-finder.component';
+import { UserFinderComponent } from './user-finder/user-finder.component';
 
 @NgModule({
     declarations: [
@@ -17,9 +17,9 @@ import { UsersFinderComponent } from './users-finder/users-finder.component';
         UserInfoComponent,
         UserListComponent,
         UpdateUserComponent,
-        UsersFinderComponent,
+        UserFinderComponent,
     ],
-    exports: [LoginComponent, RegisterComponent, UserInfoComponent, UsersFinderComponent],
+    exports: [LoginComponent, RegisterComponent, UserInfoComponent, UserFinderComponent],
     imports: [CommonModule, CoreModule, SharedModule, UserRouting],
 })
 export class UsersModule {}

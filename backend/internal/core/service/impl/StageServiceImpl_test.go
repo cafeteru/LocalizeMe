@@ -14,7 +14,7 @@ import (
 )
 
 var stage domain.Stage
-var stageRequest dto.StageDto
+var stageDto dto.StageDto
 
 func TestStageServiceImpl_CreateGroupService(t *testing.T) {
 	service := CreateStageService()
@@ -33,7 +33,7 @@ func TestStageServiceImpl_Create_Successful(t *testing.T) {
 	repository.EXPECT().FindByName(gomock.Any()).Return(nil, nil)
 	repository.EXPECT().Create(gomock.Any()).Return(&oneResult, nil)
 	service := StageServiceImpl{repository}
-	result, err := service.Create(stageRequest)
+	result, err := service.Create(stageDto)
 	assert.Nil(t, err)
 	assert.Equal(t, result.ID, stage.ID)
 }
@@ -45,7 +45,7 @@ func TestStageServiceImpl_Create_Error_NameRegister(t *testing.T) {
 	repository := mock.NewMockStageRepository(mockCtrl)
 	repository.EXPECT().FindByName(gomock.Any()).Return(&stage, nil)
 	service := StageServiceImpl{repository}
-	_, err := service.Create(stageRequest)
+	_, err := service.Create(stageDto)
 	assert.NotNil(t, err)
 }
 
@@ -58,18 +58,18 @@ func TestStageServiceImpl_Create_ErrorRepository(t *testing.T) {
 	repository.EXPECT().FindByName(gomock.Any()).Return(nil, nil)
 	repository.EXPECT().Create(gomock.Any()).Return(nil, expectedError)
 	service := StageServiceImpl{repository}
-	_, err := service.Create(stageRequest)
+	_, err := service.Create(stageDto)
 	assert.NotNil(t, err)
 }
 
 func TestStageServiceImpl_Create_ErrorStageRequest_InvalidName(t *testing.T) {
 	initStageValues()
-	stageRequest.Name = ""
+	stageDto.Name = ""
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
 	repository := mock.NewMockStageRepository(mockCtrl)
 	service := StageServiceImpl{repository}
-	_, err := service.Create(stageRequest)
+	_, err := service.Create(stageDto)
 	assert.NotNil(t, err)
 }
 
@@ -262,7 +262,7 @@ func initStageValues() {
 		Active: true,
 		Name:   "Name",
 	}
-	stageRequest = dto.StageDto{
+	stageDto = dto.StageDto{
 		Name: stage.Name,
 	}
 }

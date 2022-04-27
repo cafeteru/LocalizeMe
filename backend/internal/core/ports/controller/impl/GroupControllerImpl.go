@@ -46,12 +46,12 @@ func (g GroupControllerImpl) Create(w http.ResponseWriter, r *http.Request) {
 		utils.CreateErrorResponse(w, err, http.StatusUnprocessableEntity)
 		return
 	}
-	user, err := g.groupService.Create(groupDto)
+	group, err := g.groupService.Create(groupDto)
 	if err != nil {
 		utils.CreateErrorResponse(w, err, http.StatusBadRequest)
 		return
 	}
-	utils.CreateResponse(w, http.StatusCreated, user)
+	utils.CreateResponse(w, http.StatusCreated, group)
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 }
 

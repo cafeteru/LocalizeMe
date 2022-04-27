@@ -243,7 +243,7 @@ func createLanguageMocks(t *testing.T) (*mtest.T, *LanguageRepositoryImpl) {
 	language = domain.Language{
 		ID:          primitive.ObjectID{},
 		IsoCode:     "IsoCode",
-		Description: "Description",
+		Description: "Identifier",
 		Active:      true,
 	}
 	return mt, repository

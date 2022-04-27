@@ -123,6 +123,7 @@ func initGroupValues() {
 	groupDto = dto.GroupDto{
 		Name:        group.Name,
 		Owner:       group.Owner,
-		Permissions: []domain.Permission{},
+		Permissions: group.Permissions,
+		Public:      group.Public,
 	}
 }

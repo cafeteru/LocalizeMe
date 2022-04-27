@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { LanguageService } from './language.service';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { createMockLanguage, LanguageDto } from '../../types/language';
+import { createMockLanguage, Language } from '../../types/language';
 
 describe('LanguageService', () => {
     let service: LanguageService;
@@ -26,9 +26,11 @@ describe('LanguageService', () => {
 
     it('check create', () => {
         const language = createMockLanguage();
-        const groupDto: LanguageDto = {
+        const groupDto: Language = {
             description: language.description,
             isoCode: language.isoCode,
+            id: undefined,
+            active: true,
         };
         service.create(groupDto).subscribe({
             error: (err) => fail(err),

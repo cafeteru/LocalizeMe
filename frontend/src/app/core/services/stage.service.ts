@@ -14,8 +14,8 @@ export class StageService {
 
     constructor(private httpClient: HttpClient) {}
 
-    create(stageRequest: StageDto): Observable<Stage> {
-        return this.httpClient.post<Stage>(this.url, stageRequest, getDefaultHttpOptions());
+    create(stageDto: StageDto): Observable<Stage> {
+        return this.httpClient.post<Stage>(this.url, stageDto, getDefaultHttpOptions());
     }
 
     delete(stage: Stage): Observable<boolean> {

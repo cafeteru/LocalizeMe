@@ -22,20 +22,20 @@ func CreateStageService() *StageServiceImpl {
 	return service
 }
 
-func (s StageServiceImpl) Create(request dto.StageDto) (domain.Stage, error) {
+func (s StageServiceImpl) Create(stageDto dto.StageDto) (domain.Stage, error) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
-	findByName, errName, validName := s.checkUniqueName(request.Name)
+	findByName, errName, validName := s.checkUniqueName(stageDto.Name)
 	if !validName {
-		return findByName, errName
+		return findByName, tools.ErrorLogWithError(errName, tools.GetCurrentFuncName())
 	}
 	stage := domain.Stage{
-		Name:   request.Name,
+		Name:   stageDto.Name,
 		Active: true,
 	}
 	resultId, err := s.repository.Create(stage)
 	if err != nil {
 		log.Printf("%s: error", tools.GetCurrentFuncName())
-		return domain.Stage{}, err
+		return domain.Stage{}, tools.ErrorLogWithError(err, tools.GetCurrentFuncName())
 	}
 	stage.ID = resultId.InsertedID.(primitive.ObjectID)
 	log.Printf("%s: end", tools.GetCurrentFuncName())
@@ -66,8 +66,7 @@ func (s StageServiceImpl) Disable(id primitive.ObjectID) (*domain.Stage, error) 
 	stage.Active = !stage.Active
 	_, err = s.repository.Update(*stage)
 	if err != nil {
-		log.Printf("%s: error", tools.GetCurrentFuncName())
-		return nil, err
+		return nil, tools.ErrorLogWithError(err, tools.GetCurrentFuncName())
 	}
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return stage, nil
@@ -77,8 +76,7 @@ func (s StageServiceImpl) FindAll() (*[]domain.Stage, error) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
 	users, err := s.repository.FindAll()
 	if err != nil {
-		log.Printf("%s: error", tools.GetCurrentFuncName())
-		return nil, err
+		return nil, tools.ErrorLogWithError(err, tools.GetCurrentFuncName())
 	}
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return users, nil
@@ -93,13 +91,12 @@ func (s StageServiceImpl) Update(stage domain.Stage) (*domain.Stage, error) {
 	if original.Name != stage.Name {
 		_, errName, validName := s.checkUniqueName(stage.Name)
 		if !validName {
-			return nil, errName
+			return nil, tools.ErrorLogWithError(errName, tools.GetCurrentFuncName())
 		}
 	}
 	_, err = s.repository.Update(stage)
 	if err != nil {
-		log.Printf("%s: error", tools.GetCurrentFuncName())
-		return nil, err
+		return nil, tools.ErrorLogWithError(err, tools.GetCurrentFuncName())
 	}
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return &stage, nil

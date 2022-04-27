@@ -47,12 +47,12 @@ func (l LanguageControllerImpl) Create(w http.ResponseWriter, r *http.Request) {
 		utils.CreateErrorResponse(w, err, http.StatusUnprocessableEntity)
 		return
 	}
-	user, err := l.languageService.Create(request)
+	language, err := l.languageService.Create(request)
 	if err != nil {
 		utils.CreateErrorResponse(w, err, http.StatusBadRequest)
 		return
 	}
-	utils.CreateResponse(w, http.StatusCreated, user)
+	utils.CreateResponse(w, http.StatusCreated, language)
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 }
 
@@ -126,7 +126,7 @@ func (l LanguageControllerImpl) Disable(w http.ResponseWriter, r *http.Request) 
 // - 403: ErrorDto
 func (l LanguageControllerImpl) FindAll(w http.ResponseWriter, r *http.Request) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
-	if user := utils.CheckUserIsAdmin(w, r, l.userService); user == nil {
+	if user := utils.CheckUserIsActive(w, r, l.userService); user == nil {
 		return
 	}
 	stages, err := l.languageService.FindAll()

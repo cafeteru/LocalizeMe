@@ -3,6 +3,7 @@
     <input
         placeholder="Select the users you want to give permission to"
         nz-input
+        (click)="searchUserByEmail(undefined)"
         (input)="searchUserByEmail($event)"
         [(ngModel)]="inputValue"
         [nzAutocomplete]="autoCompleteUsers"

@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { StageService } from './stage.service';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { createMockStage, Stage, StageDto } from '../../types/stage';
+import { createMockStage, Stage } from '../../types/stage';
 
 describe('StageService', () => {
     let service: StageService;
@@ -26,8 +26,10 @@ describe('StageService', () => {
 
     it('check create', () => {
         const stage = createMockStage();
-        const stageRequest: StageDto = {
+        const stageRequest: Stage = {
             name: stage.name,
+            id: undefined,
+            active: true,
         };
         service.create(stageRequest).subscribe({
             error: (err) => fail(err),

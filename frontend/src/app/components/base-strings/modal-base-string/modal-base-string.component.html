@@ -1,0 +1,42 @@
+<header class="modal-header-material">
+    <h1 mat-dialog-title>{{ titleModal }}</h1>
+</header>
+<form [formGroup]="formGroup">
+    <nz-form-item>
+        <nz-form-label nzRequired nzFor="identifier" nzSpan="7">Identifier</nz-form-label>
+        <nz-form-control nzHasFeedback [nzErrorTip]="errorIdentifier" nzSpan="17">
+            <nz-input-group nzPrefixIcon="book">
+                <input nz-input formControlName="identifier" id="identifier" />
+            </nz-input-group>
+        </nz-form-control>
+        <ng-template #errorIdentifier let-control>
+            <ng-container *ngIf="control.hasError('required')">Please input a identifier</ng-container>
+        </ng-template>
+    </nz-form-item>
+    <nz-form-item>
+        <app-group-finder class="finder" (emitter)="setGroup($event)"></app-group-finder>
+    </nz-form-item>
+    <nz-form-item>
+        <app-language-finder
+            class="finder"
+            (emitter)="setLanguage($event)"
+            [valid]="showLanguageError()"
+        ></app-language-finder>
+    </nz-form-item>
+    <nz-form-item *ngIf="baseString.id">
+        <nz-form-label nzFor="active" nzRequired nzSpan="7">Active</nz-form-label>
+        <nz-form-control nzSpan="17">
+            <label nz-checkbox formControlName="active"></label>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nz-row class="register-area btn-right">
+        <button nz-button [nzType]="'primary'" [disabled]="!formGroup.valid || isLoading" (click)="send()">
+            <span *ngIf="!isLoading">{{ btnModal }}</span>
+            <span *ngIf="isLoading">
+                <em nz-icon nzType="loading"></em>
+                Loading
+            </span>
+        </button>
+        <button nz-button [nzType]="'default'" (click)="close()">Close</button>
+    </nz-form-item>
+</form>

@@ -7,9 +7,9 @@ import { GroupService } from '../../../core/services/group.service';
 import { User } from '../../../types/user';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../store/app.reducer';
-import { createMockGroup, Group, GroupDto } from '../../../types/group';
+import { Group, GroupDto } from '../../../types/group';
 import { FormGroupUtil } from '../../../shared/utils/form-group-util';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Permission } from '../../../types/permission';
 
 @Component({
@@ -87,13 +87,13 @@ export class ModalGroupComponent extends BaseComponent implements OnInit {
     }
 
     private create(): Observable<Group> {
-        const groupDto: GroupDto = {
+        const group: GroupDto = {
             name: this.formGroup.controls['name'].value,
             public: this.formGroup.controls['public'].value,
             owner: this.owner,
             permissions: this.group.permissions,
         };
-        return this.groupService.create(groupDto);
+        return this.groupService.create(group);
     }
 
     private update(): Observable<Group> {

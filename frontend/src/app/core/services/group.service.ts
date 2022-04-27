@@ -5,7 +5,6 @@ import { HttpClient } from '@angular/common/http';
 import { catchError, map, Observable, of } from 'rxjs';
 import { getDefaultHttpOptions } from './default-http-options';
 import { Group, GroupDto } from '../../types/group';
-import { Language } from '../../types/language';
 
 @Injectable({
     providedIn: 'root',

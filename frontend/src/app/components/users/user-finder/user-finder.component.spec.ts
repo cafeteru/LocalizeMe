@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UsersFinderComponent } from './users-finder.component';
+import { UserFinderComponent } from './user-finder.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { createAppStateMock } from '../../../store/mocks/create-app-state-mock';
@@ -9,15 +9,15 @@ import { SharedModule } from '../../../shared/shared.module';
 import { CoreModule } from '../../../core/core.module';
 
 describe('UsersFinderComponent', () => {
-    let component: UsersFinderComponent;
-    let fixture: ComponentFixture<UsersFinderComponent>;
+    let component: UserFinderComponent;
+    let fixture: ComponentFixture<UserFinderComponent>;
     let appState: AppState;
     let store: MockStore;
 
     beforeEach(async () => {
         appState = createAppStateMock();
         await TestBed.configureTestingModule({
-            declarations: [UsersFinderComponent],
+            declarations: [UserFinderComponent],
             imports: [SharedModule, CoreModule, HttpClientTestingModule],
             providers: [provideMockStore({ initialState: appState })],
         }).compileComponents();
@@ -25,7 +25,7 @@ describe('UsersFinderComponent', () => {
     });
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(UsersFinderComponent);
+        fixture = TestBed.createComponent(UserFinderComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

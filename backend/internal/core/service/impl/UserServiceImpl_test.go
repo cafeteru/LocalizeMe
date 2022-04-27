@@ -15,7 +15,7 @@ import (
 )
 
 var user domain.User
-var userRequest dto.UserDto
+var userDto dto.UserDto
 
 func TestUserServiceImpl_CreateGroupService(t *testing.T) {
 	service := CreateUserService()
@@ -36,7 +36,7 @@ func TestUserServiceImpl_Create_Successful(t *testing.T) {
 	repository.EXPECT().FindByEmail(gomock.Any()).Return(nil, nil)
 	repository.EXPECT().Create(gomock.Any()).Return(&oneResult, nil)
 	service := UserServiceImpl{repository, encrypt}
-	result, err := service.Create(userRequest)
+	result, err := service.Create(userDto)
 	assert.Nil(t, err)
 	assert.Equal(t, user.ID, result.ID)
 }
@@ -49,7 +49,7 @@ func TestUserServiceImpl_Create_Error_EmailRegister(t *testing.T) {
 	encrypt := encryptMock.NewMockEncrypt(mockCtrl)
 	repository.EXPECT().FindByEmail(gomock.Any()).Return(&user, nil)
 	service := UserServiceImpl{repository, encrypt}
-	_, err := service.Create(userRequest)
+	_, err := service.Create(userDto)
 	assert.NotNil(t, err)
 }
 
@@ -64,7 +64,7 @@ func TestUserServiceImpl_Create_ErrorRepository(t *testing.T) {
 	repository.EXPECT().FindByEmail(gomock.Any()).Return(nil, nil)
 	repository.EXPECT().Create(gomock.Any()).Return(nil, expectedError)
 	service := UserServiceImpl{repository, encrypt}
-	_, err := service.Create(userRequest)
+	_, err := service.Create(userDto)
 	assert.NotNil(t, err)
 }
 
@@ -74,24 +74,24 @@ func TestUserServiceImpl_Create_ErrorUserRequest_InvalidEmail(t *testing.T) {
 	defer mockCtrl.Finish()
 	repository := mock.NewMockUserRepository(mockCtrl)
 	encrypt := encryptMock.NewMockEncrypt(mockCtrl)
-	userRequest := dto.UserDto{
+	userDto := dto.UserDto{
 		Email:    "",
 		Password: "password",
 	}
 	service := UserServiceImpl{repository, encrypt}
-	_, err := service.Create(userRequest)
+	_, err := service.Create(userDto)
 	assert.NotNil(t, err)
 }
 
 func TestUserServiceImpl_Create_ErrorUserRequest_InvalidPassword(t *testing.T) {
 	initUserValues()
-	userRequest.Password = ""
+	userDto.Password = ""
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
 	repository := mock.NewMockUserRepository(mockCtrl)
 	encrypt := encryptMock.NewMockEncrypt(mockCtrl)
 	service := UserServiceImpl{repository, encrypt}
-	_, err := service.Create(userRequest)
+	_, err := service.Create(userDto)
 	assert.NotNil(t, err)
 }
 
@@ -105,7 +105,7 @@ func TestUserServiceImpl_Create_ErrorEncrypt(t *testing.T) {
 	repository.EXPECT().FindByEmail(gomock.Any()).Return(nil, nil)
 	encrypt.EXPECT().EncryptPassword(gomock.Any()).Return("", expectedError)
 	service := UserServiceImpl{repository, encrypt}
-	_, err := service.Create(userRequest)
+	_, err := service.Create(userDto)
 	assert.NotNil(t, err)
 }
 
@@ -306,7 +306,7 @@ func TestUserServiceImpl_Login_NotFound(t *testing.T) {
 	encrypt := encryptMock.NewMockEncrypt(mockCtrl)
 	repository.EXPECT().FindByEmail(gomock.Any()).Return(nil, errors.New(""))
 	service := UserServiceImpl{repository, encrypt}
-	_, err := service.Login(userRequest)
+	_, err := service.Login(userDto)
 	assert.NotNil(t, err)
 }
 
@@ -319,7 +319,7 @@ func TestUserServiceImpl_Login_ErrorPassword(t *testing.T) {
 	repository.EXPECT().FindByEmail(gomock.Any()).Return(&user, nil)
 	encrypt.EXPECT().CheckPassword(gomock.Any(), gomock.Any()).Return(false)
 	service := UserServiceImpl{repository, encrypt}
-	_, err := service.Login(userRequest)
+	_, err := service.Login(userDto)
 	assert.NotNil(t, err)
 }
 
@@ -332,7 +332,7 @@ func TestUserServiceImpl_Login_Successful(t *testing.T) {
 	repository.EXPECT().FindByEmail(gomock.Any()).Return(&user, nil)
 	encrypt.EXPECT().CheckPassword(gomock.Any(), gomock.Any()).Return(true)
 	service := UserServiceImpl{repository, encrypt}
-	_, err := service.Login(userRequest)
+	_, err := service.Login(userDto)
 	assert.Nil(t, err)
 }
 
@@ -489,7 +489,7 @@ func initUserValues() {
 		Admin:    true,
 		Active:   true,
 	}
-	userRequest = dto.UserDto{
+	userDto = dto.UserDto{
 		Email:    user.Email,
 		Password: user.Password,
 	}

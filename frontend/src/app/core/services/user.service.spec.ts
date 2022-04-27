@@ -5,7 +5,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { provideMockStore } from '@ngrx/store/testing';
 import { ResponseLogin } from '../../types/response-login';
 import { createAppStateMock } from '../../store/mocks/create-app-state-mock';
-import { createMockUser, LoginData } from '../../types/user';
+import { createMockUser, User } from '../../types/user';
 import { AppState } from '../../store/app.reducer';
 
 describe('UserService', () => {
@@ -32,9 +32,12 @@ describe('UserService', () => {
     });
 
     it('check login', () => {
-        const loginData: LoginData = {
+        const loginData: User = {
             email: 'username',
             password: 'password',
+            id: undefined,
+            admin: undefined,
+            active: true,
         };
         const token: ResponseLogin = {
             authorization:
@@ -52,9 +55,12 @@ describe('UserService', () => {
     });
 
     it('check login not active', () => {
-        const loginData: LoginData = {
+        const loginData: User = {
             email: 'username',
             password: 'password',
+            id: undefined,
+            admin: undefined,
+            active: false,
         };
         const token: ResponseLogin = {
             authorization:
@@ -86,9 +92,12 @@ describe('UserService', () => {
     });
 
     it('check register', () => {
-        const loginData: LoginData = {
+        const loginData: User = {
             email: 'username',
             password: 'password',
+            id: undefined,
+            admin: false,
+            active: true,
         };
         service.register(loginData).subscribe({
             error: (err) => fail(err),

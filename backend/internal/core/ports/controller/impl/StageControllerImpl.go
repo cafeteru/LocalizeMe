@@ -46,12 +46,12 @@ func (s StageControllerImpl) Create(w http.ResponseWriter, r *http.Request) {
 		utils.CreateErrorResponse(w, err, http.StatusUnprocessableEntity)
 		return
 	}
-	user, err := s.stageService.Create(request)
+	stage, err := s.stageService.Create(request)
 	if err != nil {
 		utils.CreateErrorResponse(w, err, http.StatusBadRequest)
 		return
 	}
-	utils.CreateResponse(w, http.StatusCreated, user)
+	utils.CreateResponse(w, http.StatusCreated, stage)
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 }
 

@@ -30,9 +30,9 @@
                 <em nz-icon nzType="group" nzTheme="outline"></em>
                 <a *ngIf="!isCollapsed" class="menu-item" [routerLink]="'/' + Urls.groups">Groups</a>
             </li>
-            <li nz-menu-item nzMatchRouter>
+            <li nz-menu-item nzMatchRouter *ngIf="isLogged">
                 <em nz-icon nzType="bars" nzTheme="outline"></em>
-                <a *ngIf="!isCollapsed" class="menu-item" routerLink="/strings">Strings</a>
+                <a *ngIf="!isCollapsed" class="menu-item" [routerLink]="'/' + Urls.baseStrings">Strings</a>
             </li>
         </ul>
     </nz-sider>

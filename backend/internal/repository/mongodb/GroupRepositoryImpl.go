@@ -17,7 +17,7 @@ type GroupRepositoryImpl struct {
 }
 
 func CreateGroupRepository() *GroupRepositoryImpl {
-	return &GroupRepositoryImpl{name: "groups"}
+	return &GroupRepositoryImpl{name: constants.Groups}
 }
 
 func (g *GroupRepositoryImpl) Create(group domain.Group) (*mongo.InsertOneResult, error) {

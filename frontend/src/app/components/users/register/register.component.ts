@@ -8,7 +8,7 @@ import { UserService } from '../../../core/services/user.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { switchMap } from 'rxjs';
 import { LoginComponent } from '../login/login.component';
-import { LoginData } from '../../../types/user';
+import { UserDto } from '../../../types/user';
 
 @Component({
     selector: 'app-register',
@@ -44,13 +44,13 @@ export class RegisterComponent extends BaseComponent implements OnInit {
     send(): void {
         if (FormGroupUtil.valid(this.formGroup)) {
             this.isLoading = true;
-            const loginData: LoginData = {
+            const user: UserDto = {
                 email: this.formGroup.controls['email'].value,
                 password: this.formGroup.controls['password'].value,
             };
             const subscription$ = this.userService
-                .register(loginData)
-                .pipe(switchMap(() => this.userService.login(loginData)))
+                .register(user)
+                .pipe(switchMap(() => this.userService.login(user)))
                 .subscribe({
                     next: () => {
                         this.isLoading = false;

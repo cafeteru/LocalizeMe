@@ -9,11 +9,11 @@ import { AppState } from '../../../store/app.reducer';
 import { map } from 'rxjs';
 
 @Component({
-    selector: 'app-users-finder',
-    templateUrl: './users-finder.component.html',
-    styleUrls: ['./users-finder.component.scss'],
+    selector: 'app-user-finder',
+    templateUrl: './user-finder.component.html',
+    styleUrls: ['./user-finder.component.scss'],
 })
-export class UsersFinderComponent extends BaseComponent implements OnInit {
+export class UserFinderComponent extends BaseComponent implements OnInit {
     currentPageUsers: readonly Permission[] = [];
     isLoading = false;
     options: string[] = [];
@@ -68,13 +68,13 @@ export class UsersFinderComponent extends BaseComponent implements OnInit {
     }
 
     searchUserByEmail(event: Event): void {
-        const value = (event.target as HTMLInputElement).value;
-        if (value) {
-            this.options = this.users
-                .map((userElement) => userElement.user.email)
-                .filter((email) => email.includes(value));
-        } else {
-            this.options = [];
+        const emails = this.users.map((userElement) => userElement.user.email);
+        this.options = emails;
+        if (event) {
+            const value = (event.target as HTMLInputElement).value;
+            if (value) {
+                this.options = emails.filter((email) => email.includes(value));
+            }
         }
     }
 
@@ -92,8 +92,8 @@ export class UsersFinderComponent extends BaseComponent implements OnInit {
         this.emitter.emit(this.selectedUsers);
     }
 
-    delete(user: Permission): void {
-        this.selectedUsers = this.selectedUsers.filter((userElement) => userElement != user);
+    delete(permission: Permission): void {
+        this.selectedUsers = this.selectedUsers.filter((userElement) => userElement != permission);
         this.emitter.emit(this.selectedUsers);
     }
 }
