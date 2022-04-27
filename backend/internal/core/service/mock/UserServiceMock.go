@@ -37,18 +37,18 @@ func (m *MockUserService) EXPECT() *MockUserServiceMockRecorder {
 }
 
 // Create mocks base method.
-func (m *MockUserService) Create(request dto.UserDto) (domain.User, error) {
+func (m *MockUserService) Create(user dto.UserDto) (domain.User, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Create", request)
+	ret := m.ctrl.Call(m, "Create", user)
 	ret0, _ := ret[0].(domain.User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Create indicates an expected call of Create.
-func (mr *MockUserServiceMockRecorder) Create(request interface{}) *gomock.Call {
+func (mr *MockUserServiceMockRecorder) Create(user interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockUserService)(nil).Create), request)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockUserService)(nil).Create), user)
 }
 
 // Delete mocks base method.
@@ -127,18 +127,18 @@ func (mr *MockUserServiceMockRecorder) FindById(id interface{}) *gomock.Call {
 }
 
 // Login mocks base method.
-func (m *MockUserService) Login(request dto.UserDto) (*dto.TokenDto, error) {
+func (m *MockUserService) Login(user dto.UserDto) (*dto.TokenDto, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Login", request)
+	ret := m.ctrl.Call(m, "Login", user)
 	ret0, _ := ret[0].(*dto.TokenDto)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Login indicates an expected call of Login.
-func (mr *MockUserServiceMockRecorder) Login(request interface{}) *gomock.Call {
+func (mr *MockUserServiceMockRecorder) Login(user interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Login", reflect.TypeOf((*MockUserService)(nil).Login), request)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Login", reflect.TypeOf((*MockUserService)(nil).Login), user)
 }
 
 // Update mocks base method.

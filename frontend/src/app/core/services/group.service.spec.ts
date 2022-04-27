@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { GroupService } from './group.service';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { createMockGroup, GroupDto } from '../../types/group';
+import { createMockGroup, Group } from '../../types/group';
 import { createMockUser } from '../../types/user';
 
 describe('GroupService', () => {
@@ -27,11 +27,13 @@ describe('GroupService', () => {
 
     it('check create', () => {
         const group = createMockGroup();
-        const groupDto: GroupDto = {
+        const groupDto: Group = {
             name: group.name,
             permissions: [],
             owner: createMockUser(),
             public: true,
+            active: true,
+            id: undefined,
         };
         service.create(groupDto).subscribe({
             error: (err) => fail(err),

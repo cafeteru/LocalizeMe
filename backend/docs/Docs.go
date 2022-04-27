@@ -123,3 +123,10 @@ type _ struct {
 	// type: string
 	Id string `json:"id"`
 }
+
+// swagger:parameters CreateBaseString
+type _ struct {
+	// in: body
+	// required: true
+	BaseString domain.BaseString
+}

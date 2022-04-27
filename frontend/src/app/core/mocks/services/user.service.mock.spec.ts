@@ -21,10 +21,7 @@ describe('UserServiceMock', () => {
     });
 
     it('check login', () => {
-        const observable$ = userServiceMock.login({
-            email: user.email,
-            password: user.password,
-        });
+        const observable$ = userServiceMock.login(user);
         observable$.subscribe((res) => expect(res).not.toBeUndefined());
     });
 
@@ -39,10 +36,7 @@ describe('UserServiceMock', () => {
     });
 
     it('check register', () => {
-        const observable$ = userServiceMock.register({
-            email: user.email,
-            password: user.password,
-        });
+        const observable$ = userServiceMock.register(user);
         observable$.subscribe((res) => expect(res).not.toBeUndefined());
     });
 });

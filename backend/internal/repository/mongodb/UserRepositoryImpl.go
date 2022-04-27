@@ -18,7 +18,7 @@ type UserRepositoryImpl struct {
 
 func CreateUserRepository() *UserRepositoryImpl {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
-	repository := &UserRepositoryImpl{name: "users"}
+	repository := &UserRepositoryImpl{name: constants.Users}
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return repository
 }

@@ -30,6 +30,11 @@ export const routes: Routes = [
         canActivate: [LoadTokenGuard, CheckTokenGuard, IsActiveGuard],
     },
     {
+        path: Urls.baseStrings,
+        loadChildren: () => import('./components/base-strings/base-strings.module').then((s) => s.BaseStringsModule),
+        canActivate: [LoadTokenGuard, CheckTokenGuard, IsActiveGuard],
+    },
+    {
         path: '**',
         redirectTo: Urls.menu,
     },

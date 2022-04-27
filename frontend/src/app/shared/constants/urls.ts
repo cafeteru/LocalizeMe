@@ -4,5 +4,6 @@ export const Urls = {
     menu: 'menu',
     root: '',
     stages: 'stages',
+    baseStrings: 'baseStrings',
     users: 'users',
 };

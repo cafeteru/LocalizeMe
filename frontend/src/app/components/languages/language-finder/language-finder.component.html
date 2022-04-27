@@ -1,0 +1,19 @@
+<h3>Languages:</h3>
+<nz-select
+    nzPlaceHolder="Select a language"
+    nzAllowClear
+    nzShowSearch
+    nzServerSearch
+    [(ngModel)]="selectedLanguageText"
+    (nzOnSearch)="searchGroupByName($event)"
+    (ngModelChange)="add()"
+>
+    <ng-container *ngFor="let option of options">
+        <nz-option *ngIf="!isLoading" [nzValue]="option" [nzLabel]="option"></nz-option>
+    </ng-container>
+    <nz-option *ngIf="isLoading" nzDisabled nzCustomContent>
+        <em nz-icon nzType="loading" class="loading-icon"></em>
+        Loading Data...
+    </nz-option>
+</nz-select>
+<mat-error *ngIf="!valid">Please enter a language</mat-error>

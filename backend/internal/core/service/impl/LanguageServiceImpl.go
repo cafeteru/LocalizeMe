@@ -62,8 +62,7 @@ func (l LanguageServiceImpl) Delete(id primitive.ObjectID) (bool, error) {
 	}
 	_, err = l.repository.Delete(id)
 	if err != nil {
-		log.Printf("%s: error", tools.GetCurrentFuncName())
-		return false, err
+		return false, tools.ErrorLogWithError(err, tools.GetCurrentFuncName())
 	}
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return true, nil
@@ -78,8 +77,7 @@ func (l LanguageServiceImpl) Disable(id primitive.ObjectID) (*domain.Language, e
 	language.Active = !language.Active
 	_, err = l.repository.Update(*language)
 	if err != nil {
-		log.Printf("%s: error", tools.GetCurrentFuncName())
-		return nil, err
+		return nil, tools.ErrorLogWithError(err, tools.GetCurrentFuncName())
 	}
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return language, nil
@@ -89,8 +87,7 @@ func (l LanguageServiceImpl) FindAll() (*[]domain.Language, error) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
 	languages, err := l.repository.FindAll()
 	if err != nil {
-		log.Printf("%s: error", tools.GetCurrentFuncName())
-		return nil, err
+		return nil, tools.ErrorLogWithError(err, tools.GetCurrentFuncName())
 	}
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return languages, nil
@@ -105,13 +102,12 @@ func (l LanguageServiceImpl) Update(language domain.Language) (*domain.Language,
 	if original.IsoCode != language.IsoCode {
 		_, errName, validName := l.checkUniqueIsoCode(language.IsoCode)
 		if !validName {
-			return nil, errName
+			return nil, tools.ErrorLogWithError(errName, tools.GetCurrentFuncName())
 		}
 	}
 	_, err = l.repository.Update(language)
 	if err != nil {
-		log.Printf("%s: error", tools.GetCurrentFuncName())
-		return nil, err
+		return nil, tools.ErrorLogWithError(err, tools.GetCurrentFuncName())
 	}
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return &language, nil

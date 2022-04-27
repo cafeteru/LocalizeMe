@@ -11,6 +11,11 @@ func ErrorLog(errorMessage string, functionName string) error {
 	return err
 }
 
+func ErrorLogWithError(err error, functionName string) error {
+	log.Printf("%s: %s", functionName, err)
+	return err
+}
+
 func ErrorLogDetails(original error, errorMessage string, functionName string) error {
 	err := errors.New(errorMessage)
 	log.Printf("%s: %s -> %s", functionName, err, original)

@@ -25,9 +25,12 @@ func CreateGroupService() *GroupServiceImpl {
 
 func (g GroupServiceImpl) Create(request dto.GroupDto) (domain.Group, error) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
-	findByName, errName, validName := g.checkUniqueName(request.Name)
-	if !validName {
-		return findByName, errName
+	if request.Name == "" {
+		return domain.Group{}, tools.ErrorLog(constants.NameGroupInvalid, tools.GetCurrentFuncName())
+	}
+	findByName, err := g.repository.FindByName(request.Name)
+	if findByName != nil || err != nil && err.Error() != constants.FindGroupByName {
+		return domain.Group{}, tools.ErrorLog(constants.GroupAlreadyRegister, tools.GetCurrentFuncName())
 	}
 	errPermissions := g.createPermissions(request.Permissions)
 	if errPermissions != nil {
@@ -82,8 +85,7 @@ func (g GroupServiceImpl) Disable(id primitive.ObjectID, user *domain.User) (*do
 	group.Active = !group.Active
 	_, err = g.repository.Update(*group)
 	if err != nil {
-		log.Printf("%s: error", tools.GetCurrentFuncName())
-		return nil, err
+		return nil, tools.ErrorLogWithError(err, tools.GetCurrentFuncName())
 	}
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return group, nil
@@ -93,8 +95,7 @@ func (g GroupServiceImpl) FindAll() (*[]domain.Group, error) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
 	groups, err := g.repository.FindAll()
 	if err != nil {
-		log.Printf("%s: error", tools.GetCurrentFuncName())
-		return nil, err
+		return nil, tools.ErrorLogWithError(err, tools.GetCurrentFuncName())
 	}
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return groups, nil
@@ -104,8 +105,7 @@ func (g GroupServiceImpl) FindByPermissions(email string) (*[]domain.Group, erro
 	log.Printf("%s: start", tools.GetCurrentFuncName())
 	groups, err := g.repository.FindByPermissions(email)
 	if err != nil {
-		log.Printf("%s: error", tools.GetCurrentFuncName())
-		return nil, err
+		return nil, tools.ErrorLogWithError(err, tools.GetCurrentFuncName())
 	}
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return groups, nil
@@ -122,10 +122,15 @@ func (g GroupServiceImpl) Update(group domain.Group, user *domain.User) (*domain
 		return nil, tools.ErrorLog(constants.FindGroupById, tools.GetCurrentFuncName())
 	}
 	if original.Name != group.Name {
-		_, errName, validName := g.checkUniqueName(group.Name)
-		if !validName {
-			log.Printf("%s: error", tools.GetCurrentFuncName())
-			return nil, errName
+		if group.Name == "" {
+			return nil, tools.ErrorLog(constants.NameGroupInvalid, tools.GetCurrentFuncName())
+		}
+		findByName, err := g.repository.FindByName(group.Name)
+		if findByName != nil {
+			return nil, tools.ErrorLog(constants.GroupAlreadyRegister, tools.GetCurrentFuncName())
+		}
+		if err != nil {
+			return nil, tools.ErrorLogWithError(err, tools.GetCurrentFuncName())
 		}
 	}
 	errPermission = g.createPermissions(group.Permissions)
@@ -134,8 +139,7 @@ func (g GroupServiceImpl) Update(group domain.Group, user *domain.User) (*domain
 	}
 	_, err = g.repository.Update(group)
 	if err != nil {
-		log.Printf("%s: error", tools.GetCurrentFuncName())
-		return nil, err
+		return nil, tools.ErrorLogWithError(err, tools.GetCurrentFuncName())
 	}
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return &group, nil
@@ -147,8 +151,7 @@ func (g GroupServiceImpl) createPermissions(request []domain.Permission) error {
 		email := permission.User.Email
 		_, err := g.userRepository.FindByEmail(email)
 		if err != nil {
-			log.Printf("%s: error", tools.GetCurrentFuncName())
-			return err
+			return tools.ErrorLogWithError(err, tools.GetCurrentFuncName())
 		}
 	}
 	log.Printf("%s: end", tools.GetCurrentFuncName())
@@ -167,17 +170,4 @@ func (g GroupServiceImpl) checkPermission(group domain.Group, user domain.User) 
 	}
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return tools.ErrorLog(constants.GroupNotHavePermissions, tools.GetCurrentFuncName())
-}
-
-func (g GroupServiceImpl) checkUniqueName(name string) (domain.Group, error, bool) {
-	log.Printf("%s: start", tools.GetCurrentFuncName())
-	if name == "" {
-		return domain.Group{}, tools.ErrorLog(constants.NameGroupInvalid, tools.GetCurrentFuncName()), false
-	}
-	findByName, _ := g.repository.FindByName(name)
-	if findByName != nil {
-		return domain.Group{}, tools.ErrorLog(constants.GroupAlreadyRegister, tools.GetCurrentFuncName()), false
-	}
-	log.Printf("%s: end", tools.GetCurrentFuncName())
-	return domain.Group{}, nil, true
 }

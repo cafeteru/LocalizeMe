@@ -263,7 +263,7 @@ func initLanguageValues() {
 	language = domain.Language{
 		ID:          objectID,
 		IsoCode:     "IsoCode",
-		Description: "Description",
+		Description: "Identifier",
 		Active:      true,
 	}
 	languageDto = dto.LanguageDto{

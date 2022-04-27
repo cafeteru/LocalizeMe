@@ -1,6 +1,6 @@
 module gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme
 
-go 1.18
+go 1.17
 
 require (
 	github.com/go-chi/chi v1.5.4
@@ -23,7 +23,7 @@ require (
 	github.com/goccy/go-json v0.9.7 // indirect
 	github.com/golang/snappy v0.0.4 // indirect
 	github.com/google/go-cmp v0.5.6 // indirect
-	github.com/klauspost/compress v1.15.1 // indirect
+	github.com/klauspost/compress v1.15.2 // indirect
 	github.com/lestrrat-go/backoff/v2 v2.0.8 // indirect
 	github.com/lestrrat-go/blackmagic v1.0.1 // indirect
 	github.com/lestrrat-go/httpcc v1.0.1 // indirect

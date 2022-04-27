@@ -9,7 +9,7 @@ import { UserReducer } from '../../store/reducers/user.reducer';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/app.reducer';
 import * as userActions from '../../store/actions/user.actions';
-import { createMockUser, LoginData, User } from '../../types/user';
+import { createMockUser, User, UserDto } from '../../types/user';
 import { getDefaultHttpOptions } from './default-http-options';
 import { Urls } from '../../shared/constants/urls';
 
@@ -40,8 +40,8 @@ export class UserService {
         return this.httpClient.get<User>(`${this.urlUsers}/me`, getDefaultHttpOptions());
     }
 
-    login(loginData: LoginData): Observable<User> {
-        return this.httpClient.post<ResponseLogin>(`${this.url}/login`, loginData).pipe(
+    login(userDto: UserDto): Observable<User> {
+        return this.httpClient.post<ResponseLogin>(`${this.url}/login`, userDto).pipe(
             map((responseLogin) => {
                 const iToken = jwt_decode<IToken>(responseLogin.authorization);
                 if (iToken.active) {
@@ -83,7 +83,7 @@ export class UserService {
         return this.httpClient.put<User>(`${this.urlUsers}/me`, user, getDefaultHttpOptions());
     }
 
-    register(loginData: LoginData): Observable<User> {
-        return this.httpClient.post<User>(this.urlUsers, loginData);
+    register(userDto: UserDto): Observable<User> {
+        return this.httpClient.post<User>(this.urlUsers, userDto);
     }
 }

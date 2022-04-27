@@ -17,7 +17,7 @@ type StageRepositoryImpl struct {
 }
 
 func CreateStageRepository() *StageRepositoryImpl {
-	return &StageRepositoryImpl{name: "stages"}
+	return &StageRepositoryImpl{name: constants.Stages}
 }
 
 func (s *StageRepositoryImpl) Create(stage domain.Stage) (*mongo.InsertOneResult, error) {

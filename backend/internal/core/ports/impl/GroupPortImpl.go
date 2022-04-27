@@ -3,6 +3,7 @@ package impl
 import (
 	"github.com/go-chi/chi"
 	"github.com/go-chi/jwtauth/v5"
+	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/constants"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/ports/controller"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/ports/controller/impl"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/ports/utils"
@@ -24,7 +25,7 @@ func CreateGroupPort() *GroupPortImpl {
 
 func (g GroupPortImpl) InitRoutes(r *chi.Mux) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
-	pattern := "/groups"
+	pattern := "/" + constants.Groups
 	tokenAuth := utils.ConfigJWTRoutes()
 	r.Group(func(r chi.Router) {
 		r.Use(jwtauth.Verifier(tokenAuth))

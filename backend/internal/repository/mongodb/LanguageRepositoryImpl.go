@@ -17,7 +17,7 @@ type LanguageRepositoryImpl struct {
 }
 
 func CreateLanguageRepository() *LanguageRepositoryImpl {
-	return &LanguageRepositoryImpl{name: "languages"}
+	return &LanguageRepositoryImpl{name: constants.Languages}
 }
 
 func (l *LanguageRepositoryImpl) Create(language domain.Language) (*mongo.InsertOneResult, error) {

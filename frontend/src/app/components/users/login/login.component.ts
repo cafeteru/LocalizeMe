@@ -5,6 +5,7 @@ import { UserService } from '../../../core/services/user.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { RegisterComponent } from '../register/register.component';
+import { UserDto } from '../../../types/user';
 
 @Component({
     selector: 'app-login',
@@ -38,27 +39,26 @@ export class LoginComponent extends BaseComponent implements OnInit {
 
     login(): void {
         this.isLoading = true;
-        const subscription$ = this.userService
-            .login({
-                email: this.formGroup.controls['email'].value,
-                password: this.formGroup.controls['password'].value,
-            })
-            .subscribe({
-                next: (user) => {
-                    this.isLoading = false;
-                    this.close();
-                    if (user.active) {
-                        this.createMessage('success', 'Successfully logged.');
-                    } else {
-                        this.userService.logout();
-                        this.createMessage('error', 'Session not started. User is not active.');
-                    }
-                },
-                error: () => {
-                    this.isLoading = false;
-                    this.createMessage('error', 'Session not started. Check the fields.');
-                },
-            });
+        const user: UserDto = {
+            email: this.formGroup.controls['email'].value,
+            password: this.formGroup.controls['password'].value,
+        };
+        const subscription$ = this.userService.login(user).subscribe({
+            next: (result) => {
+                this.isLoading = false;
+                this.close();
+                if (result.active) {
+                    this.createMessage('success', 'Successfully logged.');
+                } else {
+                    this.userService.logout();
+                    this.createMessage('error', 'Session not started. User is not active.');
+                }
+            },
+            error: () => {
+                this.isLoading = false;
+                this.createMessage('error', 'Session not started. Check the fields.');
+            },
+        });
         this.subscriptions$.push(subscription$);
     }
 

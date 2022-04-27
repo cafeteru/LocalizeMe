@@ -17,6 +17,54 @@
   "host": "localhost:8080",
   "basePath": "/",
   "paths": {
+    "/baseStrings": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "tags": [
+          "BaseStrings"
+        ],
+        "summary": "Create a new baseString.",
+        "operationId": "CreateBaseString",
+        "parameters": [
+          {
+            "name": "BaseString",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/BaseString"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "BaseString",
+            "schema": {
+              "$ref": "#/definitions/BaseString"
+            }
+          },
+          "400": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          },
+          "401": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          },
+          "422": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          }
+        }
+      }
+    },
     "/groups": {
       "get": {
         "tags": [
@@ -1051,18 +1099,25 @@
         "author": {
           "$ref": "#/definitions/User"
         },
-        "description": {
-          "type": "string",
-          "x-go-name": "Description"
-        },
         "group": {
           "$ref": "#/definitions/Group"
         },
         "id": {
           "$ref": "#/definitions/ObjectID"
         },
+        "identifier": {
+          "type": "string",
+          "x-go-name": "Identifier"
+        },
         "sourceLanguage": {
           "$ref": "#/definitions/Language"
+        },
+        "translations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Translation"
+          },
+          "x-go-name": "Translations"
         }
       },
       "x-go-package": "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain"
@@ -1236,9 +1291,6 @@
         "author": {
           "$ref": "#/definitions/User"
         },
-        "baseString": {
-          "$ref": "#/definitions/BaseString"
-        },
         "content": {
           "type": "string",
           "x-go-name": "Content"
@@ -1247,9 +1299,6 @@
           "type": "string",
           "format": "date-time",
           "x-go-name": "Date"
-        },
-        "id": {
-          "$ref": "#/definitions/ObjectID"
         },
         "language": {
           "$ref": "#/definitions/Language"

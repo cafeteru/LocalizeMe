@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { Stage, StageDto } from '../../types/stage';
 import { catchError, map, Observable, of } from 'rxjs';
 import { getDefaultHttpOptions } from './default-http-options';
 import { Urls } from '../../shared/constants/urls';

@@ -6,9 +6,11 @@ import { SharedModule } from '../../shared/shared.module';
 import { GroupRouting } from './group-routing';
 import { ModalGroupComponent } from './modal-group/modal-group.component';
 import { UsersModule } from '../users/users.module';
+import { GroupFinderComponent } from './group-finder/group-finder.component';
 
 @NgModule({
-    declarations: [GroupListComponent, ModalGroupComponent],
+    declarations: [GroupListComponent, ModalGroupComponent, GroupFinderComponent],
     imports: [CommonModule, CoreModule, SharedModule, GroupRouting, UsersModule],
+    exports: [GroupFinderComponent],
 })
 export class GroupsModule {}

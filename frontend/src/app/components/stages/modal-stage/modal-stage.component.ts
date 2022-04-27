@@ -74,10 +74,10 @@ export class ModalStageComponent extends BaseComponent implements OnInit {
     }
 
     private create(): Observable<Stage> {
-        const stageRequest: StageDto = {
+        const stageDto: StageDto = {
             name: this.formGroup.controls['name'].value,
         };
-        return this.stageService.create(stageRequest);
+        return this.stageService.create(stageDto);
     }
 
     private update(): Observable<Stage> {
