@@ -6,6 +6,15 @@ import { MatDialog } from '@angular/material/dialog';
 import { BaseStringService } from '../../../core/services/base-string.service';
 import { ModalBaseStringComponent } from '../modal-base-string/modal-base-string.component';
 import { BaseString } from '../../../types/base-string';
+import { Group } from '../../../types/group';
+import { ColumnHeader, sortDirections } from '../../../shared/components/utils/nz-table-utils';
+import {
+    sortBaseStringByActive,
+    sortBaseStringByAuthor,
+    sortBaseStringByGroup,
+    sortBaseStringByIdentifier,
+    sortBaseStringBySourceLanguage,
+} from '../../../shared/sorts/base-string-sorts';
 
 @Component({
     selector: 'app-base-string-list',
@@ -13,7 +22,44 @@ import { BaseString } from '../../../types/base-string';
     styleUrls: ['./base-string-list.component.scss'],
 })
 export class BaseStringListComponent extends BaseComponent implements OnInit {
+    currentPageBaseStrings: readonly BaseString[] = [];
     isLoading = false;
+    originalBaseStrings: BaseString[];
+    baseStrings: BaseString[];
+    filterText = '';
+
+    listOfColumns: ColumnHeader<BaseString>[] = [
+        {
+            name: 'Identifier',
+            sortOrder: null,
+            sortFn: sortBaseStringByIdentifier,
+            sortDirections,
+        },
+        {
+            name: 'Language',
+            sortOrder: null,
+            sortFn: sortBaseStringBySourceLanguage,
+            sortDirections,
+        },
+        {
+            name: 'Group',
+            sortOrder: null,
+            sortFn: sortBaseStringByGroup,
+            sortDirections,
+        },
+        {
+            name: 'Author',
+            sortOrder: null,
+            sortFn: sortBaseStringByAuthor,
+            sortDirections,
+        },
+        {
+            name: 'Active',
+            sortOrder: null,
+            sortFn: sortBaseStringByActive,
+            sortDirections,
+        },
+    ];
 
     constructor(
         private nzMessageService: NzMessageService,
@@ -26,17 +72,32 @@ export class BaseStringListComponent extends BaseComponent implements OnInit {
 
     ngOnInit(): void {
         super.ngOnInit();
+        this.loadBaseStrings();
+    }
+
+    filterStrings($event: string) {
+        this.baseStrings = this.originalBaseStrings.filter(
+            (baseString) =>
+                baseString.identifier.includes($event) ||
+                baseString.sourceLanguage.isoCode.includes($event) ||
+                baseString.group.name.includes($event) ||
+                baseString.author.email.includes($event)
+        );
     }
 
     loadBaseStrings(): void {
-        // this.languages = [];
-        // this.isLoading = true;
-        // const subscription$ = this.languageService.findAll().subscribe({
-        //     next: (languages) => (this.languages = languages),
-        //     error: () => (this.isLoading = false),
-        //     complete: () => (this.isLoading = false),
-        // });
-        // this.subscriptions$.push(subscription$);
+        this.originalBaseStrings = [];
+        this.baseStrings = [];
+        this.isLoading = true;
+        const subscription$ = this.baseStringService.findAll().subscribe({
+            next: (baseStrings) => {
+                this.originalBaseStrings = baseStrings;
+                this.baseStrings = baseStrings;
+            },
+            error: () => (this.isLoading = false),
+            complete: () => (this.isLoading = false),
+        });
+        this.subscriptions$.push(subscription$);
     }
 
     openModal(baseString?: BaseString): void {
@@ -56,9 +117,13 @@ export class BaseStringListComponent extends BaseComponent implements OnInit {
         });
         const subscription$ = dialogRef.afterClosed().subscribe((result: BaseString) => {
             if (result) {
-                // this.loadLanguages();
+                this.loadBaseStrings();
             }
         });
         this.subscriptions$.push(subscription$);
+    }
+
+    onCurrentPageDataChange($event: readonly BaseString[]): void {
+        this.currentPageBaseStrings = $event;
     }
 }

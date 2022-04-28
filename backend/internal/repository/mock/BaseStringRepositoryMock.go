@@ -51,6 +51,21 @@ func (mr *MockBaseStringRepositoryMockRecorder) Create(baseString interface{}) *
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockBaseStringRepository)(nil).Create), baseString)
 }
 
+// FindAll mocks base method.
+func (m *MockBaseStringRepository) FindAll() (*[]domain.BaseString, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "FindAll")
+	ret0, _ := ret[0].(*[]domain.BaseString)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// FindAll indicates an expected call of FindAll.
+func (mr *MockBaseStringRepositoryMockRecorder) FindAll() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindAll", reflect.TypeOf((*MockBaseStringRepository)(nil).FindAll))
+}
+
 // FindById mocks base method.
 func (m *MockBaseStringRepository) FindById(id primitive.ObjectID) (*domain.BaseString, error) {
 	m.ctrl.T.Helper()
@@ -79,4 +94,19 @@ func (m *MockBaseStringRepository) FindByIdentifier(name string) (*domain.BaseSt
 func (mr *MockBaseStringRepositoryMockRecorder) FindByIdentifier(name interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindByIdentifier", reflect.TypeOf((*MockBaseStringRepository)(nil).FindByIdentifier), name)
+}
+
+// FindByPermissions mocks base method.
+func (m *MockBaseStringRepository) FindByPermissions(email string) (*[]domain.BaseString, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "FindByPermissions", email)
+	ret0, _ := ret[0].(*[]domain.BaseString)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// FindByPermissions indicates an expected call of FindByPermissions.
+func (mr *MockBaseStringRepositoryMockRecorder) FindByPermissions(email interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindByPermissions", reflect.TypeOf((*MockBaseStringRepository)(nil).FindByPermissions), email)
 }

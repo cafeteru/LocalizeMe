@@ -32,6 +32,7 @@ func (b BaseStringPortImpl) InitRoutes(r *chi.Mux) {
 		r.Use(jwtauth.Authenticator)
 		r.Route(pattern, func(r chi.Router) {
 			r.Post("/", b.controller.Create)
+			r.Get("/", b.controller.FindAll)
 		})
 	})
 	log.Printf("%s: end", tools.GetCurrentFuncName())

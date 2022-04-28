@@ -58,6 +58,26 @@ func (b BaseStringServiceImpl) Create(request domain.BaseString) (domain.BaseStr
 	return baseString, nil
 }
 
+func (b BaseStringServiceImpl) FindAll() (*[]domain.BaseString, error) {
+	log.Printf("%s: start", tools.GetCurrentFuncName())
+	groups, err := b.repository.FindAll()
+	if err != nil {
+		return nil, tools.ErrorLogWithError(err, tools.GetCurrentFuncName())
+	}
+	log.Printf("%s: end", tools.GetCurrentFuncName())
+	return groups, nil
+}
+
+func (b BaseStringServiceImpl) FindByPermissions(email string) (*[]domain.BaseString, error) {
+	log.Printf("%s: start", tools.GetCurrentFuncName())
+	byPermissions, err := b.repository.FindByPermissions(email)
+	if err != nil {
+		return nil, tools.ErrorLogWithError(err, tools.GetCurrentFuncName())
+	}
+	log.Printf("%s: end", tools.GetCurrentFuncName())
+	return byPermissions, nil
+}
+
 func (b BaseStringServiceImpl) checkUniqueIdentifier(identifier string) error {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
 	if identifier == "" {

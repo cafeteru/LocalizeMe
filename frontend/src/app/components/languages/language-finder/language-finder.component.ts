@@ -24,7 +24,7 @@ export class LanguageFinderComponent extends BaseComponent implements OnInit {
         super.ngOnInit();
         this.isLoading = true;
         const subscription$ = this.languageService.findAll().subscribe({
-            next: (groups) => (this.languages = groups.filter((group) => group.active)),
+            next: (languages) => (this.languages = languages.filter((language) => language.active)),
             error: () => {
                 this.languages = [];
                 this.isLoading = false;
