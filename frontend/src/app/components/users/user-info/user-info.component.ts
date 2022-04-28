@@ -6,6 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { UpdateUserComponent } from '../update-user/update-user.component';
 import { createMockUser, User } from '../../../types/user';
 import { map } from 'rxjs';
+import { UserService } from '../../../core/services/user.service';
 
 @Component({
     selector: 'app-user-info',
@@ -15,7 +16,7 @@ import { map } from 'rxjs';
 export class UserInfoComponent extends BaseComponent implements OnInit {
     user: User = createMockUser();
 
-    constructor(private store: Store<AppState>, public dialog: MatDialog) {
+    constructor(private store: Store<AppState>, public dialog: MatDialog, private userService: UserService) {
         super();
     }
 
@@ -29,6 +30,7 @@ export class UserInfoComponent extends BaseComponent implements OnInit {
     }
 
     openUpdate(): void {
+        const originalUser = { ...this.user };
         const dialogRef = this.dialog.open(UpdateUserComponent, {
             minWidth: '550px',
             maxWidth: '75%',
@@ -40,6 +42,9 @@ export class UserInfoComponent extends BaseComponent implements OnInit {
         const subscription$ = dialogRef.afterClosed().subscribe((result: User) => {
             if (result) {
                 this.user = result;
+            }
+            if (originalUser.email != result.email) {
+                this.userService.logout();
             }
         });
         this.subscriptions$.push(subscription$);

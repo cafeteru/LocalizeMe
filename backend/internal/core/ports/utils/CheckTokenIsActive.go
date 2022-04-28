@@ -15,12 +15,19 @@ func CheckUserIsActive(w http.ResponseWriter, r *http.Request, u service.UserSer
 	_, tokenParts, _ := jwtauth.FromContext(r.Context())
 	value, exists := tokenParts["email"]
 	if !exists {
-		createUserNoActiveResponse(w)
+		err := errors.New(constants.InvalidToken)
+		CreateErrorResponse(w, err, http.StatusUnprocessableEntity)
 		return nil
 	}
 	user, err := u.FindByEmail(value.(string))
-	if err != nil || user == nil || !user.Active {
-		createUserNoActiveResponse(w)
+	if err != nil || user == nil {
+		err := errors.New(constants.FindUserByEmail)
+		CreateErrorResponse(w, err, http.StatusUnprocessableEntity)
+		return nil
+	}
+	if !user.Active {
+		err := errors.New(constants.UserNoActive)
+		CreateErrorResponse(w, err, http.StatusUnprocessableEntity)
 		return nil
 	}
 	return user
@@ -37,9 +44,4 @@ func CheckUserIsAdmin(w http.ResponseWriter, r *http.Request, u service.UserServ
 	err := errors.New(constants.UserNoAdmin)
 	CreateErrorResponse(w, err, http.StatusUnauthorized)
 	return nil
-}
-
-func createUserNoActiveResponse(w http.ResponseWriter) {
-	err := errors.New(constants.UserNoActive)
-	CreateErrorResponse(w, err, http.StatusUnprocessableEntity)
 }

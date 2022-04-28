@@ -129,7 +129,7 @@ func (g GroupServiceImpl) Update(group domain.Group, user *domain.User) (*domain
 		if findByName != nil {
 			return nil, tools.ErrorLog(constants.GroupAlreadyRegister, tools.GetCurrentFuncName())
 		}
-		if err != nil {
+		if err != nil && err.Error() != constants.FindGroupByName {
 			return nil, tools.ErrorLogWithError(err, tools.GetCurrentFuncName())
 		}
 	}

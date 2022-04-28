@@ -2,15 +2,142 @@
   "_id": {
     "$oid": "625d18cb147c4da4bfde0383"
   },
-  "name": "group",
+  "name": "private without permission",
   "owner": {
     "_id": {
       "$oid": "62212b92ab63141a684739f3"
     },
     "email": "admin@email.es",
+    "password": "",
     "admin": true,
     "active": true
   },
   "permissions": null,
-  "active": true
+  "active": true,
+  "Public": false
+},{
+  "_id": {
+    "$oid": "626ad789bcaeefbb94946d50"
+  },
+  "name": "public",
+  "owner": {
+    "_id": {
+      "$oid": "62212b92ab63141a684739f3"
+    },
+    "email": "admin@email.es",
+    "password": "",
+    "admin": true,
+    "active": true
+  },
+  "permissions": [
+    {
+      "user": {
+        "_id": {
+          "$oid": "62212b9cab63141a684739f5"
+        },
+        "email": "user@email.es",
+        "password": "",
+        "admin": false,
+        "active": true
+      },
+      "canWriteGroup": false
+    }
+  ],
+  "active": true,
+  "public": true,
+  "Public": true
+},{
+  "_id": {
+    "$oid": "626b069748e2b1c69cd01b21"
+  },
+  "name": "private with read permissions",
+  "owner": {
+    "_id": {
+      "$oid": "62212b92ab63141a684739f3"
+    },
+    "email": "admin@email.es",
+    "password": "",
+    "admin": true,
+    "active": true
+  },
+  "permissions": [
+    {
+      "user": {
+        "_id": {
+          "$oid": "62212b9cab63141a684739f5"
+        },
+        "email": "user@email.es",
+        "password": "",
+        "admin": false,
+        "active": true
+      },
+      "canWriteGroup": false
+    }
+  ],
+  "active": true,
+  "public": true
+},{
+  "_id": {
+    "$oid": "626b06a848e2b1c69cd01b29"
+  },
+  "name": "private with write permissions",
+  "owner": {
+    "_id": {
+      "$oid": "62212b92ab63141a684739f3"
+    },
+    "email": "admin@email.es",
+    "password": "",
+    "admin": true,
+    "active": true
+  },
+  "permissions": [
+    {
+      "user": {
+        "_id": {
+          "$oid": "62212b9cab63141a684739f5"
+        },
+        "email": "user@email.es",
+        "password": "",
+        "admin": false,
+        "active": true
+      },
+      "canWriteGroup": false
+    }
+  ],
+  "active": true,
+  "public": true
+},{
+  "_id": {
+    "$oid": "626b06c748e2b1c69cd01b33"
+  },
+  "name": "owner private",
+  "owner": {
+    "_id": {
+      "$oid": "62212b9cab63141a684739f5"
+    },
+    "email": "user@email.es",
+    "password": "",
+    "admin": false,
+    "active": true
+  },
+  "permissions": [],
+  "active": true,
+  "public": false
+},{
+  "_id": {
+    "$oid": "626b06cf48e2b1c69cd01b3a"
+  },
+  "name": "owner public",
+  "owner": {
+    "_id": {
+      "$oid": "62212b9cab63141a684739f5"
+    },
+    "email": "user@email.es",
+    "password": "",
+    "admin": false,
+    "active": true
+  },
+  "permissions": [],
+  "active": true,
+  "public": true
 }]
