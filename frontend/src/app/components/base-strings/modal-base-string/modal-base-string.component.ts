@@ -6,12 +6,13 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { BaseString } from '../../../types/base-string';
 import { BaseStringService } from '../../../core/services/base-string.service';
 import { FormGroupUtil } from '../../../shared/utils/form-group-util';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Language } from '../../../types/language';
 import { Group } from '../../../types/group';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../store/app.reducer';
 import { User } from '../../../types/user';
+import { Translation } from '../../../types/translation';
 
 @Component({
     selector: 'app-modal-base-string',
@@ -37,11 +38,13 @@ export class ModalBaseStringComponent extends BaseComponent implements OnInit {
 
     ngOnInit(): void {
         super.ngOnInit();
+        const translations = this.baseString.translations;
         this.formGroup = new FormGroup({
             identifier: new FormControl(this.baseString.identifier, Validators.required),
             active: new FormControl(this.baseString.active, Validators.required),
-            group: new FormControl(this.baseString.group, Validators.required),
+            group: new FormControl(this.baseString.group),
             sourceLanguage: new FormControl(this.baseString.sourceLanguage, Validators.required),
+            translations: new FormControl(translations ? translations : []),
         });
         const subscription$ = this.store
             .select('userInfo')
@@ -50,7 +53,7 @@ export class ModalBaseStringComponent extends BaseComponent implements OnInit {
     }
 
     get titleModal(): string {
-        return this.baseString.id ? 'Update string' : 'Create string';
+        return this.baseString.id ? 'Update baseString' : 'Create baseString';
     }
 
     get btnModal(): string {
@@ -64,8 +67,13 @@ export class ModalBaseStringComponent extends BaseComponent implements OnInit {
     setLanguage(sourceLanguage: Language) {
         this.formGroup.controls['sourceLanguage'].setValue(sourceLanguage);
     }
+
     showLanguageError(): boolean {
         return this.formGroup.controls['sourceLanguage'].valid;
+    }
+
+    setTranslations($event: Translation[]) {
+        this.formGroup.controls['translations'].setValue($event);
     }
 
     close(baseString?: BaseString): void {
@@ -101,25 +109,26 @@ export class ModalBaseStringComponent extends BaseComponent implements OnInit {
 
     private create(): Observable<BaseString> {
         const baseString: BaseString = {
-            identifier: this.formGroup.controls['identifier'].value,
             active: true,
-            group: this.formGroup.controls['group'].value,
-            sourceLanguage: this.formGroup.controls['sourceLanguage'].value,
             author: this.author,
+            group: this.formGroup.controls['group'].value,
             id: undefined,
-            translations: [],
+            identifier: this.formGroup.controls['identifier'].value,
+            sourceLanguage: this.formGroup.controls['sourceLanguage'].value,
+            translations: this.formGroup.controls['translations'].value,
         };
         return this.baseStringService.create(baseString);
     }
 
     private update(): Observable<BaseString> {
-        return of(undefined);
-        // this.baseString = {
-        //     ...this.baseString,
-        //     description: this.formGroup.controls['description'].value,
-        //     isoCode: this.formGroup.controls['isoCode'].value,
-        //     active: this.formGroup.controls['active'].value,
-        // };
-        // return this.baseStringService.update(this.language);
+        this.baseString = {
+            ...this.baseString,
+            active: this.formGroup.controls['active'].value,
+            group: this.formGroup.controls['group'].value,
+            identifier: this.formGroup.controls['identifier'].value,
+            sourceLanguage: this.formGroup.controls['sourceLanguage'].value,
+            translations: this.formGroup.controls['translations'].value,
+        };
+        return this.baseStringService.update(this.baseString);
     }
 }

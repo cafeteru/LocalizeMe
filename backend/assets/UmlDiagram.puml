@@ -2,10 +2,10 @@
 namespace domain {
     class BaseString << (S,Aquamarine) >> {
         + ID primitive.ObjectID
-        + SourceLanguage Language
+        + SourceLanguage *Language
         + Identifier string
-        + Group Group
-        + Author User
+        + Group *Group
+        + Author *User
         + Active bool
         + Translations []Translation
 
@@ -13,7 +13,7 @@ namespace domain {
     class Group << (S,Aquamarine) >> {
         + ID primitive.ObjectID
         + Name string
-        + Owner User
+        + Owner *User
         + Permissions []Permission
         + Active bool
         + Public bool
@@ -27,7 +27,7 @@ namespace domain {
 
     }
     class Permission << (S,Aquamarine) >> {
-        + User User
+        + User *User
         + CanWriteGroup bool
 
     }
@@ -39,12 +39,12 @@ namespace domain {
     }
     class Translation << (S,Aquamarine) >> {
         + Content string
-        + Language Language
+        + Language *Language
         + Version int
         + Active bool
-        + Author User
+        + Author *User
         + Date time.Time
-        + Stage Stage
+        + Stage *Stage
 
     }
     class User << (S,Aquamarine) >> {

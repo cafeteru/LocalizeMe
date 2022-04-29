@@ -37,6 +37,7 @@ const (
 	NameStageInvalid                    = "stage's name invalid"
 	ReadDatabase                        = "problems reading data from database"
 	StageAlreadyRegister                = "stage already registered"
+	UpdateBaseString                    = "updating baseString"
 	UpdateLanguage                      = "updating language"
 	UpdateStage                         = "updating stage"
 	UpdateUser                          = "updating user"

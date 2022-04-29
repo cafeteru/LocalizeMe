@@ -110,3 +110,18 @@ func (mr *MockBaseStringRepositoryMockRecorder) FindByPermissions(email interfac
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindByPermissions", reflect.TypeOf((*MockBaseStringRepository)(nil).FindByPermissions), email)
 }
+
+// Update mocks base method.
+func (m *MockBaseStringRepository) Update(baseString domain.BaseString) (*mongo.UpdateResult, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Update", baseString)
+	ret0, _ := ret[0].(*mongo.UpdateResult)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Update indicates an expected call of Update.
+func (mr *MockBaseStringRepositoryMockRecorder) Update(baseString interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Update", reflect.TypeOf((*MockBaseStringRepository)(nil).Update), baseString)
+}

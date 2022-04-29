@@ -14,14 +14,25 @@
         </ng-template>
     </nz-form-item>
     <nz-form-item>
-        <app-group-finder class="finder" (emitter)="setGroup($event)"></app-group-finder>
-    </nz-form-item>
-    <nz-form-item>
+        <app-group-finder
+            class="finder"
+            id="group-finder"
+            (emitter)="setGroup($event)"
+            [selectGroup]="formGroup.controls['group'].value"
+        ></app-group-finder>
         <app-language-finder
             class="finder"
             (emitter)="setLanguage($event)"
             [valid]="showLanguageError()"
+            [selectLanguage]="formGroup.controls['sourceLanguage'].value"
         ></app-language-finder>
+    </nz-form-item>
+    <nz-form-item *ngIf="formGroup.controls['sourceLanguage'].value">
+        <app-translation-list
+            id="list-translation"
+            [translations]="formGroup.controls['translations'].value"
+            (emitter)="setTranslations($event)"
+        ></app-translation-list>
     </nz-form-item>
     <nz-form-item *ngIf="baseString.id">
         <nz-form-label nzFor="active" nzRequired nzSpan="7">Active</nz-form-label>

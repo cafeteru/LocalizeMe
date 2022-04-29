@@ -54,6 +54,52 @@
           }
         }
       },
+      "put": {
+        "consumes": [
+          "application/json"
+        ],
+        "tags": [
+          "BaseStrings"
+        ],
+        "summary": "Update the information of a baseString.",
+        "operationId": "UpdateBaseString",
+        "parameters": [
+          {
+            "name": "BaseString",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/BaseString"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "BaseString",
+            "schema": {
+              "$ref": "#/definitions/BaseString"
+            }
+          },
+          "400": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          },
+          "401": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          },
+          "422": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          }
+        }
+      },
       "post": {
         "consumes": [
           "application/json"

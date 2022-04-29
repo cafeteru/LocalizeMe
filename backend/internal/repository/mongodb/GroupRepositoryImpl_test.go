@@ -54,7 +54,7 @@ func TestGroupRepositoryImpl_FindAll_Success(t *testing.T) {
 		group2 := domain.Group{
 			ID:          primitive.ObjectID{},
 			Name:        "group2",
-			Owner:       user,
+			Owner:       &user,
 			Permissions: []domain.Permission{},
 			Active:      true,
 		}
@@ -138,7 +138,7 @@ func createGroupMocks(t *testing.T) (*mtest.T, *GroupRepositoryImpl) {
 	group = domain.Group{
 		ID:          primitive.ObjectID{},
 		Name:        "group",
-		Owner:       user,
+		Owner:       &user,
 		Permissions: []domain.Permission{},
 		Active:      true,
 	}

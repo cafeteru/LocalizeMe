@@ -11,9 +11,10 @@ import { LanguageService } from '../../../core/services/language.service';
 export class LanguageFinderComponent extends BaseComponent implements OnInit {
     isLoading = false;
     options: string[] = [];
-    selectedLanguageText: string;
+    selectedText: string;
     languages: readonly Language[] = [];
-    @Input() valid: boolean;
+    @Input() valid = false;
+    @Input() selectLanguage: Language;
     @Output() emitter: EventEmitter<Language> = new EventEmitter<Language>();
 
     constructor(private languageService: LanguageService) {
@@ -23,6 +24,9 @@ export class LanguageFinderComponent extends BaseComponent implements OnInit {
     ngOnInit() {
         super.ngOnInit();
         this.isLoading = true;
+        if (this.selectLanguage) {
+            this.selectedText = this.getName(this.selectLanguage);
+        }
         const subscription$ = this.languageService.findAll().subscribe({
             next: (languages) => (this.languages = languages.filter((language) => language.active)),
             error: () => {
@@ -34,13 +38,25 @@ export class LanguageFinderComponent extends BaseComponent implements OnInit {
         this.subscriptions$.push(subscription$);
     }
 
+    getName(language: Language): string {
+        if (!language) {
+            return '';
+        }
+        return `${language.isoCode} - ${language.description}`;
+    }
+
     searchGroupByName(value: string): void {
-        const strings = this.languages.map((language) => `${language.isoCode} - ${language.description}`);
+        const strings = this.languages.map((language) => this.getName(language));
         this.options = value ? strings.filter((name) => name.includes(value)) : strings;
     }
 
     add(): void {
-        const language = this.languages.filter((value) => this.selectedLanguageText.includes(value.isoCode));
-        this.emitter.emit(language[0]);
+        if (this.selectedText) {
+            const languages = this.languages.filter((value) => this.selectedText.includes(value.isoCode));
+            this.selectLanguage = languages[0];
+            this.emitter.emit(this.selectLanguage);
+        } else {
+            this.emitter.emit(undefined);
+        }
     }
 }

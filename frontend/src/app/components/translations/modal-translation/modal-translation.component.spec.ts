@@ -1,32 +1,25 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ModalBaseStringComponent } from './modal-base-string.component';
-import { SharedModule } from '../../../shared/shared.module';
-import { CoreModule } from '../../../core/core.module';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { ModalTranslationComponent } from './modal-translation.component';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { matDialogRefMock } from '../../../core/mocks/mock-tests';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { provideMockStore } from '@ngrx/store/testing';
 import { createMockAppState } from '../../../store/mocks/create-mock-app-state';
-import { createMockBaseString } from '../../../types/base-string';
-import { GroupFinderComponent } from '../../groups/group-finder/group-finder.component';
+import { SharedModule } from '../../../shared/shared.module';
+import { CoreModule } from '../../../core/core.module';
+import { createMockBaseTranslation } from '../../../types/translation';
+import { StageFinderComponent } from '../../stages/stage-finder/stage-finder.component';
 import { LanguageFinderComponent } from '../../languages/language-finder/language-finder.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { TranslationListComponent } from '../../translations/translation-list/translation-list.component';
 
-describe('ModalBaseStringComponent', () => {
-    let component: ModalBaseStringComponent;
-    let fixture: ComponentFixture<ModalBaseStringComponent>;
-    let store: MockStore;
+describe('ModalTranslationComponent', () => {
+    let component: ModalTranslationComponent;
+    let fixture: ComponentFixture<ModalTranslationComponent>;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [
-                ModalBaseStringComponent,
-                GroupFinderComponent,
-                LanguageFinderComponent,
-                TranslationListComponent,
-            ],
+            declarations: [ModalTranslationComponent, StageFinderComponent, LanguageFinderComponent],
             imports: [SharedModule, CoreModule, HttpClientTestingModule, BrowserAnimationsModule],
             providers: [
                 {
@@ -35,16 +28,15 @@ describe('ModalBaseStringComponent', () => {
                 },
                 {
                     provide: MAT_DIALOG_DATA,
-                    useValue: createMockBaseString(),
+                    useValue: createMockBaseTranslation(),
                 },
                 provideMockStore({ initialState: createMockAppState() }),
             ],
         }).compileComponents();
-        store = TestBed.inject(MockStore);
     });
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(ModalBaseStringComponent);
+        fixture = TestBed.createComponent(ModalTranslationComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

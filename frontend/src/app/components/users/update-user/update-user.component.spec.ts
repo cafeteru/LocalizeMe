@@ -7,7 +7,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CoreModule } from '../../../core/core.module';
 import { SharedModule } from '../../../shared/shared.module';
 import { provideMockStore } from '@ngrx/store/testing';
-import { createAppStateMock } from '../../../store/mocks/create-app-state-mock';
+import { createMockAppState } from '../../../store/mocks/create-mock-app-state';
 
 describe('UpdateUserComponent', () => {
     let component: UpdateUserComponent;
@@ -28,7 +28,7 @@ describe('UpdateUserComponent', () => {
             declarations: [UpdateUserComponent],
             imports: [HttpClientTestingModule, CoreModule, SharedModule],
             providers: [
-                provideMockStore({ initialState: createAppStateMock() }),
+                provideMockStore({ initialState: createMockAppState() }),
                 {
                     provide: MatDialogRef,
                     useValue: matDialogRefMock,

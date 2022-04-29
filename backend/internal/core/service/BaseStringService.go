@@ -5,7 +5,8 @@ import (
 )
 
 type BaseStringService interface {
-	Create(request domain.BaseString) (domain.BaseString, error)
+	Create(request domain.BaseString, user *domain.User) (domain.BaseString, error)
 	FindAll() (*[]domain.BaseString, error)
 	FindByPermissions(email string) (*[]domain.BaseString, error)
+	Update(baseString domain.BaseString, user *domain.User) (*domain.BaseString, error)
 }

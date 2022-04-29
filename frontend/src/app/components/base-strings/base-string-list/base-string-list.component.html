@@ -60,25 +60,25 @@
         <tbody>
             <tr *ngFor="let baseString of baseStringTable.data">
                 <td>{{ baseString.identifier }}</td>
-                <td>{{ baseString.sourceLanguage.isoCode }}</td>
-                <td>{{ baseString.group.name }}</td>
-                <td>{{ baseString.author.email }}</td>
+                <td>{{ baseString.sourceLanguage?.isoCode }}</td>
+                <td>{{ baseString.group?.name }}</td>
+                <td>{{ baseString.author?.email }}</td>
                 <td>
                     <app-boolean-icon [value]="baseString.active"></app-boolean-icon>
                 </td>
-                <!--                <td>-->
-                <!--                    <button-->
-                <!--                        *ngIf="canEdit(group)"-->
-                <!--                        nzTooltipTitle="Update"-->
-                <!--                        nz-button-->
-                <!--                        nz-tooltip="Update stage"-->
-                <!--                        nzType="primary"-->
-                <!--                        nzShape="circle"-->
-                <!--                        (click)="openModal(group)"-->
-                <!--                    >-->
-                <!--                        <em nz-icon nzType="edit"></em>-->
-                <!--                    </button>-->
-                <!--                </td>-->
+                <td>
+                    <button
+                        *ngIf="canEdit(group)"
+                        nzTooltipTitle="Update"
+                        nz-button
+                        nz-tooltip="Update stage"
+                        nzType="primary"
+                        nzShape="circle"
+                        (click)="openModal(baseString)"
+                    >
+                        <em nz-icon nzType="edit"></em>
+                    </button>
+                </td>
                 <!--                <td>-->
                 <!--                    <button-->
                 <!--                        *ngIf="canEdit(group)"-->

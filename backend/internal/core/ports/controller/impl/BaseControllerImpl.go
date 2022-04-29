@@ -33,7 +33,8 @@ func CreateBaseStringController() *BaseStringControllerImpl {
 // - 422: ErrorDto
 func (b BaseStringControllerImpl) Create(w http.ResponseWriter, r *http.Request) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
-	if user := utils.CheckUserIsActive(w, r, b.userService); user == nil {
+	user := utils.CheckUserIsActive(w, r, b.userService)
+	if user == nil {
 		return
 	}
 	var baseString domain.BaseString
@@ -41,12 +42,12 @@ func (b BaseStringControllerImpl) Create(w http.ResponseWriter, r *http.Request)
 		utils.CreateErrorResponse(w, err, http.StatusUnprocessableEntity)
 		return
 	}
-	user, err := b.baseStringService.Create(baseString)
+	baseString, err := b.baseStringService.Create(baseString, user)
 	if err != nil {
 		utils.CreateErrorResponse(w, err, http.StatusBadRequest)
 		return
 	}
-	utils.CreateResponse(w, http.StatusCreated, user)
+	utils.CreateResponse(w, http.StatusCreated, baseString)
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 }
 
@@ -76,5 +77,36 @@ func (b BaseStringControllerImpl) FindAll(w http.ResponseWriter, r *http.Request
 		return
 	}
 	utils.CreateResponse(w, http.StatusOK, baseStrings)
+	log.Printf("%s: end", tools.GetCurrentFuncName())
+}
+
+// swagger:route PUT /baseStrings BaseStrings UpdateBaseString
+// Update the information of a baseString.
+//
+// Consumes:
+// - application/json
+//
+// Responses:
+// - 200: BaseString
+// - 400: ErrorDto
+// - 401: ErrorDto
+// - 422: ErrorDto
+func (b BaseStringControllerImpl) Update(w http.ResponseWriter, r *http.Request) {
+	log.Printf("%s: start", tools.GetCurrentFuncName())
+	user := utils.CheckUserIsActive(w, r, b.userService)
+	if user == nil {
+		return
+	}
+	var baseString domain.BaseString
+	if err := json.NewDecoder(r.Body).Decode(&baseString); err != nil {
+		utils.CreateErrorResponse(w, err, http.StatusUnprocessableEntity)
+		return
+	}
+	update, err := b.baseStringService.Update(baseString, user)
+	if err != nil {
+		utils.CreateErrorResponse(w, err, http.StatusBadRequest)
+		return
+	}
+	utils.CreateResponse(w, http.StatusCreated, update)
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 }

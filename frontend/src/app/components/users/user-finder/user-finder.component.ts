@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ColumnHeader, sortDirections } from '../../../shared/components/utils/nz-table-utils';
 import { UserService } from '../../../core/services/user.service';
 import { BaseComponent } from '../../../core/base/base.component';
@@ -36,11 +36,7 @@ export class UserFinderComponent extends BaseComponent implements OnInit {
     ];
     private email: string;
 
-    constructor(
-        private store: Store<AppState>,
-        private userService: UserService,
-        private changeDetector: ChangeDetectorRef
-    ) {
+    constructor(private store: Store<AppState>, private userService: UserService) {
         super();
     }
 
@@ -88,7 +84,6 @@ export class UserFinderComponent extends BaseComponent implements OnInit {
         this.selectedUsers = [...Array.from(deleteRepeatUsers)];
         this.options = [];
         this.inputValue = null;
-        this.changeDetector.detectChanges();
         this.emitter.emit(this.selectedUsers);
     }
 

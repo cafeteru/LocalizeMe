@@ -4,7 +4,7 @@ import { UserService } from './user.service';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { provideMockStore } from '@ngrx/store/testing';
 import { ResponseLogin } from '../../types/response-login';
-import { createAppStateMock } from '../../store/mocks/create-app-state-mock';
+import { createMockAppState } from '../../store/mocks/create-mock-app-state';
 import { createMockUser, User } from '../../types/user';
 import { AppState } from '../../store/app.reducer';
 
@@ -14,7 +14,7 @@ describe('UserService', () => {
     let appState: AppState;
 
     beforeEach(() => {
-        appState = createAppStateMock();
+        appState = createMockAppState();
         TestBed.configureTestingModule({
             imports: [HttpClientTestingModule],
             providers: [provideMockStore({ initialState: appState })],

@@ -8,11 +8,10 @@ import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { LoginComponent } from './components/users/login/login.component';
+import { createMockAppState } from './store/mocks/create-mock-app-state';
 
 describe('AppComponent', () => {
-    const appState: AppState = {
-        userInfo: user.initialState,
-    };
+    const appState = createMockAppState();
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({

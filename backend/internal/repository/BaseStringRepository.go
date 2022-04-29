@@ -12,4 +12,5 @@ type BaseStringRepository interface {
 	FindById(id primitive.ObjectID) (*domain.BaseString, error)
 	FindByIdentifier(name string) (*domain.BaseString, error)
 	FindByPermissions(email string) (*[]domain.BaseString, error)
+	Update(baseString domain.BaseString) (*mongo.UpdateResult, error)
 }

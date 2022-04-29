@@ -15,6 +15,10 @@ import {
     sortBaseStringByIdentifier,
     sortBaseStringBySourceLanguage,
 } from '../../../shared/sorts/base-string-sorts';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../../store/app.reducer';
+import { map } from 'rxjs';
+import { createMockUser, User } from '../../../types/user';
 
 @Component({
     selector: 'app-base-string-list',
@@ -27,6 +31,7 @@ export class BaseStringListComponent extends BaseComponent implements OnInit {
     originalBaseStrings: BaseString[];
     baseStrings: BaseString[];
     filterText = '';
+    user: User = createMockUser();
 
     listOfColumns: ColumnHeader<BaseString>[] = [
         {
@@ -65,6 +70,7 @@ export class BaseStringListComponent extends BaseComponent implements OnInit {
         private nzMessageService: NzMessageService,
         private nzModalService: NzModalService,
         private baseStringService: BaseStringService,
+        private store: Store<AppState>,
         public matDialog: MatDialog
     ) {
         super();
@@ -72,6 +78,11 @@ export class BaseStringListComponent extends BaseComponent implements OnInit {
 
     ngOnInit(): void {
         super.ngOnInit();
+        const subscription$ = this.store
+            .select('userInfo')
+            .pipe(map((userReducer) => userReducer.user))
+            .subscribe((user) => (this.user = user));
+        this.subscriptions$.push(subscription$);
         this.loadBaseStrings();
     }
 
@@ -125,5 +136,17 @@ export class BaseStringListComponent extends BaseComponent implements OnInit {
 
     onCurrentPageDataChange($event: readonly BaseString[]): void {
         this.currentPageBaseStrings = $event;
+    }
+
+    canEdit(baseString: BaseString): boolean {
+        if (this.user.admin || !baseString || baseString.group.public || baseString.group.owner.id === this.user.id) {
+            return true;
+        }
+        baseString.group.permissions.forEach((permission) => {
+            if (permission.user.id === this.user.id && permission.canWriteGroup) {
+                return true;
+            }
+        });
+        return false;
     }
 }
