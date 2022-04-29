@@ -6,7 +6,7 @@ import { CoreModule } from '../../../core/core.module';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { AppState } from '../../../store/app.reducer';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { createAppStateMock } from '../../../store/mocks/create-app-state-mock';
+import { createMockAppState } from '../../../store/mocks/create-mock-app-state';
 import { createMockUser } from '../../../types/user';
 import { of, throwError } from 'rxjs';
 import { UserService } from '../../../core/services/user.service';
@@ -25,7 +25,7 @@ describe('UserListComponent', () => {
     const userServiceMock = new UserServiceMock();
 
     beforeEach(async () => {
-        appState = createAppStateMock();
+        appState = createMockAppState();
         await TestBed.configureTestingModule({
             declarations: [UserListComponent],
             imports: [SharedModule, CoreModule, HttpClientTestingModule],

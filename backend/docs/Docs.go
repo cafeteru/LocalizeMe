@@ -124,7 +124,7 @@ type _ struct {
 	Id string `json:"id"`
 }
 
-// swagger:parameters CreateBaseString
+// swagger:parameters CreateBaseString UpdateBaseString
 type _ struct {
 	// in: body
 	// required: true

@@ -123,7 +123,7 @@ func (s StageControllerImpl) Disable(w http.ResponseWriter, r *http.Request) {
 // - 500: ErrorDto
 func (s StageControllerImpl) FindAll(w http.ResponseWriter, r *http.Request) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
-	if user := utils.CheckUserIsAdmin(w, r, s.userService); user == nil {
+	if user := utils.CheckUserIsActive(w, r, s.userService); user == nil {
 		return
 	}
 	stages, err := s.stageService.FindAll()

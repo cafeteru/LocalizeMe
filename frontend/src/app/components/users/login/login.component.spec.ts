@@ -7,7 +7,7 @@ import { CoreModule } from '../../../core/core.module';
 import { SharedModule } from '../../../shared/shared.module';
 import { MatDialogRef } from '@angular/material/dialog';
 import { matDialogRefMock } from '../../../core/mocks/mock-tests';
-import { createAppStateMock } from '../../../store/mocks/create-app-state-mock';
+import { createMockAppState } from '../../../store/mocks/create-mock-app-state';
 
 describe('LoginComponent', () => {
     let component: LoginComponent;
@@ -18,7 +18,7 @@ describe('LoginComponent', () => {
             declarations: [LoginComponent],
             imports: [HttpClientTestingModule, CoreModule, SharedModule],
             providers: [
-                provideMockStore({ initialState: createAppStateMock() }),
+                provideMockStore({ initialState: createMockAppState() }),
                 {
                     provide: MatDialogRef,
                     useValue: matDialogRefMock,

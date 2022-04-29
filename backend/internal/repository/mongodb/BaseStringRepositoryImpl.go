@@ -70,6 +70,7 @@ func (b *BaseStringRepositoryImpl) FindByPermissions(email string) (*[]domain.Ba
 	filter := bson.M{
 		"$or": []bson.M{
 			{"author.email": email},
+			{"group": nil},
 			{"group.public": true},
 			{"group.owner.email": email},
 			{"group.permissions.user.email": email},
@@ -127,4 +128,30 @@ func (b *BaseStringRepositoryImpl) FindByIdentifier(name string) (*domain.BaseSt
 	b.CloseConnection()
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return &baseString, nil
+}
+
+func (b *BaseStringRepositoryImpl) Update(baseString domain.BaseString) (*mongo.UpdateResult, error) {
+	log.Printf("%s: start", tools.GetCurrentFuncName())
+	collection, err := b.GetCollection(b.name)
+	if err != nil {
+		return nil, tools.ErrorLogDetails(err, constants.CreateConnection, tools.GetCurrentFuncName())
+	}
+	filter := bson.M{"_id": bson.M{"$eq": baseString.ID}}
+	update := bson.M{
+		"$set": bson.M{
+			"active":         baseString.Active,
+			"author":         baseString.Author,
+			"group":          baseString.Group,
+			"identifier":     baseString.Identifier,
+			"sourceLanguage": baseString.SourceLanguage,
+			"translations":   baseString.Translations,
+		},
+	}
+	result, err := collection.UpdateOne(context.TODO(), filter, update)
+	if err != nil {
+		return nil, tools.ErrorLogDetails(err, constants.UpdateBaseString, tools.GetCurrentFuncName())
+	}
+	b.CloseConnection()
+	log.Printf("%s: end", tools.GetCurrentFuncName())
+	return result, nil
 }

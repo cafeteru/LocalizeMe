@@ -7,7 +7,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { matDialogRefMock } from '../../../core/mocks/mock-tests';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { createAppStateMock } from '../../../store/mocks/create-app-state-mock';
+import { createMockAppState } from '../../../store/mocks/create-mock-app-state';
 import { createMockGroup } from '../../../types/group';
 import { UserFinderComponent } from '../../users/user-finder/user-finder.component';
 
@@ -29,7 +29,7 @@ describe('ModalGroupComponent', () => {
                     provide: MAT_DIALOG_DATA,
                     useValue: createMockGroup(),
                 },
-                provideMockStore({ initialState: createAppStateMock() }),
+                provideMockStore({ initialState: createMockAppState() }),
             ],
         }).compileComponents();
         store = TestBed.inject(MockStore);

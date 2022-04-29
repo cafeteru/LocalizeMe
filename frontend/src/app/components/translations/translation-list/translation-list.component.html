@@ -1,0 +1,74 @@
+<h3>
+    Translations:
+    <div class="btn-right">
+        <button
+            nz-button
+            nzType="primary"
+            nzSize="large"
+            nzShape="circle"
+            [nz-tooltip]="'Create a new translation'"
+            (click)="openModal()"
+        >
+            <em nz-icon nzType="file-add"></em>
+        </button>
+    </div>
+</h3>
+<nz-table
+    #translationTable
+    nzShowSizeChanger
+    nzShowPagination
+    nzShowQuickJumper
+    [nzData]="translations"
+    (nzCurrentPageDataChange)="onCurrentPageDataChange($event)"
+>
+    <thead>
+        <tr>
+            <th
+                *ngFor="let column of listOfColumns"
+                [nzSortOrder]="column.sortOrder"
+                [nzSortFn]="column.sortFn"
+                [nzSortDirections]="column.sortDirections"
+                [id]="column.name + '-column'"
+            >
+                {{ column.name }}
+            </th>
+            <th id="translation-list-edit-column"></th>
+            <!--            <th id="translation-list-disable-column"></th>-->
+            <th id="translation-list-delete-column"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let translation of translationTable.data">
+            <td>{{ translation.version }}</td>
+            <td>{{ translation.stage?.name }}</td>
+            <td>
+                <app-boolean-icon [value]="translation.active"></app-boolean-icon>
+            </td>
+            <td>
+                <button
+                    nzTooltipTitle="Update"
+                    nz-button
+                    nz-tooltip="Update translate"
+                    nzType="primary"
+                    nzShape="circle"
+                    (click)="openModal(translation)"
+                >
+                    <em nz-icon nzType="edit"></em>
+                </button>
+            </td>
+            <td>
+                <button
+                    nzTooltipTitle="Delete"
+                    nz-button
+                    nz-tooltip="Delete user"
+                    nzType="default"
+                    nzDanger
+                    nzShape="circle"
+                    (click)="showDeleteModal(translation)"
+                >
+                    <em nz-icon nzType="delete"></em>
+                </button>
+            </td>
+        </tr>
+    </tbody>
+</nz-table>

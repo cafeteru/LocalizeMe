@@ -53,10 +53,10 @@ func createBaseStringMocks(t *testing.T) (*mtest.T, *BaseStringRepositoryImpl) {
 	repository := CreateBaseStringRepository()
 	baseString = domain.BaseString{
 		ID:             primitive.ObjectID{},
-		SourceLanguage: language,
+		SourceLanguage: &language,
 		Identifier:     "description of string",
-		Group:          group,
-		Author:         user,
+		Group:          &group,
+		Author:         &user,
 		Active:         true,
 		Translations:   nil,
 	}

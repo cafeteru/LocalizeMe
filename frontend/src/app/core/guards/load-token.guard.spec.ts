@@ -4,7 +4,7 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { initialState } from '../../store/reducers/user.reducer';
 import { LoadTokenGuard } from './load-token.guard';
 import { AppState } from '../../store/app.reducer';
-import { createAppStateMock } from '../../store/mocks/create-app-state-mock';
+import { createMockAppState } from '../../store/mocks/create-mock-app-state';
 import { of } from 'rxjs';
 
 describe('LoadTokenGuard', () => {
@@ -13,7 +13,7 @@ describe('LoadTokenGuard', () => {
     let store: MockStore;
 
     beforeEach(() => {
-        appState = createAppStateMock();
+        appState = createMockAppState();
         TestBed.configureTestingModule({
             providers: [provideMockStore({ initialState })],
         });

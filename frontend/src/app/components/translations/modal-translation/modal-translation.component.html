@@ -1,0 +1,54 @@
+<header class="modal-header-material">
+    <h1 mat-dialog-title>{{ titleModal }}</h1>
+</header>
+<form [formGroup]="formGroup">
+    <nz-form-item>
+        <nz-form-label nzRequired nzFor="content" nzSpan="7">Content</nz-form-label>
+        <nz-form-control nzHasFeedback [nzErrorTip]="errorContent" nzSpan="17">
+            <nz-input-group nzPrefixIcon="book">
+                <input nz-input formControlName="content" id="content" />
+            </nz-input-group>
+        </nz-form-control>
+        <ng-template #errorContent let-control>
+            <ng-container *ngIf="control.hasError('required')">Please input a content</ng-container>
+        </ng-template>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-label nzRequired nzFor="version" nzSpan="7">Version</nz-form-label>
+        <nz-form-control [nzErrorTip]="errorVersion" nzSpan="17">
+            <nz-input-group nzPrefixIcon="number">
+                <input type="number" min="1" step="1" nz-input formControlName="version" id="version" />
+            </nz-input-group>
+        </nz-form-control>
+        <ng-template #errorVersion let-control>
+            <ng-container *ngIf="control.hasError('required')">Please input a version</ng-container>
+        </ng-template>
+    </nz-form-item>
+    <nz-form-item>
+        <app-stage-finder
+            class="finder"
+            id="stage-finder"
+            (emitter)="setStage($event)"
+            [valid]="showStageError()"
+            [selectedStage]="formGroup.controls['stage'].value"
+        ></app-stage-finder>
+        <app-language-finder
+            class="finder"
+            (emitter)="setLanguage($event)"
+            [valid]="showLanguageError()"
+            [selectLanguage]="formGroup.controls['language'].value"
+        ></app-language-finder>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-label nzFor="active" nzRequired nzSpan="7">Active</nz-form-label>
+        <nz-form-control nzSpan="17">
+            <label nz-checkbox formControlName="active"></label>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nz-row class="register-area btn-right">
+        <button nz-button [nzType]="'primary'" [disabled]="!formGroup.valid" (click)="send()">
+            <span>{{ btnModal }}</span>
+        </button>
+        <button nz-button [nzType]="'default'" (click)="close()">Close</button>
+    </nz-form-item>
+</form>

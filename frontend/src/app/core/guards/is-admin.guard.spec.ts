@@ -6,7 +6,7 @@ import { initialState } from '../../store/reducers/user.reducer';
 import { RouterTestingModule } from '@angular/router/testing';
 import { routes } from '../../app-routing';
 import { AppState } from '../../store/app.reducer';
-import { createAppStateMock } from '../../store/mocks/create-app-state-mock';
+import { createMockAppState } from '../../store/mocks/create-mock-app-state';
 
 describe('IsAdminGuard', () => {
     let guard: IsAdminGuard;
@@ -14,7 +14,7 @@ describe('IsAdminGuard', () => {
     let store: MockStore;
 
     beforeEach(() => {
-        appState = createAppStateMock();
+        appState = createMockAppState();
         TestBed.configureTestingModule({
             imports: [RouterTestingModule.withRoutes(routes)],
             providers: [provideMockStore({ initialState })],

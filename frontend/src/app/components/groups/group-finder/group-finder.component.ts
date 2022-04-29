@@ -1,6 +1,6 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { BaseComponent } from '../../../core/base/base.component';
-import { Group } from '../../../types/group';
+import { createMockGroup, Group } from '../../../types/group';
 import { GroupService } from '../../../core/services/group.service';
 
 @Component({
@@ -11,8 +11,9 @@ import { GroupService } from '../../../core/services/group.service';
 export class GroupFinderComponent extends BaseComponent implements OnInit {
     isLoading = false;
     options: string[] = [];
-    selectedGroupName: string;
+    selectedText: string;
     groups: readonly Group[] = [];
+    @Input() selectGroup: Group = createMockGroup();
     @Output() emitter: EventEmitter<Group> = new EventEmitter<Group>();
 
     constructor(private groupService: GroupService) {
@@ -22,6 +23,9 @@ export class GroupFinderComponent extends BaseComponent implements OnInit {
     ngOnInit() {
         super.ngOnInit();
         this.isLoading = true;
+        if (this.selectGroup) {
+            this.selectedText = this.selectGroup.name;
+        }
         const subscription$ = this.groupService.findAll().subscribe({
             next: (groups) => (this.groups = groups.filter((group) => group.active)),
             error: () => {
@@ -39,7 +43,12 @@ export class GroupFinderComponent extends BaseComponent implements OnInit {
     }
 
     add(): void {
-        const group = this.groups.filter((value) => value.name.includes(this.selectedGroupName));
-        this.emitter.emit(group[0]);
+        if (this.selectedText) {
+            const group = this.groups.filter((value) => value.name.includes(this.selectedText));
+            this.selectGroup = group[0];
+            this.emitter.emit(this.selectGroup);
+        } else {
+            this.emitter.emit(undefined);
+        }
     }
 }

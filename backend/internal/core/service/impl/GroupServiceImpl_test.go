@@ -86,7 +86,7 @@ func TestGroupServiceImpl_FindAll_Success(t *testing.T) {
 	language2 := domain.Group{
 		ID:          primitive.NewObjectID(),
 		Name:        "group2",
-		Owner:       domain.User{},
+		Owner:       nil,
 		Permissions: nil,
 		Active:      true,
 	}
@@ -116,13 +116,13 @@ func initGroupValues() {
 	group = domain.Group{
 		ID:          objectID,
 		Name:        "group",
-		Owner:       user,
+		Owner:       &user,
 		Permissions: []domain.Permission{},
 		Active:      true,
 	}
 	groupDto = dto.GroupDto{
 		Name:        group.Name,
-		Owner:       group.Owner,
+		Owner:       *group.Owner,
 		Permissions: group.Permissions,
 		Public:      group.Public,
 	}

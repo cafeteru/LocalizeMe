@@ -35,18 +35,18 @@ func (m *MockBaseStringService) EXPECT() *MockBaseStringServiceMockRecorder {
 }
 
 // Create mocks base method.
-func (m *MockBaseStringService) Create(request domain.BaseString) (domain.BaseString, error) {
+func (m *MockBaseStringService) Create(request domain.BaseString, user *domain.User) (domain.BaseString, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Create", request)
+	ret := m.ctrl.Call(m, "Create", request, user)
 	ret0, _ := ret[0].(domain.BaseString)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Create indicates an expected call of Create.
-func (mr *MockBaseStringServiceMockRecorder) Create(request interface{}) *gomock.Call {
+func (mr *MockBaseStringServiceMockRecorder) Create(request, user interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockBaseStringService)(nil).Create), request)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockBaseStringService)(nil).Create), request, user)
 }
 
 // FindAll mocks base method.
@@ -77,4 +77,19 @@ func (m *MockBaseStringService) FindByPermissions(email string) (*[]domain.BaseS
 func (mr *MockBaseStringServiceMockRecorder) FindByPermissions(email interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindByPermissions", reflect.TypeOf((*MockBaseStringService)(nil).FindByPermissions), email)
+}
+
+// Update mocks base method.
+func (m *MockBaseStringService) Update(baseString domain.BaseString, user *domain.User) (*domain.BaseString, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Update", baseString, user)
+	ret0, _ := ret[0].(*domain.BaseString)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Update indicates an expected call of Update.
+func (mr *MockBaseStringServiceMockRecorder) Update(baseString, user interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Update", reflect.TypeOf((*MockBaseStringService)(nil).Update), baseString, user)
 }

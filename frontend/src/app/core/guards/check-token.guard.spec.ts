@@ -4,7 +4,7 @@ import { CheckTokenGuard } from './check-token.guard';
 import { RouterTestingModule } from '@angular/router/testing';
 import { routes } from '../../app-routing';
 import { provideMockStore } from '@ngrx/store/testing';
-import { createAppStateMock } from '../../store/mocks/create-app-state-mock';
+import { createMockAppState } from '../../store/mocks/create-mock-app-state';
 
 describe('CheckTokenGuard', () => {
     let guard: CheckTokenGuard;
@@ -12,7 +12,7 @@ describe('CheckTokenGuard', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [RouterTestingModule.withRoutes(routes)],
-            providers: [provideMockStore({ initialState: createAppStateMock() })],
+            providers: [provideMockStore({ initialState: createMockAppState() })],
         });
         guard = TestBed.inject(CheckTokenGuard);
     });

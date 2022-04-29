@@ -23,4 +23,8 @@ export class BaseStringService {
             .get<BaseString[]>(this.url, getDefaultHttpOptions())
             .pipe(map((baseStrings) => (baseStrings ? baseStrings : [])));
     }
+
+    update(baseString: BaseString): Observable<BaseString> {
+        return this.httpClient.put<BaseString>(this.url, baseString, getDefaultHttpOptions());
+    }
 }

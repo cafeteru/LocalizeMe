@@ -38,7 +38,7 @@ func (g GroupServiceImpl) Create(request dto.GroupDto) (domain.Group, error) {
 	}
 	group := domain.Group{
 		Name:        request.Name,
-		Owner:       request.Owner,
+		Owner:       &request.Owner,
 		Active:      true,
 		Public:      request.Public,
 		Permissions: request.Permissions,

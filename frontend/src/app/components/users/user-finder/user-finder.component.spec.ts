@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UserFinderComponent } from './user-finder.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { createAppStateMock } from '../../../store/mocks/create-app-state-mock';
+import { createMockAppState } from '../../../store/mocks/create-mock-app-state';
 import { AppState } from '../../../store/app.reducer';
 import { SharedModule } from '../../../shared/shared.module';
 import { CoreModule } from '../../../core/core.module';
@@ -15,7 +15,7 @@ describe('UsersFinderComponent', () => {
     let store: MockStore;
 
     beforeEach(async () => {
-        appState = createAppStateMock();
+        appState = createMockAppState();
         await TestBed.configureTestingModule({
             declarations: [UserFinderComponent],
             imports: [SharedModule, CoreModule, HttpClientTestingModule],
