@@ -9,5 +9,6 @@ type GroupController interface {
 	Delete(w http.ResponseWriter, r *http.Request)
 	Disable(w http.ResponseWriter, r *http.Request)
 	FindAll(w http.ResponseWriter, r *http.Request)
+	FindCanWrite(w http.ResponseWriter, r *http.Request)
 	Update(w http.ResponseWriter, r *http.Request)
 }

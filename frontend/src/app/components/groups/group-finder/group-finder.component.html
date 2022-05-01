@@ -8,7 +8,7 @@
     (nzOnSearch)="searchGroupByName($event)"
     (ngModelChange)="add()"
 >
-    <nz-option [nzLabel]="selectGroup.name" [nzValue]="selectGroup.name" nzHide></nz-option>
+    <nz-option [nzLabel]="selectedText" [nzValue]="selectedText" nzHide></nz-option>
     <ng-container *ngFor="let option of options">
         <nz-option *ngIf="!isLoading" [nzValue]="option" [nzLabel]="option"></nz-option>
     </ng-container>

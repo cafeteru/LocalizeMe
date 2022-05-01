@@ -9,6 +9,7 @@ import (
 
 	gomock "github.com/golang/mock/gomock"
 	domain "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain"
+	primitive "go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 // MockBaseStringService is a mock of BaseStringService interface.
@@ -47,6 +48,21 @@ func (m *MockBaseStringService) Create(request domain.BaseString, user *domain.U
 func (mr *MockBaseStringServiceMockRecorder) Create(request, user interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockBaseStringService)(nil).Create), request, user)
+}
+
+// Disable mocks base method.
+func (m *MockBaseStringService) Disable(id primitive.ObjectID, user *domain.User) (*domain.BaseString, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Disable", id, user)
+	ret0, _ := ret[0].(*domain.BaseString)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Disable indicates an expected call of Disable.
+func (mr *MockBaseStringServiceMockRecorder) Disable(id, user interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Disable", reflect.TypeOf((*MockBaseStringService)(nil).Disable), id, user)
 }
 
 // FindAll mocks base method.

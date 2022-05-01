@@ -68,7 +68,7 @@
                 </td>
                 <td>
                     <button
-                        *ngIf="canEdit(group)"
+                        *ngIf="canEdit(baseString)"
                         nzTooltipTitle="Update"
                         nz-button
                         nz-tooltip="Update stage"
@@ -79,19 +79,19 @@
                         <em nz-icon nzType="edit"></em>
                     </button>
                 </td>
-                <!--                <td>-->
-                <!--                    <button-->
-                <!--                        *ngIf="canEdit(group)"-->
-                <!--                        nzTooltipTitle="Disable"-->
-                <!--                        nz-button-->
-                <!--                        nz-tooltip="Disable stage"-->
-                <!--                        nzType="default"-->
-                <!--                        nzShape="circle"-->
-                <!--                        (click)="disable(group)"-->
-                <!--                    >-->
-                <!--                        <em nz-icon nzType="disconnect"></em>-->
-                <!--                    </button>-->
-                <!--                </td>-->
+                <td>
+                    <button
+                        *ngIf="canEdit(baseString)"
+                        nzTooltipTitle="Disable"
+                        nz-button
+                        nz-tooltip="Disable baseString"
+                        nzType="default"
+                        nzShape="circle"
+                        (click)="disable(baseString)"
+                    >
+                        <em nz-icon nzType="disconnect"></em>
+                    </button>
+                </td>
                 <!--                <td>-->
                 <!--                    <button-->
                 <!--                        *ngIf="canDelete(group)"-->

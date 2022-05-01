@@ -144,6 +144,35 @@ func (g GroupControllerImpl) FindAll(w http.ResponseWriter, r *http.Request) {
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 }
 
+// swagger:route GET /groups Groups FindAllGroups
+// Return all groups.
+//
+// Responses:
+// - 200: []Group
+// - 400: ErrorDto
+// - 401: ErrorDto
+// - 500: ErrorDto
+func (g GroupControllerImpl) FindCanWrite(w http.ResponseWriter, r *http.Request) {
+	log.Printf("%s: start", tools.GetCurrentFuncName())
+	user := utils.CheckUserIsActive(w, r, g.userService)
+	if user == nil {
+		return
+	}
+	var groups *[]domain.Group
+	var err error
+	if user.Admin {
+		groups, err = g.groupService.FindAll()
+	} else {
+		groups, err = g.groupService.FindCanWrite(user.Email)
+	}
+	if err != nil {
+		utils.CreateErrorResponse(w, err, http.StatusInternalServerError)
+		return
+	}
+	utils.CreateResponse(w, http.StatusOK, groups)
+	log.Printf("%s: end", tools.GetCurrentFuncName())
+}
+
 // swagger:route PUT /groups Groups UpdateGroup
 // Update the information of a group.
 //

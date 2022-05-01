@@ -28,7 +28,7 @@ namespace domain {
     }
     class Permission << (S,Aquamarine) >> {
         + User *User
-        + CanWriteGroup bool
+        + CanWrite bool
 
     }
     class Stage << (S,Aquamarine) >> {

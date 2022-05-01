@@ -18,6 +18,10 @@ export class BaseStringService {
         return this.httpClient.post<BaseString>(this.url, baseString, getDefaultHttpOptions());
     }
 
+    disable(baseString: BaseString): Observable<BaseString> {
+        return this.httpClient.patch<BaseString>(`${this.url}/${baseString.id}`, baseString, getDefaultHttpOptions());
+    }
+
     findAll(): Observable<BaseString[]> {
         return this.httpClient
             .get<BaseString[]>(this.url, getDefaultHttpOptions())

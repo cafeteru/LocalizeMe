@@ -12,5 +12,6 @@ type GroupService interface {
 	Disable(id primitive.ObjectID, user *domain.User) (*domain.Group, error)
 	FindAll() (*[]domain.Group, error)
 	FindByPermissions(email string) (*[]domain.Group, error)
+	FindCanWrite(email string) (*[]domain.Group, error)
 	Update(group domain.Group, user *domain.User) (*domain.Group, error)
 }

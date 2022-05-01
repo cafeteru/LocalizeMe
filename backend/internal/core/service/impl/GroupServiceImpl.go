@@ -75,12 +75,12 @@ func (g GroupServiceImpl) Delete(id primitive.ObjectID, user *domain.User) (bool
 func (g GroupServiceImpl) Disable(id primitive.ObjectID, user *domain.User) (*domain.Group, error) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
 	group, err := g.repository.FindById(id)
-	if group == nil || err != nil {
-		return nil, tools.ErrorLog(constants.FindGroupById, tools.GetCurrentFuncName())
+	if err != nil {
+		return nil, tools.ErrorLogWithError(err, tools.GetCurrentFuncName())
 	}
 	errPermission := g.checkPermission(*group, *user)
 	if errPermission != nil {
-		return nil, tools.ErrorLog(constants.GroupNotHavePermissions, tools.GetCurrentFuncName())
+		return nil, tools.ErrorLogWithError(err, tools.GetCurrentFuncName())
 	}
 	group.Active = !group.Active
 	_, err = g.repository.Update(*group)
@@ -104,6 +104,16 @@ func (g GroupServiceImpl) FindAll() (*[]domain.Group, error) {
 func (g GroupServiceImpl) FindByPermissions(email string) (*[]domain.Group, error) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
 	groups, err := g.repository.FindByPermissions(email)
+	if err != nil {
+		return nil, tools.ErrorLogWithError(err, tools.GetCurrentFuncName())
+	}
+	log.Printf("%s: end", tools.GetCurrentFuncName())
+	return groups, nil
+}
+
+func (g GroupServiceImpl) FindCanWrite(email string) (*[]domain.Group, error) {
+	log.Printf("%s: start", tools.GetCurrentFuncName())
+	groups, err := g.repository.FindCanWrite(email)
 	if err != nil {
 		return nil, tools.ErrorLogWithError(err, tools.GetCurrentFuncName())
 	}
@@ -164,7 +174,7 @@ func (g GroupServiceImpl) checkPermission(group domain.Group, user domain.User) 
 		return nil
 	}
 	for _, permission := range group.Permissions {
-		if permission.User.ID == user.ID && permission.CanWriteGroup {
+		if permission.User.ID == user.ID && permission.CanWrite {
 			return nil
 		}
 	}

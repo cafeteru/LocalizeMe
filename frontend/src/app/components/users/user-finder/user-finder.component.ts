@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ColumnHeader, sortDirections } from '../../../shared/components/utils/nz-table-utils';
 import { UserService } from '../../../core/services/user.service';
 import { BaseComponent } from '../../../core/base/base.component';
@@ -17,8 +17,8 @@ export class UserFinderComponent extends BaseComponent implements OnInit {
     currentPageUsers: readonly Permission[] = [];
     isLoading = false;
     options: string[] = [];
-    selectedUsers: Permission[] = [];
-    users: readonly Permission[] = [];
+    @Input() selectedPermissions: Permission[] = [];
+    permissions: readonly Permission[] = [];
     inputValue: string;
 
     @Output() emitter: EventEmitter<Permission[]> = new EventEmitter<Permission[]>();
@@ -49,14 +49,13 @@ export class UserFinderComponent extends BaseComponent implements OnInit {
         this.subscriptions$.push(userSubscription$);
         const subscription$ = this.userService.findAll().subscribe({
             next: (users) =>
-                (this.users = users
+                (this.permissions = users
                     .filter((user) => user.active)
                     .filter((user) => user.email !== this.email)
                     .map((user) => {
                         return {
                             user: user,
-                            canWriteGroup: false,
-                            id: undefined,
+                            canWrite: false,
                         };
                     })),
         });
@@ -64,7 +63,7 @@ export class UserFinderComponent extends BaseComponent implements OnInit {
     }
 
     searchUserByEmail(event: Event): void {
-        const emails = this.users.map((userElement) => userElement.user.email);
+        const emails = this.permissions.map((permission) => permission.user.email);
         this.options = emails;
         if (event) {
             const value = (event.target as HTMLInputElement).value;
@@ -79,16 +78,21 @@ export class UserFinderComponent extends BaseComponent implements OnInit {
     }
 
     add(email: string): void {
-        const searchedUser = this.users.filter((userElement) => userElement.user.email.includes(email));
-        const deleteRepeatUsers = new Set([...this.selectedUsers, ...searchedUser]);
-        this.selectedUsers = [...Array.from(deleteRepeatUsers)];
+        const searchedUser = this.permissions.filter((userElement) => userElement.user.email.includes(email));
+        const deleteRepeatUsers = new Set([...this.selectedPermissions, ...searchedUser]);
+        this.selectedPermissions = [...Array.from(deleteRepeatUsers)];
         this.options = [];
         this.inputValue = null;
-        this.emitter.emit(this.selectedUsers);
+        this.emitter.emit(this.selectedPermissions);
+    }
+
+    updateCanWrite(permission: Permission) {
+        permission.canWrite = !permission.canWrite;
+        this.emitter.emit(this.selectedPermissions);
     }
 
     delete(permission: Permission): void {
-        this.selectedUsers = this.selectedUsers.filter((userElement) => userElement != permission);
-        this.emitter.emit(this.selectedUsers);
+        this.selectedPermissions = this.selectedPermissions.filter((userElement) => userElement != permission);
+        this.emitter.emit(this.selectedPermissions);
     }
 }

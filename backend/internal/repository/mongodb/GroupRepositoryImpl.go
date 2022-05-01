@@ -144,6 +144,42 @@ func (g *GroupRepositoryImpl) FindByName(name string) (*domain.Group, error) {
 	return &group, nil
 }
 
+func (g *GroupRepositoryImpl) FindCanWrite(email string) (*[]domain.Group, error) {
+	log.Printf("%s: start", tools.GetCurrentFuncName())
+	collection, err := g.GetCollection(g.name)
+	if err != nil {
+		return nil, tools.ErrorLogDetails(err, constants.CreateConnection, tools.GetCurrentFuncName())
+	}
+	filter := bson.M{
+		"$or": []bson.M{
+			{"public": true},
+			{"owner.email": email},
+			{"$and": []bson.M{
+				{"permissions.user.email": email},
+				{"permissions.canWrite": true},
+			}},
+		},
+	}
+	var groups []domain.Group
+	cursor, _ := collection.Find(context.TODO(), filter)
+	for cursor.Next(context.TODO()) {
+		var group domain.Group
+		if err := cursor.Decode(&group); err != nil {
+			return nil, tools.ErrorLogDetails(err, constants.ReadDatabase, tools.GetCurrentFuncName())
+		}
+		groups = append(groups, group)
+	}
+	if err := cursor.Err(); err != nil {
+		return nil, tools.ErrorLogDetails(err, constants.ReadDatabase, tools.GetCurrentFuncName())
+	}
+	if err := cursor.Close(context.TODO()); err != nil {
+		return nil, tools.ErrorLogDetails(err, constants.ReadDatabase, tools.GetCurrentFuncName())
+	}
+	g.CloseConnection()
+	log.Printf("%s: end", tools.GetCurrentFuncName())
+	return &groups, nil
+}
+
 func (g *GroupRepositoryImpl) Update(group domain.Group) (*mongo.UpdateResult, error) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
 	collection, err := g.GetCollection(g.name)

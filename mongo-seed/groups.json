@@ -40,7 +40,7 @@
         "admin": false,
         "active": true
       },
-      "canWriteGroup": false
+      "canWrite": false
     }
   ],
   "active": true,
@@ -71,7 +71,7 @@
         "admin": false,
         "active": true
       },
-      "canWriteGroup": false
+      "canWrite": false
     }
   ],
   "active": true,
@@ -101,11 +101,12 @@
         "admin": false,
         "active": true
       },
-      "canWriteGroup": false
+      "canWrite": true
     }
   ],
   "active": true,
-  "public": true
+  "public": true,
+  "Public": true
 },{
   "_id": {
     "$oid": "626b06c748e2b1c69cd01b33"
