@@ -35,6 +35,22 @@ func (b *BaseStringRepositoryImpl) Create(group domain.BaseString) (*mongo.Inser
 	return result, nil
 }
 
+func (b *BaseStringRepositoryImpl) Delete(id primitive.ObjectID) (*mongo.DeleteResult, error) {
+	log.Printf("%s: start", tools.GetCurrentFuncName())
+	collection, err := b.GetCollection(b.name)
+	if err != nil {
+		return nil, tools.ErrorLogDetails(err, constants.CreateConnection, tools.GetCurrentFuncName())
+	}
+	filter := bson.M{"_id": bson.M{"$eq": id}}
+	result, err := collection.DeleteOne(context.TODO(), filter)
+	if err != nil {
+		return nil, tools.ErrorLogDetails(err, constants.DeleteBaseString, tools.GetCurrentFuncName())
+	}
+	b.CloseConnection()
+	log.Printf("%s: end", tools.GetCurrentFuncName())
+	return result, nil
+}
+
 func (b *BaseStringRepositoryImpl) FindAll() (*[]domain.BaseString, error) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
 	collection, err := b.GetCollection(b.name)

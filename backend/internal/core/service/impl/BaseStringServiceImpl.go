@@ -62,6 +62,24 @@ func (b BaseStringServiceImpl) Create(request domain.BaseString, user *domain.Us
 	return baseString, nil
 }
 
+func (b BaseStringServiceImpl) Delete(id primitive.ObjectID, user *domain.User) (bool, error) {
+	log.Printf("%s: start", tools.GetCurrentFuncName())
+	baseString, err := b.repository.FindById(id)
+	if err != nil {
+		return false, tools.ErrorLogWithError(err, tools.GetCurrentFuncName())
+	}
+	if !user.Admin && baseString.Group.Owner.ID != user.ID {
+		return false, tools.ErrorLog(constants.GroupNotHavePermissions, tools.GetCurrentFuncName())
+	}
+	_, err = b.repository.Delete(id)
+	if err != nil {
+		log.Printf("%s: error", tools.GetCurrentFuncName())
+		return false, err
+	}
+	log.Printf("%s: end", tools.GetCurrentFuncName())
+	return true, nil
+}
+
 func (b BaseStringServiceImpl) Disable(id primitive.ObjectID, user *domain.User) (*domain.BaseString, error) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
 	baseString, err := b.repository.FindById(id)

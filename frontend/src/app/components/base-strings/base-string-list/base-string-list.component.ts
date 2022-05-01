@@ -154,4 +154,32 @@ export class BaseStringListComponent extends BaseComponent implements OnInit {
         });
         this.subscriptions$.push(subscription$);
     }
+
+    canDelete(baseString: BaseString): boolean {
+        return this.user.admin || baseString.group.owner.id === this.user.id;
+    }
+
+    showDeleteModal(baseString: BaseString): void {
+        this.nzModalService.confirm({
+            nzTitle: 'Are you sure delete this string?',
+            nzOkText: 'Yes',
+            nzOkType: 'primary',
+            nzOkDanger: true,
+            nzOnOk: () => this.delete(baseString),
+            nzCancelText: 'No',
+            nzAutofocus: 'cancel',
+        });
+    }
+
+    private delete(baseString: BaseString): void {
+        const subscription$ = this.baseStringService.delete(baseString).subscribe((result) => {
+            if (result) {
+                this.loadBaseStrings();
+                this.nzMessageService.create('success', `${baseString.identifier} has been deleted`);
+            } else {
+                this.nzMessageService.create('error', 'Error deleting');
+            }
+        });
+        this.subscriptions$.push(subscription$);
+    }
 }

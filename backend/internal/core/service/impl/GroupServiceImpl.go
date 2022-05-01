@@ -57,8 +57,8 @@ func (g GroupServiceImpl) Create(request dto.GroupDto) (domain.Group, error) {
 func (g GroupServiceImpl) Delete(id primitive.ObjectID, user *domain.User) (bool, error) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
 	group, err := g.repository.FindById(id)
-	if group == nil || err != nil {
-		return false, tools.ErrorLog(constants.FindGroupById, tools.GetCurrentFuncName())
+	if err != nil {
+		return false, tools.ErrorLogWithError(err, tools.GetCurrentFuncName())
 	}
 	if !user.Admin && group.Owner.ID != user.ID {
 		return false, tools.ErrorLog(constants.GroupNotHavePermissions, tools.GetCurrentFuncName())

@@ -51,6 +51,21 @@ func (mr *MockBaseStringRepositoryMockRecorder) Create(baseString interface{}) *
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockBaseStringRepository)(nil).Create), baseString)
 }
 
+// Delete mocks base method.
+func (m *MockBaseStringRepository) Delete(id primitive.ObjectID) (*mongo.DeleteResult, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Delete", id)
+	ret0, _ := ret[0].(*mongo.DeleteResult)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Delete indicates an expected call of Delete.
+func (mr *MockBaseStringRepositoryMockRecorder) Delete(id interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delete", reflect.TypeOf((*MockBaseStringRepository)(nil).Delete), id)
+}
+
 // FindAll mocks base method.
 func (m *MockBaseStringRepository) FindAll() (*[]domain.BaseString, error) {
 	m.ctrl.T.Helper()

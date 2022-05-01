@@ -56,7 +56,7 @@ func (g GroupControllerImpl) Create(w http.ResponseWriter, r *http.Request) {
 }
 
 // swagger:route DELETE /groups/{id} Groups DeleteGroup
-// Return a group by id.
+// Delete a group by id.
 //
 // Responses:
 // - 200: bool

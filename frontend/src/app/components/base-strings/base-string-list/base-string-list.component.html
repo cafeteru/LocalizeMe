@@ -92,20 +92,20 @@
                         <em nz-icon nzType="disconnect"></em>
                     </button>
                 </td>
-                <!--                <td>-->
-                <!--                    <button-->
-                <!--                        *ngIf="canDelete(group)"-->
-                <!--                        nzTooltipTitle="Delete"-->
-                <!--                        nz-button-->
-                <!--                        nz-tooltip="Delete stage"-->
-                <!--                        nzType="default"-->
-                <!--                        nzDanger-->
-                <!--                        nzShape="circle"-->
-                <!--                        (click)="showDeleteModal(group)"-->
-                <!--                    >-->
-                <!--                        <em nz-icon nzType="delete"></em>-->
-                <!--                    </button>-->
-                <!--                </td>-->
+                <td>
+                    <button
+                        *ngIf="canDelete(baseString)"
+                        nzTooltipTitle="Delete"
+                        nz-button
+                        nz-tooltip="Delete baseString"
+                        nzType="default"
+                        nzDanger
+                        nzShape="circle"
+                        (click)="showDeleteModal(baseString)"
+                    >
+                        <em nz-icon nzType="delete"></em>
+                    </button>
+                </td>
             </tr>
         </tbody>
     </nz-table>
