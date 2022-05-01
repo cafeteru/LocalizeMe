@@ -55,6 +55,36 @@ func (b BaseStringControllerImpl) Create(w http.ResponseWriter, r *http.Request)
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 }
 
+// swagger:route DELETE /baseStrings/{id} BaseStrings DeleteBaseString
+// Delete a baseString by id.
+//
+// Responses:
+// - 200: bool
+// - 400: ErrorDto
+// - 401: ErrorDto
+// - 403: ErrorDto
+func (b BaseStringControllerImpl) Delete(w http.ResponseWriter, r *http.Request) {
+	log.Printf("%s: start", tools.GetCurrentFuncName())
+	user := utils.CheckUserIsActive(w, r, b.userService)
+	if user == nil {
+		return
+	}
+	id := chi.URLParam(r, "id")
+	if id == "" {
+		err := errors.New(constants.IdNoValid)
+		utils.CreateErrorResponse(w, err, http.StatusBadRequest)
+		return
+	}
+	objectID, _ := primitive.ObjectIDFromHex(id)
+	result, err := b.baseStringService.Delete(objectID, user)
+	if err != nil {
+		utils.CreateErrorResponse(w, err, http.StatusNotFound)
+		return
+	}
+	utils.CreateResponse(w, http.StatusOK, result)
+	log.Printf("%s: end", tools.GetCurrentFuncName())
+}
+
 // swagger:route PATCH /baseStrings/{id} BaseStrings DisableBaseString
 // Disable of a group.
 //

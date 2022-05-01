@@ -3,6 +3,7 @@ package constants
 const (
 	CreateConnection                    = "starting the connection"
 	DataLogin                           = "data invalid"
+	DeleteBaseString                    = "error delete group"
 	DeleteGroup                         = "error delete group"
 	DeleteLanguage                      = "error delete language"
 	DeleteStage                         = "error delete stage"
