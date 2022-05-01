@@ -26,7 +26,7 @@ export class GroupFinderComponent extends BaseComponent implements OnInit {
         if (this.selectGroup) {
             this.selectedText = this.selectGroup.name;
         }
-        const subscription$ = this.groupService.findAll().subscribe({
+        const subscription$ = this.groupService.findCanWrite().subscribe({
             next: (groups) => (this.groups = groups.filter((group) => group.active)),
             error: () => {
                 this.groups = [];

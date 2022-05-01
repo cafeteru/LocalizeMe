@@ -137,12 +137,7 @@ export class GroupListComponent extends BaseComponent implements OnInit {
         if (this.user.admin || group.public || group.owner.id === this.user.id) {
             return true;
         }
-        group.permissions.forEach((permission) => {
-            if (permission.user.id === this.user.id && permission.canWriteGroup) {
-                return true;
-            }
-        });
-        return false;
+        return group.permissions.some((permission) => permission.user.id === this.user.id && permission.canWrite);
     }
 
     canDelete(group: Group): boolean {

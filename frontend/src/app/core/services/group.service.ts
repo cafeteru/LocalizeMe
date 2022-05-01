@@ -34,6 +34,12 @@ export class GroupService {
             .pipe(map((groups) => (groups ? groups : [])));
     }
 
+    findCanWrite(): Observable<Group[]> {
+        return this.httpClient
+            .get<Group[]>(`${this.url}/canWrite`, getDefaultHttpOptions())
+            .pipe(map((groups) => (groups ? groups : [])));
+    }
+
     update(group: Group): Observable<Group> {
         return this.httpClient.put<Group>(this.url, group, getDefaultHttpOptions());
     }

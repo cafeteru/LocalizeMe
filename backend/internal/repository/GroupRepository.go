@@ -13,5 +13,6 @@ type GroupRepository interface {
 	FindById(id primitive.ObjectID) (*domain.Group, error)
 	FindByPermissions(email string) (*[]domain.Group, error)
 	FindByName(name string) (*domain.Group, error)
+	FindCanWrite(email string) (*[]domain.Group, error)
 	Update(group domain.Group) (*mongo.UpdateResult, error)
 }

@@ -130,3 +130,12 @@ type _ struct {
 	// required: true
 	BaseString domain.BaseString
 }
+
+// swagger:parameters DisableBaseString DeleteBaseString
+type _ struct {
+	// The baseString´s id
+	// in: path
+	// required: true
+	// type: string
+	Id string `json:"id"`
+}

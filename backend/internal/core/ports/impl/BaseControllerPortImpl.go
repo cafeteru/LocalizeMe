@@ -34,6 +34,7 @@ func (b BaseStringPortImpl) InitRoutes(r *chi.Mux) {
 			r.Post("/", b.controller.Create)
 			r.Get("/", b.controller.FindAll)
 			r.Put("/", b.controller.Update)
+			r.Patch("/{id}", b.controller.Disable)
 		})
 	})
 	log.Printf("%s: end", tools.GetCurrentFuncName())

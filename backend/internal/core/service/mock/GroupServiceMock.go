@@ -111,6 +111,21 @@ func (mr *MockGroupServiceMockRecorder) FindByPermissions(email interface{}) *go
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindByPermissions", reflect.TypeOf((*MockGroupService)(nil).FindByPermissions), email)
 }
 
+// FindCanWrite mocks base method.
+func (m *MockGroupService) FindCanWrite(email string) (*[]domain.Group, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "FindCanWrite", email)
+	ret0, _ := ret[0].(*[]domain.Group)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// FindCanWrite indicates an expected call of FindCanWrite.
+func (mr *MockGroupServiceMockRecorder) FindCanWrite(email interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindCanWrite", reflect.TypeOf((*MockGroupService)(nil).FindCanWrite), email)
+}
+
 // Update mocks base method.
 func (m *MockGroupService) Update(group domain.Group, user *domain.User) (*domain.Group, error) {
 	m.ctrl.T.Helper()

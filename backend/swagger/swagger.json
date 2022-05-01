@@ -23,7 +23,7 @@
           "BaseStrings"
         ],
         "summary": "Return all baseStrings.",
-        "operationId": "FindAllGroups",
+        "operationId": "FindAllBaseStrings",
         "responses": {
           "200": {
             "description": "BaseString",
@@ -139,6 +139,51 @@
             }
           },
           "422": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          }
+        }
+      }
+    },
+    "/baseStrings/{id}": {
+      "patch": {
+        "tags": [
+          "BaseStrings"
+        ],
+        "summary": "Disable of a group.",
+        "operationId": "DisableBaseString",
+        "parameters": [
+          {
+            "type": "string",
+            "x-go-name": "Id",
+            "description": "The baseString´s id",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "BaseString",
+            "schema": {
+              "$ref": "#/definitions/BaseString"
+            }
+          },
+          "400": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          },
+          "401": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          },
+          "403": {
             "description": "ErrorDto",
             "schema": {
               "$ref": "#/definitions/ErrorDto"
@@ -1316,9 +1361,9 @@
     "Permission": {
       "type": "object",
       "properties": {
-        "canWriteGroup": {
+        "canWrite": {
           "type": "boolean",
-          "x-go-name": "CanWriteGroup"
+          "x-go-name": "CanWrite"
         },
         "user": {
           "$ref": "#/definitions/User"

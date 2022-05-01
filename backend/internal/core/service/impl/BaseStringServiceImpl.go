@@ -62,6 +62,25 @@ func (b BaseStringServiceImpl) Create(request domain.BaseString, user *domain.Us
 	return baseString, nil
 }
 
+func (b BaseStringServiceImpl) Disable(id primitive.ObjectID, user *domain.User) (*domain.BaseString, error) {
+	log.Printf("%s: start", tools.GetCurrentFuncName())
+	baseString, err := b.repository.FindById(id)
+	if err != nil {
+		return nil, tools.ErrorLogWithError(err, tools.GetCurrentFuncName())
+	}
+	err = b.checkPermission(*baseString, *user)
+	if err != nil {
+		return nil, tools.ErrorLogWithError(err, tools.GetCurrentFuncName())
+	}
+	baseString.Active = !baseString.Active
+	_, err = b.repository.Update(*baseString)
+	if err != nil {
+		return nil, tools.ErrorLogWithError(err, tools.GetCurrentFuncName())
+	}
+	log.Printf("%s: end", tools.GetCurrentFuncName())
+	return baseString, nil
+}
+
 func (b BaseStringServiceImpl) FindAll() (*[]domain.BaseString, error) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
 	groups, err := b.repository.FindAll()
@@ -157,7 +176,7 @@ func (b BaseStringServiceImpl) checkPermission(baseString domain.BaseString, use
 		return nil
 	}
 	for _, permission := range baseString.Group.Permissions {
-		if permission.User.ID == user.ID && permission.CanWriteGroup {
+		if permission.User.ID == user.ID && permission.CanWrite {
 			return nil
 		}
 	}

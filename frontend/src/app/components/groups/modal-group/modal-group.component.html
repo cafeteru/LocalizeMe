@@ -26,7 +26,11 @@
         </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-        <app-user-finder id="users-finder" (emitter)="setPermission($event)"></app-user-finder>
+        <app-user-finder
+            id="users-finder"
+            (emitter)="setPermission($event)"
+            [selectedPermissions]="group.permissions"
+        ></app-user-finder>
     </nz-form-item>
     <nz-form-item nz-row class="register-area btn-right">
         <button nz-button [nzType]="'primary'" [disabled]="!formGroup.valid || isLoading" (click)="send()">

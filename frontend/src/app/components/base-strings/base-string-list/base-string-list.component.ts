@@ -6,7 +6,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { BaseStringService } from '../../../core/services/base-string.service';
 import { ModalBaseStringComponent } from '../modal-base-string/modal-base-string.component';
 import { BaseString } from '../../../types/base-string';
-import { Group } from '../../../types/group';
 import { ColumnHeader, sortDirections } from '../../../shared/components/utils/nz-table-utils';
 import {
     sortBaseStringByActive,
@@ -19,6 +18,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../../../store/app.reducer';
 import { map } from 'rxjs';
 import { createMockUser, User } from '../../../types/user';
+import { Group } from '../../../types/group';
 
 @Component({
     selector: 'app-base-string-list',
@@ -142,11 +142,16 @@ export class BaseStringListComponent extends BaseComponent implements OnInit {
         if (this.user.admin || !baseString || baseString.group.public || baseString.group.owner.id === this.user.id) {
             return true;
         }
-        baseString.group.permissions.forEach((permission) => {
-            if (permission.user.id === this.user.id && permission.canWriteGroup) {
-                return true;
-            }
+        return baseString.group.permissions.some(
+            (permission) => permission.user.id === this.user.id && permission.canWrite
+        );
+    }
+
+    disable(baseString: BaseString): void {
+        const subscription$ = this.baseStringService.disable(baseString).subscribe({
+            next: () => this.loadBaseStrings(),
+            error: () => this.nzMessageService.create('error', 'Error disabling'),
         });
-        return false;
+        this.subscriptions$.push(subscription$);
     }
 }
