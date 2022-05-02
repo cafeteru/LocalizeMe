@@ -14,6 +14,8 @@
     <nz-table
         #usersTable
         nzShowSizeChanger
+        nzShowPagination
+        nzShowQuickJumper
         [nzData]="users"
         (nzCurrentPageDataChange)="onCurrentPageDataChange($event)"
     >

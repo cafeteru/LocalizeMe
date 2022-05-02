@@ -24,6 +24,8 @@
     <nz-table
         #languagesTable
         nzShowSizeChanger
+        nzShowPagination
+        nzShowQuickJumper
         [nzData]="languages"
         (nzCurrentPageDataChange)="onCurrentPageDataChange($event)"
     >

@@ -18,7 +18,11 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../../../store/app.reducer';
 import { map } from 'rxjs';
 import { createMockUser, User } from '../../../types/user';
-import { Group } from '../../../types/group';
+
+interface BaseStringData {
+    baseString: BaseString;
+    expanded: boolean;
+}
 
 @Component({
     selector: 'app-base-string-list',
@@ -26,42 +30,42 @@ import { Group } from '../../../types/group';
     styleUrls: ['./base-string-list.component.scss'],
 })
 export class BaseStringListComponent extends BaseComponent implements OnInit {
-    currentPageBaseStrings: readonly BaseString[] = [];
+    currentPageBaseStrings: readonly BaseStringData[] = [];
     isLoading = false;
-    originalBaseStrings: BaseString[];
-    baseStrings: BaseString[];
+    originalBaseStrings: BaseStringData[];
+    baseStrings: BaseStringData[];
     filterText = '';
     user: User = createMockUser();
 
-    listOfColumns: ColumnHeader<BaseString>[] = [
+    listOfColumns: ColumnHeader<BaseStringData>[] = [
         {
             name: 'Identifier',
             sortOrder: null,
-            sortFn: sortBaseStringByIdentifier,
+            sortFn: (a, b) => sortBaseStringByIdentifier(a.baseString, b.baseString),
             sortDirections,
         },
         {
             name: 'Language',
             sortOrder: null,
-            sortFn: sortBaseStringBySourceLanguage,
+            sortFn: (a, b) => sortBaseStringBySourceLanguage(a.baseString, b.baseString),
             sortDirections,
         },
         {
             name: 'Group',
             sortOrder: null,
-            sortFn: sortBaseStringByGroup,
+            sortFn: (a, b) => sortBaseStringByGroup(a.baseString, b.baseString),
             sortDirections,
         },
         {
             name: 'Author',
             sortOrder: null,
-            sortFn: sortBaseStringByAuthor,
+            sortFn: (a, b) => sortBaseStringByAuthor(a.baseString, b.baseString),
             sortDirections,
         },
         {
             name: 'Active',
             sortOrder: null,
-            sortFn: sortBaseStringByActive,
+            sortFn: (a, b) => sortBaseStringByActive(a.baseString, b.baseString),
             sortDirections,
         },
     ];
@@ -88,7 +92,7 @@ export class BaseStringListComponent extends BaseComponent implements OnInit {
 
     filterStrings($event: string) {
         this.baseStrings = this.originalBaseStrings.filter(
-            (baseString) =>
+            ({ baseString }) =>
                 baseString.identifier.includes($event) ||
                 baseString.sourceLanguage.isoCode.includes($event) ||
                 baseString.group.name.includes($event) ||
@@ -100,18 +104,31 @@ export class BaseStringListComponent extends BaseComponent implements OnInit {
         this.originalBaseStrings = [];
         this.baseStrings = [];
         this.isLoading = true;
-        const subscription$ = this.baseStringService.findAll().subscribe({
-            next: (baseStrings) => {
-                this.originalBaseStrings = baseStrings;
-                this.baseStrings = baseStrings;
-            },
-            error: () => (this.isLoading = false),
-            complete: () => (this.isLoading = false),
-        });
+        const subscription$ = this.baseStringService
+            .findAll()
+            .pipe(
+                map((baseStrings) =>
+                    baseStrings.map((baseString) => {
+                        const baseStringData: BaseStringData = {
+                            baseString,
+                            expanded: false,
+                        };
+                        return baseStringData;
+                    })
+                )
+            )
+            .subscribe({
+                next: (baseStrings) => {
+                    this.originalBaseStrings = baseStrings;
+                    this.baseStrings = baseStrings;
+                },
+                error: () => (this.isLoading = false),
+                complete: () => (this.isLoading = false),
+            });
         this.subscriptions$.push(subscription$);
     }
 
-    openModal(baseString?: BaseString): void {
+    openModal(baseStringData?: BaseStringData): void {
         const newBaseString: BaseString = {
             id: undefined,
             active: true,
@@ -124,7 +141,7 @@ export class BaseStringListComponent extends BaseComponent implements OnInit {
         const dialogRef = this.matDialog.open(ModalBaseStringComponent, {
             minWidth: '550px',
             maxWidth: '75%',
-            data: baseString ? baseString : newBaseString,
+            data: baseStringData ? baseStringData.baseString : newBaseString,
         });
         const subscription$ = dialogRef.afterClosed().subscribe((result: BaseString) => {
             if (result) {
@@ -134,11 +151,12 @@ export class BaseStringListComponent extends BaseComponent implements OnInit {
         this.subscriptions$.push(subscription$);
     }
 
-    onCurrentPageDataChange($event: readonly BaseString[]): void {
+    onCurrentPageDataChange($event: readonly BaseStringData[]): void {
         this.currentPageBaseStrings = $event;
     }
 
-    canEdit(baseString: BaseString): boolean {
+    canEdit(baseStringData: BaseStringData): boolean {
+        const { baseString } = baseStringData;
         if (this.user.admin || !baseString || baseString.group.public || baseString.group.owner.id === this.user.id) {
             return true;
         }
@@ -147,7 +165,8 @@ export class BaseStringListComponent extends BaseComponent implements OnInit {
         );
     }
 
-    disable(baseString: BaseString): void {
+    disable(baseStringData: BaseStringData): void {
+        const { baseString } = baseStringData;
         const subscription$ = this.baseStringService.disable(baseString).subscribe({
             next: () => this.loadBaseStrings(),
             error: () => this.nzMessageService.create('error', 'Error disabling'),
@@ -155,23 +174,25 @@ export class BaseStringListComponent extends BaseComponent implements OnInit {
         this.subscriptions$.push(subscription$);
     }
 
-    canDelete(baseString: BaseString): boolean {
+    canDelete(baseStringData: BaseStringData): boolean {
+        const { baseString } = baseStringData;
         return this.user.admin || baseString.group.owner.id === this.user.id;
     }
 
-    showDeleteModal(baseString: BaseString): void {
+    showDeleteModal(baseStringData: BaseStringData): void {
         this.nzModalService.confirm({
             nzTitle: 'Are you sure delete this string?',
             nzOkText: 'Yes',
             nzOkType: 'primary',
             nzOkDanger: true,
-            nzOnOk: () => this.delete(baseString),
+            nzOnOk: () => this.delete(baseStringData),
             nzCancelText: 'No',
             nzAutofocus: 'cancel',
         });
     }
 
-    private delete(baseString: BaseString): void {
+    private delete(baseStringData: BaseStringData): void {
+        const { baseString } = baseStringData;
         const subscription$ = this.baseStringService.delete(baseString).subscribe((result) => {
             if (result) {
                 this.loadBaseStrings();
@@ -181,5 +202,9 @@ export class BaseStringListComponent extends BaseComponent implements OnInit {
             }
         });
         this.subscriptions$.push(subscription$);
+    }
+
+    onExpandChange(baseStringData: BaseStringData, expanded: boolean): void {
+        baseStringData.expanded = expanded;
     }
 }

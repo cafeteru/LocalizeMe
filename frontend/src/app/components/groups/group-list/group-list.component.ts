@@ -18,40 +18,45 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../../../store/app.reducer';
 import { createMockUser, User } from '../../../types/user';
 
+interface GroupData {
+    group: Group;
+    expanded: boolean;
+}
+
 @Component({
     selector: 'app-group-list',
     templateUrl: './group-list.component.html',
     styleUrls: ['./group-list.component.scss'],
 })
 export class GroupListComponent extends BaseComponent implements OnInit {
-    currentPageGroup: readonly Group[] = [];
-    groups: readonly Group[] = [];
+    currentPageGroupData: readonly GroupData[] = [];
+    groupData: readonly GroupData[] = [];
     isLoading = false;
     user: User = createMockUser();
 
-    listOfColumns: ColumnHeader<Group>[] = [
+    listOfColumns: ColumnHeader<GroupData>[] = [
         {
             name: 'Name',
             sortOrder: null,
-            sortFn: sortGroupByName,
+            sortFn: (a, b) => sortGroupByName(a.group, b.group),
             sortDirections,
         },
         {
             name: 'Owner',
             sortOrder: null,
-            sortFn: sortGroupByOwnerEmail,
+            sortFn: (a, b) => sortGroupByOwnerEmail(a.group, b.group),
             sortDirections,
         },
         {
             name: 'Public',
             sortOrder: null,
-            sortFn: sortGroupByPublic,
+            sortFn: (a, b) => sortGroupByPublic(a.group, b.group),
             sortDirections,
         },
         {
             name: 'Active',
             sortOrder: null,
-            sortFn: sortGroupByActive,
+            sortFn: (a, b) => sortGroupByActive(a.group, b.group),
             sortDirections,
         },
     ];
@@ -77,21 +82,34 @@ export class GroupListComponent extends BaseComponent implements OnInit {
     }
 
     loadGroups(): void {
-        this.groups = [];
+        this.groupData = [];
         this.isLoading = true;
-        const subscription$ = this.groupService.findAll().subscribe({
-            next: (groups) => (this.groups = groups),
-            error: () => (this.isLoading = false),
-            complete: () => (this.isLoading = false),
-        });
+        const subscription$ = this.groupService
+            .findAll()
+            .pipe(
+                map((groups) =>
+                    groups.map((group) => {
+                        const groupData: GroupData = {
+                            group,
+                            expanded: false,
+                        };
+                        return groupData;
+                    })
+                )
+            )
+            .subscribe({
+                next: (groupData) => (this.groupData = groupData),
+                error: () => (this.isLoading = false),
+                complete: () => (this.isLoading = false),
+            });
         this.subscriptions$.push(subscription$);
     }
 
-    onCurrentPageDataChange($event: readonly Group[]): void {
-        this.currentPageGroup = $event;
+    onCurrentPageDataChange($event: readonly GroupData[]): void {
+        this.currentPageGroupData = $event;
     }
 
-    openModal(group?: Group): void {
+    openModal(groupData?: GroupData): void {
         const newGroup: Group = {
             id: undefined,
             active: true,
@@ -103,7 +121,7 @@ export class GroupListComponent extends BaseComponent implements OnInit {
         const dialogRef = this.matDialog.open(ModalGroupComponent, {
             minWidth: '550px',
             maxWidth: '75%',
-            data: group ? group : newGroup,
+            data: groupData ? groupData.group : newGroup,
         });
         const subscription$ = dialogRef.afterClosed().subscribe((result) => {
             if (result) {
@@ -113,7 +131,8 @@ export class GroupListComponent extends BaseComponent implements OnInit {
         this.subscriptions$.push(subscription$);
     }
 
-    disable(group: Group): void {
+    disable(groupData?: GroupData): void {
+        const { group } = groupData;
         const subscription$ = this.groupService.disable(group).subscribe({
             next: () => this.loadGroups(),
             error: () => this.nzMessageService.create('error', 'Error disabling'),
@@ -121,30 +140,33 @@ export class GroupListComponent extends BaseComponent implements OnInit {
         this.subscriptions$.push(subscription$);
     }
 
-    showDeleteModal(group: Group): void {
+    showDeleteModal(groupData?: GroupData): void {
         this.nzModalService.confirm({
             nzTitle: 'Are you sure delete this group?',
             nzOkText: 'Yes',
             nzOkType: 'primary',
             nzOkDanger: true,
-            nzOnOk: () => this.delete(group),
+            nzOnOk: () => this.delete(groupData),
             nzCancelText: 'No',
             nzAutofocus: 'cancel',
         });
     }
 
-    canEdit(group: Group): boolean {
+    canEdit(groupData?: GroupData): boolean {
+        const { group } = groupData;
         if (this.user.admin || group.public || group.owner.id === this.user.id) {
             return true;
         }
         return group.permissions.some((permission) => permission.user.id === this.user.id && permission.canWrite);
     }
 
-    canDelete(group: Group): boolean {
+    canDelete(groupData?: GroupData): boolean {
+        const { group } = groupData;
         return this.user.admin || group.owner.id === this.user.id;
     }
 
-    private delete(group: Group): void {
+    private delete(groupData?: GroupData): void {
+        const { group } = groupData;
         const subscription$ = this.groupService.delete(group).subscribe((result) => {
             if (result) {
                 this.loadGroups();
@@ -154,5 +176,9 @@ export class GroupListComponent extends BaseComponent implements OnInit {
             }
         });
         this.subscriptions$.push(subscription$);
+    }
+
+    onExpandChange(groupData: GroupData, expanded: boolean): void {
+        groupData.expanded = expanded;
     }
 }

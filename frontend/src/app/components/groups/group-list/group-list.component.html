@@ -24,11 +24,14 @@
     <nz-table
         #groupTable
         nzShowSizeChanger
-        [nzData]="groups"
+        nzShowPagination
+        nzShowQuickJumper
+        [nzData]="groupData"
         (nzCurrentPageDataChange)="onCurrentPageDataChange($event)"
     >
         <thead>
             <tr>
+                <th nzWidth="40px" id="dropdown-details"></th>
                 <th
                     *ngFor="let column of listOfColumns"
                     [nzSortOrder]="column.sortOrder"
@@ -44,56 +47,68 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let group of groupTable.data">
-                <td>{{ group.name }}</td>
-                <td>{{ group.owner.email }}</td>
-                <td>
-                    <app-boolean-icon [value]="group.public"></app-boolean-icon>
-                </td>
-                <td>
-                    <app-boolean-icon [value]="group.active"></app-boolean-icon>
-                </td>
-                <td>
-                    <button
-                        *ngIf="canEdit(group)"
-                        nzTooltipTitle="Update"
-                        nz-button
-                        nz-tooltip="Update group"
-                        nzType="primary"
-                        nzShape="circle"
-                        (click)="openModal(group)"
-                    >
-                        <em nz-icon nzType="edit"></em>
-                    </button>
-                </td>
-                <td>
-                    <button
-                        *ngIf="canEdit(group)"
-                        nzTooltipTitle="Disable"
-                        nz-button
-                        nz-tooltip="Disable group"
-                        nzType="default"
-                        nzShape="circle"
-                        (click)="disable(group)"
-                    >
-                        <em nz-icon nzType="disconnect"></em>
-                    </button>
-                </td>
-                <td>
-                    <button
-                        *ngIf="canDelete(group)"
-                        nzTooltipTitle="Delete"
-                        nz-button
-                        nz-tooltip="Delete group"
-                        nzType="default"
-                        nzDanger
-                        nzShape="circle"
-                        (click)="showDeleteModal(group)"
-                    >
-                        <em nz-icon nzType="delete"></em>
-                    </button>
-                </td>
-            </tr>
+            <ng-container *ngFor="let groupData of groupTable.data; let i = index">
+                <tr>
+                    <td
+                        [id]="'expanded-' + (i + 1)"
+                        [nzExpand]="groupData.expanded"
+                        (nzExpandChange)="onExpandChange(groupData, $event)"
+                    ></td>
+                    <td>{{ groupData.group.name }}</td>
+                    <td>{{ groupData.group.owner.email }}</td>
+                    <td>
+                        <app-boolean-icon [value]="groupData.group.public"></app-boolean-icon>
+                    </td>
+                    <td>
+                        <app-boolean-icon [value]="groupData.group.active"></app-boolean-icon>
+                    </td>
+                    <td>
+                        <button
+                            *ngIf="canEdit(groupData)"
+                            nzTooltipTitle="Update"
+                            nz-button
+                            nz-tooltip="Update group"
+                            nzType="primary"
+                            nzShape="circle"
+                            (click)="openModal(groupData)"
+                        >
+                            <em nz-icon nzType="edit"></em>
+                        </button>
+                    </td>
+                    <td>
+                        <button
+                            *ngIf="canEdit(groupData)"
+                            nzTooltipTitle="Disable"
+                            nz-button
+                            nz-tooltip="Disable group"
+                            nzType="default"
+                            nzShape="circle"
+                            (click)="disable(groupData)"
+                        >
+                            <em nz-icon nzType="disconnect"></em>
+                        </button>
+                    </td>
+                    <td>
+                        <button
+                            *ngIf="canDelete(groupData)"
+                            nzTooltipTitle="Delete"
+                            nz-button
+                            nz-tooltip="Delete group"
+                            nzType="default"
+                            nzDanger
+                            nzShape="circle"
+                            (click)="showDeleteModal(groupData)"
+                        >
+                            <em nz-icon nzType="delete"></em>
+                        </button>
+                    </td>
+                </tr>
+                <tr [nzExpand]="groupData.expanded">
+                    <app-group-permission-table
+                        [permissions]="groupData.group.permissions"
+                    ></app-group-permission-table>
+                </tr>
+            </ng-container>
         </tbody>
     </nz-table>
 </nz-spin>

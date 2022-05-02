@@ -1,0 +1,31 @@
+<h3>Permissions:</h3>
+<nz-table
+    #permissionsTable
+    nzShowSizeChanger
+    nzShowPagination
+    nzShowQuickJumper
+    [nzData]="permissions"
+    (nzCurrentPageDataChange)="onCurrentPageDataChange($event)"
+>
+    <thead>
+        <tr>
+            <th
+                *ngFor="let column of listOfColumns"
+                [nzSortOrder]="column.sortOrder"
+                [nzSortFn]="column.sortFn"
+                [nzSortDirections]="column.sortDirections"
+                [id]="column.name + '-column'"
+            >
+                {{ column.name }}
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let permission of permissionsTable.data">
+            <td>{{ permission.user.email }}</td>
+            <td>
+                <label nz-checkbox [ngModel]="permission.canWrite" nzDisabled></label>
+            </td>
+        </tr>
+    </tbody>
+</nz-table>

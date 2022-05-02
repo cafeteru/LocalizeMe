@@ -4,6 +4,7 @@ import { Translation } from '../../../types/translation';
 import { ColumnHeader, sortDirections } from '../../../shared/components/utils/nz-table-utils';
 import {
     sortTranslationByActive,
+    sortTranslationByLanguage,
     sortTranslationByStage,
     sortTranslationByVersion,
 } from '../../../shared/sorts/translation-sorts';
@@ -33,6 +34,12 @@ export class TranslationListComponent extends BaseComponent implements OnInit {
             name: 'Stage',
             sortOrder: null,
             sortFn: sortTranslationByStage,
+            sortDirections,
+        },
+        {
+            name: 'Language',
+            sortOrder: null,
+            sortFn: sortTranslationByLanguage,
             sortDirections,
         },
         {
@@ -77,6 +84,11 @@ export class TranslationListComponent extends BaseComponent implements OnInit {
             this.emitter.emit(this.translations);
         });
         this.subscriptions$.push(subscription$);
+    }
+
+    disable(translation: Translation): void {
+        translation.active = !translation.active;
+        this.emitter.emit(this.translations);
     }
 
     showDeleteModal(translation: Translation): void {
