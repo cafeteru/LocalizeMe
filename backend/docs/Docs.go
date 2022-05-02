@@ -64,6 +64,15 @@ type _ struct {
 	Id string `json:"id"`
 }
 
+// swagger:parameters FindStageByName
+type _ struct {
+	// The stage´s name
+	// in: path
+	// required: true
+	// type: string
+	Name string `json:"name"`
+}
+
 // swagger:parameters CreateStage
 type _ struct {
 	// in: body

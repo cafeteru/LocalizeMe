@@ -10,6 +10,7 @@ type BaseStringService interface {
 	Delete(id primitive.ObjectID, user *domain.User) (bool, error)
 	Disable(id primitive.ObjectID, user *domain.User) (*domain.BaseString, error)
 	FindAll() (*[]domain.BaseString, error)
-	FindByPermissions(email string) (*[]domain.BaseString, error)
+	FindByGroup(id primitive.ObjectID, user *domain.User) (*[]domain.BaseString, error)
+	FindByPermissions(id primitive.ObjectID) (*[]domain.BaseString, error)
 	Update(baseString domain.BaseString, user *domain.User) (*domain.BaseString, error)
 }

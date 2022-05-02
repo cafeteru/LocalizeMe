@@ -33,6 +33,7 @@ func (s StagePortImpl) InitRoutes(r *chi.Mux) {
 		r.Route(pattern, func(r chi.Router) {
 			r.Post("/", s.controller.Create)
 			r.Get("/", s.controller.FindAll)
+			r.Get("/name/{name}", s.controller.FindByName)
 			r.Put("/", s.controller.Update)
 			r.Patch("/{id}", s.controller.Disable)
 			r.Delete("/{id}", s.controller.Delete)

@@ -21,7 +21,10 @@ type BaseStringControllerImpl struct {
 }
 
 func CreateBaseStringController() *BaseStringControllerImpl {
-	return &BaseStringControllerImpl{impl.CreateBaseStringService(), impl.CreateUserService()}
+	return &BaseStringControllerImpl{
+		impl.CreateBaseStringService(),
+		impl.CreateUserService(),
+	}
 }
 
 // swagger:route POST /baseStrings BaseStrings CreateBaseString
@@ -134,8 +137,42 @@ func (b BaseStringControllerImpl) FindAll(w http.ResponseWriter, r *http.Request
 	if user.Admin {
 		baseStrings, err = b.baseStringService.FindAll()
 	} else {
-		baseStrings, err = b.baseStringService.FindByPermissions(user.Email)
+		baseStrings, err = b.baseStringService.FindByPermissions(user.ID)
 	}
+	if err != nil {
+		utils.CreateErrorResponse(w, err, http.StatusInternalServerError)
+		return
+	}
+	utils.CreateResponse(w, http.StatusOK, baseStrings)
+	log.Printf("%s: end", tools.GetCurrentFuncName())
+}
+
+// swagger:route GET /baseStrings/group/{id} BaseStrings FindByGroupBaseStrings
+// Return all baseStrings from a group
+//
+// Responses:
+// - 200: []BaseString
+// - 400: ErrorDto
+// - 401: ErrorDto
+// - 500: ErrorDto
+func (b BaseStringControllerImpl) FindByGroup(w http.ResponseWriter, r *http.Request) {
+	log.Printf("%s: start", tools.GetCurrentFuncName())
+	user := utils.CheckUserIsActive(w, r, b.userService)
+	if user == nil {
+		return
+	}
+	id := chi.URLParam(r, "id")
+	if id == "" {
+		err := errors.New(constants.IdNoValid)
+		utils.CreateErrorResponse(w, err, http.StatusBadRequest)
+		return
+	}
+	objectID, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		utils.CreateErrorResponse(w, err, http.StatusBadRequest)
+		return
+	}
+	baseStrings, err := b.baseStringService.FindByGroup(objectID, user)
 	if err != nil {
 		utils.CreateErrorResponse(w, err, http.StatusInternalServerError)
 		return

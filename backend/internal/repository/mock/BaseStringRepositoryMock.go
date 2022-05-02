@@ -81,6 +81,21 @@ func (mr *MockBaseStringRepositoryMockRecorder) FindAll() *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindAll", reflect.TypeOf((*MockBaseStringRepository)(nil).FindAll))
 }
 
+// FindByGroup mocks base method.
+func (m *MockBaseStringRepository) FindByGroup(id primitive.ObjectID) (*[]domain.BaseString, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "FindByGroup", id)
+	ret0, _ := ret[0].(*[]domain.BaseString)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// FindByGroup indicates an expected call of FindByGroup.
+func (mr *MockBaseStringRepositoryMockRecorder) FindByGroup(id interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindByGroup", reflect.TypeOf((*MockBaseStringRepository)(nil).FindByGroup), id)
+}
+
 // FindById mocks base method.
 func (m *MockBaseStringRepository) FindById(id primitive.ObjectID) (*domain.BaseString, error) {
 	m.ctrl.T.Helper()
@@ -112,18 +127,18 @@ func (mr *MockBaseStringRepositoryMockRecorder) FindByIdentifier(name interface{
 }
 
 // FindByPermissions mocks base method.
-func (m *MockBaseStringRepository) FindByPermissions(email string) (*[]domain.BaseString, error) {
+func (m *MockBaseStringRepository) FindByPermissions(id primitive.ObjectID) (*[]domain.BaseString, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "FindByPermissions", email)
+	ret := m.ctrl.Call(m, "FindByPermissions", id)
 	ret0, _ := ret[0].(*[]domain.BaseString)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // FindByPermissions indicates an expected call of FindByPermissions.
-func (mr *MockBaseStringRepositoryMockRecorder) FindByPermissions(email interface{}) *gomock.Call {
+func (mr *MockBaseStringRepositoryMockRecorder) FindByPermissions(id interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindByPermissions", reflect.TypeOf((*MockBaseStringRepository)(nil).FindByPermissions), email)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindByPermissions", reflect.TypeOf((*MockBaseStringRepository)(nil).FindByPermissions), id)
 }
 
 // Update mocks base method.

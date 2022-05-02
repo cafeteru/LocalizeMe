@@ -22,11 +22,11 @@ func CreateStageService() *StageServiceImpl {
 	return service
 }
 
-func (s StageServiceImpl) Create(stageDto dto.StageDto) (domain.Stage, error) {
+func (s StageServiceImpl) Create(stageDto dto.StageDto) (*domain.Stage, error) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
-	findByName, errName, validName := s.checkUniqueName(stageDto.Name)
-	if !validName {
-		return findByName, tools.ErrorLogWithError(errName, tools.GetCurrentFuncName())
+	err := s.checkUniqueName(stageDto.Name)
+	if err != nil && err.Error() != constants.FindStageByName {
+		return nil, tools.ErrorLogWithError(err, tools.GetCurrentFuncName())
 	}
 	stage := domain.Stage{
 		Name:   stageDto.Name,
@@ -35,11 +35,11 @@ func (s StageServiceImpl) Create(stageDto dto.StageDto) (domain.Stage, error) {
 	resultId, err := s.repository.Create(stage)
 	if err != nil {
 		log.Printf("%s: error", tools.GetCurrentFuncName())
-		return domain.Stage{}, tools.ErrorLogWithError(err, tools.GetCurrentFuncName())
+		return nil, tools.ErrorLogWithError(err, tools.GetCurrentFuncName())
 	}
 	stage.ID = resultId.InsertedID.(primitive.ObjectID)
 	log.Printf("%s: end", tools.GetCurrentFuncName())
-	return stage, nil
+	return &stage, nil
 }
 
 func (s StageServiceImpl) Delete(id primitive.ObjectID) (bool, error) {
@@ -74,12 +74,22 @@ func (s StageServiceImpl) Disable(id primitive.ObjectID) (*domain.Stage, error) 
 
 func (s StageServiceImpl) FindAll() (*[]domain.Stage, error) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
-	users, err := s.repository.FindAll()
+	stages, err := s.repository.FindAll()
 	if err != nil {
 		return nil, tools.ErrorLogWithError(err, tools.GetCurrentFuncName())
 	}
 	log.Printf("%s: end", tools.GetCurrentFuncName())
-	return users, nil
+	return stages, nil
+}
+
+func (s StageServiceImpl) FindByName(name string) (*domain.Stage, error) {
+	log.Printf("%s: start", tools.GetCurrentFuncName())
+	stage, err := s.repository.FindByName(name)
+	if err != nil {
+		return nil, tools.ErrorLogWithError(err, tools.GetCurrentFuncName())
+	}
+	log.Printf("%s: end", tools.GetCurrentFuncName())
+	return stage, nil
 }
 
 func (s StageServiceImpl) Update(stage domain.Stage) (*domain.Stage, error) {
@@ -89,9 +99,9 @@ func (s StageServiceImpl) Update(stage domain.Stage) (*domain.Stage, error) {
 		return nil, tools.ErrorLog(constants.FindStageById, tools.GetCurrentFuncName())
 	}
 	if original.Name != stage.Name {
-		_, errName, validName := s.checkUniqueName(stage.Name)
-		if !validName {
-			return nil, tools.ErrorLogWithError(errName, tools.GetCurrentFuncName())
+		err = s.checkUniqueName(stage.Name)
+		if err != nil {
+			return nil, tools.ErrorLogWithError(err, tools.GetCurrentFuncName())
 		}
 	}
 	_, err = s.repository.Update(stage)
@@ -102,13 +112,13 @@ func (s StageServiceImpl) Update(stage domain.Stage) (*domain.Stage, error) {
 	return &stage, nil
 }
 
-func (s StageServiceImpl) checkUniqueName(name string) (domain.Stage, error, bool) {
+func (s StageServiceImpl) checkUniqueName(name string) error {
 	if name == "" {
-		return domain.Stage{}, tools.ErrorLog(constants.NameStageInvalid, tools.GetCurrentFuncName()), false
+		return tools.ErrorLog(constants.NameStageInvalid, tools.GetCurrentFuncName())
 	}
 	findByName, _ := s.repository.FindByName(name)
 	if findByName != nil {
-		return domain.Stage{}, tools.ErrorLog(constants.StageAlreadyRegister, tools.GetCurrentFuncName()), false
+		return tools.ErrorLog(constants.StageAlreadyRegister, tools.GetCurrentFuncName())
 	}
-	return domain.Stage{}, nil, true
+	return nil
 }

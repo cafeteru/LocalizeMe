@@ -15,6 +15,7 @@ type BaseStringServiceImpl struct {
 	userRepository     repository.UserRepository
 	languageRepository repository.LanguageRepository
 	stageRepository    repository.StageRepository
+	groupRepository    repository.GroupRepository
 }
 
 func CreateBaseStringService() *BaseStringServiceImpl {
@@ -24,6 +25,7 @@ func CreateBaseStringService() *BaseStringServiceImpl {
 		mongodb.CreateUserRepository(),
 		mongodb.CreateLanguageRepository(),
 		mongodb.CreateStageRepository(),
+		mongodb.CreateGroupRepository(),
 	}
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return service
@@ -31,11 +33,11 @@ func CreateBaseStringService() *BaseStringServiceImpl {
 
 func (b BaseStringServiceImpl) Create(request domain.BaseString, user *domain.User) (domain.BaseString, error) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
-	errPermission := b.checkPermission(request, *user)
-	if errPermission != nil {
-		return domain.BaseString{}, tools.ErrorLogWithError(errPermission, tools.GetCurrentFuncName())
+	err := b.checkPermission(request, *user)
+	if err != nil {
+		return domain.BaseString{}, tools.ErrorLogWithError(err, tools.GetCurrentFuncName())
 	}
-	err := b.checkUniqueIdentifier(request.Identifier)
+	err = b.checkUniqueIdentifier(request.Identifier)
 	if err != nil && err.Error() != constants.FindBaseStringByIdentifier {
 		return domain.BaseString{}, tools.ErrorLogWithError(err, tools.GetCurrentFuncName())
 	}
@@ -101,22 +103,39 @@ func (b BaseStringServiceImpl) Disable(id primitive.ObjectID, user *domain.User)
 
 func (b BaseStringServiceImpl) FindAll() (*[]domain.BaseString, error) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
-	groups, err := b.repository.FindAll()
+	baseStrings, err := b.repository.FindAll()
 	if err != nil {
 		return nil, tools.ErrorLogWithError(err, tools.GetCurrentFuncName())
 	}
 	log.Printf("%s: end", tools.GetCurrentFuncName())
-	return groups, nil
+	return baseStrings, nil
 }
 
-func (b BaseStringServiceImpl) FindByPermissions(email string) (*[]domain.BaseString, error) {
+func (b BaseStringServiceImpl) FindByGroup(id primitive.ObjectID, user *domain.User) (*[]domain.BaseString, error) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
-	byPermissions, err := b.repository.FindByPermissions(email)
+	group, err := b.groupRepository.FindById(id)
+	if err != nil {
+		return nil, tools.ErrorLogWithError(err, tools.GetCurrentFuncName())
+	}
+	err = CheckGroupPermission(*group, *user)
+	if err != nil {
+		return nil, tools.ErrorLogWithError(err, tools.GetCurrentFuncName())
+	}
+	baseStrings, err := b.repository.FindByGroup(id)
 	if err != nil {
 		return nil, tools.ErrorLogWithError(err, tools.GetCurrentFuncName())
 	}
 	log.Printf("%s: end", tools.GetCurrentFuncName())
-	return byPermissions, nil
+	return baseStrings, nil
+}
+func (b BaseStringServiceImpl) FindByPermissions(id primitive.ObjectID) (*[]domain.BaseString, error) {
+	log.Printf("%s: start", tools.GetCurrentFuncName())
+	baseStrings, err := b.repository.FindByPermissions(id)
+	if err != nil {
+		return nil, tools.ErrorLogWithError(err, tools.GetCurrentFuncName())
+	}
+	log.Printf("%s: end", tools.GetCurrentFuncName())
+	return baseStrings, nil
 }
 
 func (b BaseStringServiceImpl) Update(baseString domain.BaseString, user *domain.User) (*domain.BaseString, error) {
@@ -154,8 +173,8 @@ func (b BaseStringServiceImpl) checkUniqueIdentifier(identifier string) error {
 	if identifier == "" {
 		return tools.ErrorLog(constants.IdentifierBaseStringInvalid, tools.GetCurrentFuncName())
 	}
-	byIdentifier, err := b.repository.FindByIdentifier(identifier)
-	if byIdentifier != nil {
+	baseString, err := b.repository.FindByIdentifier(identifier)
+	if baseString != nil {
 		return tools.ErrorLog(constants.IdentifierBaseStringAlreadyRegister, tools.GetCurrentFuncName())
 	}
 	if err != nil {

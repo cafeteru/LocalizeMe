@@ -35,6 +35,7 @@ const (
 	IsoCodeLanguageInvalid              = "language's isoCode invalid"
 	LanguageAlreadyRegister             = "language already registered"
 	NameGroupInvalid                    = "group's name invalid"
+	NameNoValid                         = "name no valid"
 	NameStageInvalid                    = "stage's name invalid"
 	ReadDatabase                        = "problems reading data from database"
 	StageAlreadyRegister                = "stage already registered"

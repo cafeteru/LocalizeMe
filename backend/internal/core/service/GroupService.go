@@ -11,7 +11,7 @@ type GroupService interface {
 	Delete(id primitive.ObjectID, user *domain.User) (bool, error)
 	Disable(id primitive.ObjectID, user *domain.User) (*domain.Group, error)
 	FindAll() (*[]domain.Group, error)
-	FindByPermissions(email string) (*[]domain.Group, error)
-	FindCanWrite(email string) (*[]domain.Group, error)
+	FindByPermissions(id primitive.ObjectID) (*[]domain.Group, error)
+	FindCanWrite(id primitive.ObjectID) (*[]domain.Group, error)
 	Update(group domain.Group, user *domain.User) (*domain.Group, error)
 }

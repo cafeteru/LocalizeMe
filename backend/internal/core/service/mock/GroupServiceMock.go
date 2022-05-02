@@ -97,33 +97,33 @@ func (mr *MockGroupServiceMockRecorder) FindAll() *gomock.Call {
 }
 
 // FindByPermissions mocks base method.
-func (m *MockGroupService) FindByPermissions(email string) (*[]domain.Group, error) {
+func (m *MockGroupService) FindByPermissions(id primitive.ObjectID) (*[]domain.Group, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "FindByPermissions", email)
+	ret := m.ctrl.Call(m, "FindByPermissions", id)
 	ret0, _ := ret[0].(*[]domain.Group)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // FindByPermissions indicates an expected call of FindByPermissions.
-func (mr *MockGroupServiceMockRecorder) FindByPermissions(email interface{}) *gomock.Call {
+func (mr *MockGroupServiceMockRecorder) FindByPermissions(id interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindByPermissions", reflect.TypeOf((*MockGroupService)(nil).FindByPermissions), email)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindByPermissions", reflect.TypeOf((*MockGroupService)(nil).FindByPermissions), id)
 }
 
 // FindCanWrite mocks base method.
-func (m *MockGroupService) FindCanWrite(email string) (*[]domain.Group, error) {
+func (m *MockGroupService) FindCanWrite(id primitive.ObjectID) (*[]domain.Group, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "FindCanWrite", email)
+	ret := m.ctrl.Call(m, "FindCanWrite", id)
 	ret0, _ := ret[0].(*[]domain.Group)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // FindCanWrite indicates an expected call of FindCanWrite.
-func (mr *MockGroupServiceMockRecorder) FindCanWrite(email interface{}) *gomock.Call {
+func (mr *MockGroupServiceMockRecorder) FindCanWrite(id interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindCanWrite", reflect.TypeOf((*MockGroupService)(nil).FindCanWrite), email)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindCanWrite", reflect.TypeOf((*MockGroupService)(nil).FindCanWrite), id)
 }
 
 // Update mocks base method.
