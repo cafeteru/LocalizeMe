@@ -10,8 +10,9 @@ type BaseStringRepository interface {
 	Create(baseString domain.BaseString) (*mongo.InsertOneResult, error)
 	Delete(id primitive.ObjectID) (*mongo.DeleteResult, error)
 	FindAll() (*[]domain.BaseString, error)
+	FindByGroup(id primitive.ObjectID) (*[]domain.BaseString, error)
 	FindById(id primitive.ObjectID) (*domain.BaseString, error)
 	FindByIdentifier(name string) (*domain.BaseString, error)
-	FindByPermissions(email string) (*[]domain.BaseString, error)
+	FindByPermissions(id primitive.ObjectID) (*[]domain.BaseString, error)
 	Update(baseString domain.BaseString) (*mongo.UpdateResult, error)
 }

@@ -135,6 +135,37 @@ func (s StageControllerImpl) FindAll(w http.ResponseWriter, r *http.Request) {
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 }
 
+// swagger:route GET /stages/name/{name} Stages FindStageByName
+// Return the information of the stage by name.
+//
+// Consumes:
+// - application/json
+//
+// Responses:
+// - 200: Stage
+// - 400: ErrorDto
+// - 401: ErrorDto
+// - 404: ErrorDto
+func (s StageControllerImpl) FindByName(w http.ResponseWriter, r *http.Request) {
+	log.Printf("%s: start", tools.GetCurrentFuncName())
+	if utils.CheckUserIsAdmin(w, r, s.userService) == nil {
+		return
+	}
+	name := chi.URLParam(r, "name")
+	if name == "" {
+		err := errors.New(constants.NameNoValid)
+		utils.CreateErrorResponse(w, err, http.StatusBadRequest)
+		return
+	}
+	stage, err := s.stageService.FindByName(name)
+	if err != nil {
+		utils.CreateErrorResponse(w, err, http.StatusNotFound)
+		return
+	}
+	utils.CreateResponse(w, http.StatusOK, stage)
+	log.Printf("%s: end", tools.GetCurrentFuncName())
+}
+
 // swagger:route PUT /stages Stages UpdateStage
 // Update the information of a stage.
 //

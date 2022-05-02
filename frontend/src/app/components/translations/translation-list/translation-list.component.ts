@@ -10,7 +10,6 @@ import {
 } from '../../../shared/sorts/translation-sorts';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalTranslationComponent } from '../modal-translation/modal-translation.component';
-import { Stage } from '../../../types/stage';
 import { NzModalService } from 'ng-zorro-antd/modal';
 
 @Component({

@@ -201,7 +201,11 @@ func (u UserControllerImpl) FindById(w http.ResponseWriter, r *http.Request) {
 		utils.CreateErrorResponse(w, err, http.StatusBadRequest)
 		return
 	}
-	objectID, _ := primitive.ObjectIDFromHex(id)
+	objectID, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		utils.CreateErrorResponse(w, err, http.StatusBadRequest)
+		return
+	}
 	user, err := u.service.FindById(objectID)
 	if err != nil {
 		utils.CreateErrorResponse(w, err, http.StatusNotFound)

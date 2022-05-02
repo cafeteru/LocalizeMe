@@ -6,6 +6,7 @@ import (
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/constants"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/service"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"log"
 	"net/http"
 )
@@ -13,15 +14,19 @@ import (
 func CheckUserIsActive(w http.ResponseWriter, r *http.Request, u service.UserService) *domain.User {
 	log.Printf("%s: start", r.Context())
 	_, tokenParts, _ := jwtauth.FromContext(r.Context())
-	value, exists := tokenParts["email"]
+	value, exists := tokenParts["id"]
 	if !exists {
 		err := errors.New(constants.InvalidToken)
 		CreateErrorResponse(w, err, http.StatusUnprocessableEntity)
 		return nil
 	}
-	user, err := u.FindByEmail(value.(string))
-	if err != nil || user == nil {
-		err := errors.New(constants.FindUserByEmail)
+	objectID, err := primitive.ObjectIDFromHex(value.(string))
+	if err != nil {
+		CreateErrorResponse(w, err, http.StatusUnprocessableEntity)
+		return nil
+	}
+	user, err := u.FindById(objectID)
+	if err != nil {
 		CreateErrorResponse(w, err, http.StatusUnprocessableEntity)
 		return nil
 	}

@@ -112,33 +112,33 @@ func (mr *MockGroupRepositoryMockRecorder) FindByName(name interface{}) *gomock.
 }
 
 // FindByPermissions mocks base method.
-func (m *MockGroupRepository) FindByPermissions(email string) (*[]domain.Group, error) {
+func (m *MockGroupRepository) FindByPermissions(id primitive.ObjectID) (*[]domain.Group, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "FindByPermissions", email)
+	ret := m.ctrl.Call(m, "FindByPermissions", id)
 	ret0, _ := ret[0].(*[]domain.Group)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // FindByPermissions indicates an expected call of FindByPermissions.
-func (mr *MockGroupRepositoryMockRecorder) FindByPermissions(email interface{}) *gomock.Call {
+func (mr *MockGroupRepositoryMockRecorder) FindByPermissions(id interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindByPermissions", reflect.TypeOf((*MockGroupRepository)(nil).FindByPermissions), email)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindByPermissions", reflect.TypeOf((*MockGroupRepository)(nil).FindByPermissions), id)
 }
 
 // FindCanWrite mocks base method.
-func (m *MockGroupRepository) FindCanWrite(email string) (*[]domain.Group, error) {
+func (m *MockGroupRepository) FindCanWrite(id primitive.ObjectID) (*[]domain.Group, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "FindCanWrite", email)
+	ret := m.ctrl.Call(m, "FindCanWrite", id)
 	ret0, _ := ret[0].(*[]domain.Group)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // FindCanWrite indicates an expected call of FindCanWrite.
-func (mr *MockGroupRepositoryMockRecorder) FindCanWrite(email interface{}) *gomock.Call {
+func (mr *MockGroupRepositoryMockRecorder) FindCanWrite(id interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindCanWrite", reflect.TypeOf((*MockGroupRepository)(nil).FindCanWrite), email)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindCanWrite", reflect.TypeOf((*MockGroupRepository)(nil).FindCanWrite), id)
 }
 
 // Update mocks base method.

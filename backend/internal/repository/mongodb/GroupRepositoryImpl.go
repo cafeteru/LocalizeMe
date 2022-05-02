@@ -77,7 +77,7 @@ func (g *GroupRepositoryImpl) FindAll() (*[]domain.Group, error) {
 	return &groups, nil
 }
 
-func (g *GroupRepositoryImpl) FindByPermissions(email string) (*[]domain.Group, error) {
+func (g *GroupRepositoryImpl) FindByPermissions(id primitive.ObjectID) (*[]domain.Group, error) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
 	collection, err := g.GetCollection(g.name)
 	if err != nil {
@@ -86,8 +86,8 @@ func (g *GroupRepositoryImpl) FindByPermissions(email string) (*[]domain.Group, 
 	filter := bson.M{
 		"$or": []bson.M{
 			{"public": true},
-			{"owner.email": email},
-			{"permissions.user.email": email},
+			{"owner._id": id},
+			{"permissions.user._id": id},
 		},
 	}
 	var groups []domain.Group
@@ -144,7 +144,7 @@ func (g *GroupRepositoryImpl) FindByName(name string) (*domain.Group, error) {
 	return &group, nil
 }
 
-func (g *GroupRepositoryImpl) FindCanWrite(email string) (*[]domain.Group, error) {
+func (g *GroupRepositoryImpl) FindCanWrite(id primitive.ObjectID) (*[]domain.Group, error) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
 	collection, err := g.GetCollection(g.name)
 	if err != nil {
@@ -153,9 +153,9 @@ func (g *GroupRepositoryImpl) FindCanWrite(email string) (*[]domain.Group, error
 	filter := bson.M{
 		"$or": []bson.M{
 			{"public": true},
-			{"owner.email": email},
+			{"owner._id": id},
 			{"$and": []bson.M{
-				{"permissions.user.email": email},
+				{"permissions.user._id": id},
 				{"permissions.canWrite": true},
 			}},
 		},

@@ -147,6 +147,44 @@
         }
       }
     },
+    "/baseStrings/group/{id}": {
+      "get": {
+        "description": "Return all baseStrings from a group",
+        "tags": [
+          "BaseStrings"
+        ],
+        "operationId": "FindByGroupBaseStrings",
+        "responses": {
+          "200": {
+            "description": "BaseString",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/BaseString"
+              }
+            }
+          },
+          "400": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          },
+          "401": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          },
+          "500": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          }
+        }
+      }
+    },
     "/baseStrings/{id}": {
       "delete": {
         "tags": [
@@ -846,6 +884,54 @@
             }
           },
           "422": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          }
+        }
+      }
+    },
+    "/stages/name/{name}": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "tags": [
+          "Stages"
+        ],
+        "summary": "Return the information of the stage by name.",
+        "operationId": "FindStageByName",
+        "parameters": [
+          {
+            "type": "string",
+            "x-go-name": "Name",
+            "description": "The stage´s name",
+            "name": "name",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Stage",
+            "schema": {
+              "$ref": "#/definitions/Stage"
+            }
+          },
+          "400": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          },
+          "401": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          },
+          "404": {
             "description": "ErrorDto",
             "schema": {
               "$ref": "#/definitions/ErrorDto"

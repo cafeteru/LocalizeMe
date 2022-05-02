@@ -17,71 +17,40 @@ import (
 	"time"
 )
 
+var id string
+var user domain.User
+var claims jwt.MapClaims
+
 func TestCheckTokenIsActive_CheckUserIsActive_IsActive(t *testing.T) {
 	mockUserService := initMocks(t)
-	user := createUser()
 	user.Active = true
-	claims := jwt.MapClaims{
-		"email":  user.Email,
-		"admin":  user.Admin,
-		"active": user.Active,
-	}
 	request, w := createRequestWithToken(claims)
-	mockUserService.EXPECT().FindByEmail(user.Email).Return(&user, nil)
+	mockUserService.EXPECT().FindById(user.ID).Return(&user, nil)
 	result := CheckUserIsActive(w, request, mockUserService)
 	assert.NotNil(t, result)
 }
 
 func TestCheckTokenIsActive_CheckUserIsActive_IsNotActive(t *testing.T) {
 	mockUserService := initMocks(t)
-	user := createUser()
 	user.Active = false
-
-	claims := jwt.MapClaims{
-		"email":  user.Email,
-		"admin":  user.Admin,
-		"active": user.Active,
-	}
 	request, w := createRequestWithToken(claims)
-	mockUserService.EXPECT().FindByEmail(user.Email).Return(&user, nil)
+	mockUserService.EXPECT().FindById(user.ID).Return(&user, nil)
 	result := CheckUserIsActive(w, request, mockUserService)
 	assert.Nil(t, result)
 }
 
 func TestCheckTokenIsActive_CheckUserIsActive_InvalidToken(t *testing.T) {
 	mockUserService := initMocks(t)
-	user := createUser()
-	claims := jwt.MapClaims{
-		"admin": user.Admin,
-	}
 	request, w := createRequestWithToken(claims)
-	mockUserService.EXPECT().FindByEmail(user.Email).Return(&user, nil)
-	result := CheckUserIsActive(w, request, mockUserService)
-	assert.Nil(t, result)
-}
-
-func TestCheckTokenIsActive_CheckUserIsActive_NotRegisterUser(t *testing.T) {
-	mockUserService := initMocks(t)
-	user := createUser()
-	claims := jwt.MapClaims{
-		"email": user.Email,
-		"admin": user.Admin,
-	}
-	request, w := createRequestWithToken(claims)
-	mockUserService.EXPECT().FindByEmail(user.Email).Return(nil, nil)
+	mockUserService.EXPECT().FindById(user.ID).Return(&user, nil)
 	result := CheckUserIsActive(w, request, mockUserService)
 	assert.Nil(t, result)
 }
 
 func TestCheckTokenIsActive_CheckUserIsActive_ErrorUser(t *testing.T) {
 	mockUserService := initMocks(t)
-	user := createUser()
-	claims := jwt.MapClaims{
-		"email": user.Email,
-		"admin": user.Admin,
-	}
 	request, w := createRequestWithToken(claims)
-	mockUserService.EXPECT().FindByEmail(user.Email).Return(nil, errors.New(constants.UserNoRegister))
+	mockUserService.EXPECT().FindById(user.ID).Return(nil, errors.New(constants.UserNoRegister))
 	result := CheckUserIsActive(w, request, mockUserService)
 	assert.Nil(t, result)
 }
@@ -90,18 +59,22 @@ func initMocks(t *testing.T) *mock.MockUserService {
 	mockCtrl := gomock.NewController(t)
 	defer mockCtrl.Finish()
 	mockUserService := mock.NewMockUserService(mockCtrl)
-	return mockUserService
-}
-
-func createUser() domain.User {
-	user := domain.User{
-		ID:       primitive.ObjectID{},
+	id = "62212b92ab63141a684739f3"
+	objectID, _ := primitive.ObjectIDFromHex(id)
+	user = domain.User{
+		ID:       objectID,
 		Email:    "username",
 		Password: "",
 		Admin:    false,
 		Active:   false,
 	}
-	return user
+	claims = jwt.MapClaims{
+		"email":  user.Email,
+		"admin":  user.Admin,
+		"active": user.Active,
+		"id":     id,
+	}
+	return mockUserService
 }
 
 func createRequestWithToken(claims jwt.MapClaims) (*http.Request, *httptest.ResponseRecorder) {

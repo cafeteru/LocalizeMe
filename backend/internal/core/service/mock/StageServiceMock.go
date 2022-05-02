@@ -37,10 +37,10 @@ func (m *MockStageService) EXPECT() *MockStageServiceMockRecorder {
 }
 
 // Create mocks base method.
-func (m *MockStageService) Create(request dto.StageDto) (domain.Stage, error) {
+func (m *MockStageService) Create(request dto.StageDto) (*domain.Stage, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Create", request)
-	ret0, _ := ret[0].(domain.Stage)
+	ret0, _ := ret[0].(*domain.Stage)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -94,6 +94,21 @@ func (m *MockStageService) FindAll() (*[]domain.Stage, error) {
 func (mr *MockStageServiceMockRecorder) FindAll() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindAll", reflect.TypeOf((*MockStageService)(nil).FindAll))
+}
+
+// FindByName mocks base method.
+func (m *MockStageService) FindByName(name string) (*domain.Stage, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "FindByName", name)
+	ret0, _ := ret[0].(*domain.Stage)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// FindByName indicates an expected call of FindByName.
+func (mr *MockStageServiceMockRecorder) FindByName(name interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindByName", reflect.TypeOf((*MockStageService)(nil).FindByName), name)
 }
 
 // Update mocks base method.
