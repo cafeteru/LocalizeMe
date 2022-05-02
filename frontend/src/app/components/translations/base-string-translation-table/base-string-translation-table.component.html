@@ -1,0 +1,33 @@
+<h3>Translations:</h3>
+<nz-table
+    #translationTable
+    nzShowSizeChanger
+    nzShowPagination
+    nzShowQuickJumper
+    [nzData]="translations"
+    (nzCurrentPageDataChange)="onCurrentPageDataChange($event)"
+>
+    <thead>
+        <tr>
+            <th
+                *ngFor="let column of listOfColumns"
+                [nzSortOrder]="column.sortOrder"
+                [nzSortFn]="column.sortFn"
+                [nzSortDirections]="column.sortDirections"
+                [id]="column.name + '-column'"
+            >
+                {{ column.name }}
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let translation of translationTable.data">
+            <td>{{ translation.version }}</td>
+            <td>{{ translation.stage?.name }}</td>
+            <td>{{ translation.language?.isoCode }}</td>
+            <td>
+                <app-boolean-icon [value]="translation.active"></app-boolean-icon>
+            </td>
+        </tr>
+    </tbody>
+</nz-table>

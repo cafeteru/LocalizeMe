@@ -24,6 +24,8 @@
     <nz-table
         #stagesTable
         nzShowSizeChanger
+        nzShowPagination
+        nzShowQuickJumper
         [nzData]="stages"
         (nzCurrentPageDataChange)="onCurrentPageDataChange($event)"
     >

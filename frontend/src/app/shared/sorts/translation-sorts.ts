@@ -15,6 +15,15 @@ export function sortTranslationByStage(a: Translation, b: Translation): number {
     return validNames === 0 ? sortStrings(a.stage.name, b.stage.name) : validNames;
 }
 
+export function sortTranslationByLanguage(a: Translation, b: Translation): number {
+    const validParams = checkNotNullParams(a.language, b.language);
+    if (validParams !== 0) {
+        return validParams;
+    }
+    const validNames = checkNotNullParams(a.language.isoCode, b.language.isoCode);
+    return validNames === 0 ? sortStrings(a.language.isoCode, b.language.isoCode) : validNames;
+}
+
 export function sortTranslationByActive(a: Translation, b: Translation): number {
     return checkNotNullParams(a.active, b.active);
 }

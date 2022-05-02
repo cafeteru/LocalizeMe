@@ -2,11 +2,11 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ColumnHeader, sortDirections } from '../../../shared/components/utils/nz-table-utils';
 import { UserService } from '../../../core/services/user.service';
 import { BaseComponent } from '../../../core/base/base.component';
-import { checkNotNullParams, sortStrings } from '../../../shared/sorts/sort-columns';
 import { Permission } from '../../../types/permission';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../store/app.reducer';
 import { map } from 'rxjs';
+import { sortPermissionsByCanWrite, sortPermissionsByUserEmail } from '../../../shared/sorts/permissions-sorts';
 
 @Component({
     selector: 'app-user-finder',
@@ -14,7 +14,7 @@ import { map } from 'rxjs';
     styleUrls: ['./user-finder.component.scss'],
 })
 export class UserFinderComponent extends BaseComponent implements OnInit {
-    currentPageUsers: readonly Permission[] = [];
+    currentPagePermissions: readonly Permission[] = [];
     isLoading = false;
     options: string[] = [];
     @Input() selectedPermissions: Permission[] = [];
@@ -27,10 +27,13 @@ export class UserFinderComponent extends BaseComponent implements OnInit {
         {
             name: 'Email',
             sortOrder: null,
-            sortFn: (a, b) => {
-                const validParams = checkNotNullParams(a.user.email, b.user.email);
-                return validParams === 0 ? sortStrings(a.user.email, b.user.email) : validParams;
-            },
+            sortFn: sortPermissionsByUserEmail,
+            sortDirections,
+        },
+        {
+            name: 'Can write?',
+            sortOrder: null,
+            sortFn: sortPermissionsByCanWrite,
             sortDirections,
         },
     ];
@@ -74,11 +77,12 @@ export class UserFinderComponent extends BaseComponent implements OnInit {
     }
 
     onCurrentPageDataChange($event: Permission[]): void {
-        this.currentPageUsers = $event;
+        this.currentPagePermissions = $event;
     }
 
     add(email: string): void {
         const searchedUser = this.permissions.filter((userElement) => userElement.user.email.includes(email));
+        this.selectedPermissions = this.selectedPermissions ? this.selectedPermissions : [];
         const deleteRepeatUsers = new Set([...this.selectedPermissions, ...searchedUser]);
         this.selectedPermissions = [...Array.from(deleteRepeatUsers)];
         this.options = [];

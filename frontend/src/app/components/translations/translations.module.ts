@@ -6,10 +6,11 @@ import { SharedModule } from '../../shared/shared.module';
 import { ModalTranslationComponent } from './modal-translation/modal-translation.component';
 import { LanguagesModule } from '../languages/languages.module';
 import { StagesModule } from '../stages/stages.module';
+import { BaseStringTranslationTableComponent } from './base-string-translation-table/base-string-translation-table.component';
 
 @NgModule({
-    declarations: [TranslationListComponent, ModalTranslationComponent],
+    declarations: [TranslationListComponent, ModalTranslationComponent, BaseStringTranslationTableComponent],
     imports: [CommonModule, CoreModule, SharedModule, LanguagesModule, StagesModule],
-    exports: [TranslationListComponent],
+    exports: [TranslationListComponent, BaseStringTranslationTableComponent],
 })
 export class TranslationsModule {}
