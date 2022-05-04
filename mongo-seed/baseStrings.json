@@ -1,0 +1,125 @@
+[{
+  "_id": {
+    "$oid": "62722f712097786978095a51"
+  },
+  "sourceLanguage": {
+    "_id": {
+      "$oid": "625d19d22029adff51c8b1ed"
+    },
+    "isoCode": "eng",
+    "description": "English",
+    "active": true
+  },
+  "identifier": "hello_world",
+  "group": {
+    "_id": {
+      "$oid": "626ad789bcaeefbb94946d50"
+    },
+    "name": "public",
+    "owner": {
+      "_id": {
+        "$oid": "62212b92ab63141a684739f3"
+      },
+      "email": "admin@email.es",
+      "password": "",
+      "admin": true,
+      "active": true
+    },
+    "permissions": [
+      {
+        "user": {
+          "_id": {
+            "$oid": "62212b9cab63141a684739f5"
+          },
+          "email": "user@email.es",
+          "password": "",
+          "admin": false,
+          "active": true
+        },
+        "canWrite": false
+      }
+    ],
+    "active": true,
+    "public": true
+  },
+  "author": {
+    "_id": {
+      "$oid": "62212b92ab63141a684739f3"
+    },
+    "email": "admin@email.es",
+    "password": "",
+    "admin": true,
+    "active": true
+  },
+  "active": true,
+  "translations": [
+    {
+      "content": "Hello world",
+      "language": {
+        "_id": {
+          "$oid": "625d19d22029adff51c8b1ed"
+        },
+        "isoCode": "eng",
+        "description": "English",
+        "active": true
+      },
+      "version": 1,
+      "active": true,
+      "author": {
+        "_id": {
+          "$oid": "62212b92ab63141a684739f3"
+        },
+        "email": "admin@email.es",
+        "password": "",
+        "admin": true,
+        "active": true
+      },
+      "date": {
+        "$date": {
+          "$numberLong": "1651650379588"
+        }
+      },
+      "stage": {
+        "_id": {
+          "$oid": "62722ed92097786978095a2d"
+        },
+        "name": "Prod",
+        "active": true
+      }
+    },
+    {
+      "content": "Hola mundo",
+      "language": {
+        "_id": {
+          "$oid": "625d19df2029adff51c8b1f4"
+        },
+        "isoCode": "spa",
+        "description": "Spanish",
+        "active": true
+      },
+      "version": 1,
+      "active": true,
+      "author": {
+        "_id": {
+          "$oid": "62212b92ab63141a684739f3"
+        },
+        "email": "admin@email.es",
+        "password": "",
+        "admin": true,
+        "active": true
+      },
+      "date": {
+        "$date": {
+          "$numberLong": "1651650393246"
+        }
+      },
+      "stage": {
+        "_id": {
+          "$oid": "62722ed92097786978095a2d"
+        },
+        "name": "Prod",
+        "active": true
+      }
+    }
+  ]
+}]

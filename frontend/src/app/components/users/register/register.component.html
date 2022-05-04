@@ -6,7 +6,7 @@
         <nz-form-label nzRequired nzFor="email" nzSpan="7">E-mail</nz-form-label>
         <nz-form-control nzHasFeedback [nzErrorTip]="errorEmail" nzSpan="17">
             <nz-input-group nzPrefixIcon="user">
-                <input nz-input formControlName="email" id="email" />
+                <input nz-input formControlName="email" id="registerEmail" />
             </nz-input-group>
         </nz-form-control>
         <ng-template #errorEmail let-control>
@@ -18,7 +18,7 @@
         <nz-form-label nzFor="password" nzRequired nzSpan="7">Password</nz-form-label>
         <nz-form-control nzHasFeedback nzErrorTip="Please input your password" nzSpan="17">
             <nz-input-group nzPrefixIcon="lock">
-                <input nz-input type="password" id="password" formControlName="password" />
+                <input nz-input type="password" id="registerPassword" formControlName="password" />
             </nz-input-group>
         </nz-form-control>
     </nz-form-item>
@@ -26,7 +26,7 @@
         <nz-form-label nzFor="checkPassword" nzRequired nzSpan="7">Confirm Password</nz-form-label>
         <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl" nzSpan="17">
             <nz-input-group nzPrefixIcon="lock">
-                <input nz-input type="password" formControlName="checkPassword" id="checkPassword" />
+                <input nz-input type="password" formControlName="checkPassword" id="registerCheckPassword" />
             </nz-input-group>
             <ng-template #errorTpl let-control>
                 <ng-container *ngIf="control.hasError('required')">Please confirm your password!</ng-container>
@@ -36,7 +36,13 @@
             </ng-template>
         </nz-form-control>
     </nz-form-item>
-    <button nz-button class="login-form-button login-form-margin" [nzType]="'primary'" [disabled]="!formGroup.valid">
+    <button
+        nz-button
+        class="login-form-button login-form-margin"
+        [nzType]="'primary'"
+        [disabled]="!formGroup.valid"
+        id="registerEnter"
+    >
         <span *ngIf="!isLoading">Register in</span>
         <span *ngIf="isLoading">
             <em nz-icon nzType="loading"></em>

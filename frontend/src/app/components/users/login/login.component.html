@@ -5,7 +5,7 @@
     <nz-form-item>
         <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl">
             <nz-input-group nzPrefixIcon="user">
-                <input type="text" nz-input formControlName="email" placeholder="email" />
+                <input type="text" nz-input formControlName="email" placeholder="email" id="loginEmail" />
             </nz-input-group>
             <ng-template #errorTpl let-control>
                 <ng-container *ngIf="control.hasError('required')">Please input your email</ng-container>
@@ -16,11 +16,17 @@
     <nz-form-item>
         <nz-form-control nzHasFeedback nzErrorTip="Please input your Password!">
             <nz-input-group nzPrefixIcon="lock">
-                <input type="password" nz-input formControlName="password" placeholder="Password" />
+                <input type="password" nz-input formControlName="password" placeholder="Password" id="loginPassword" />
             </nz-input-group>
         </nz-form-control>
     </nz-form-item>
-    <button nz-button class="login-form-button login-form-margin" [nzType]="'primary'">
+    <button
+        nz-button
+        class="login-form-button login-form-margin"
+        [nzType]="'primary'"
+        id="loginEnter"
+        [disabled]="formGroup.invalid"
+    >
         <span *ngIf="!isLoading">Log in</span>
         <span *ngIf="isLoading">
             <em nz-icon nzType="loading"></em>
@@ -28,5 +34,5 @@
         </span>
     </button>
     Or
-    <a (click)="openRegister()">register now!</a>
+    <a (click)="openRegister()" id="loginRegister">register now!</a>
 </form>
