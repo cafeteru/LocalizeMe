@@ -105,6 +105,7 @@ docker exec mongo-on-docker mongoimport --authenticationDatabase admin --usernam
 docker exec mongo-on-docker mongoimport --authenticationDatabase admin --username mongoadmin --password secret --db localizeMe --collection stage --type json --file stages.json --jsonArray
 docker exec mongo-on-docker mongoimport --authenticationDatabase admin --username mongoadmin --password secret --db localizeMe --collection languages --type json --file languages.json --jsonArray
 docker exec mongo-on-docker mongoimport --authenticationDatabase admin --username mongoadmin --password secret --db localizeMe --collection groups --type json --file groups.json --jsonArray
+docker exec mongo-on-docker mongoimport --authenticationDatabase admin --username mongoadmin --password secret --db localizeMe --collection baseStrings --type json --file baseStrings.json --jsonArray
 ```
 
 To manage this database, it's recommended to install [MongoDB Compass](https://www.mongodb.com/try/download/compass)

@@ -3,6 +3,7 @@ import { Translation } from '../../../types/translation';
 import { ColumnHeader, sortDirections } from '../../../shared/components/utils/nz-table-utils';
 import {
     sortTranslationByActive,
+    sortTranslationByContent,
     sortTranslationByLanguage,
     sortTranslationByStage,
     sortTranslationByVersion,
@@ -22,6 +23,12 @@ export class BaseStringTranslationTableComponent {
             name: 'Version',
             sortOrder: null,
             sortFn: sortTranslationByVersion,
+            sortDirections,
+        },
+        {
+            name: 'Content',
+            sortOrder: null,
+            sortFn: sortTranslationByContent,
             sortDirections,
         },
         {

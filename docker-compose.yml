@@ -26,7 +26,6 @@ services:
   backend:
     container_name: localize-me-backend
     image: cafeteru/localize-me-backend:latest
-    #build: backend/.  # To local test before up to Docker's server
     command: bash "scripts/docker.sh"
     ports:
       - "8080:8080"

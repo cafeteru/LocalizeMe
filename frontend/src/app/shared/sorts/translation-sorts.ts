@@ -6,6 +6,11 @@ export function sortTranslationByVersion(a: Translation, b: Translation): number
     return validParams === 0 ? a.version - b.version : validParams;
 }
 
+export function sortTranslationByContent(a: Translation, b: Translation): number {
+    const validParams = checkNotNullParams(a.content, b.content);
+    return validParams === 0 ? sortStrings(a.content, b.content) : validParams;
+}
+
 export function sortTranslationByStage(a: Translation, b: Translation): number {
     const validParams = checkNotNullParams(a.stage, b.stage);
     if (validParams !== 0) {
