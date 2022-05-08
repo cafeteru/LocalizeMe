@@ -8,9 +8,11 @@ import { ModalBaseStringComponent } from './modal-base-string/modal-base-string.
 import { GroupsModule } from '../groups/groups.module';
 import { LanguagesModule } from '../languages/languages.module';
 import { TranslationsModule } from '../translations/translations.module';
+import { ReadXliffComponent } from './xliff/read-xliff/read-xliff.component';
+import { StagesModule } from '../stages/stages.module';
 
 @NgModule({
-    declarations: [BaseStringListComponent, ModalBaseStringComponent],
+    declarations: [BaseStringListComponent, ModalBaseStringComponent, ReadXliffComponent],
     imports: [
         CommonModule,
         CoreModule,
@@ -19,6 +21,7 @@ import { TranslationsModule } from '../translations/translations.module';
         GroupsModule,
         LanguagesModule,
         TranslationsModule,
+        StagesModule,
     ],
 })
 export class BaseStringsModule {}

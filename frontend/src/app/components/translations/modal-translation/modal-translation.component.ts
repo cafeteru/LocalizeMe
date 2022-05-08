@@ -43,11 +43,11 @@ export class ModalTranslationComponent extends BaseComponent implements OnInit {
     }
 
     get titleModal(): string {
-        return this.translation.version > 1 ? 'Update translation' : 'Create translation';
+        return this.translation.author ? 'Update translation' : 'Create translation';
     }
 
     get btnModal(): string {
-        return this.translation.version > 1 ? 'Update' : 'Create';
+        return this.translation.author ? 'Update' : 'Create';
     }
 
     setLanguage(language: Language) {

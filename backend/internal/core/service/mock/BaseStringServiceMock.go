@@ -9,6 +9,7 @@ import (
 
 	gomock "github.com/golang/mock/gomock"
 	domain "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain"
+	xliff "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain/xliff"
 	primitive "go.mongodb.org/mongo-driver/bson/primitive"
 )
 
@@ -123,6 +124,21 @@ func (m *MockBaseStringService) FindByPermissions(id primitive.ObjectID) (*[]dom
 func (mr *MockBaseStringServiceMockRecorder) FindByPermissions(id interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindByPermissions", reflect.TypeOf((*MockBaseStringService)(nil).FindByPermissions), id)
+}
+
+// Read mocks base method.
+func (m *MockBaseStringService) Read(xliff xliff.Xliff, user *domain.User, stageId, groupId primitive.ObjectID) (*[]domain.BaseString, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Read", xliff, user, stageId, groupId)
+	ret0, _ := ret[0].(*[]domain.BaseString)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Read indicates an expected call of Read.
+func (mr *MockBaseStringServiceMockRecorder) Read(xliff, user, stageId, groupId interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Read", reflect.TypeOf((*MockBaseStringService)(nil).Read), xliff, user, stageId, groupId)
 }
 
 // Update mocks base method.

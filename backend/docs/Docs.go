@@ -148,3 +148,17 @@ type _ struct {
 	// type: string
 	Id string `json:"id"`
 }
+
+// swagger:parameters CreateXliff
+type _ struct {
+	// The stage´s id
+	// in: query
+	// required: true
+	// type: string
+	Stage string `json:"stage"`
+	// The group´s id
+	// in: query
+	// required: true
+	// type: string
+	Group string `json:"group"`
+}

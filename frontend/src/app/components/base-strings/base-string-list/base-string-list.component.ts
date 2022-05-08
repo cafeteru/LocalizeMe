@@ -18,6 +18,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../../../store/app.reducer';
 import { map } from 'rxjs';
 import { createMockUser, User } from '../../../types/user';
+import { ReadXliffComponent } from '../xliff/read-xliff/read-xliff.component';
 
 interface BaseStringData {
     baseString: BaseString;
@@ -206,5 +207,18 @@ export class BaseStringListComponent extends BaseComponent implements OnInit {
 
     onExpandChange(baseStringData: BaseStringData, expanded: boolean): void {
         baseStringData.expanded = expanded;
+    }
+
+    openReadModal(): void {
+        const dialogRef = this.matDialog.open(ReadXliffComponent, {
+            minWidth: '550px',
+            maxWidth: '75%',
+        });
+        const subscription$ = dialogRef.afterClosed().subscribe((baseStrings?: BaseString[]) => {
+            if (baseStrings) {
+                this.loadBaseStrings();
+            }
+        });
+        this.subscriptions$.push(subscription$);
     }
 }

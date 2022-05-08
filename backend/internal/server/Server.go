@@ -59,10 +59,12 @@ func initControllers(r *chi.Mux) {
 	languagePort := impl.CreateLanguagePort()
 	groupPort := impl.CreateGroupPort()
 	baseStringPort := impl.CreateBaseStringPort()
+	xliffPort := impl.CreateXliffPort()
 	userPort.InitRoutes(r)
 	stagePort.InitRoutes(r)
 	languagePort.InitRoutes(r)
 	groupPort.InitRoutes(r)
 	baseStringPort.InitRoutes(r)
+	xliffPort.InitRoutes(r)
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 }

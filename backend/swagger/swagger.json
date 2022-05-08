@@ -230,7 +230,7 @@
         "tags": [
           "BaseStrings"
         ],
-        "summary": "Disable of a group.",
+        "summary": "Disable of a baseString.",
         "operationId": "DisableBaseString",
         "parameters": [
           {
@@ -1332,6 +1332,71 @@
             }
           },
           "401": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          }
+        }
+      }
+    },
+    "/xliffs": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "tags": [
+          "Xliffs"
+        ],
+        "summary": "Read a .xliff file to create or update baseStrings.",
+        "operationId": "CreateXliff",
+        "parameters": [
+          {
+            "type": "string",
+            "x-go-name": "Stage",
+            "description": "The stage´s id",
+            "name": "stage",
+            "in": "query",
+            "required": true
+          },
+          {
+            "type": "string",
+            "x-go-name": "Group",
+            "description": "The group´s id",
+            "name": "group",
+            "in": "query",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "BaseString",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/BaseString"
+              }
+            }
+          },
+          "400": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          },
+          "401": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          },
+          "403": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          },
+          "422": {
             "description": "ErrorDto",
             "schema": {
               "$ref": "#/definitions/ErrorDto"
