@@ -17,6 +17,7 @@ import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
+import { NzUploadModule } from 'ng-zorro-antd/upload';
 
 @NgModule({
     imports: [
@@ -38,6 +39,7 @@ import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
         NzSpinModule,
         NzTableModule,
         NzToolTipModule,
+        NzUploadModule,
     ],
     exports: [
         NzAutocompleteModule,
@@ -58,6 +60,7 @@ import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
         NzSpinModule,
         NzTableModule,
         NzToolTipModule,
+        NzUploadModule,
     ],
 })
 export class NgZorroModule {}

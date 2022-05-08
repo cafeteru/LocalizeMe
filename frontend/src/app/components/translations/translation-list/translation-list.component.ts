@@ -78,7 +78,11 @@ export class TranslationListComponent extends BaseComponent implements OnInit {
         });
         const subscription$ = dialogRef.afterClosed().subscribe((result: Translation) => {
             if (result) {
-                this.translations = [...this.translations, result];
+                if (translation) {
+                    this.translations = [...this.translations.filter((value) => value !== translation), result];
+                } else {
+                    this.translations = [...this.translations, result];
+                }
             }
             this.emitter.emit(this.translations);
         });

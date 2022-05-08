@@ -1,37 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-    <file datatype="plaintext" original="self" source-language="en" target-language="es">
-        <header>
-            <sxmd:metadata xmlns:sxmd="urn:x-sap:mlt:xliff12:metadata:1.0"
-                xmlns="urn:x-sap:mlt:tsmetadata:1.0">
-                <object-name>tutorial1</object-name>
-                <collection>SHOPS</collection>
-                <domain>CA</domain>
-                <developer>UO239795</developer>
-                <description>Example of a XLIFF file</description>
-            </sxmd:metadata>
-        </header>
-        <body>
-            <trans-unit id="hello_world"
-                xmlns:sap="urn:x-sap:sls-mlt">
-                <source>Hello world!</source>
-                <target>¡Hola mundo!</target>
-            </trans-unit>
-            <trans-unit id="file_menu"
-                xmlns:sap="urn:x-sap:sls-mlt" restype="caption">
-                <source>File</source>
-                <target>Archivo</target>
-            </trans-unit>
-            <trans-unit id="file_menu_new"
-                xmlns:sap="urn:x-sap:sls-mlt" restype="menuitem">
-                <source>New</source>
-                <target>Nuevo</target>
-            </trans-unit>
-            <trans-unit id="file_menu_exit"
-                xmlns:sap="urn:x-sap:sls-mlt" sap:sc="XMIT">
-                <source>Exit</source>
-                <target>Salida</target>
-            </trans-unit>
-        </body>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" version="2.0" srcLang="en" trgLang="esp">
+    <file id="f1" original="Graphic Example.psd">
+        <skeleton href="Graphic Example.psd.skl"/>
+        <unit id="hello_world">
+            <segment>
+                <source>Hello world</source>
+                <target>Hola mundo</target>
+            </segment>
+        </unit>
+        <unit id="xliff_description">
+            <segment>
+                <source>An application to manipulate and process XLIFF documents</source>
+                <target>Una aplicación para manipular y procesar documentos XLIFF</target>
+            </segment>
+        </unit>
+        <unit id="xliff_data_manager">
+            <segment>
+                <source>XLIFF Data Manager</source>
+                <target>Administrador de datos XLIFF</target>
+            </segment>
+        </unit>
     </file>
 </xliff>

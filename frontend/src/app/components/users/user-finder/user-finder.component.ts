@@ -55,6 +55,13 @@ export class UserFinderComponent extends BaseComponent implements OnInit {
                 (this.permissions = users
                     .filter((user) => user.active)
                     .filter((user) => user.email !== this.email)
+                    .filter((user) =>
+                        this.selectedPermissions && this.selectedPermissions.length > 0
+                            ? this.selectedPermissions
+                                  .map((permission) => permission.user)
+                                  .some((value) => user.id !== value.id)
+                            : true
+                    )
                     .map((user) => {
                         return {
                             user: user,

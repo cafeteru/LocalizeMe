@@ -6,4 +6,5 @@ const (
 	Stages      = "stages"
 	Users       = "users"
 	BaseStrings = "baseStrings"
+	Xliffs      = "xliffs"
 )

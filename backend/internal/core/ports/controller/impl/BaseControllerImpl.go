@@ -89,7 +89,7 @@ func (b BaseStringControllerImpl) Delete(w http.ResponseWriter, r *http.Request)
 }
 
 // swagger:route PATCH /baseStrings/{id} BaseStrings DisableBaseString
-// Disable of a group.
+// Disable of a baseString.
 //
 // Responses:
 // - 200: BaseString

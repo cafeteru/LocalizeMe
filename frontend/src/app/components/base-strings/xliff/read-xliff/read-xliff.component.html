@@ -1,0 +1,47 @@
+<header class="modal-header-material">
+    <h1 mat-dialog-title>Read Xliff file</h1>
+</header>
+<form [formGroup]="formGroup">
+    <nz-form-item>
+        <app-group-finder
+            class="finder"
+            id="group-finder"
+            (emitter)="setGroup($event)"
+            [selectGroup]="formGroup.controls['group'].value"
+        ></app-group-finder>
+        <mat-error *ngIf="formGroup.controls['group'].invalid">Please enter a group</mat-error>
+    </nz-form-item>
+    <nz-form-item>
+        <app-stage-finder
+            class="finder"
+            id="stage-finder"
+            (emitter)="setStage($event)"
+            [valid]="showStageError()"
+            [selectedStage]="formGroup.controls['stage'].value"
+        ></app-stage-finder>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-upload
+            nzType="drag"
+            [nzMultiple]="false"
+            nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+            (nzChange)="readFile($event)"
+            id="uploader"
+        >
+            <p class="ant-upload-drag-icon">
+                <em nz-icon nzType="inbox"></em>
+            </p>
+            <p class="ant-upload-text">Click or drag file to this area to upload</p>
+        </nz-upload>
+    </nz-form-item>
+    <nz-form-item nz-row class="register-area btn-right">
+        <button nz-button [nzType]="'primary'" [disabled]="!formGroup.valid || isLoading" (click)="send()">
+            <span *ngIf="!isLoading">Read</span>
+            <span *ngIf="isLoading">
+                <em nz-icon nzType="loading"></em>
+                Loading
+            </span>
+        </button>
+        <button nz-button [nzType]="'default'" (click)="close()">Close</button>
+    </nz-form-item>
+</form>

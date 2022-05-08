@@ -6,4 +6,5 @@ export const Urls = {
     stages: 'stages',
     baseStrings: 'baseStrings',
     users: 'users',
+    xliffs: 'xliffs',
 };
