@@ -181,6 +181,40 @@ func (b BaseStringControllerImpl) FindByGroup(w http.ResponseWriter, r *http.Req
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 }
 
+// swagger:route GET /baseStrings/language/{id} BaseStrings FindByLanguageBaseStrings
+// Return all baseStrings from a language
+//
+// Responses:
+// - 200: []BaseString
+// - 400: ErrorDto
+// - 401: ErrorDto
+// - 500: ErrorDto
+func (b BaseStringControllerImpl) FindByLanguage(w http.ResponseWriter, r *http.Request) {
+	log.Printf("%s: start", tools.GetCurrentFuncName())
+	user := utils.CheckUserIsActive(w, r, b.userService)
+	if user == nil {
+		return
+	}
+	id := chi.URLParam(r, "id")
+	if id == "" {
+		err := errors.New(constants.IdNoValid)
+		utils.CreateErrorResponse(w, err, http.StatusBadRequest)
+		return
+	}
+	objectID, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		utils.CreateErrorResponse(w, err, http.StatusBadRequest)
+		return
+	}
+	baseStrings, err := b.baseStringService.FindByLanguage(objectID, user)
+	if err != nil {
+		utils.CreateErrorResponse(w, err, http.StatusInternalServerError)
+		return
+	}
+	utils.CreateResponse(w, http.StatusOK, baseStrings)
+	log.Printf("%s: end", tools.GetCurrentFuncName())
+}
+
 // swagger:route PUT /baseStrings BaseStrings UpdateBaseString
 // Update the information of a baseString.
 //

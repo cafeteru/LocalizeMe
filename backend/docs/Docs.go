@@ -101,7 +101,7 @@ type _ struct {
 	Language domain.Language
 }
 
-// swagger:parameters DisableLanguage DeleteLanguage
+// swagger:parameters DisableLanguage DeleteLanguage FindByLanguageBaseStrings
 type _ struct {
 	// The language´s id
 	// in: path
@@ -124,7 +124,7 @@ type _ struct {
 	Group domain.Group
 }
 
-// swagger:parameters DisableGroup DeleteGroup
+// swagger:parameters DisableGroup DeleteGroup FindByGroupBaseStrings
 type _ struct {
 	// The group´s id
 	// in: path
@@ -149,7 +149,7 @@ type _ struct {
 	Id string `json:"id"`
 }
 
-// swagger:parameters CreateXliff
+// swagger:parameters ReadXliff
 type _ struct {
 	// The stage´s id
 	// in: query
@@ -161,4 +161,34 @@ type _ struct {
 	// required: true
 	// type: string
 	Group string `json:"group"`
+}
+
+// swagger:parameters CreateXliff
+type _ struct {
+	// in: body
+	// required: true
+	XliffDto dto.XliffDto
+}
+
+// swagger:model Xliff
+type _ struct {
+	// in: body
+	File FileXml `json:"file"`
+}
+
+type FileXml struct {
+	Units   []Unit  `json:"unit" xml:"unit"`
+	Version float32 `xml:"version,attr" json:"version"`
+	SrcLang string  `xml:"srcLang,attr" json:"srcLang"`
+	TrgLang string  `xml:"trgLang,attr" json:"trgLang"`
+}
+
+type Unit struct {
+	Id      string  `xml:"id,attr" json:"id"`
+	Segment Segment `json:"segment" xml:"segment"`
+}
+
+type Segment struct {
+	Source string `json:"source" xml:"source"`
+	Target string `json:"target" xml:"target"`
 }

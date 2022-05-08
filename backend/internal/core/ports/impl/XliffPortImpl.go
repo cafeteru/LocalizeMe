@@ -32,6 +32,7 @@ func (l XliffPortImpl) InitRoutes(r *chi.Mux) {
 		r.Use(jwtauth.Authenticator)
 		r.Route(pattern, func(r chi.Router) {
 			r.Post("/", l.controller.Read)
+			r.Post("/create", l.controller.Create)
 		})
 	})
 	log.Printf("%s: end", tools.GetCurrentFuncName())

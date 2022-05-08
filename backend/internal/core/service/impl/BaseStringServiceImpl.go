@@ -1,10 +1,12 @@
 package impl
 
 import (
+	"encoding/xml"
 	"errors"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/constants"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain"
-	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain/xliff"
+	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain/dto"
+	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain/xmlDto"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/repository"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/repository/mongodb"
 	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/tools"
@@ -114,6 +116,16 @@ func (b BaseStringServiceImpl) FindAll() (*[]domain.BaseString, error) {
 	return baseStrings, nil
 }
 
+func (b BaseStringServiceImpl) FindById(id primitive.ObjectID) (*domain.BaseString, error) {
+	log.Printf("%s: start", tools.GetCurrentFuncName())
+	baseString, err := b.baseStringRepository.FindById(id)
+	if err != nil {
+		return nil, tools.ErrorLogWithError(err, tools.GetCurrentFuncName())
+	}
+	log.Printf("%s: end", tools.GetCurrentFuncName())
+	return baseString, nil
+}
+
 func (b BaseStringServiceImpl) FindByGroup(id primitive.ObjectID, user *domain.User) (*[]domain.BaseString, error) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
 	group, err := b.groupRepository.FindById(id)
@@ -131,6 +143,21 @@ func (b BaseStringServiceImpl) FindByGroup(id primitive.ObjectID, user *domain.U
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return baseStrings, nil
 }
+
+func (b BaseStringServiceImpl) FindByLanguage(id primitive.ObjectID, user *domain.User) (*[]domain.BaseString, error) {
+	log.Printf("%s: start", tools.GetCurrentFuncName())
+	_, err := b.languageRepository.FindById(id)
+	if err != nil {
+		return nil, tools.ErrorLogWithError(err, tools.GetCurrentFuncName())
+	}
+	baseStrings, err := b.baseStringRepository.FindByLanguage(id)
+	if err != nil {
+		return nil, tools.ErrorLogWithError(err, tools.GetCurrentFuncName())
+	}
+	log.Printf("%s: end", tools.GetCurrentFuncName())
+	return baseStrings, nil
+}
+
 func (b BaseStringServiceImpl) FindByPermissions(id primitive.ObjectID) (*[]domain.BaseString, error) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
 	baseStrings, err := b.baseStringRepository.FindByPermissions(id)
@@ -141,7 +168,7 @@ func (b BaseStringServiceImpl) FindByPermissions(id primitive.ObjectID) (*[]doma
 	return baseStrings, nil
 }
 
-func (b BaseStringServiceImpl) Read(xliff xliff.Xliff, user *domain.User, stageId primitive.ObjectID, groupId primitive.ObjectID) (*[]domain.BaseString, error) {
+func (b BaseStringServiceImpl) Read(xliff xmlDto.Xliff, user *domain.User, stageId primitive.ObjectID, groupId primitive.ObjectID) (*[]domain.BaseString, error) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
 	sourceLanguage, err := b.languageRepository.FindByIsoCode(xliff.SrcLang)
 	if err != nil {
@@ -214,17 +241,6 @@ func (b BaseStringServiceImpl) Read(xliff xliff.Xliff, user *domain.User, stageI
 	return &baseStrings, nil
 }
 
-func (b BaseStringServiceImpl) checkExistTranslation(baseString *domain.BaseString, translation domain.Translation) {
-	count := 1
-	for _, originalTranslation := range baseString.Translations {
-		if originalTranslation.Stage.ID == translation.Stage.ID && originalTranslation.Language.ID == translation.Language.ID {
-			count += 1
-		}
-	}
-	translation.Version = count
-	baseString.Translations = append(baseString.Translations, translation)
-}
-
 func (b BaseStringServiceImpl) Update(baseString domain.BaseString, user *domain.User) (*domain.BaseString, error) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
 	err := b.checkPermission(baseString, *user)
@@ -253,6 +269,77 @@ func (b BaseStringServiceImpl) Update(baseString domain.BaseString, user *domain
 	}
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return &baseString, nil
+}
+
+func (b BaseStringServiceImpl) Write(xliffDto dto.XliffDto) (*xmlDto.Xliff, error) {
+	log.Printf("%s: start", tools.GetCurrentFuncName())
+	sourceLanguage, err := b.checkLanguageById(xliffDto.SourceLanguageId)
+	if err != nil {
+		return nil, tools.ErrorLogWithError(err, tools.GetCurrentFuncName())
+	}
+	targetLanguage, err := b.checkLanguageById(xliffDto.TargetLanguageId)
+	if err != nil {
+		return nil, tools.ErrorLogWithError(err, tools.GetCurrentFuncName())
+	}
+	if xliffDto.BaseStringIds == nil {
+		return nil, errors.New(constants.BaseStringIdsNoValid)
+	}
+
+	var units []xmlDto.Unit
+	for _, id := range xliffDto.BaseStringIds {
+		sourceId, err := primitive.ObjectIDFromHex(id)
+		if err != nil {
+			return nil, errors.New(constants.IdNoValid)
+		}
+		baseString, err := b.FindById(sourceId)
+		if err != nil {
+			return nil, tools.ErrorLogWithError(err, tools.GetCurrentFuncName())
+		}
+		units = append(units, xmlDto.Unit{
+			XMLName: xml.Name{},
+			Id:      baseString.Identifier,
+			Segment: xmlDto.Segment{
+				XMLName: xml.Name{},
+				Source:  baseString.FindTranslationLastVersionByLanguage(*sourceLanguage),
+				Target:  baseString.FindTranslationLastVersionByLanguage(*targetLanguage),
+			},
+		})
+	}
+	result := xmlDto.Xliff{
+		XMLName: xml.Name{},
+		FileXml: xmlDto.FileXml{
+			XMLName: xml.Name{},
+			Units:   units,
+		},
+		Version: "2.0",
+		SrcLang: sourceLanguage.IsoCode,
+		TrgLang: targetLanguage.IsoCode,
+	}
+	log.Printf("%s: end", tools.GetCurrentFuncName())
+	return &result, nil
+}
+
+func (b BaseStringServiceImpl) checkExistTranslation(baseString *domain.BaseString, translation domain.Translation) {
+	count := 1
+	for _, originalTranslation := range baseString.Translations {
+		if originalTranslation.Stage.ID == translation.Stage.ID && originalTranslation.Language.ID == translation.Language.ID {
+			count += 1
+		}
+	}
+	translation.Version = count
+	baseString.Translations = append(baseString.Translations, translation)
+}
+
+func (b BaseStringServiceImpl) checkLanguageById(id string) (*domain.Language, error) {
+	sourceId, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		return nil, errors.New(constants.IdNoValid)
+	}
+	language, err := b.languageRepository.FindById(sourceId)
+	if err != nil {
+		return nil, tools.ErrorLogWithError(err, tools.GetCurrentFuncName())
+	}
+	return language, nil
 }
 
 func (b BaseStringServiceImpl) checkUniqueIdentifier(identifier string) error {

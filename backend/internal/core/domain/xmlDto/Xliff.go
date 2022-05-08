@@ -1,11 +1,11 @@
-package xliff
+package xmlDto
 
 import "encoding/xml"
 
 type Xliff struct {
 	XMLName xml.Name `xml:"xliff"`
 	FileXml FileXml  `xml:"file"`
-	Version float32  `xml:"version,attr"`
+	Version string   `xml:"version,attr" default:"2.0"`
 	SrcLang string   `xml:"srcLang,attr"`
 	TrgLang string   `xml:"trgLang,attr"`
 }

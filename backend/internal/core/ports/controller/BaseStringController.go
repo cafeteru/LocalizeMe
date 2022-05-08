@@ -10,5 +10,6 @@ type BaseStringController interface {
 	Disable(w http.ResponseWriter, r *http.Request)
 	FindAll(w http.ResponseWriter, r *http.Request)
 	FindByGroup(w http.ResponseWriter, r *http.Request)
+	FindByLanguage(w http.ResponseWriter, r *http.Request)
 	Update(w http.ResponseWriter, r *http.Request)
 }

@@ -9,7 +9,8 @@ import (
 
 	gomock "github.com/golang/mock/gomock"
 	domain "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain"
-	xliff "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain/xliff"
+	dto "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain/dto"
+	xmlDto "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain/xmlDto"
 	primitive "go.mongodb.org/mongo-driver/bson/primitive"
 )
 
@@ -111,6 +112,21 @@ func (mr *MockBaseStringServiceMockRecorder) FindByGroup(id, user interface{}) *
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindByGroup", reflect.TypeOf((*MockBaseStringService)(nil).FindByGroup), id, user)
 }
 
+// FindByLanguage mocks base method.
+func (m *MockBaseStringService) FindByLanguage(id primitive.ObjectID, user *domain.User) (*[]domain.BaseString, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "FindByLanguage", id, user)
+	ret0, _ := ret[0].(*[]domain.BaseString)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// FindByLanguage indicates an expected call of FindByLanguage.
+func (mr *MockBaseStringServiceMockRecorder) FindByLanguage(id, user interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindByLanguage", reflect.TypeOf((*MockBaseStringService)(nil).FindByLanguage), id, user)
+}
+
 // FindByPermissions mocks base method.
 func (m *MockBaseStringService) FindByPermissions(id primitive.ObjectID) (*[]domain.BaseString, error) {
 	m.ctrl.T.Helper()
@@ -127,7 +143,7 @@ func (mr *MockBaseStringServiceMockRecorder) FindByPermissions(id interface{}) *
 }
 
 // Read mocks base method.
-func (m *MockBaseStringService) Read(xliff xliff.Xliff, user *domain.User, stageId, groupId primitive.ObjectID) (*[]domain.BaseString, error) {
+func (m *MockBaseStringService) Read(xliff xmlDto.Xliff, user *domain.User, stageId, groupId primitive.ObjectID) (*[]domain.BaseString, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Read", xliff, user, stageId, groupId)
 	ret0, _ := ret[0].(*[]domain.BaseString)
@@ -154,4 +170,19 @@ func (m *MockBaseStringService) Update(baseString domain.BaseString, user *domai
 func (mr *MockBaseStringServiceMockRecorder) Update(baseString, user interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Update", reflect.TypeOf((*MockBaseStringService)(nil).Update), baseString, user)
+}
+
+// Write mocks base method.
+func (m *MockBaseStringService) Write(xliff dto.XliffDto) (*xmlDto.Xliff, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Write", xliff)
+	ret0, _ := ret[0].(*xmlDto.Xliff)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Write indicates an expected call of Write.
+func (mr *MockBaseStringServiceMockRecorder) Write(xliff interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Write", reflect.TypeOf((*MockBaseStringService)(nil).Write), xliff)
 }

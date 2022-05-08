@@ -17,7 +17,7 @@
     ></nz-autocomplete>
     <nz-table
         #permissionsTable
-        nzShowSizeChanger
+        [nzPageSize]="5"
         nzShowPagination
         nzShowQuickJumper
         [nzData]="selectedPermissions"

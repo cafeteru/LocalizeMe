@@ -9,6 +9,8 @@ namespace domain {
         + Active bool
         + Translations []Translation
 
+        + FindTranslationLastVersionByLanguage(language Language) string
+
     }
     class Group << (S,Aquamarine) >> {
         + ID primitive.ObjectID

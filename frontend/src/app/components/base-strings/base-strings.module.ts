@@ -10,9 +10,17 @@ import { LanguagesModule } from '../languages/languages.module';
 import { TranslationsModule } from '../translations/translations.module';
 import { ReadXliffComponent } from './xliff/read-xliff/read-xliff.component';
 import { StagesModule } from '../stages/stages.module';
+import { CreateXliffComponent } from './xliff/create-xliff/create-xliff.component';
+import { CreateXliffListBaseStringsComponent } from './xliff/create-xliff-list-base-strings/create-xliff-list-base-strings.component';
 
 @NgModule({
-    declarations: [BaseStringListComponent, ModalBaseStringComponent, ReadXliffComponent],
+    declarations: [
+        BaseStringListComponent,
+        ModalBaseStringComponent,
+        ReadXliffComponent,
+        CreateXliffComponent,
+        CreateXliffListBaseStringsComponent,
+    ],
     imports: [
         CommonModule,
         CoreModule,

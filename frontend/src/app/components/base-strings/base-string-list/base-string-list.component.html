@@ -18,10 +18,20 @@
                 nzType="primary"
                 nzSize="large"
                 nzShape="circle"
-                [nz-tooltip]="'Read Xliff file'"
+                [nz-tooltip]="'Read a Xliff file'"
                 (click)="openReadModal()"
             >
                 <em nz-icon nzType="file"></em>
+            </button>
+            <button
+                nz-button
+                nzType="primary"
+                nzSize="large"
+                nzShape="circle"
+                [nz-tooltip]="'Create a Xliff file'"
+                (click)="openCreateModal()"
+            >
+                <em nz-icon nzType="export"></em>
             </button>
             <button
                 nz-button

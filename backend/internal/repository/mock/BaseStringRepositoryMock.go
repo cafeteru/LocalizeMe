@@ -126,6 +126,21 @@ func (mr *MockBaseStringRepositoryMockRecorder) FindByIdentifier(name interface{
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindByIdentifier", reflect.TypeOf((*MockBaseStringRepository)(nil).FindByIdentifier), name)
 }
 
+// FindByLanguage mocks base method.
+func (m *MockBaseStringRepository) FindByLanguage(id primitive.ObjectID) (*[]domain.BaseString, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "FindByLanguage", id)
+	ret0, _ := ret[0].(*[]domain.BaseString)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// FindByLanguage indicates an expected call of FindByLanguage.
+func (mr *MockBaseStringRepositoryMockRecorder) FindByLanguage(id interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindByLanguage", reflect.TypeOf((*MockBaseStringRepository)(nil).FindByLanguage), id)
+}
+
 // FindByPermissions mocks base method.
 func (m *MockBaseStringRepository) FindByPermissions(id primitive.ObjectID) (*[]domain.BaseString, error) {
 	m.ctrl.T.Helper()

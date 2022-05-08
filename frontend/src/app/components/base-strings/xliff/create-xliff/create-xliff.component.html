@@ -1,0 +1,37 @@
+<header class="modal-header-material">
+    <h1 mat-dialog-title>Create a Xliff file</h1>
+</header>
+<form [formGroup]="formGroup">
+    <nz-form-item>
+        <app-language-finder
+            class="finder"
+            id="sourceLanguage"
+            (emitter)="setSourceLanguage($event)"
+            [filterLanguage]="targetLanguage"
+            [valid]="showLanguageError('sourceLanguageId')"
+            [selectLanguage]="formGroup.controls['sourceLanguageId'].value"
+            [title]="'Source Language'"
+        ></app-language-finder>
+        <app-language-finder
+            class="finder"
+            (emitter)="setTargetLanguage($event)"
+            [filterLanguage]="sourceLanguage"
+            [valid]="showLanguageError('targetLanguageId')"
+            [selectLanguage]="formGroup.controls['targetLanguageId'].value"
+            [title]="'Target Language'"
+        ></app-language-finder>
+    </nz-form-item>
+    <nz-form-item>
+        <app-create-xliff-list-base-strings (emitter)="setBaseStringIds($event)"></app-create-xliff-list-base-strings>
+    </nz-form-item>
+    <nz-form-item nz-row class="register-area btn-right">
+        <button nz-button [nzType]="'primary'" [disabled]="!formGroup.valid || isLoading" (click)="send()">
+            <span *ngIf="!isLoading">Read</span>
+            <span *ngIf="isLoading">
+                <em nz-icon nzType="loading"></em>
+                Loading
+            </span>
+        </button>
+        <button nz-button [nzType]="'default'" (click)="close()">Close</button>
+    </nz-form-item>
+</form>

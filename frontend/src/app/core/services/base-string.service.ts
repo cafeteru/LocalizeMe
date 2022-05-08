@@ -5,8 +5,6 @@ import { HttpClient } from '@angular/common/http';
 import { catchError, map, Observable, of } from 'rxjs';
 import { getDefaultHttpOptions } from './default-http-options';
 import { BaseString } from '../../types/base-string';
-import { Stage } from '../../types/stage';
-import { Group } from '../../types/group';
 
 @Injectable({
     providedIn: 'root',
@@ -34,14 +32,6 @@ export class BaseStringService {
         return this.httpClient
             .get<BaseString[]>(this.url, getDefaultHttpOptions())
             .pipe(map((baseStrings) => (baseStrings ? baseStrings : [])));
-    }
-
-    read(stage: Stage, group: Group, xliff: string): Observable<BaseString[]> {
-        return this.httpClient.post<BaseString[]>(
-            `${environment.urlApi}/${Urls.xliffs}?stage=${stage.id}&group=${group.id}`,
-            xliff,
-            getDefaultHttpOptions()
-        );
     }
 
     update(baseString: BaseString): Observable<BaseString> {

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { BaseComponent } from '../../../core/base/base.component';
 import { Language } from '../../../types/language';
 import { LanguageService } from '../../../core/services/language.service';
@@ -8,13 +8,16 @@ import { LanguageService } from '../../../core/services/language.service';
     templateUrl: './language-finder.component.html',
     styleUrls: ['./language-finder.component.scss'],
 })
-export class LanguageFinderComponent extends BaseComponent implements OnInit {
+export class LanguageFinderComponent extends BaseComponent implements OnInit, OnChanges {
     isLoading = false;
     options: string[] = [];
     selectedText: string;
+    originalLanguages: readonly Language[] = [];
     languages: readonly Language[] = [];
     @Input() valid = false;
+    @Input() title = 'Languages';
     @Input() selectLanguage: Language;
+    @Input() filterLanguage: Language;
     @Output() emitter: EventEmitter<Language> = new EventEmitter<Language>();
 
     constructor(private languageService: LanguageService) {
@@ -27,15 +30,30 @@ export class LanguageFinderComponent extends BaseComponent implements OnInit {
         if (this.selectLanguage) {
             this.selectedText = this.getName(this.selectLanguage);
         }
-        const subscription$ = this.languageService.findAll().subscribe({
-            next: (languages) => (this.languages = languages.filter((language) => language.active)),
-            error: () => {
-                this.languages = [];
-                this.isLoading = false;
-            },
-            complete: () => (this.isLoading = false),
-        });
+        const subscription$ = this.languageService
+            .findAll()
+            .pipe()
+            .subscribe({
+                next: (languages) => {
+                    this.originalLanguages = languages.filter((language) => language.active);
+                    this.languages = [...this.originalLanguages];
+                },
+                error: () => {
+                    this.languages = [];
+                    this.isLoading = false;
+                },
+                complete: () => (this.isLoading = false),
+            });
         this.subscriptions$.push(subscription$);
+    }
+
+    ngOnChanges(): void {
+        this.languages = [...this.originalLanguages];
+        this.searchGroupByName('');
+        if (this.filterLanguage) {
+            this.languages = [...this.originalLanguages].filter((language) => language.id != this.filterLanguage.id);
+            this.options = this.languages.map((language) => this.getName(language));
+        }
     }
 
     getName(language: Language): string {
@@ -57,6 +75,7 @@ export class LanguageFinderComponent extends BaseComponent implements OnInit {
             this.emitter.emit(this.selectLanguage);
         } else {
             this.emitter.emit(undefined);
+            this.searchGroupByName('');
         }
     }
 }
