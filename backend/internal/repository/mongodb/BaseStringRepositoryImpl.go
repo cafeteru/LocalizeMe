@@ -103,6 +103,34 @@ func (b *BaseStringRepositoryImpl) FindByGroup(id primitive.ObjectID) (*[]domain
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return &baseStrings, nil
 }
+
+func (b *BaseStringRepositoryImpl) FindByLanguage(id primitive.ObjectID) (*[]domain.BaseString, error) {
+	log.Printf("%s: start", tools.GetCurrentFuncName())
+	collection, err := b.GetCollection(b.name)
+	if err != nil {
+		return nil, tools.ErrorLogDetails(err, constants.CreateConnection, tools.GetCurrentFuncName())
+	}
+	filter := bson.M{"translations.language._id": id}
+	var baseStrings []domain.BaseString
+	cursor, _ := collection.Find(context.TODO(), filter)
+	for cursor.Next(context.TODO()) {
+		var baseString domain.BaseString
+		if err := cursor.Decode(&baseString); err != nil {
+			return nil, tools.ErrorLogDetails(err, constants.ReadDatabase, tools.GetCurrentFuncName())
+		}
+		baseStrings = append(baseStrings, baseString)
+	}
+	if err = cursor.Err(); err != nil {
+		return nil, tools.ErrorLogDetails(err, constants.ReadDatabase, tools.GetCurrentFuncName())
+	}
+	if err = cursor.Close(context.TODO()); err != nil {
+		return nil, tools.ErrorLogDetails(err, constants.ReadDatabase, tools.GetCurrentFuncName())
+	}
+	b.CloseConnection()
+	log.Printf("%s: end", tools.GetCurrentFuncName())
+	return &baseStrings, nil
+}
+
 func (b *BaseStringRepositoryImpl) FindByPermissions(id primitive.ObjectID) (*[]domain.BaseString, error) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
 	collection, err := b.GetCollection(b.name)

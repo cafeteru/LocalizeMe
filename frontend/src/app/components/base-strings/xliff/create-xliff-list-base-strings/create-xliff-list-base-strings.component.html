@@ -1,0 +1,65 @@
+<nz-spin [nzSpinning]="isLoading" nzSize="large">
+    <nz-table
+        #baseStringTable
+        [nzPageSize]="5"
+        nzShowPagination
+        nzShowQuickJumper
+        [nzData]="baseStrings"
+        (nzCurrentPageDataChange)="onCurrentPageDataChange($event)"
+    >
+        <thead>
+            <tr>
+                <th nzWidth="150px" id="xliff-base-string-list-select-column">
+                    <label
+                        nz-checkbox
+                        id="checkbox-select-all"
+                        data-qa="checkbox-select-all"
+                        [ngModel]="allSelected"
+                        (ngModelChange)="markAll($event)"
+                    ></label>
+                    <label nz-dropdown [nzDropdownMenu]="menu" [nzClickHide]="false" id="arrow-selections">
+                        <em nz-icon nzType="down"></em>
+                    </label>
+                    <nz-dropdown-menu #menu="nzDropdownMenu">
+                        <ul nz-menu>
+                            <li nz-menu-item (click)="markPage(true)" id="select-page" data-qa="select-page">
+                                Select Page
+                            </li>
+                            <li nz-menu-item (click)="markPage(false)" id="unselect-page" data-qa="unselect-page">
+                                Unselect Page
+                            </li>
+                        </ul>
+                    </nz-dropdown-menu>
+                    <span id="select-all-total">{{ selectedLength + '/' + baseStrings.length }}</span>
+                </th>
+                <th
+                    *ngFor="let column of listOfColumns"
+                    [nzSortOrder]="column.sortOrder"
+                    [nzSortFn]="column.sortFn"
+                    [nzSortDirections]="column.sortDirections"
+                    [id]="column.name + '-column'"
+                >
+                    {{ column.name }}
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <ng-container *ngFor="let baseStringData of baseStringTable.data; let i = index">
+                <tr>
+                    <td
+                        [id]="'checkbox-base-string-data' + (i + 1)"
+                        [nzChecked]="baseStringData.selected"
+                        (nzCheckedChange)="onChangeSelected(baseStringData, $event)"
+                    ></td>
+                    <td>{{ baseStringData.baseString.identifier }}</td>
+                    <td>{{ baseStringData.baseString.sourceLanguage?.isoCode }}</td>
+                    <td>{{ baseStringData.baseString.group?.name }}</td>
+                    <td>{{ baseStringData.baseString.author?.email }}</td>
+                    <td>
+                        <app-boolean-icon [value]="baseStringData.baseString.active"></app-boolean-icon>
+                    </td>
+                </tr>
+            </ng-container>
+        </tbody>
+    </nz-table>
+</nz-spin>

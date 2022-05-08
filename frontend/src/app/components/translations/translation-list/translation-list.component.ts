@@ -4,6 +4,7 @@ import { Translation } from '../../../types/translation';
 import { ColumnHeader, sortDirections } from '../../../shared/components/utils/nz-table-utils';
 import {
     sortTranslationByActive,
+    sortTranslationByContent,
     sortTranslationByLanguage,
     sortTranslationByStage,
     sortTranslationByVersion,
@@ -27,6 +28,12 @@ export class TranslationListComponent extends BaseComponent implements OnInit {
             name: 'Version',
             sortOrder: null,
             sortFn: sortTranslationByVersion,
+            sortDirections,
+        },
+        {
+            name: 'Content',
+            sortOrder: null,
+            sortFn: sortTranslationByContent,
             sortDirections,
         },
         {
@@ -94,19 +101,19 @@ export class TranslationListComponent extends BaseComponent implements OnInit {
         this.emitter.emit(this.translations);
     }
 
-    showDeleteModal(translation: Translation): void {
+    showDeleteModal(position: number): void {
         this.nzModalService.confirm({
             nzTitle: 'Are you sure delete this translation?',
             nzOkText: 'Yes',
             nzOkType: 'primary',
             nzOkDanger: true,
-            nzOnOk: () => this.delete(translation),
+            nzOnOk: () => this.delete(position),
             nzCancelText: 'No',
             nzAutofocus: 'cancel',
         });
     }
 
-    private delete(translation: Translation): void {
-        this.translations = this.translations.filter((element) => element.content != translation.content);
+    private delete(position: number): void {
+        this.translations = this.translations.filter((_, i) => i != position);
     }
 }

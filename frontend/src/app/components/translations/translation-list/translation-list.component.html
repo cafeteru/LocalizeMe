@@ -15,7 +15,8 @@
 </h3>
 <nz-table
     #translationTable
-    nzShowSizeChanger
+    id="translationTable"
+    [nzPageSize]="5"
     nzShowPagination
     nzShowQuickJumper
     [nzData]="translations"
@@ -38,7 +39,7 @@
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let translation of translationTable.data">
+        <tr *ngFor="let translation of translationTable.data; let i = index">
             <td>{{ translation.version }}</td>
             <td>{{ translation.content }}</td>
             <td>{{ translation.stage?.name }}</td>
@@ -78,7 +79,7 @@
                     nzType="default"
                     nzDanger
                     nzShape="circle"
-                    (click)="showDeleteModal(translation)"
+                    (click)="showDeleteModal(i)"
                 >
                     <em nz-icon nzType="delete"></em>
                 </button>

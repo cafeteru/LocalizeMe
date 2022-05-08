@@ -1,6 +1,7 @@
 package constants
 
 const (
+	BaseStringIdsNoValid                = "baseStringIds no valid"
 	CreateConnection                    = "starting the connection"
 	DataLogin                           = "data invalid"
 	DeleteBaseString                    = "error delete group"
@@ -39,8 +40,8 @@ const (
 	NameStageInvalid                    = "stage's name invalid"
 	ReadDatabase                        = "problems reading data from database"
 	StageAlreadyRegister                = "stage already registered"
-	TranslationNullLanguage             = "language can not be null"
 	TranslationNullAuthor               = "author can not be null"
+	TranslationNullLanguage             = "language can not be null"
 	TranslationNullStage                = "stage can not be null"
 	UpdateBaseString                    = "updating baseString"
 	UpdateLanguage                      = "updating language"

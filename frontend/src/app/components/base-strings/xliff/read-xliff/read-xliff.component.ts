@@ -6,9 +6,9 @@ import { Stage } from '../../../../types/stage';
 import { MatDialogRef } from '@angular/material/dialog';
 import { NzUploadChangeParam } from 'ng-zorro-antd/upload';
 import { FormGroupUtil } from '../../../../shared/utils/form-group-util';
-import { BaseStringService } from '../../../../core/services/base-string.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { BaseString } from '../../../../types/base-string';
+import { XliffService } from '../../../../core/services/xliff.service';
 
 @Component({
     selector: 'app-read-xliff',
@@ -21,7 +21,7 @@ export class ReadXliffComponent extends BaseComponent implements OnInit {
 
     constructor(
         private matDialogRef: MatDialogRef<ReadXliffComponent>,
-        private baseStringService: BaseStringService,
+        private xliffService: XliffService,
         private nzMessageService: NzMessageService
     ) {
         super();
@@ -70,10 +70,10 @@ export class ReadXliffComponent extends BaseComponent implements OnInit {
             const stage = this.formGroup.controls['stage'].value as Stage;
             const group = this.formGroup.controls['group'].value as Group;
             const xliff = this.formGroup.controls['xliff'].value as string;
-            const subscription$ = this.baseStringService.read(stage, group, xliff).subscribe({
+            const subscription$ = this.xliffService.read(stage, group, xliff).subscribe({
                 next: (basesStrings) => {
                     this.close(basesStrings);
-                    this.createMessage('success', 'Successfully readed strings');
+                    this.createMessage('success', 'Successfully loaded strings');
                 },
                 error: () => {
                     this.isLoading = false;

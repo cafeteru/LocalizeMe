@@ -19,6 +19,7 @@ import { AppState } from '../../../store/app.reducer';
 import { map } from 'rxjs';
 import { createMockUser, User } from '../../../types/user';
 import { ReadXliffComponent } from '../xliff/read-xliff/read-xliff.component';
+import { CreateXliffComponent } from '../xliff/create-xliff/create-xliff.component';
 
 interface BaseStringData {
     baseString: BaseString;
@@ -213,6 +214,7 @@ export class BaseStringListComponent extends BaseComponent implements OnInit {
         const dialogRef = this.matDialog.open(ReadXliffComponent, {
             minWidth: '550px',
             maxWidth: '75%',
+            maxHeight: '700px',
         });
         const subscription$ = dialogRef.afterClosed().subscribe((baseStrings?: BaseString[]) => {
             if (baseStrings) {
@@ -220,5 +222,12 @@ export class BaseStringListComponent extends BaseComponent implements OnInit {
             }
         });
         this.subscriptions$.push(subscription$);
+    }
+
+    openCreateModal(): void {
+        this.matDialog.open(CreateXliffComponent, {
+            minWidth: '550px',
+            maxWidth: '75%',
+        });
     }
 }

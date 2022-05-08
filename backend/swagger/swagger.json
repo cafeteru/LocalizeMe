@@ -154,6 +154,64 @@
           "BaseStrings"
         ],
         "operationId": "FindByGroupBaseStrings",
+        "parameters": [
+          {
+            "type": "string",
+            "x-go-name": "Id",
+            "description": "The group´s id",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "BaseString",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/BaseString"
+              }
+            }
+          },
+          "400": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          },
+          "401": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          },
+          "500": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          }
+        }
+      }
+    },
+    "/baseStrings/language/{id}": {
+      "get": {
+        "description": "Return all baseStrings from a language",
+        "tags": [
+          "BaseStrings"
+        ],
+        "operationId": "FindByLanguageBaseStrings",
+        "parameters": [
+          {
+            "type": "string",
+            "x-go-name": "Id",
+            "description": "The language´s id",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
         "responses": {
           "200": {
             "description": "BaseString",
@@ -1349,7 +1407,7 @@
           "Xliffs"
         ],
         "summary": "Read a .xliff file to create or update baseStrings.",
-        "operationId": "CreateXliff",
+        "operationId": "ReadXliff",
         "parameters": [
           {
             "type": "string",
@@ -1376,6 +1434,64 @@
               "items": {
                 "$ref": "#/definitions/BaseString"
               }
+            }
+          },
+          "400": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          },
+          "401": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          },
+          "403": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          },
+          "422": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          }
+        }
+      }
+    },
+    "/xliffs/create": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "tags": [
+          "Xliffs"
+        ],
+        "summary": "Create a .xliff file.",
+        "operationId": "CreateXliff",
+        "parameters": [
+          {
+            "name": "XliffDto",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/XliffDto"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Xliff",
+            "schema": {
+              "$ref": "#/definitions/Xliff"
             }
           },
           "400": {
@@ -1449,6 +1565,32 @@
         }
       },
       "x-go-package": "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain/dto"
+    },
+    "FileXml": {
+      "type": "object",
+      "properties": {
+        "srcLang": {
+          "type": "string",
+          "x-go-name": "SrcLang"
+        },
+        "trgLang": {
+          "type": "string",
+          "x-go-name": "TrgLang"
+        },
+        "unit": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Unit"
+          },
+          "x-go-name": "Units"
+        },
+        "version": {
+          "type": "number",
+          "format": "float",
+          "x-go-name": "Version"
+        }
+      },
+      "x-go-package": "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/docs"
     },
     "Group": {
       "type": "object",
@@ -1562,6 +1704,20 @@
       },
       "x-go-package": "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain"
     },
+    "Segment": {
+      "type": "object",
+      "properties": {
+        "source": {
+          "type": "string",
+          "x-go-name": "Source"
+        },
+        "target": {
+          "type": "string",
+          "x-go-name": "Target"
+        }
+      },
+      "x-go-package": "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/docs"
+    },
     "Stage": {
       "type": "object",
       "properties": {
@@ -1632,6 +1788,19 @@
       },
       "x-go-package": "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain"
     },
+    "Unit": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "x-go-name": "Id"
+        },
+        "segment": {
+          "$ref": "#/definitions/Segment"
+        }
+      },
+      "x-go-package": "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/docs"
+    },
     "User": {
       "type": "object",
       "properties": {
@@ -1667,6 +1836,37 @@
         "password": {
           "type": "string",
           "x-go-name": "Password"
+        }
+      },
+      "x-go-package": "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain/dto"
+    },
+    "Xliff": {
+      "type": "object",
+      "properties": {
+        "file": {
+          "$ref": "#/definitions/FileXml"
+        }
+      },
+      "x-go-name": "_",
+      "x-go-package": "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/docs"
+    },
+    "XliffDto": {
+      "type": "object",
+      "properties": {
+        "baseStringIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-go-name": "BaseStringIds"
+        },
+        "sourceLanguageId": {
+          "type": "string",
+          "x-go-name": "SourceLanguageId"
+        },
+        "targetLanguageId": {
+          "type": "string",
+          "x-go-name": "TargetLanguageId"
         }
       },
       "x-go-package": "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain/dto"

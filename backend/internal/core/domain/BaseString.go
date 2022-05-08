@@ -12,3 +12,15 @@ type BaseString struct {
 	Active         bool               `bson:"active" json:"active"`
 	Translations   []Translation      `bson:"translations" json:"translations"`
 }
+
+func (b BaseString) FindTranslationLastVersionByLanguage(language Language) string {
+	var translation Translation
+	lastVersion := 0
+	for _, value := range b.Translations {
+		if value.Language.ID == language.ID && value.Version > lastVersion {
+			translation = value
+			lastVersion = value.Version
+		}
+	}
+	return translation.Content
+}
