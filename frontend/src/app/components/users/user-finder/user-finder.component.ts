@@ -54,6 +54,7 @@ export class UserFinderComponent extends BaseComponent implements OnInit {
             next: (users) =>
                 (this.permissions = users
                     .filter((user) => user.active)
+                    .filter((user) => !user.admin)
                     .filter((user) => user.email !== this.email)
                     .filter((user) =>
                         this.selectedPermissions && this.selectedPermissions.length > 0
@@ -78,7 +79,7 @@ export class UserFinderComponent extends BaseComponent implements OnInit {
         if (event) {
             const value = (event.target as HTMLInputElement).value;
             if (value) {
-                this.options = emails.filter((email) => email.includes(value));
+                this.options = emails.filter((email) => email.toLocaleLowerCase().includes(value.toLocaleLowerCase()));
             }
         }
     }

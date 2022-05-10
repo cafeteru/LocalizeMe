@@ -2,8 +2,15 @@
   "_id": {
     "$oid": "625d19d22029adff51c8b1ed"
   },
-  "isoCode": "eng",
+  "isoCode": "en",
   "description": "English",
+  "active": true
+},{
+  "_id": {
+    "$oid": "6277c9071abc35ed75eba28c"
+  },
+  "isoCode": "ita",
+  "description": "Italian",
   "active": true
 },{
   "_id": {

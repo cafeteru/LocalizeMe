@@ -131,7 +131,7 @@ func (l LanguageControllerImpl) FindAll(w http.ResponseWriter, r *http.Request) 
 	}
 	stages, err := l.languageService.FindAll()
 	if err != nil {
-		utils.CreateErrorResponse(w, err, http.StatusInternalServerError)
+		utils.CreateErrorResponse(w, err, http.StatusBadRequest)
 		return
 	}
 	utils.CreateResponse(w, http.StatusOK, stages)

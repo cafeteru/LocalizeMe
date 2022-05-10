@@ -30,7 +30,7 @@ func (b *BaseStringRepositoryImpl) Create(group domain.BaseString) (*mongo.Inser
 	if err != nil {
 		return nil, tools.ErrorLogDetails(err, constants.InsertBaseString, tools.GetCurrentFuncName())
 	}
-	b.CloseConnection()
+
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return result, nil
 }
@@ -46,7 +46,7 @@ func (b *BaseStringRepositoryImpl) Delete(id primitive.ObjectID) (*mongo.DeleteR
 	if err != nil {
 		return nil, tools.ErrorLogDetails(err, constants.DeleteBaseString, tools.GetCurrentFuncName())
 	}
-	b.CloseConnection()
+
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return result, nil
 }
@@ -72,7 +72,7 @@ func (b *BaseStringRepositoryImpl) FindAll() (*[]domain.BaseString, error) {
 	if err := cursor.Close(context.TODO()); err != nil {
 		return nil, tools.ErrorLogDetails(err, constants.ReadDatabase, tools.GetCurrentFuncName())
 	}
-	b.CloseConnection()
+
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return &baseStrings, nil
 }
@@ -99,7 +99,7 @@ func (b *BaseStringRepositoryImpl) FindByGroup(id primitive.ObjectID) (*[]domain
 	if err = cursor.Close(context.TODO()); err != nil {
 		return nil, tools.ErrorLogDetails(err, constants.ReadDatabase, tools.GetCurrentFuncName())
 	}
-	b.CloseConnection()
+
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return &baseStrings, nil
 }
@@ -126,7 +126,7 @@ func (b *BaseStringRepositoryImpl) FindByLanguage(id primitive.ObjectID) (*[]dom
 	if err = cursor.Close(context.TODO()); err != nil {
 		return nil, tools.ErrorLogDetails(err, constants.ReadDatabase, tools.GetCurrentFuncName())
 	}
-	b.CloseConnection()
+
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return &baseStrings, nil
 }
@@ -161,7 +161,7 @@ func (b *BaseStringRepositoryImpl) FindByPermissions(id primitive.ObjectID) (*[]
 	if err = cursor.Close(context.TODO()); err != nil {
 		return nil, tools.ErrorLogDetails(err, constants.ReadDatabase, tools.GetCurrentFuncName())
 	}
-	b.CloseConnection()
+
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return &baseStrings, nil
 }
@@ -178,24 +178,46 @@ func (b *BaseStringRepositoryImpl) FindById(id primitive.ObjectID) (*domain.Base
 	if err = result.Decode(&baseString); err != nil {
 		return nil, tools.ErrorLogDetails(err, constants.FindBaseStringById, tools.GetCurrentFuncName())
 	}
-	b.CloseConnection()
+
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return &baseString, nil
 }
 
-func (b *BaseStringRepositoryImpl) FindByIdentifier(name string) (*domain.BaseString, error) {
+func (b *BaseStringRepositoryImpl) FindByIdentifier(identifier string) (*domain.BaseString, error) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
 	collection, err := b.GetCollection(b.name)
 	if err != nil {
 		return nil, tools.ErrorLogDetails(err, constants.CreateConnection, tools.GetCurrentFuncName())
 	}
-	filter := bson.M{"identifier": bson.M{"$eq": name}}
+	filter := bson.M{"identifier": bson.M{"$eq": identifier}}
 	result := collection.FindOne(context.TODO(), filter)
 	var baseString domain.BaseString
 	if err = result.Decode(&baseString); err != nil {
 		return nil, tools.ErrorLogDetails(err, constants.FindBaseStringByIdentifier, tools.GetCurrentFuncName())
 	}
-	b.CloseConnection()
+
+	log.Printf("%s: end", tools.GetCurrentFuncName())
+	return &baseString, nil
+}
+
+func (b *BaseStringRepositoryImpl) FindByIdentifierAndLanguage(identifier string, isoCode string) (*domain.BaseString, error) {
+	log.Printf("%s: start", tools.GetCurrentFuncName())
+	collection, err := b.GetCollection(b.name)
+	if err != nil {
+		return nil, tools.ErrorLogDetails(err, constants.CreateConnection, tools.GetCurrentFuncName())
+	}
+	filter := bson.M{
+		"$and": []bson.M{
+			{"identifier": identifier},
+			{"translations.language.isoCode": isoCode},
+		},
+	}
+	result := collection.FindOne(context.TODO(), filter)
+	var baseString domain.BaseString
+	if err = result.Decode(&baseString); err != nil {
+		return nil, tools.ErrorLogDetails(err, constants.FindBaseStringByIdentifierAndIsoCode, tools.GetCurrentFuncName())
+	}
+
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return &baseString, nil
 }
@@ -221,7 +243,7 @@ func (b *BaseStringRepositoryImpl) Update(baseString domain.BaseString) (*mongo.
 	if err != nil {
 		return nil, tools.ErrorLogDetails(err, constants.UpdateBaseString, tools.GetCurrentFuncName())
 	}
-	b.CloseConnection()
+
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return result, nil
 }

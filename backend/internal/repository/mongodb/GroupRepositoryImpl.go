@@ -30,7 +30,7 @@ func (g *GroupRepositoryImpl) Create(group domain.Group) (*mongo.InsertOneResult
 	if err != nil {
 		return nil, tools.ErrorLogDetails(err, constants.InsertGroup, tools.GetCurrentFuncName())
 	}
-	g.CloseConnection()
+
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return result, nil
 }
@@ -46,7 +46,7 @@ func (g *GroupRepositoryImpl) Delete(id primitive.ObjectID) (*mongo.DeleteResult
 	if err != nil {
 		return nil, tools.ErrorLogDetails(err, constants.DeleteGroup, tools.GetCurrentFuncName())
 	}
-	g.CloseConnection()
+
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return result, nil
 }
@@ -72,7 +72,7 @@ func (g *GroupRepositoryImpl) FindAll() (*[]domain.Group, error) {
 	if err := cursor.Close(context.TODO()); err != nil {
 		return nil, tools.ErrorLogDetails(err, constants.ReadDatabase, tools.GetCurrentFuncName())
 	}
-	g.CloseConnection()
+
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return &groups, nil
 }
@@ -105,7 +105,7 @@ func (g *GroupRepositoryImpl) FindByPermissions(id primitive.ObjectID) (*[]domai
 	if err := cursor.Close(context.TODO()); err != nil {
 		return nil, tools.ErrorLogDetails(err, constants.ReadDatabase, tools.GetCurrentFuncName())
 	}
-	g.CloseConnection()
+
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return &groups, nil
 }
@@ -122,7 +122,7 @@ func (g *GroupRepositoryImpl) FindById(id primitive.ObjectID) (*domain.Group, er
 	if err = result.Decode(&group); err != nil {
 		return nil, tools.ErrorLogDetails(err, constants.FindGroupById, tools.GetCurrentFuncName())
 	}
-	g.CloseConnection()
+
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return &group, nil
 }
@@ -139,7 +139,7 @@ func (g *GroupRepositoryImpl) FindByName(name string) (*domain.Group, error) {
 	if err = result.Decode(&group); err != nil {
 		return nil, tools.ErrorLogDetails(err, constants.FindGroupByName, tools.GetCurrentFuncName())
 	}
-	g.CloseConnection()
+
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return &group, nil
 }
@@ -175,7 +175,7 @@ func (g *GroupRepositoryImpl) FindCanWrite(id primitive.ObjectID) (*[]domain.Gro
 	if err := cursor.Close(context.TODO()); err != nil {
 		return nil, tools.ErrorLogDetails(err, constants.ReadDatabase, tools.GetCurrentFuncName())
 	}
-	g.CloseConnection()
+
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return &groups, nil
 }
@@ -200,7 +200,7 @@ func (g *GroupRepositoryImpl) Update(group domain.Group) (*mongo.UpdateResult, e
 	if err != nil {
 		return nil, tools.ErrorLogDetails(err, constants.UpdateLanguage, tools.GetCurrentFuncName())
 	}
-	g.CloseConnection()
+
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return result, nil
 }

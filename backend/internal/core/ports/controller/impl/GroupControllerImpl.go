@@ -137,7 +137,7 @@ func (g GroupControllerImpl) FindAll(w http.ResponseWriter, r *http.Request) {
 		groups, err = g.groupService.FindByPermissions(user.ID)
 	}
 	if err != nil {
-		utils.CreateErrorResponse(w, err, http.StatusInternalServerError)
+		utils.CreateErrorResponse(w, err, http.StatusBadRequest)
 		return
 	}
 	utils.CreateResponse(w, http.StatusOK, groups)
@@ -166,7 +166,7 @@ func (g GroupControllerImpl) FindCanWrite(w http.ResponseWriter, r *http.Request
 		groups, err = g.groupService.FindCanWrite(user.ID)
 	}
 	if err != nil {
-		utils.CreateErrorResponse(w, err, http.StatusInternalServerError)
+		utils.CreateErrorResponse(w, err, http.StatusBadRequest)
 		return
 	}
 	utils.CreateResponse(w, http.StatusOK, groups)

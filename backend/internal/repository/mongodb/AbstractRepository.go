@@ -58,26 +58,3 @@ func (a *AbstractRepository) connectDatabase() (*mongo.Client, error) {
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return client, nil
 }
-
-func (a *AbstractRepository) CloseConnection() {
-	log.Printf("%s: start", tools.GetCurrentFuncName())
-	defer a.disconnectDatabase()
-	log.Printf("%s: end", tools.GetCurrentFuncName())
-}
-
-func (a *AbstractRepository) disconnectDatabase() {
-	log.Printf("%s: start", tools.GetCurrentFuncName())
-	if a.client != nil {
-		err := a.client.Disconnect(context.TODO())
-		if err != nil {
-			log.Printf("%s: %s", tools.GetCurrentFuncName(), err)
-		}
-	}
-	a.clearClientCollection()
-	log.Printf("%s: end", tools.GetCurrentFuncName())
-}
-
-func (a *AbstractRepository) clearClientCollection() {
-	a.client = nil
-	a.collection = nil
-}

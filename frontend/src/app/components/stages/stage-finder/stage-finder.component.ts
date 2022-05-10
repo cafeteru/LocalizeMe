@@ -40,7 +40,11 @@ export class StageFinderComponent extends BaseComponent implements OnInit {
 
     searchStageByName(value: string): void {
         const strings = this.stages.map((stage) => stage.name);
-        this.options = value ? this.stages.map((stage) => stage.name).filter((name) => name.includes(value)) : strings;
+        this.options = value
+            ? this.stages
+                  .map((stage) => stage.name)
+                  .filter((name) => name.toLocaleLowerCase().includes(value.toLocaleLowerCase()))
+            : strings;
     }
 
     add(): void {

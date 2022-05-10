@@ -13,7 +13,8 @@ type BaseStringRepository interface {
 	FindByGroup(id primitive.ObjectID) (*[]domain.BaseString, error)
 	FindByLanguage(id primitive.ObjectID) (*[]domain.BaseString, error)
 	FindById(id primitive.ObjectID) (*domain.BaseString, error)
-	FindByIdentifier(name string) (*domain.BaseString, error)
+	FindByIdentifier(identifier string) (*domain.BaseString, error)
+	FindByIdentifierAndLanguage(identifier string, isoCode string) (*domain.BaseString, error)
 	FindByPermissions(id primitive.ObjectID) (*[]domain.BaseString, error)
 	Update(baseString domain.BaseString) (*mongo.UpdateResult, error)
 }

@@ -33,7 +33,7 @@ func (u *UserRepositoryImpl) Create(user domain.User) (*mongo.InsertOneResult, e
 	if err != nil {
 		return nil, tools.ErrorLogDetails(err, constants.InsertUser, tools.GetCurrentFuncName())
 	}
-	u.CloseConnection()
+
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return result, nil
 }
@@ -49,7 +49,7 @@ func (u *UserRepositoryImpl) Delete(id primitive.ObjectID) (*mongo.DeleteResult,
 	if err != nil {
 		return nil, tools.ErrorLogDetails(err, constants.DeleteUser, tools.GetCurrentFuncName())
 	}
-	u.CloseConnection()
+
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return result, nil
 }
@@ -66,7 +66,7 @@ func (u *UserRepositoryImpl) FindByEmail(email string) (*domain.User, error) {
 	if err = result.Decode(&user); err != nil {
 		return nil, tools.ErrorLogDetails(err, constants.FindUserByEmail, tools.GetCurrentFuncName())
 	}
-	u.CloseConnection()
+
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return &user, nil
 }
@@ -83,7 +83,7 @@ func (u *UserRepositoryImpl) FindById(id primitive.ObjectID) (*domain.User, erro
 	if err = result.Decode(&user); err != nil {
 		return nil, tools.ErrorLogDetails(err, constants.FindUserById, tools.GetCurrentFuncName())
 	}
-	u.CloseConnection()
+
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return &user, nil
 }
@@ -110,7 +110,7 @@ func (u *UserRepositoryImpl) FindAll() (*[]domain.User, error) {
 	if err := cursor.Close(context.TODO()); err != nil {
 		return nil, tools.ErrorLogDetails(err, constants.ReadDatabase, tools.GetCurrentFuncName())
 	}
-	u.CloseConnection()
+
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return &users, nil
 }
@@ -134,7 +134,7 @@ func (u *UserRepositoryImpl) Update(user domain.User) (*mongo.UpdateResult, erro
 	if err != nil {
 		return nil, tools.ErrorLogDetails(err, constants.UpdateUser, tools.GetCurrentFuncName())
 	}
-	u.CloseConnection()
+
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return result, nil
 }

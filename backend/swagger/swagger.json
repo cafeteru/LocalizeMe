@@ -147,6 +147,51 @@
         }
       }
     },
+    "/baseStrings/content": {
+      "get": {
+        "description": "Return a baseString from an identifier",
+        "tags": [
+          "BaseStrings"
+        ],
+        "operationId": "FindByIdentifierBaseStrings",
+        "parameters": [
+          {
+            "type": "string",
+            "x-go-name": "IsoCode",
+            "description": "The baseString´s isoCode",
+            "name": "isoCode",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "BaseString",
+            "schema": {
+              "$ref": "#/definitions/BaseString"
+            }
+          },
+          "400": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          },
+          "401": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          },
+          "500": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          }
+        }
+      }
+    },
     "/baseStrings/group/{id}": {
       "get": {
         "description": "Return all baseStrings from a group",
@@ -172,6 +217,51 @@
               "items": {
                 "$ref": "#/definitions/BaseString"
               }
+            }
+          },
+          "400": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          },
+          "401": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          },
+          "500": {
+            "description": "ErrorDto",
+            "schema": {
+              "$ref": "#/definitions/ErrorDto"
+            }
+          }
+        }
+      }
+    },
+    "/baseStrings/identifier/{identifier}": {
+      "get": {
+        "description": "Return a baseString from an identifier",
+        "tags": [
+          "BaseStrings"
+        ],
+        "operationId": "FindByIdentifierBaseStrings",
+        "parameters": [
+          {
+            "type": "string",
+            "x-go-name": "IsoCode",
+            "description": "The baseString´s isoCode",
+            "name": "isoCode",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "BaseString",
+            "schema": {
+              "$ref": "#/definitions/BaseString"
             }
           },
           "400": {

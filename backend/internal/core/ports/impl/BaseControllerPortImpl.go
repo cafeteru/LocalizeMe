@@ -33,7 +33,9 @@ func (b BaseStringPortImpl) InitRoutes(r *chi.Mux) {
 		r.Route(pattern, func(r chi.Router) {
 			r.Post("/", b.controller.Create)
 			r.Get("/", b.controller.FindAll)
+			r.Get("/content", b.controller.FindByIdentifierAndLanguage)
 			r.Get("/group/{id}", b.controller.FindByGroup)
+			r.Get("/identifier/{identifier}", b.controller.FindByIdentifier)
 			r.Get("/language/{id}", b.controller.FindByLanguage)
 			r.Put("/", b.controller.Update)
 			r.Patch("/{id}", b.controller.Disable)
