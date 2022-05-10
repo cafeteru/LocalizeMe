@@ -44,6 +44,7 @@ func CreateServer(port string) *Server {
 
 func (serv *Server) Close() error {
 	log.Printf("Stopping on http://localhost%s", serv.server.Addr)
+
 	return nil
 }
 

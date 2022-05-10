@@ -6,9 +6,9 @@
   "active": true
 },{
   "_id": {
-    "$oid": "62722ea82097786978095a23"
+    "$oid": "62722ea02097786978095a1e"
   },
-  "name": "Beta",
+  "name": "Alpha",
   "active": true
 },{
   "_id": {
@@ -24,8 +24,8 @@
   "active": true
 },{
   "_id": {
-    "$oid": "62722ea02097786978095a1e"
+    "$oid": "62722ea82097786978095a23"
   },
-  "name": "Alpha",
+  "name": "Beta",
   "active": true
 }]

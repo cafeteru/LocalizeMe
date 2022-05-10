@@ -151,7 +151,7 @@ func (u UserControllerImpl) FindAll(w http.ResponseWriter, r *http.Request) {
 	}
 	users, err := u.service.FindAll()
 	if err != nil {
-		utils.CreateErrorResponse(w, err, http.StatusInternalServerError)
+		utils.CreateErrorResponse(w, err, http.StatusBadRequest)
 		return
 	}
 	utils.CreateResponse(w, http.StatusOK, users)

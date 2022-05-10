@@ -65,7 +65,9 @@ export class LanguageFinderComponent extends BaseComponent implements OnInit, On
 
     searchGroupByName(value: string): void {
         const strings = this.languages.map((language) => this.getName(language));
-        this.options = value ? strings.filter((name) => name.includes(value)) : strings;
+        this.options = value
+            ? strings.filter((name) => name.toLocaleLowerCase().includes(value.toLocaleLowerCase()))
+            : strings;
     }
 
     add(): void {

@@ -13,6 +13,8 @@ type BaseStringService interface {
 	Disable(id primitive.ObjectID, user *domain.User) (*domain.BaseString, error)
 	FindAll() (*[]domain.BaseString, error)
 	FindByGroup(id primitive.ObjectID, user *domain.User) (*[]domain.BaseString, error)
+	FindByIdentifier(identifier string, user *domain.User) (*domain.BaseString, error)
+	FindByIdentifierAndLanguage(identifier string, isoCode string, user *domain.User) (*string, error)
 	FindByLanguage(id primitive.ObjectID, user *domain.User) (*[]domain.BaseString, error)
 	FindByPermissions(id primitive.ObjectID) (*[]domain.BaseString, error)
 	Read(xliff xmlDto.Xliff, user *domain.User, stageId primitive.ObjectID, groupId primitive.ObjectID) (*[]domain.BaseString, error)

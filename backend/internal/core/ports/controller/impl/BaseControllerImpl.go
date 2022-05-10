@@ -140,7 +140,7 @@ func (b BaseStringControllerImpl) FindAll(w http.ResponseWriter, r *http.Request
 		baseStrings, err = b.baseStringService.FindByPermissions(user.ID)
 	}
 	if err != nil {
-		utils.CreateErrorResponse(w, err, http.StatusInternalServerError)
+		utils.CreateErrorResponse(w, err, http.StatusBadRequest)
 		return
 	}
 	utils.CreateResponse(w, http.StatusOK, baseStrings)
@@ -174,7 +174,7 @@ func (b BaseStringControllerImpl) FindByGroup(w http.ResponseWriter, r *http.Req
 	}
 	baseStrings, err := b.baseStringService.FindByGroup(objectID, user)
 	if err != nil {
-		utils.CreateErrorResponse(w, err, http.StatusInternalServerError)
+		utils.CreateErrorResponse(w, err, http.StatusBadRequest)
 		return
 	}
 	utils.CreateResponse(w, http.StatusOK, baseStrings)
@@ -208,7 +208,63 @@ func (b BaseStringControllerImpl) FindByLanguage(w http.ResponseWriter, r *http.
 	}
 	baseStrings, err := b.baseStringService.FindByLanguage(objectID, user)
 	if err != nil {
-		utils.CreateErrorResponse(w, err, http.StatusInternalServerError)
+		utils.CreateErrorResponse(w, err, http.StatusBadRequest)
+		return
+	}
+	utils.CreateResponse(w, http.StatusOK, baseStrings)
+	log.Printf("%s: end", tools.GetCurrentFuncName())
+}
+
+// swagger:route GET /baseStrings/identifier/{identifier} BaseStrings FindByIdentifierBaseStrings
+// Return a baseString from an identifier
+//
+// Responses:
+// - 200: BaseString
+// - 400: ErrorDto
+// - 401: ErrorDto
+// - 500: ErrorDto
+func (b BaseStringControllerImpl) FindByIdentifier(w http.ResponseWriter, r *http.Request) {
+	log.Printf("%s: start", tools.GetCurrentFuncName())
+	user := utils.CheckUserIsActive(w, r, b.userService)
+	if user == nil {
+		return
+	}
+	identifier := chi.URLParam(r, "identifier")
+	if identifier == "" {
+		err := errors.New(constants.IdentifierBaseStringInvalid)
+		utils.CreateErrorResponse(w, err, http.StatusBadRequest)
+		return
+	}
+	baseStrings, err := b.baseStringService.FindByIdentifier(identifier, user)
+	if err != nil {
+		utils.CreateErrorResponse(w, err, http.StatusBadRequest)
+		return
+	}
+	utils.CreateResponse(w, http.StatusOK, baseStrings)
+	log.Printf("%s: end", tools.GetCurrentFuncName())
+}
+
+// swagger:route GET /baseStrings/content BaseStrings FindByIdentifierBaseStrings
+// Return a baseString from an identifier
+//
+// Responses:
+// - 200: BaseString
+// - 400: ErrorDto
+// - 401: ErrorDto
+// - 500: ErrorDto
+func (b BaseStringControllerImpl) FindByIdentifierAndLanguage(w http.ResponseWriter, r *http.Request) {
+	// todo create a list para evitar muchas llamadas a la vez
+	log.Printf("%s: start", tools.GetCurrentFuncName())
+	user := utils.CheckUserIsActive(w, r, b.userService)
+	if user == nil {
+		return
+	}
+	identifier := r.URL.Query().Get("identifier")
+	isoCode := r.URL.Query().Get("isoCode")
+	log.Printf("%s: %s", identifier, isoCode)
+	baseStrings, err := b.baseStringService.FindByIdentifierAndLanguage(identifier, isoCode, user)
+	if err != nil {
+		utils.CreateErrorResponse(w, err, http.StatusBadRequest)
 		return
 	}
 	utils.CreateResponse(w, http.StatusOK, baseStrings)

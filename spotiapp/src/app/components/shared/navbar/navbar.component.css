@@ -1,0 +1,11 @@
+.lang-selector {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.lang-selector:hover, .lang-selector:focus {
+    color: black;
+}
+
+.lang-menu {
+    background-color: #343a40;
+}

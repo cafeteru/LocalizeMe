@@ -51,6 +51,19 @@ services:
       - localize-me-network
     environment:
       urlApi: 'http://backend'
+  spotiapp:
+    container_name: localize-me-spotiapp
+    image: cafeteru/localize-me-spotiapp:latest
+    ports:
+      - "90:80"
+    volumes:
+      - ./:/spotiapp
+    depends_on:
+      - backend
+    networks:
+      - localize-me-network
+    environment:
+      urlApi: 'http://backend'
 
 networks:
   localize-me-network:

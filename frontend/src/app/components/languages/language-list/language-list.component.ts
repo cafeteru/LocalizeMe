@@ -25,15 +25,15 @@ export class LanguageListComponent extends BaseComponent implements OnInit {
 
     listOfColumns: ColumnHeader<Language>[] = [
         {
-            name: 'Description',
-            sortOrder: null,
-            sortFn: sortLanguagesByDescription,
-            sortDirections,
-        },
-        {
             name: 'Iso Code',
             sortOrder: null,
             sortFn: sortLanguagesByIsoCode,
+            sortDirections,
+        },
+        {
+            name: 'Description',
+            sortOrder: null,
+            sortFn: sortLanguagesByDescription,
             sortDirections,
         },
         {

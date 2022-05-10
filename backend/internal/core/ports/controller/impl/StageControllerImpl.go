@@ -128,7 +128,7 @@ func (s StageControllerImpl) FindAll(w http.ResponseWriter, r *http.Request) {
 	}
 	stages, err := s.stageService.FindAll()
 	if err != nil {
-		utils.CreateErrorResponse(w, err, http.StatusInternalServerError)
+		utils.CreateErrorResponse(w, err, http.StatusBadRequest)
 		return
 	}
 	utils.CreateResponse(w, http.StatusOK, stages)

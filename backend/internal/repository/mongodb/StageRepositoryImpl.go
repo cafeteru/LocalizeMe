@@ -30,7 +30,7 @@ func (s *StageRepositoryImpl) Create(stage domain.Stage) (*mongo.InsertOneResult
 	if err != nil {
 		return nil, tools.ErrorLogDetails(err, constants.InsertStage, tools.GetCurrentFuncName())
 	}
-	s.CloseConnection()
+
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return result, nil
 }
@@ -46,7 +46,7 @@ func (s *StageRepositoryImpl) Delete(id primitive.ObjectID) (*mongo.DeleteResult
 	if err != nil {
 		return nil, tools.ErrorLogDetails(err, constants.DeleteStage, tools.GetCurrentFuncName())
 	}
-	s.CloseConnection()
+
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return result, nil
 }
@@ -72,7 +72,7 @@ func (s *StageRepositoryImpl) FindAll() (*[]domain.Stage, error) {
 	if err := cursor.Close(context.TODO()); err != nil {
 		return nil, tools.ErrorLogDetails(err, constants.ReadDatabase, tools.GetCurrentFuncName())
 	}
-	s.CloseConnection()
+
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return &stages, nil
 }
@@ -89,7 +89,7 @@ func (s *StageRepositoryImpl) FindById(id primitive.ObjectID) (*domain.Stage, er
 	if err = result.Decode(&stage); err != nil {
 		return nil, tools.ErrorLogDetails(err, constants.FindStageById, tools.GetCurrentFuncName())
 	}
-	s.CloseConnection()
+
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return &stage, nil
 }
@@ -106,7 +106,7 @@ func (s *StageRepositoryImpl) FindByName(name string) (*domain.Stage, error) {
 	if err = result.Decode(&stage); err != nil {
 		return nil, tools.ErrorLogDetails(err, constants.FindStageByName, tools.GetCurrentFuncName())
 	}
-	s.CloseConnection()
+
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return &stage, nil
 }
@@ -128,7 +128,7 @@ func (s *StageRepositoryImpl) Update(stage domain.Stage) (*mongo.UpdateResult, e
 	if err != nil {
 		return nil, tools.ErrorLogDetails(err, constants.UpdateStage, tools.GetCurrentFuncName())
 	}
-	s.CloseConnection()
+
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return result, nil
 }

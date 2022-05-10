@@ -115,5 +115,6 @@ export class TranslationListComponent extends BaseComponent implements OnInit {
 
     private delete(position: number): void {
         this.translations = this.translations.filter((_, i) => i != position);
+        this.emitter.emit(this.translations);
     }
 }

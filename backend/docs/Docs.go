@@ -192,3 +192,12 @@ type Segment struct {
 	Source string `json:"source" xml:"source"`
 	Target string `json:"target" xml:"target"`
 }
+
+// swagger:parameters FindByIdentifierBaseStrings
+type _ struct {
+	// The baseString´s isoCode
+	// in: path
+	// required: true
+	// type: string
+	IsoCode string `json:"isoCode"`
+}

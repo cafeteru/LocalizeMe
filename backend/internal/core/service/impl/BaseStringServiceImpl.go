@@ -144,6 +144,39 @@ func (b BaseStringServiceImpl) FindByGroup(id primitive.ObjectID, user *domain.U
 	return baseStrings, nil
 }
 
+func (b BaseStringServiceImpl) FindByIdentifier(identifier string, user *domain.User) (*domain.BaseString, error) {
+	log.Printf("%s: start", tools.GetCurrentFuncName())
+	baseString, err := b.baseStringRepository.FindByIdentifier(identifier)
+	if err != nil {
+		return nil, tools.ErrorLogWithError(err, tools.GetCurrentFuncName())
+	}
+	err = b.checkPermission(*baseString, *user)
+	if err != nil {
+		return nil, tools.ErrorLogWithError(err, tools.GetCurrentFuncName())
+	}
+	log.Printf("%s: end", tools.GetCurrentFuncName())
+	return baseString, nil
+}
+
+func (b BaseStringServiceImpl) FindByIdentifierAndLanguage(identifier string, isoCode string, user *domain.User) (*string, error) {
+	log.Printf("%s: start", tools.GetCurrentFuncName())
+	language, err := b.languageRepository.FindByIsoCode(isoCode)
+	if err != nil {
+		return nil, tools.ErrorLogWithError(err, tools.GetCurrentFuncName())
+	}
+	baseString, err := b.baseStringRepository.FindByIdentifierAndLanguage(identifier, isoCode)
+	if err != nil {
+		return nil, tools.ErrorLogWithError(err, tools.GetCurrentFuncName())
+	}
+	err = b.checkPermission(*baseString, *user)
+	if err != nil {
+		return nil, tools.ErrorLogWithError(err, tools.GetCurrentFuncName())
+	}
+	translationContent := baseString.FindTranslationLastVersionByLanguage(*language)
+	log.Printf("%s: end", tools.GetCurrentFuncName())
+	return &translationContent, nil
+}
+
 func (b BaseStringServiceImpl) FindByLanguage(id primitive.ObjectID, user *domain.User) (*[]domain.BaseString, error) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
 	_, err := b.languageRepository.FindById(id)
@@ -153,6 +186,12 @@ func (b BaseStringServiceImpl) FindByLanguage(id primitive.ObjectID, user *domai
 	baseStrings, err := b.baseStringRepository.FindByLanguage(id)
 	if err != nil {
 		return nil, tools.ErrorLogWithError(err, tools.GetCurrentFuncName())
+	}
+	for _, baseString := range *baseStrings {
+		err = b.checkPermission(baseString, *user)
+		if err != nil {
+			return nil, tools.ErrorLogWithError(err, tools.GetCurrentFuncName())
+		}
 	}
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return baseStrings, nil
@@ -255,11 +294,8 @@ func (b BaseStringServiceImpl) Update(baseString domain.BaseString, user *domain
 		if baseString.Identifier == "" {
 			return nil, tools.ErrorLog(constants.IdentifierBaseStringInvalid, tools.GetCurrentFuncName())
 		}
-		findByName, err := b.baseStringRepository.FindByIdentifier(baseString.Identifier)
-		if findByName != nil {
-			return nil, tools.ErrorLog(constants.IdentifierBaseStringAlreadyRegister, tools.GetCurrentFuncName())
-		}
-		if err != nil && err.Error() != constants.FindGroupByName {
+		_, err := b.baseStringRepository.FindByIdentifier(baseString.Identifier)
+		if err != nil && err.Error() != constants.FindBaseStringByIdentifier {
 			return nil, tools.ErrorLogWithError(err, tools.GetCurrentFuncName())
 		}
 	}

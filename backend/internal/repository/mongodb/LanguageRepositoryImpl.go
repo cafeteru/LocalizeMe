@@ -30,7 +30,7 @@ func (l *LanguageRepositoryImpl) Create(language domain.Language) (*mongo.Insert
 	if err != nil {
 		return nil, tools.ErrorLogDetails(err, constants.InsertLanguage, tools.GetCurrentFuncName())
 	}
-	l.CloseConnection()
+	// l.CloseConnection()
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return result, nil
 }
@@ -46,7 +46,7 @@ func (l *LanguageRepositoryImpl) Delete(id primitive.ObjectID) (*mongo.DeleteRes
 	if err != nil {
 		return nil, tools.ErrorLogDetails(err, constants.DeleteLanguage, tools.GetCurrentFuncName())
 	}
-	l.CloseConnection()
+	// l.CloseConnection()
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return result, nil
 }
@@ -72,7 +72,7 @@ func (l *LanguageRepositoryImpl) FindAll() (*[]domain.Language, error) {
 	if err := cursor.Close(context.TODO()); err != nil {
 		return nil, tools.ErrorLogDetails(err, constants.ReadDatabase, tools.GetCurrentFuncName())
 	}
-	l.CloseConnection()
+	// l.CloseConnection()
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return &languages, nil
 }
@@ -89,7 +89,7 @@ func (l *LanguageRepositoryImpl) FindById(id primitive.ObjectID) (*domain.Langua
 	if err = result.Decode(&language); err != nil {
 		return nil, tools.ErrorLogDetails(err, constants.FindLanguageById, tools.GetCurrentFuncName())
 	}
-	l.CloseConnection()
+	// l.CloseConnection()
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return &language, nil
 }
@@ -101,14 +101,13 @@ func (l *LanguageRepositoryImpl) FindByIsoCode(isoCode string) (*domain.Language
 		return nil, tools.ErrorLogDetails(err, constants.CreateConnection, tools.GetCurrentFuncName())
 	}
 	filter := bson.M{"isoCode": bson.M{"$eq": isoCode}}
-	result := collection.FindOne(context.TODO(), filter)
-	var stage domain.Language
-	if err = result.Decode(&stage); err != nil {
+	var language domain.Language
+	if err = collection.FindOne(context.TODO(), filter).Decode(&language); err != nil {
 		return nil, tools.ErrorLogDetails(err, constants.FindLanguageByIsoCode, tools.GetCurrentFuncName())
 	}
-	l.CloseConnection()
+	// l.CloseConnection()
 	log.Printf("%s: end", tools.GetCurrentFuncName())
-	return &stage, nil
+	return &language, nil
 }
 
 func (l *LanguageRepositoryImpl) Update(language domain.Language) (*mongo.UpdateResult, error) {
@@ -129,7 +128,7 @@ func (l *LanguageRepositoryImpl) Update(language domain.Language) (*mongo.Update
 	if err != nil {
 		return nil, tools.ErrorLogDetails(err, constants.UpdateLanguage, tools.GetCurrentFuncName())
 	}
-	l.CloseConnection()
+	// l.CloseConnection()
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return result, nil
 }

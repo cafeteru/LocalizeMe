@@ -39,7 +39,9 @@ export class GroupFinderComponent extends BaseComponent implements OnInit {
 
     searchGroupByName(value: string): void {
         const names = this.groups.map((group) => group.name);
-        this.options = value ? names.filter((name) => name.includes(value)) : names;
+        this.options = value
+            ? names.filter((name) => name.toLocaleLowerCase().includes(value.toLocaleLowerCase()))
+            : names;
     }
 
     add(): void {
