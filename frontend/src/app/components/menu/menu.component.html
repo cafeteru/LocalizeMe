@@ -1,1 +1,44 @@
 <h1>Welcome to LocalizeMe</h1>
+<section>
+    <p>
+        This is the web interface for managing the API that purpose to simplify the internationalization of our
+        applications.<br />Right now you can:
+    </p>
+    <nz-space nzDirection="horizontal" *ngIf="!isLogged">
+        <nz-card *nzSpaceItem nzTitle="Login" class="card">
+            <p>Identify yourself in the application to be able to carry out actions in it</p>
+        </nz-card>
+        <nz-card *nzSpaceItem nzTitle="Register" class="card">
+            <p>Register in the application to be able to use it and be able to enjoy its functions.</p>
+        </nz-card>
+    </nz-space>
+    <nz-space nzDirection="horizontal">
+        <div *nzSpaceItem>
+            <nz-card nzTitle="Groups" class="card" *ngIf="isLogged">
+                <p>In this section you can manage all the information regarding groups or applications</p>
+            </nz-card>
+        </div>
+        <div *nzSpaceItem>
+            <nz-card nzTitle="Strings" class="card" *ngIf="isLogged">
+                <p>In this section you can manage all the information regarding strings</p>
+            </nz-card>
+        </div>
+    </nz-space>
+    <nz-space nzDirection="horizontal">
+        <div *nzSpaceItem>
+            <nz-card nzTitle="Users" class="card" *ngIf="isLogged && isAdmin">
+                <p>In this section you can manage all the information regarding users</p>
+            </nz-card>
+        </div>
+        <div *nzSpaceItem>
+            <nz-card nzTitle="Stages" class="card" *ngIf="isLogged && isAdmin">
+                <p>In this section you can manage all the information regarding the states of the strings</p>
+            </nz-card>
+        </div>
+        <div *nzSpaceItem>
+            <nz-card nzTitle="Languages" class="card" *ngIf="isLogged && isAdmin">
+                <p>In this section you can manage all the information regarding languages</p>
+            </nz-card>
+        </div>
+    </nz-space>
+</section>

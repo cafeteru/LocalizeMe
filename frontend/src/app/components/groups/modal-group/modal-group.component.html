@@ -6,7 +6,7 @@
         <nz-form-label nzRequired nzFor="name" nzSpan="7">Name</nz-form-label>
         <nz-form-control nzHasFeedback [nzErrorTip]="errorName" nzSpan="17">
             <nz-input-group nzPrefixIcon="book">
-                <input nz-input formControlName="name" id="name" />
+                <input nz-input formControlName="name" id="groupName" />
             </nz-input-group>
         </nz-form-control>
         <ng-template #errorName let-control>
@@ -16,13 +16,13 @@
     <nz-form-item>
         <nz-form-label nzFor="public" nzRequired nzSpan="7">Public</nz-form-label>
         <nz-form-control nzSpan="17">
-            <label nz-checkbox formControlName="public"></label>
+            <label nz-checkbox formControlName="public" id="groupPublic"></label>
         </nz-form-control>
     </nz-form-item>
     <nz-form-item *ngIf="group.id">
         <nz-form-label nzFor="active" nzRequired nzSpan="7">Active</nz-form-label>
         <nz-form-control nzSpan="17">
-            <label nz-checkbox formControlName="active"></label>
+            <label nz-checkbox formControlName="active" id="groupActive"></label>
         </nz-form-control>
     </nz-form-item>
     <nz-form-item>
@@ -33,7 +33,13 @@
         ></app-user-finder>
     </nz-form-item>
     <nz-form-item nz-row class="register-area btn-right">
-        <button nz-button [nzType]="'primary'" [disabled]="!formGroup.valid || isLoading" (click)="send()">
+        <button
+            nz-button
+            [nzType]="'primary'"
+            [disabled]="!formGroup.valid || isLoading"
+            (click)="send()"
+            id="groupSend"
+        >
             <span *ngIf="!isLoading">{{ btnModal }}</span>
             <span *ngIf="isLoading">
                 <em nz-icon nzType="loading"></em>

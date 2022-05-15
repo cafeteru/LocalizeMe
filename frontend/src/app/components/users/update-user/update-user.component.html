@@ -6,7 +6,7 @@
         <nz-form-label nzRequired nzFor="email" nzSpan="7">E-mail</nz-form-label>
         <nz-form-control nzHasFeedback [nzErrorTip]="errorEmail" nzSpan="17">
             <nz-input-group nzPrefixIcon="user">
-                <input nz-input formControlName="email" id="email" />
+                <input nz-input formControlName="email" id="updateUserEmail" />
             </nz-input-group>
         </nz-form-control>
         <ng-template #errorEmail let-control>
@@ -17,9 +17,9 @@
     <nz-form-item>
         <nz-form-label nzRequired nzFor="changePassword" nzSpan="7">Change Password?</nz-form-label>
         <nz-form-control nzHasFeedback nzSpan="17">
-            <nz-radio-group formControlName="changePassword">
-                <label nz-radio [nzValue]="true">Yes</label>
-                <label nz-radio [nzValue]="false">No</label>
+            <nz-radio-group formControlName="changePassword" id="updateUserChangePassword">
+                <label nz-radio [nzValue]="true" id="updateUserChangePasswordYes">Yes</label>
+                <label nz-radio [nzValue]="false" id="updateUserChangePasswordNo">No</label>
             </nz-radio-group>
         </nz-form-control>
     </nz-form-item>
@@ -27,7 +27,7 @@
         <nz-form-label nzFor="password" nzRequired nzSpan="7">Password</nz-form-label>
         <nz-form-control nzErrorTip="Please input your password" nzSpan="17">
             <nz-input-group nzPrefixIcon="lock">
-                <input nz-input type="password" id="password" formControlName="password" />
+                <input nz-input type="password" id="updateUserPassword" formControlName="password" />
             </nz-input-group>
         </nz-form-control>
     </nz-form-item>
@@ -35,7 +35,7 @@
         <nz-form-label nzFor="checkPassword" nzRequired nzSpan="7">Confirm Password</nz-form-label>
         <nz-form-control nzHasFeedback [nzErrorTip]="errorTpl" nzSpan="17">
             <nz-input-group nzPrefixIcon="lock">
-                <input nz-input type="password" formControlName="checkPassword" id="checkPassword" />
+                <input nz-input type="password" formControlName="checkPassword" id="updateUserCheckPassword" />
             </nz-input-group>
             <ng-template #errorTpl let-control>
                 <ng-container *ngIf="control.hasError('required')">Please confirm your password!</ng-container>
@@ -48,17 +48,23 @@
     <nz-form-item *ngIf="data.isAdmin">
         <nz-form-label nzFor="admin" nzSpan="7">Is an Admin?</nz-form-label>
         <nz-form-control nzSpan="17">
-            <label nz-checkbox formControlName="admin"></label>
+            <label nz-checkbox formControlName="admin" id="updateUserIsAdmin"></label>
         </nz-form-control>
     </nz-form-item>
     <nz-form-item *ngIf="data.isAdmin">
         <nz-form-label nzFor="active" nzSpan="7">Active</nz-form-label>
         <nz-form-control nzSpan="17">
-            <label nz-checkbox formControlName="active"></label>
+            <label nz-checkbox formControlName="active" id="updateUserIsActive"></label>
         </nz-form-control>
     </nz-form-item>
     <nz-form-item nz-row class="register-area btn-right">
-        <button nz-button [nzType]="'primary'" [disabled]="!formGroup.valid || isLoading" (click)="send()">
+        <button
+            nz-button
+            [nzType]="'primary'"
+            [disabled]="!formGroup.valid || isLoading"
+            (click)="send()"
+            id="updateUserSend"
+        >
             <span *ngIf="!isLoading">Update</span>
             <span *ngIf="isLoading">
                 <em nz-icon nzType="loading"></em>

@@ -1,16 +1,11 @@
-// register.spec.js created with Cypress
-//
-// Start writing your Cypress tests below!
-// If you're unfamiliar with how Cypress works,
-// check out the link below and learn how to write your first test:
-// https://on.cypress.io/writing-first-test
+import { goLogin } from '../utils.spec';
+
 describe('Register user', () => {
-    it('should login with correct data', () => {
+    it('should register with correct data', () => {
         const randomNumber = new Date().getTime();
         const email = `user${randomNumber}@email.es`;
-        cy.visit('http://localhost:4200');
-        const showLogin = cy.get('#showLogin');
-        showLogin.click();
+        Cypress.env('email', email);
+        const showLogin = goLogin();
         cy.get('#loginRegister').click();
         cy.get('#registerEmail').type(email).should('have.value', email);
         cy.get('#registerPassword').type(email).should('have.value', email);

@@ -1,7 +1,7 @@
 <h3>Permissions:</h3>
 <nz-table
     #permissionsTable
-    nzShowSizeChanger
+    [nzPageSize]="5"
     nzShowPagination
     nzShowQuickJumper
     [nzData]="permissions"

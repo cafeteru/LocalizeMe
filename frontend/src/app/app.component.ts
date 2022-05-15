@@ -39,7 +39,6 @@ export class AppComponent extends BaseComponent implements OnInit {
             .subscribe((user) => {
                 this.isLogged = Boolean(user.email);
                 this.isAdmin = user.admin;
-                this.isCollapsed = !this.isLogged;
             });
         this.subscriptions$.push(subscription$);
     }
