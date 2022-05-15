@@ -18,6 +18,8 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
+import { NzSpaceModule } from 'ng-zorro-antd/space';
+import { NzCardModule } from 'ng-zorro-antd/card';
 
 @NgModule({
     imports: [
@@ -40,6 +42,8 @@ import { NzUploadModule } from 'ng-zorro-antd/upload';
         NzTableModule,
         NzToolTipModule,
         NzUploadModule,
+        NzSpaceModule,
+        NzCardModule,
     ],
     exports: [
         NzAutocompleteModule,
@@ -61,6 +65,8 @@ import { NzUploadModule } from 'ng-zorro-antd/upload';
         NzTableModule,
         NzToolTipModule,
         NzUploadModule,
+        NzSpaceModule,
+        NzCardModule,
     ],
 })
 export class NgZorroModule {}

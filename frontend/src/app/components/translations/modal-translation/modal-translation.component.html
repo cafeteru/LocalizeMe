@@ -6,7 +6,7 @@
         <nz-form-label nzRequired nzFor="content" nzSpan="7">Content</nz-form-label>
         <nz-form-control nzHasFeedback [nzErrorTip]="errorContent" nzSpan="17">
             <nz-input-group nzPrefixIcon="book">
-                <input nz-input formControlName="content" id="content" />
+                <input nz-input formControlName="content" id="modalTranslationContent" />
             </nz-input-group>
         </nz-form-control>
         <ng-template #errorContent let-control>
@@ -17,7 +17,7 @@
         <nz-form-label nzRequired nzFor="version" nzSpan="7">Version</nz-form-label>
         <nz-form-control [nzErrorTip]="errorVersion" nzSpan="17">
             <nz-input-group nzPrefixIcon="number">
-                <input type="number" min="1" step="1" nz-input formControlName="version" id="version" />
+                <input type="number" min="1" step="1" nz-input formControlName="version" id="modalTranslationVersion" />
             </nz-input-group>
         </nz-form-control>
         <ng-template #errorVersion let-control>
@@ -27,7 +27,7 @@
     <nz-form-item>
         <app-stage-finder
             class="finder"
-            id="stage-finder"
+            id="modalTranslationStage"
             (emitter)="setStage($event)"
             [valid]="showStageError()"
             [selectedStage]="formGroup.controls['stage'].value"
@@ -37,16 +37,17 @@
             (emitter)="setLanguage($event)"
             [valid]="showLanguageError()"
             [selectLanguage]="formGroup.controls['language'].value"
+            id="modalTranslationLanguage"
         ></app-language-finder>
     </nz-form-item>
     <nz-form-item>
         <nz-form-label nzFor="active" nzRequired nzSpan="7">Active</nz-form-label>
         <nz-form-control nzSpan="17">
-            <label nz-checkbox formControlName="active"></label>
+            <label nz-checkbox formControlName="active" id="modalTranslationActive"></label>
         </nz-form-control>
     </nz-form-item>
     <nz-form-item nz-row class="register-area btn-right">
-        <button nz-button [nzType]="'primary'" [disabled]="!formGroup.valid" (click)="send()">
+        <button nz-button [nzType]="'primary'" [disabled]="!formGroup.valid" (click)="send()" id="modalTranslationSend">
             <span>{{ btnModal }}</span>
         </button>
         <button nz-button [nzType]="'default'" (click)="close()">Close</button>

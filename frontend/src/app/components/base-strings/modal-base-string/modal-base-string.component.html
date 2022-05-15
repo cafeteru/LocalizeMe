@@ -6,7 +6,7 @@
         <nz-form-label nzRequired nzFor="identifier" nzSpan="7">Identifier</nz-form-label>
         <nz-form-control nzHasFeedback [nzErrorTip]="errorIdentifier" nzSpan="17">
             <nz-input-group nzPrefixIcon="book">
-                <input nz-input formControlName="identifier" id="identifier" />
+                <input nz-input formControlName="identifier" id="identifierBaseString" />
             </nz-input-group>
         </nz-form-control>
         <ng-template #errorIdentifier let-control>
@@ -16,7 +16,7 @@
     <nz-form-item>
         <app-group-finder
             class="finder"
-            id="group-finder"
+            id="baseStringGroup"
             (emitter)="setGroup($event)"
             [selectGroup]="formGroup.controls['group'].value"
         ></app-group-finder>
@@ -25,6 +25,7 @@
             (emitter)="setLanguage($event)"
             [valid]="showLanguageError()"
             [selectLanguage]="formGroup.controls['sourceLanguage'].value"
+            id="baseStringLanguage"
         ></app-language-finder>
     </nz-form-item>
     <nz-form-item *ngIf="formGroup.controls['sourceLanguage'].value">
@@ -41,7 +42,13 @@
         </nz-form-control>
     </nz-form-item>
     <nz-form-item nz-row class="register-area btn-right">
-        <button nz-button [nzType]="'primary'" [disabled]="!formGroup.valid || isLoading" (click)="send()">
+        <button
+            nz-button
+            [nzType]="'primary'"
+            [disabled]="!formGroup.valid || isLoading"
+            (click)="send()"
+            id="baseStringSend"
+        >
             <span *ngIf="!isLoading">{{ btnModal }}</span>
             <span *ngIf="isLoading">
                 <em nz-icon nzType="loading"></em>

@@ -6,6 +6,7 @@
             nzSize="large"
             nzShape="circle"
             [nz-tooltip]="'Reload list'"
+            id="loadGroupsButton"
             (click)="loadGroups()"
         >
             <em nz-icon nzType="reload"></em>
@@ -16,6 +17,7 @@
             nzSize="large"
             nzShape="circle"
             [nz-tooltip]="'Create a new group'"
+            id="createGroupsButton"
             (click)="openModal()"
         >
             <em nz-icon nzType="file-add"></em>

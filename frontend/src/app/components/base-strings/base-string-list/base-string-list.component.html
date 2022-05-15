@@ -20,6 +20,7 @@
                 nzShape="circle"
                 [nz-tooltip]="'Read a Xliff file'"
                 (click)="openReadModal()"
+                id="readXliffButton"
             >
                 <em nz-icon nzType="file"></em>
             </button>
@@ -30,6 +31,7 @@
                 nzShape="circle"
                 [nz-tooltip]="'Create a Xliff file'"
                 (click)="openCreateModal()"
+                id="createXliffButton"
             >
                 <em nz-icon nzType="export"></em>
             </button>
@@ -40,6 +42,7 @@
                 nzShape="circle"
                 [nz-tooltip]="'Reload list'"
                 (click)="loadBaseStrings()"
+                id="loadBaseStringsButton"
             >
                 <em nz-icon nzType="reload"></em>
             </button>
@@ -50,6 +53,7 @@
                 nzShape="circle"
                 [nz-tooltip]="'Create a new string'"
                 (click)="openModal()"
+                id="createBaseStringsButton"
             >
                 <em nz-icon nzType="file-add"></em>
             </button>
