@@ -59,7 +59,7 @@ func (g GroupControllerImpl) Create(w http.ResponseWriter, r *http.Request) {
 // Delete a group by id.
 //
 // Responses:
-// - 200: bool
+// - 200: description:bool
 // - 400: ErrorDto
 // - 401: ErrorDto
 // - 403: ErrorDto

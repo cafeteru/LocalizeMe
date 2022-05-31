@@ -82,7 +82,7 @@ func (u UserControllerImpl) Create(w http.ResponseWriter, r *http.Request) {
 // Return a user by ID.
 //
 // Responses:
-// - 200: bool
+// - 200: description:bool
 // - 400: ErrorDto
 // - 401: ErrorDto
 func (u UserControllerImpl) Delete(w http.ResponseWriter, r *http.Request) {

@@ -352,7 +352,7 @@
         ],
         "responses": {
           "200": {
-            "$ref": "#/responses/bool"
+            "description": "bool"
           },
           "400": {
             "description": "ErrorDto",
@@ -567,7 +567,7 @@
         ],
         "responses": {
           "200": {
-            "$ref": "#/responses/bool"
+            "description": "bool"
           },
           "400": {
             "description": "ErrorDto",
@@ -796,7 +796,7 @@
         ],
         "responses": {
           "200": {
-            "$ref": "#/responses/bool"
+            "description": "bool"
           },
           "400": {
             "description": "ErrorDto",
@@ -1107,7 +1107,7 @@
         ],
         "responses": {
           "200": {
-            "$ref": "#/responses/bool"
+            "description": "bool"
           },
           "400": {
             "description": "ErrorDto",
@@ -1434,7 +1434,7 @@
         ],
         "responses": {
           "200": {
-            "$ref": "#/responses/bool"
+            "description": "bool"
           },
           "400": {
             "description": "ErrorDto",

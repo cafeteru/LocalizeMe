@@ -59,7 +59,7 @@ func (s StageControllerImpl) Create(w http.ResponseWriter, r *http.Request) {
 // Return a stage by id.
 //
 // Responses:
-// - 200: bool
+// - 200: description:bool
 // - 400: ErrorDto
 // - 401: ErrorDto
 func (s StageControllerImpl) Delete(w http.ResponseWriter, r *http.Request) {

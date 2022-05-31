@@ -60,7 +60,7 @@ func (l LanguageControllerImpl) Create(w http.ResponseWriter, r *http.Request) {
 // Return a language by id.
 //
 // Responses:
-// - 200: bool
+// - 200: description:bool
 // - 400: ErrorDto
 // - 401: ErrorDto
 // - 403: ErrorDto
