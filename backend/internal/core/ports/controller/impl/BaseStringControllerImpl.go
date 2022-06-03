@@ -253,7 +253,6 @@ func (b BaseStringControllerImpl) FindByIdentifier(w http.ResponseWriter, r *htt
 // - 401: ErrorDto
 // - 500: ErrorDto
 func (b BaseStringControllerImpl) FindByIdentifierAndLanguage(w http.ResponseWriter, r *http.Request) {
-	// todo create a list para evitar muchas llamadas a la vez
 	log.Printf("%s: start", tools.GetCurrentFuncName())
 	user := utils.CheckUserIsActive(w, r, b.userService)
 	if user == nil {
@@ -261,7 +260,6 @@ func (b BaseStringControllerImpl) FindByIdentifierAndLanguage(w http.ResponseWri
 	}
 	identifier := r.URL.Query().Get("identifier")
 	isoCode := r.URL.Query().Get("isoCode")
-	log.Printf("%s: %s", identifier, isoCode)
 	baseStrings, err := b.baseStringService.FindByIdentifierAndLanguage(identifier, isoCode, user)
 	if err != nil {
 		utils.CreateErrorResponse(w, err, http.StatusBadRequest)

@@ -9,6 +9,7 @@ import { FormGroupUtil } from '../../../../shared/utils/form-group-util';
 import { XliffDto } from '../../../../types/xliff';
 import * as FileSaver from 'file-saver';
 import { BaseString } from '../../../../types/base-string';
+import beautify from 'xml-beautifier';
 
 @Component({
     selector: 'app-create-xliff',
@@ -74,7 +75,7 @@ export class CreateXliffComponent extends BaseComponent implements OnInit {
             };
             const subscription$ = this.xliffService.createXliff(xliffDto).subscribe({
                 next: (xmlContent) => {
-                    const blob = new Blob([xmlContent], { type: 'application/xml;charset=utf-8' });
+                    const blob = new Blob([beautify(xmlContent)], { type: 'application/xml;charset=utf-8' });
                     FileSaver.saveAs(blob, 'xliff.xml');
                     this.close();
                     this.createMessage('success', 'Successfully loaded strings');

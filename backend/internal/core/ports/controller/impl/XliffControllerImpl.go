@@ -105,7 +105,7 @@ func (x XliffControllerImpl) Create(w http.ResponseWriter, r *http.Request) {
 		utils.CreateErrorResponse(w, err, http.StatusBadRequest)
 		return
 	}
-	err = xml.NewEncoder(w).Encode(write)
+	err = xml.NewEncoder(w).Encode(&write)
 	if err != nil {
 		utils.CreateErrorResponse(w, err, http.StatusBadRequest)
 		return

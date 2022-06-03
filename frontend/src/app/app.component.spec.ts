@@ -1,8 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
-import { AppState } from './store/app.reducer';
-import * as user from './store/reducers/user.reducer';
 import { provideMockStore } from '@ngrx/store/testing';
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
