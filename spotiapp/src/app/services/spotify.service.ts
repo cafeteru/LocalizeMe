@@ -1,8 +1,9 @@
-import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 
-import { map, switchMap, tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { map, switchMap, tap } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 
 interface LoginResponse {
     access_token: string;
@@ -20,8 +21,8 @@ export class SpotifyService {
         const url = 'https://accounts.spotify.com/api/token?Authorization';
         const urlencoded = new URLSearchParams();
         urlencoded.append('grant_type', 'client_credentials');
-        urlencoded.append('client_id', 'a87a8b242e564a7aaedd166682ff0c48');
-        urlencoded.append('client_secret', '1579552453db478bb52f71be0e7a3fa3');
+        urlencoded.append('client_id', environment.clientId);
+        urlencoded.append('client_secret', environment.clientSecret);
         return this.httpClient
             .post<LoginResponse>(url, urlencoded, {
                 responseType: 'json',

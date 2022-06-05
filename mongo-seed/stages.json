@@ -1,31 +1,37 @@
-[{
-  "_id": {
-    "$oid": "62722ede2097786978095a32"
+[
+  {
+    "_id": {
+      "$oid": "62722eae2097786978095a28"
+    },
+    "name": "Gamma",
+    "active": true
   },
-  "name": "Test",
-  "active": true
-},{
-  "_id": {
-    "$oid": "62722ea02097786978095a1e"
+  {
+    "_id": {
+      "$oid": "62722ed92097786978095a2d"
+    },
+    "name": "Prod",
+    "active": true
   },
-  "name": "Alpha",
-  "active": true
-},{
-  "_id": {
-    "$oid": "62722eae2097786978095a28"
+  {
+    "_id": {
+      "$oid": "62722ede2097786978095a32"
+    },
+    "name": "Test",
+    "active": true
   },
-  "name": "Gamma",
-  "active": true
-},{
-  "_id": {
-    "$oid": "62722ed92097786978095a2d"
+  {
+    "_id": {
+      "$oid": "62722ea82097786978095a23"
+    },
+    "name": "Beta",
+    "active": true
   },
-  "name": "Prod",
-  "active": true
-},{
-  "_id": {
-    "$oid": "62722ea82097786978095a23"
-  },
-  "name": "Beta",
-  "active": true
-}]
+  {
+    "_id": {
+      "$oid": "62722ea02097786978095a1e"
+    },
+    "name": "Alpha",
+    "active": true
+  }
+]

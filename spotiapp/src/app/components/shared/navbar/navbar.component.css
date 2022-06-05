@@ -2,7 +2,8 @@
     color: rgba(255, 255, 255, 0.5);
 }
 
-.lang-selector:hover, .lang-selector:focus {
+.lang-selector:hover,
+.lang-selector:focus {
     color: black;
 }
 

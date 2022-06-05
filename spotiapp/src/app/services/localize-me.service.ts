@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core';
-import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { catchError, Observable, of, switchMap, tap } from 'rxjs';
-import { getDefaultHttpOptions } from './default-http-options';
-import { UserDto } from '../types/user';
+import { environment } from '../../environments/environment';
 import { ResponseLogin } from '../types/response-login';
+import { UserDto } from '../types/user';
+import { getDefaultHttpOptions } from './default-http-options';
 
 @Injectable({
     providedIn: 'root',
@@ -17,8 +17,8 @@ export class LocalizeMeService {
 
     login(): Observable<any> {
         const userDto: UserDto = {
-            email: 'uo239795@uniovi.es',
-            password: '123456',
+            email: environment.email,
+            password: environment.password,
         };
         return this.httpClient
             .post<ResponseLogin>(`${this.url}/login`, userDto)

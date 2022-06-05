@@ -1,22 +1,49 @@
-[{
-  "_id": {
-    "$oid": "62783e74441ded11d45e93b3"
-  },
-  "sourceLanguage": {
+[
+  {
     "_id": {
-      "$oid": "625d19d22029adff51c8b1ed"
+      "$oid": "627987eae8f668686a36cbfe"
     },
-    "isoCode": "en",
-    "description": "English",
-    "active": true
-  },
-  "identifier": "home",
-  "group": {
-    "_id": {
-      "$oid": "6277fd8578ede53a9bc35408"
+    "sourceLanguage": {
+      "_id": {
+        "$oid": "625d19d22029adff51c8b1ed"
+      },
+      "isoCode": "en",
+      "description": "English",
+      "active": true
     },
-    "name": "spotiapp",
-    "owner": {
+    "identifier": "artist-page",
+    "group": {
+      "_id": {
+        "$oid": "6277fd8578ede53a9bc35408"
+      },
+      "name": "spotiapp",
+      "owner": {
+        "_id": {
+          "$oid": "6277fd3a78ede53a9bc353f5"
+        },
+        "email": "uo239795@uniovi.es",
+        "password": "",
+        "admin": true,
+        "active": true
+      },
+      "permissions": [
+        {
+          "user": {
+            "_id": {
+              "$oid": "62212b9cab63141a684739f5"
+            },
+            "email": "user@email.es",
+            "password": "",
+            "admin": false,
+            "active": true
+          },
+          "canWrite": true
+        }
+      ],
+      "active": true,
+      "public": true
+    },
+    "author": {
       "_id": {
         "$oid": "6277fd3a78ede53a9bc353f5"
       },
@@ -25,47 +52,97 @@
       "admin": true,
       "active": true
     },
-    "permissions": [
+    "active": true,
+    "translations": [
       {
-        "user": {
+        "content": "Go to artist's page",
+        "language": {
           "_id": {
-            "$oid": "62212b9cab63141a684739f5"
+            "$oid": "625d19d22029adff51c8b1ed"
           },
-          "email": "user@email.es",
-          "password": "",
-          "admin": false,
+          "isoCode": "en",
+          "description": "English",
           "active": true
         },
-        "canWrite": true
-      }
-    ],
-    "active": true,
-    "public": true
-  },
-  "author": {
-    "_id": {
-      "$oid": "6277fd3a78ede53a9bc353f5"
-    },
-    "email": "uo239795@uniovi.es",
-    "password": "",
-    "admin": true,
-    "active": true
-  },
-  "active": true,
-  "translations": [
-    {
-      "content": "Home",
-      "language": {
-        "_id": {
-          "$oid": "625d19d22029adff51c8b1ed"
+        "version": 1,
+        "active": true,
+        "author": {
+          "_id": {
+            "$oid": "6277fd3a78ede53a9bc353f5"
+          },
+          "email": "uo239795@uniovi.es",
+          "password": "",
+          "admin": true,
+          "active": true
         },
-        "isoCode": "en",
-        "description": "English",
-        "active": true
+        "date": {
+          "$date": {
+            "$numberLong": "1652131786848"
+          }
+        },
+        "stage": {
+          "_id": {
+            "$oid": "62722ede2097786978095a32"
+          },
+          "name": "Test",
+          "active": true
+        }
       },
-      "version": 1,
-      "active": true,
-      "author": {
+      {
+        "content": "Ir a la página del artista",
+        "language": {
+          "_id": {
+            "$oid": "625d19df2029adff51c8b1f4"
+          },
+          "isoCode": "esp",
+          "description": "Spanish",
+          "active": true
+        },
+        "version": 1,
+        "active": true,
+        "author": {
+          "_id": {
+            "$oid": "6277fd3a78ede53a9bc353f5"
+          },
+          "email": "uo239795@uniovi.es",
+          "password": "",
+          "admin": true,
+          "active": true
+        },
+        "date": {
+          "$date": {
+            "$numberLong": "1652131802213"
+          }
+        },
+        "stage": {
+          "_id": {
+            "$oid": "62722ede2097786978095a32"
+          },
+          "name": "Test",
+          "active": true
+        }
+      }
+    ]
+  },
+  {
+    "_id": {
+      "$oid": "627985cde8f668686a36cbfd"
+    },
+    "sourceLanguage": {
+      "_id": {
+        "$oid": "625d19d22029adff51c8b1ed"
+      },
+      "isoCode": "en",
+      "description": "English",
+      "active": true
+    },
+    "identifier": "search-artist",
+    "group": {
+      "_id": {
+        "$oid": "6277fd8578ede53a9bc35408"
+      },
+      "name": "spotiapp",
+      "owner": {
         "_id": {
           "$oid": "6277fd3a78ede53a9bc353f5"
         },
@@ -74,73 +151,24 @@
         "admin": true,
         "active": true
       },
-      "date": {
-        "$date": {
-          "$numberLong": "1652047446172"
+      "permissions": [
+        {
+          "user": {
+            "_id": {
+              "$oid": "62212b9cab63141a684739f5"
+            },
+            "email": "user@email.es",
+            "password": "",
+            "admin": false,
+            "active": true
+          },
+          "canWrite": true
         }
-      },
-      "stage": {
-        "_id": {
-          "$oid": "62722ede2097786978095a32"
-        },
-        "name": "Test",
-        "active": true
-      }
-    },
-    {
-      "content": "Inicio",
-      "language": {
-        "_id": {
-          "$oid": "625d19df2029adff51c8b1f4"
-        },
-        "isoCode": "esp",
-        "description": "Spanish",
-        "active": true
-      },
-      "version": 1,
+      ],
       "active": true,
-      "author": {
-        "_id": {
-          "$oid": "6277fd3a78ede53a9bc353f5"
-        },
-        "email": "uo239795@uniovi.es",
-        "password": "",
-        "admin": true,
-        "active": true
-      },
-      "date": {
-        "$date": {
-          "$numberLong": "1652047458936"
-        }
-      },
-      "stage": {
-        "_id": {
-          "$oid": "62722ede2097786978095a32"
-        },
-        "name": "Test",
-        "active": true
-      }
-    }
-  ]
-},{
-  "_id": {
-    "$oid": "62784f8873529849af866f0c"
-  },
-  "sourceLanguage": {
-    "_id": {
-      "$oid": "625d19d22029adff51c8b1ed"
+      "public": true
     },
-    "isoCode": "en",
-    "description": "English",
-    "active": true
-  },
-  "identifier": "app-name",
-  "group": {
-    "_id": {
-      "$oid": "6277fd8578ede53a9bc35408"
-    },
-    "name": "spotiapp",
-    "owner": {
+    "author": {
       "_id": {
         "$oid": "6277fd3a78ede53a9bc353f5"
       },
@@ -149,47 +177,97 @@
       "admin": true,
       "active": true
     },
-    "permissions": [
+    "active": true,
+    "translations": [
       {
-        "user": {
+        "content": "Search artist...",
+        "language": {
           "_id": {
-            "$oid": "62212b9cab63141a684739f5"
+            "$oid": "625d19d22029adff51c8b1ed"
           },
-          "email": "user@email.es",
-          "password": "",
-          "admin": false,
+          "isoCode": "en",
+          "description": "English",
           "active": true
         },
-        "canWrite": true
-      }
-    ],
-    "active": true,
-    "public": true
-  },
-  "author": {
-    "_id": {
-      "$oid": "6277fd3a78ede53a9bc353f5"
-    },
-    "email": "uo239795@uniovi.es",
-    "password": "",
-    "admin": true,
-    "active": true
-  },
-  "active": true,
-  "translations": [
-    {
-      "content": "Spotify App",
-      "language": {
-        "_id": {
-          "$oid": "625d19d22029adff51c8b1ed"
+        "version": 1,
+        "active": true,
+        "author": {
+          "_id": {
+            "$oid": "6277fd3a78ede53a9bc353f5"
+          },
+          "email": "uo239795@uniovi.es",
+          "password": "",
+          "admin": true,
+          "active": true
         },
-        "isoCode": "en",
-        "description": "English",
-        "active": true
+        "date": {
+          "$date": {
+            "$numberLong": "1652131246004"
+          }
+        },
+        "stage": {
+          "_id": {
+            "$oid": "62722ede2097786978095a32"
+          },
+          "name": "Test",
+          "active": true
+        }
       },
-      "version": 1,
-      "active": true,
-      "author": {
+      {
+        "content": "Buscar artista...",
+        "language": {
+          "_id": {
+            "$oid": "625d19df2029adff51c8b1f4"
+          },
+          "isoCode": "esp",
+          "description": "Spanish",
+          "active": true
+        },
+        "version": 1,
+        "active": true,
+        "author": {
+          "_id": {
+            "$oid": "6277fd3a78ede53a9bc353f5"
+          },
+          "email": "uo239795@uniovi.es",
+          "password": "",
+          "admin": true,
+          "active": true
+        },
+        "date": {
+          "$date": {
+            "$numberLong": "1652131266332"
+          }
+        },
+        "stage": {
+          "_id": {
+            "$oid": "62722ede2097786978095a32"
+          },
+          "name": "Test",
+          "active": true
+        }
+      }
+    ]
+  },
+  {
+    "_id": {
+      "$oid": "62783e74441ded11d45e93b3"
+    },
+    "sourceLanguage": {
+      "_id": {
+        "$oid": "625d19d22029adff51c8b1ed"
+      },
+      "isoCode": "en",
+      "description": "English",
+      "active": true
+    },
+    "identifier": "home",
+    "group": {
+      "_id": {
+        "$oid": "6277fd8578ede53a9bc35408"
+      },
+      "name": "spotiapp",
+      "owner": {
         "_id": {
           "$oid": "6277fd3a78ede53a9bc353f5"
         },
@@ -198,73 +276,24 @@
         "admin": true,
         "active": true
       },
-      "date": {
-        "$date": {
-          "$numberLong": "1652051815548"
+      "permissions": [
+        {
+          "user": {
+            "_id": {
+              "$oid": "62212b9cab63141a684739f5"
+            },
+            "email": "user@email.es",
+            "password": "",
+            "admin": false,
+            "active": true
+          },
+          "canWrite": true
         }
-      },
-      "stage": {
-        "_id": {
-          "$oid": "62722ede2097786978095a32"
-        },
-        "name": "Test",
-        "active": true
-      }
-    },
-    {
-      "content": "Spotify clon",
-      "language": {
-        "_id": {
-          "$oid": "625d19df2029adff51c8b1f4"
-        },
-        "isoCode": "esp",
-        "description": "Spanish",
-        "active": true
-      },
-      "version": 1,
+      ],
       "active": true,
-      "author": {
-        "_id": {
-          "$oid": "6277fd3a78ede53a9bc353f5"
-        },
-        "email": "uo239795@uniovi.es",
-        "password": "",
-        "admin": true,
-        "active": true
-      },
-      "date": {
-        "$date": {
-          "$numberLong": "1652051837743"
-        }
-      },
-      "stage": {
-        "_id": {
-          "$oid": "62722ede2097786978095a32"
-        },
-        "name": "Test",
-        "active": true
-      }
-    }
-  ]
-},{
-  "_id": {
-    "$oid": "62784fdc73529849af866f29"
-  },
-  "sourceLanguage": {
-    "_id": {
-      "$oid": "625d19d22029adff51c8b1ed"
+      "public": true
     },
-    "isoCode": "en",
-    "description": "English",
-    "active": true
-  },
-  "identifier": "search",
-  "group": {
-    "_id": {
-      "$oid": "6277fd8578ede53a9bc35408"
-    },
-    "name": "spotiapp",
-    "owner": {
+    "author": {
       "_id": {
         "$oid": "6277fd3a78ede53a9bc353f5"
       },
@@ -273,47 +302,97 @@
       "admin": true,
       "active": true
     },
-    "permissions": [
+    "active": true,
+    "translations": [
       {
-        "user": {
+        "content": "Home",
+        "language": {
           "_id": {
-            "$oid": "62212b9cab63141a684739f5"
+            "$oid": "625d19d22029adff51c8b1ed"
           },
-          "email": "user@email.es",
-          "password": "",
-          "admin": false,
+          "isoCode": "en",
+          "description": "English",
           "active": true
         },
-        "canWrite": true
-      }
-    ],
-    "active": true,
-    "public": true
-  },
-  "author": {
-    "_id": {
-      "$oid": "6277fd3a78ede53a9bc353f5"
-    },
-    "email": "uo239795@uniovi.es",
-    "password": "",
-    "admin": true,
-    "active": true
-  },
-  "active": true,
-  "translations": [
-    {
-      "content": "Búsqueda",
-      "language": {
-        "_id": {
-          "$oid": "625d19df2029adff51c8b1f4"
+        "version": 1,
+        "active": true,
+        "author": {
+          "_id": {
+            "$oid": "6277fd3a78ede53a9bc353f5"
+          },
+          "email": "uo239795@uniovi.es",
+          "password": "",
+          "admin": true,
+          "active": true
         },
-        "isoCode": "esp",
-        "description": "Spanish",
-        "active": true
+        "date": {
+          "$date": {
+            "$numberLong": "1652047446172"
+          }
+        },
+        "stage": {
+          "_id": {
+            "$oid": "62722ede2097786978095a32"
+          },
+          "name": "Test",
+          "active": true
+        }
       },
-      "version": 1,
-      "active": true,
-      "author": {
+      {
+        "content": "Inicio",
+        "language": {
+          "_id": {
+            "$oid": "625d19df2029adff51c8b1f4"
+          },
+          "isoCode": "esp",
+          "description": "Spanish",
+          "active": true
+        },
+        "version": 1,
+        "active": true,
+        "author": {
+          "_id": {
+            "$oid": "6277fd3a78ede53a9bc353f5"
+          },
+          "email": "uo239795@uniovi.es",
+          "password": "",
+          "admin": true,
+          "active": true
+        },
+        "date": {
+          "$date": {
+            "$numberLong": "1652047458936"
+          }
+        },
+        "stage": {
+          "_id": {
+            "$oid": "62722ede2097786978095a32"
+          },
+          "name": "Test",
+          "active": true
+        }
+      }
+    ]
+  },
+  {
+    "_id": {
+      "$oid": "62798931e8f668686a36cc02"
+    },
+    "sourceLanguage": {
+      "_id": {
+        "$oid": "625d19d22029adff51c8b1ed"
+      },
+      "isoCode": "en",
+      "description": "English",
+      "active": true
+    },
+    "identifier": "song",
+    "group": {
+      "_id": {
+        "$oid": "6277fd8578ede53a9bc35408"
+      },
+      "name": "spotiapp",
+      "owner": {
         "_id": {
           "$oid": "6277fd3a78ede53a9bc353f5"
         },
@@ -322,73 +401,24 @@
         "admin": true,
         "active": true
       },
-      "date": {
-        "$date": {
-          "$numberLong": "1652051916235"
+      "permissions": [
+        {
+          "user": {
+            "_id": {
+              "$oid": "62212b9cab63141a684739f5"
+            },
+            "email": "user@email.es",
+            "password": "",
+            "admin": false,
+            "active": true
+          },
+          "canWrite": true
         }
-      },
-      "stage": {
-        "_id": {
-          "$oid": "62722ede2097786978095a32"
-        },
-        "name": "Test",
-        "active": true
-      }
-    },
-    {
-      "content": "Search",
-      "language": {
-        "_id": {
-          "$oid": "625d19d22029adff51c8b1ed"
-        },
-        "isoCode": "en",
-        "description": "English",
-        "active": true
-      },
-      "version": 1,
+      ],
       "active": true,
-      "author": {
-        "_id": {
-          "$oid": "6277fd3a78ede53a9bc353f5"
-        },
-        "email": "uo239795@uniovi.es",
-        "password": "",
-        "admin": true,
-        "active": true
-      },
-      "date": {
-        "$date": {
-          "$numberLong": "1652051925314"
-        }
-      },
-      "stage": {
-        "_id": {
-          "$oid": "62722ede2097786978095a32"
-        },
-        "name": "Test",
-        "active": true
-      }
-    }
-  ]
-},{
-  "_id": {
-    "$oid": "6279767b78817868c2f82ede"
-  },
-  "sourceLanguage": {
-    "_id": {
-      "$oid": "625d19d22029adff51c8b1ed"
+      "public": true
     },
-    "isoCode": "en",
-    "description": "English",
-    "active": true
-  },
-  "identifier": "navbar.esp",
-  "group": {
-    "_id": {
-      "$oid": "6277fd8578ede53a9bc35408"
-    },
-    "name": "spotiapp",
-    "owner": {
+    "author": {
       "_id": {
         "$oid": "6277fd3a78ede53a9bc353f5"
       },
@@ -397,47 +427,97 @@
       "admin": true,
       "active": true
     },
-    "permissions": [
+    "active": true,
+    "translations": [
       {
-        "user": {
+        "content": "Song",
+        "language": {
           "_id": {
-            "$oid": "62212b9cab63141a684739f5"
+            "$oid": "625d19d22029adff51c8b1ed"
           },
-          "email": "user@email.es",
-          "password": "",
-          "admin": false,
+          "isoCode": "en",
+          "description": "English",
           "active": true
         },
-        "canWrite": true
-      }
-    ],
-    "active": true,
-    "public": true
-  },
-  "author": {
-    "_id": {
-      "$oid": "6277fd3a78ede53a9bc353f5"
-    },
-    "email": "uo239795@uniovi.es",
-    "password": "",
-    "admin": true,
-    "active": true
-  },
-  "active": true,
-  "translations": [
-    {
-      "content": "Castellano",
-      "language": {
-        "_id": {
-          "$oid": "625d19df2029adff51c8b1f4"
+        "version": 1,
+        "active": true,
+        "author": {
+          "_id": {
+            "$oid": "6277fd3a78ede53a9bc353f5"
+          },
+          "email": "uo239795@uniovi.es",
+          "password": "",
+          "admin": true,
+          "active": true
         },
-        "isoCode": "esp",
-        "description": "Spanish",
-        "active": true
+        "date": {
+          "$date": {
+            "$numberLong": "1652132120746"
+          }
+        },
+        "stage": {
+          "_id": {
+            "$oid": "62722ede2097786978095a32"
+          },
+          "name": "Test",
+          "active": true
+        }
       },
-      "version": 1,
-      "active": true,
-      "author": {
+      {
+        "content": "Canción",
+        "language": {
+          "_id": {
+            "$oid": "625d19df2029adff51c8b1f4"
+          },
+          "isoCode": "esp",
+          "description": "Spanish",
+          "active": true
+        },
+        "version": 1,
+        "active": true,
+        "author": {
+          "_id": {
+            "$oid": "6277fd3a78ede53a9bc353f5"
+          },
+          "email": "uo239795@uniovi.es",
+          "password": "",
+          "admin": true,
+          "active": true
+        },
+        "date": {
+          "$date": {
+            "$numberLong": "1652132133515"
+          }
+        },
+        "stage": {
+          "_id": {
+            "$oid": "62722ede2097786978095a32"
+          },
+          "name": "Test",
+          "active": true
+        }
+      }
+    ]
+  },
+  {
+    "_id": {
+      "$oid": "627988b9e8f668686a36cc00"
+    },
+    "sourceLanguage": {
+      "_id": {
+        "$oid": "625d19d22029adff51c8b1ed"
+      },
+      "isoCode": "en",
+      "description": "English",
+      "active": true
+    },
+    "identifier": "photo",
+    "group": {
+      "_id": {
+        "$oid": "6277fd8578ede53a9bc35408"
+      },
+      "name": "spotiapp",
+      "owner": {
         "_id": {
           "$oid": "6277fd3a78ede53a9bc353f5"
         },
@@ -446,73 +526,24 @@
         "admin": true,
         "active": true
       },
-      "date": {
-        "$date": {
-          "$numberLong": "1652127323931"
+      "permissions": [
+        {
+          "user": {
+            "_id": {
+              "$oid": "62212b9cab63141a684739f5"
+            },
+            "email": "user@email.es",
+            "password": "",
+            "admin": false,
+            "active": true
+          },
+          "canWrite": true
         }
-      },
-      "stage": {
-        "_id": {
-          "$oid": "62722ede2097786978095a32"
-        },
-        "name": "Test",
-        "active": true
-      }
-    },
-    {
-      "content": "Spanish",
-      "language": {
-        "_id": {
-          "$oid": "625d19d22029adff51c8b1ed"
-        },
-        "isoCode": "en",
-        "description": "English",
-        "active": true
-      },
-      "version": 1,
+      ],
       "active": true,
-      "author": {
-        "_id": {
-          "$oid": "6277fd3a78ede53a9bc353f5"
-        },
-        "email": "uo239795@uniovi.es",
-        "password": "",
-        "admin": true,
-        "active": true
-      },
-      "date": {
-        "$date": {
-          "$numberLong": "1652127343115"
-        }
-      },
-      "stage": {
-        "_id": {
-          "$oid": "62722ede2097786978095a32"
-        },
-        "name": "Test",
-        "active": true
-      }
-    }
-  ]
-},{
-  "_id": {
-    "$oid": "627976cb78817868c2f82edf"
-  },
-  "sourceLanguage": {
-    "_id": {
-      "$oid": "625d19d22029adff51c8b1ed"
+      "public": true
     },
-    "isoCode": "en",
-    "description": "English",
-    "active": true
-  },
-  "identifier": "navbar.en",
-  "group": {
-    "_id": {
-      "$oid": "6277fd8578ede53a9bc35408"
-    },
-    "name": "spotiapp",
-    "owner": {
+    "author": {
       "_id": {
         "$oid": "6277fd3a78ede53a9bc353f5"
       },
@@ -521,47 +552,97 @@
       "admin": true,
       "active": true
     },
-    "permissions": [
+    "active": true,
+    "translations": [
       {
-        "user": {
+        "content": "Photo",
+        "language": {
           "_id": {
-            "$oid": "62212b9cab63141a684739f5"
+            "$oid": "625d19d22029adff51c8b1ed"
           },
-          "email": "user@email.es",
-          "password": "",
-          "admin": false,
+          "isoCode": "en",
+          "description": "English",
           "active": true
         },
-        "canWrite": true
-      }
-    ],
-    "active": true,
-    "public": true
-  },
-  "author": {
-    "_id": {
-      "$oid": "6277fd3a78ede53a9bc353f5"
-    },
-    "email": "uo239795@uniovi.es",
-    "password": "",
-    "admin": true,
-    "active": true
-  },
-  "active": true,
-  "translations": [
-    {
-      "content": "Inglés",
-      "language": {
-        "_id": {
-          "$oid": "625d19df2029adff51c8b1f4"
+        "version": 1,
+        "active": true,
+        "author": {
+          "_id": {
+            "$oid": "6277fd3a78ede53a9bc353f5"
+          },
+          "email": "uo239795@uniovi.es",
+          "password": "",
+          "admin": true,
+          "active": true
         },
-        "isoCode": "esp",
-        "description": "Spanish",
-        "active": true
+        "date": {
+          "$date": {
+            "$numberLong": "1652132002954"
+          }
+        },
+        "stage": {
+          "_id": {
+            "$oid": "62722ede2097786978095a32"
+          },
+          "name": "Test",
+          "active": true
+        }
       },
-      "version": 1,
-      "active": true,
-      "author": {
+      {
+        "content": "Foto",
+        "language": {
+          "_id": {
+            "$oid": "625d19df2029adff51c8b1f4"
+          },
+          "isoCode": "esp",
+          "description": "Spanish",
+          "active": true
+        },
+        "version": 1,
+        "active": true,
+        "author": {
+          "_id": {
+            "$oid": "6277fd3a78ede53a9bc353f5"
+          },
+          "email": "uo239795@uniovi.es",
+          "password": "",
+          "admin": true,
+          "active": true
+        },
+        "date": {
+          "$date": {
+            "$numberLong": "1652132013517"
+          }
+        },
+        "stage": {
+          "_id": {
+            "$oid": "62722ede2097786978095a32"
+          },
+          "name": "Test",
+          "active": true
+        }
+      }
+    ]
+  },
+  {
+    "_id": {
+      "$oid": "62784fdc73529849af866f29"
+    },
+    "sourceLanguage": {
+      "_id": {
+        "$oid": "625d19d22029adff51c8b1ed"
+      },
+      "isoCode": "en",
+      "description": "English",
+      "active": true
+    },
+    "identifier": "search",
+    "group": {
+      "_id": {
+        "$oid": "6277fd8578ede53a9bc35408"
+      },
+      "name": "spotiapp",
+      "owner": {
         "_id": {
           "$oid": "6277fd3a78ede53a9bc353f5"
         },
@@ -570,73 +651,24 @@
         "admin": true,
         "active": true
       },
-      "date": {
-        "$date": {
-          "$numberLong": "1652127372143"
+      "permissions": [
+        {
+          "user": {
+            "_id": {
+              "$oid": "62212b9cab63141a684739f5"
+            },
+            "email": "user@email.es",
+            "password": "",
+            "admin": false,
+            "active": true
+          },
+          "canWrite": true
         }
-      },
-      "stage": {
-        "_id": {
-          "$oid": "62722ede2097786978095a32"
-        },
-        "name": "Test",
-        "active": true
-      }
-    },
-    {
-      "content": "English",
-      "language": {
-        "_id": {
-          "$oid": "625d19d22029adff51c8b1ed"
-        },
-        "isoCode": "en",
-        "description": "English",
-        "active": true
-      },
-      "version": 1,
+      ],
       "active": true,
-      "author": {
-        "_id": {
-          "$oid": "6277fd3a78ede53a9bc353f5"
-        },
-        "email": "uo239795@uniovi.es",
-        "password": "",
-        "admin": true,
-        "active": true
-      },
-      "date": {
-        "$date": {
-          "$numberLong": "1652127423495"
-        }
-      },
-      "stage": {
-        "_id": {
-          "$oid": "62722ede2097786978095a32"
-        },
-        "name": "Test",
-        "active": true
-      }
-    }
-  ]
-},{
-  "_id": {
-    "$oid": "627985cde8f668686a36cbfd"
-  },
-  "sourceLanguage": {
-    "_id": {
-      "$oid": "625d19d22029adff51c8b1ed"
+      "public": true
     },
-    "isoCode": "en",
-    "description": "English",
-    "active": true
-  },
-  "identifier": "search-artist",
-  "group": {
-    "_id": {
-      "$oid": "6277fd8578ede53a9bc35408"
-    },
-    "name": "spotiapp",
-    "owner": {
+    "author": {
       "_id": {
         "$oid": "6277fd3a78ede53a9bc353f5"
       },
@@ -645,47 +677,97 @@
       "admin": true,
       "active": true
     },
-    "permissions": [
+    "active": true,
+    "translations": [
       {
-        "user": {
+        "content": "Búsqueda",
+        "language": {
           "_id": {
-            "$oid": "62212b9cab63141a684739f5"
+            "$oid": "625d19df2029adff51c8b1f4"
           },
-          "email": "user@email.es",
-          "password": "",
-          "admin": false,
+          "isoCode": "esp",
+          "description": "Spanish",
           "active": true
         },
-        "canWrite": true
-      }
-    ],
-    "active": true,
-    "public": true
-  },
-  "author": {
-    "_id": {
-      "$oid": "6277fd3a78ede53a9bc353f5"
-    },
-    "email": "uo239795@uniovi.es",
-    "password": "",
-    "admin": true,
-    "active": true
-  },
-  "active": true,
-  "translations": [
-    {
-      "content": "Search artist...",
-      "language": {
-        "_id": {
-          "$oid": "625d19d22029adff51c8b1ed"
+        "version": 1,
+        "active": true,
+        "author": {
+          "_id": {
+            "$oid": "6277fd3a78ede53a9bc353f5"
+          },
+          "email": "uo239795@uniovi.es",
+          "password": "",
+          "admin": true,
+          "active": true
         },
-        "isoCode": "en",
-        "description": "English",
-        "active": true
+        "date": {
+          "$date": {
+            "$numberLong": "1652051916235"
+          }
+        },
+        "stage": {
+          "_id": {
+            "$oid": "62722ede2097786978095a32"
+          },
+          "name": "Test",
+          "active": true
+        }
       },
-      "version": 1,
-      "active": true,
-      "author": {
+      {
+        "content": "Search",
+        "language": {
+          "_id": {
+            "$oid": "625d19d22029adff51c8b1ed"
+          },
+          "isoCode": "en",
+          "description": "English",
+          "active": true
+        },
+        "version": 1,
+        "active": true,
+        "author": {
+          "_id": {
+            "$oid": "6277fd3a78ede53a9bc353f5"
+          },
+          "email": "uo239795@uniovi.es",
+          "password": "",
+          "admin": true,
+          "active": true
+        },
+        "date": {
+          "$date": {
+            "$numberLong": "1652051925314"
+          }
+        },
+        "stage": {
+          "_id": {
+            "$oid": "62722ede2097786978095a32"
+          },
+          "name": "Test",
+          "active": true
+        }
+      }
+    ]
+  },
+  {
+    "_id": {
+      "$oid": "62798902e8f668686a36cc01"
+    },
+    "sourceLanguage": {
+      "_id": {
+        "$oid": "625d19d22029adff51c8b1ed"
+      },
+      "isoCode": "en",
+      "description": "English",
+      "active": true
+    },
+    "identifier": "album",
+    "group": {
+      "_id": {
+        "$oid": "6277fd8578ede53a9bc35408"
+      },
+      "name": "spotiapp",
+      "owner": {
         "_id": {
           "$oid": "6277fd3a78ede53a9bc353f5"
         },
@@ -694,73 +776,24 @@
         "admin": true,
         "active": true
       },
-      "date": {
-        "$date": {
-          "$numberLong": "1652131246004"
+      "permissions": [
+        {
+          "user": {
+            "_id": {
+              "$oid": "62212b9cab63141a684739f5"
+            },
+            "email": "user@email.es",
+            "password": "",
+            "admin": false,
+            "active": true
+          },
+          "canWrite": true
         }
-      },
-      "stage": {
-        "_id": {
-          "$oid": "62722ede2097786978095a32"
-        },
-        "name": "Test",
-        "active": true
-      }
-    },
-    {
-      "content": "Buscar artista...",
-      "language": {
-        "_id": {
-          "$oid": "625d19df2029adff51c8b1f4"
-        },
-        "isoCode": "esp",
-        "description": "Spanish",
-        "active": true
-      },
-      "version": 1,
+      ],
       "active": true,
-      "author": {
-        "_id": {
-          "$oid": "6277fd3a78ede53a9bc353f5"
-        },
-        "email": "uo239795@uniovi.es",
-        "password": "",
-        "admin": true,
-        "active": true
-      },
-      "date": {
-        "$date": {
-          "$numberLong": "1652131266332"
-        }
-      },
-      "stage": {
-        "_id": {
-          "$oid": "62722ede2097786978095a32"
-        },
-        "name": "Test",
-        "active": true
-      }
-    }
-  ]
-},{
-  "_id": {
-    "$oid": "627987eae8f668686a36cbfe"
-  },
-  "sourceLanguage": {
-    "_id": {
-      "$oid": "625d19d22029adff51c8b1ed"
+      "public": true
     },
-    "isoCode": "en",
-    "description": "English",
-    "active": true
-  },
-  "identifier": "artist-page",
-  "group": {
-    "_id": {
-      "$oid": "6277fd8578ede53a9bc35408"
-    },
-    "name": "spotiapp",
-    "owner": {
+    "author": {
       "_id": {
         "$oid": "6277fd3a78ede53a9bc353f5"
       },
@@ -769,47 +802,97 @@
       "admin": true,
       "active": true
     },
-    "permissions": [
+    "active": true,
+    "translations": [
       {
-        "user": {
+        "content": "Album",
+        "language": {
           "_id": {
-            "$oid": "62212b9cab63141a684739f5"
+            "$oid": "625d19d22029adff51c8b1ed"
           },
-          "email": "user@email.es",
-          "password": "",
-          "admin": false,
+          "isoCode": "en",
+          "description": "English",
           "active": true
         },
-        "canWrite": true
-      }
-    ],
-    "active": true,
-    "public": true
-  },
-  "author": {
-    "_id": {
-      "$oid": "6277fd3a78ede53a9bc353f5"
-    },
-    "email": "uo239795@uniovi.es",
-    "password": "",
-    "admin": true,
-    "active": true
-  },
-  "active": true,
-  "translations": [
-    {
-      "content": "Go to artist's page",
-      "language": {
-        "_id": {
-          "$oid": "625d19d22029adff51c8b1ed"
+        "version": 1,
+        "active": true,
+        "author": {
+          "_id": {
+            "$oid": "6277fd3a78ede53a9bc353f5"
+          },
+          "email": "uo239795@uniovi.es",
+          "password": "",
+          "admin": true,
+          "active": true
         },
-        "isoCode": "en",
-        "description": "English",
-        "active": true
+        "date": {
+          "$date": {
+            "$numberLong": "1652132054327"
+          }
+        },
+        "stage": {
+          "_id": {
+            "$oid": "62722ede2097786978095a32"
+          },
+          "name": "Test",
+          "active": true
+        }
       },
-      "version": 1,
-      "active": true,
-      "author": {
+      {
+        "content": "Álbum",
+        "language": {
+          "_id": {
+            "$oid": "625d19df2029adff51c8b1f4"
+          },
+          "isoCode": "esp",
+          "description": "Spanish",
+          "active": true
+        },
+        "version": 1,
+        "active": true,
+        "author": {
+          "_id": {
+            "$oid": "6277fd3a78ede53a9bc353f5"
+          },
+          "email": "uo239795@uniovi.es",
+          "password": "",
+          "admin": true,
+          "active": true
+        },
+        "date": {
+          "$date": {
+            "$numberLong": "1652132063679"
+          }
+        },
+        "stage": {
+          "_id": {
+            "$oid": "62722ede2097786978095a32"
+          },
+          "name": "Test",
+          "active": true
+        }
+      }
+    ]
+  },
+  {
+    "_id": {
+      "$oid": "6279895ee8f668686a36cc03"
+    },
+    "sourceLanguage": {
+      "_id": {
+        "$oid": "625d19d22029adff51c8b1ed"
+      },
+      "isoCode": "en",
+      "description": "English",
+      "active": true
+    },
+    "identifier": "preview",
+    "group": {
+      "_id": {
+        "$oid": "6277fd8578ede53a9bc35408"
+      },
+      "name": "spotiapp",
+      "owner": {
         "_id": {
           "$oid": "6277fd3a78ede53a9bc353f5"
         },
@@ -818,73 +901,24 @@
         "admin": true,
         "active": true
       },
-      "date": {
-        "$date": {
-          "$numberLong": "1652131786848"
+      "permissions": [
+        {
+          "user": {
+            "_id": {
+              "$oid": "62212b9cab63141a684739f5"
+            },
+            "email": "user@email.es",
+            "password": "",
+            "admin": false,
+            "active": true
+          },
+          "canWrite": true
         }
-      },
-      "stage": {
-        "_id": {
-          "$oid": "62722ede2097786978095a32"
-        },
-        "name": "Test",
-        "active": true
-      }
-    },
-    {
-      "content": "Ir a la página del artista",
-      "language": {
-        "_id": {
-          "$oid": "625d19df2029adff51c8b1f4"
-        },
-        "isoCode": "esp",
-        "description": "Spanish",
-        "active": true
-      },
-      "version": 1,
+      ],
       "active": true,
-      "author": {
-        "_id": {
-          "$oid": "6277fd3a78ede53a9bc353f5"
-        },
-        "email": "uo239795@uniovi.es",
-        "password": "",
-        "admin": true,
-        "active": true
-      },
-      "date": {
-        "$date": {
-          "$numberLong": "1652131802213"
-        }
-      },
-      "stage": {
-        "_id": {
-          "$oid": "62722ede2097786978095a32"
-        },
-        "name": "Test",
-        "active": true
-      }
-    }
-  ]
-},{
-  "_id": {
-    "$oid": "6279882be8f668686a36cbff"
-  },
-  "sourceLanguage": {
-    "_id": {
-      "$oid": "625d19d22029adff51c8b1ed"
+      "public": true
     },
-    "isoCode": "en",
-    "description": "English",
-    "active": true
-  },
-  "identifier": "back",
-  "group": {
-    "_id": {
-      "$oid": "6277fd8578ede53a9bc35408"
-    },
-    "name": "spotiapp",
-    "owner": {
+    "author": {
       "_id": {
         "$oid": "6277fd3a78ede53a9bc353f5"
       },
@@ -893,47 +927,97 @@
       "admin": true,
       "active": true
     },
-    "permissions": [
+    "active": true,
+    "translations": [
       {
-        "user": {
+        "content": "Preview",
+        "language": {
           "_id": {
-            "$oid": "62212b9cab63141a684739f5"
+            "$oid": "625d19d22029adff51c8b1ed"
           },
-          "email": "user@email.es",
-          "password": "",
-          "admin": false,
+          "isoCode": "en",
+          "description": "English",
           "active": true
         },
-        "canWrite": true
-      }
-    ],
-    "active": true,
-    "public": true
-  },
-  "author": {
-    "_id": {
-      "$oid": "6277fd3a78ede53a9bc353f5"
-    },
-    "email": "uo239795@uniovi.es",
-    "password": "",
-    "admin": true,
-    "active": true
-  },
-  "active": true,
-  "translations": [
-    {
-      "content": "Back",
-      "language": {
-        "_id": {
-          "$oid": "625d19d22029adff51c8b1ed"
+        "version": 1,
+        "active": true,
+        "author": {
+          "_id": {
+            "$oid": "6277fd3a78ede53a9bc353f5"
+          },
+          "email": "uo239795@uniovi.es",
+          "password": "",
+          "admin": true,
+          "active": true
         },
-        "isoCode": "en",
-        "description": "English",
-        "active": true
+        "date": {
+          "$date": {
+            "$numberLong": "1652132161889"
+          }
+        },
+        "stage": {
+          "_id": {
+            "$oid": "62722ede2097786978095a32"
+          },
+          "name": "Test",
+          "active": true
+        }
       },
-      "version": 1,
-      "active": true,
-      "author": {
+      {
+        "content": "Vista previa",
+        "language": {
+          "_id": {
+            "$oid": "625d19df2029adff51c8b1f4"
+          },
+          "isoCode": "esp",
+          "description": "Spanish",
+          "active": true
+        },
+        "version": 1,
+        "active": true,
+        "author": {
+          "_id": {
+            "$oid": "6277fd3a78ede53a9bc353f5"
+          },
+          "email": "uo239795@uniovi.es",
+          "password": "",
+          "admin": true,
+          "active": true
+        },
+        "date": {
+          "$date": {
+            "$numberLong": "1652132178183"
+          }
+        },
+        "stage": {
+          "_id": {
+            "$oid": "62722ede2097786978095a32"
+          },
+          "name": "Test",
+          "active": true
+        }
+      }
+    ]
+  },
+  {
+    "_id": {
+      "$oid": "627976cb78817868c2f82edf"
+    },
+    "sourceLanguage": {
+      "_id": {
+        "$oid": "625d19d22029adff51c8b1ed"
+      },
+      "isoCode": "en",
+      "description": "English",
+      "active": true
+    },
+    "identifier": "navbar.en",
+    "group": {
+      "_id": {
+        "$oid": "6277fd8578ede53a9bc35408"
+      },
+      "name": "spotiapp",
+      "owner": {
         "_id": {
           "$oid": "6277fd3a78ede53a9bc353f5"
         },
@@ -942,73 +1026,24 @@
         "admin": true,
         "active": true
       },
-      "date": {
-        "$date": {
-          "$numberLong": "1652131873934"
+      "permissions": [
+        {
+          "user": {
+            "_id": {
+              "$oid": "62212b9cab63141a684739f5"
+            },
+            "email": "user@email.es",
+            "password": "",
+            "admin": false,
+            "active": true
+          },
+          "canWrite": true
         }
-      },
-      "stage": {
-        "_id": {
-          "$oid": "62722ede2097786978095a32"
-        },
-        "name": "Test",
-        "active": true
-      }
-    },
-    {
-      "content": "Volver",
-      "language": {
-        "_id": {
-          "$oid": "625d19df2029adff51c8b1f4"
-        },
-        "isoCode": "esp",
-        "description": "Spanish",
-        "active": true
-      },
-      "version": 1,
+      ],
       "active": true,
-      "author": {
-        "_id": {
-          "$oid": "6277fd3a78ede53a9bc353f5"
-        },
-        "email": "uo239795@uniovi.es",
-        "password": "",
-        "admin": true,
-        "active": true
-      },
-      "date": {
-        "$date": {
-          "$numberLong": "1652131865119"
-        }
-      },
-      "stage": {
-        "_id": {
-          "$oid": "62722ede2097786978095a32"
-        },
-        "name": "Test",
-        "active": true
-      }
-    }
-  ]
-},{
-  "_id": {
-    "$oid": "627988b9e8f668686a36cc00"
-  },
-  "sourceLanguage": {
-    "_id": {
-      "$oid": "625d19d22029adff51c8b1ed"
+      "public": true
     },
-    "isoCode": "en",
-    "description": "English",
-    "active": true
-  },
-  "identifier": "photo",
-  "group": {
-    "_id": {
-      "$oid": "6277fd8578ede53a9bc35408"
-    },
-    "name": "spotiapp",
-    "owner": {
+    "author": {
       "_id": {
         "$oid": "6277fd3a78ede53a9bc353f5"
       },
@@ -1017,47 +1052,97 @@
       "admin": true,
       "active": true
     },
-    "permissions": [
+    "active": true,
+    "translations": [
       {
-        "user": {
+        "content": "Inglés",
+        "language": {
           "_id": {
-            "$oid": "62212b9cab63141a684739f5"
+            "$oid": "625d19df2029adff51c8b1f4"
           },
-          "email": "user@email.es",
-          "password": "",
-          "admin": false,
+          "isoCode": "esp",
+          "description": "Spanish",
           "active": true
         },
-        "canWrite": true
-      }
-    ],
-    "active": true,
-    "public": true
-  },
-  "author": {
-    "_id": {
-      "$oid": "6277fd3a78ede53a9bc353f5"
-    },
-    "email": "uo239795@uniovi.es",
-    "password": "",
-    "admin": true,
-    "active": true
-  },
-  "active": true,
-  "translations": [
-    {
-      "content": "Photo",
-      "language": {
-        "_id": {
-          "$oid": "625d19d22029adff51c8b1ed"
+        "version": 1,
+        "active": true,
+        "author": {
+          "_id": {
+            "$oid": "6277fd3a78ede53a9bc353f5"
+          },
+          "email": "uo239795@uniovi.es",
+          "password": "",
+          "admin": true,
+          "active": true
         },
-        "isoCode": "en",
-        "description": "English",
-        "active": true
+        "date": {
+          "$date": {
+            "$numberLong": "1652127372143"
+          }
+        },
+        "stage": {
+          "_id": {
+            "$oid": "62722ede2097786978095a32"
+          },
+          "name": "Test",
+          "active": true
+        }
       },
-      "version": 1,
-      "active": true,
-      "author": {
+      {
+        "content": "English",
+        "language": {
+          "_id": {
+            "$oid": "625d19d22029adff51c8b1ed"
+          },
+          "isoCode": "en",
+          "description": "English",
+          "active": true
+        },
+        "version": 1,
+        "active": true,
+        "author": {
+          "_id": {
+            "$oid": "6277fd3a78ede53a9bc353f5"
+          },
+          "email": "uo239795@uniovi.es",
+          "password": "",
+          "admin": true,
+          "active": true
+        },
+        "date": {
+          "$date": {
+            "$numberLong": "1652127423495"
+          }
+        },
+        "stage": {
+          "_id": {
+            "$oid": "62722ede2097786978095a32"
+          },
+          "name": "Test",
+          "active": true
+        }
+      }
+    ]
+  },
+  {
+    "_id": {
+      "$oid": "62784f8873529849af866f0c"
+    },
+    "sourceLanguage": {
+      "_id": {
+        "$oid": "625d19d22029adff51c8b1ed"
+      },
+      "isoCode": "en",
+      "description": "English",
+      "active": true
+    },
+    "identifier": "app-name",
+    "group": {
+      "_id": {
+        "$oid": "6277fd8578ede53a9bc35408"
+      },
+      "name": "spotiapp",
+      "owner": {
         "_id": {
           "$oid": "6277fd3a78ede53a9bc353f5"
         },
@@ -1066,73 +1151,24 @@
         "admin": true,
         "active": true
       },
-      "date": {
-        "$date": {
-          "$numberLong": "1652132002954"
+      "permissions": [
+        {
+          "user": {
+            "_id": {
+              "$oid": "62212b9cab63141a684739f5"
+            },
+            "email": "user@email.es",
+            "password": "",
+            "admin": false,
+            "active": true
+          },
+          "canWrite": true
         }
-      },
-      "stage": {
-        "_id": {
-          "$oid": "62722ede2097786978095a32"
-        },
-        "name": "Test",
-        "active": true
-      }
-    },
-    {
-      "content": "Foto",
-      "language": {
-        "_id": {
-          "$oid": "625d19df2029adff51c8b1f4"
-        },
-        "isoCode": "esp",
-        "description": "Spanish",
-        "active": true
-      },
-      "version": 1,
+      ],
       "active": true,
-      "author": {
-        "_id": {
-          "$oid": "6277fd3a78ede53a9bc353f5"
-        },
-        "email": "uo239795@uniovi.es",
-        "password": "",
-        "admin": true,
-        "active": true
-      },
-      "date": {
-        "$date": {
-          "$numberLong": "1652132013517"
-        }
-      },
-      "stage": {
-        "_id": {
-          "$oid": "62722ede2097786978095a32"
-        },
-        "name": "Test",
-        "active": true
-      }
-    }
-  ]
-},{
-  "_id": {
-    "$oid": "62798902e8f668686a36cc01"
-  },
-  "sourceLanguage": {
-    "_id": {
-      "$oid": "625d19d22029adff51c8b1ed"
+      "public": true
     },
-    "isoCode": "en",
-    "description": "English",
-    "active": true
-  },
-  "identifier": "album",
-  "group": {
-    "_id": {
-      "$oid": "6277fd8578ede53a9bc35408"
-    },
-    "name": "spotiapp",
-    "owner": {
+    "author": {
       "_id": {
         "$oid": "6277fd3a78ede53a9bc353f5"
       },
@@ -1141,47 +1177,97 @@
       "admin": true,
       "active": true
     },
-    "permissions": [
+    "active": true,
+    "translations": [
       {
-        "user": {
+        "content": "Spotify App",
+        "language": {
           "_id": {
-            "$oid": "62212b9cab63141a684739f5"
+            "$oid": "625d19d22029adff51c8b1ed"
           },
-          "email": "user@email.es",
-          "password": "",
-          "admin": false,
+          "isoCode": "en",
+          "description": "English",
           "active": true
         },
-        "canWrite": true
-      }
-    ],
-    "active": true,
-    "public": true
-  },
-  "author": {
-    "_id": {
-      "$oid": "6277fd3a78ede53a9bc353f5"
-    },
-    "email": "uo239795@uniovi.es",
-    "password": "",
-    "admin": true,
-    "active": true
-  },
-  "active": true,
-  "translations": [
-    {
-      "content": "Album",
-      "language": {
-        "_id": {
-          "$oid": "625d19d22029adff51c8b1ed"
+        "version": 1,
+        "active": true,
+        "author": {
+          "_id": {
+            "$oid": "6277fd3a78ede53a9bc353f5"
+          },
+          "email": "uo239795@uniovi.es",
+          "password": "",
+          "admin": true,
+          "active": true
         },
-        "isoCode": "en",
-        "description": "English",
-        "active": true
+        "date": {
+          "$date": {
+            "$numberLong": "1652051815548"
+          }
+        },
+        "stage": {
+          "_id": {
+            "$oid": "62722ede2097786978095a32"
+          },
+          "name": "Test",
+          "active": true
+        }
       },
-      "version": 1,
-      "active": true,
-      "author": {
+      {
+        "content": "Spotify clon",
+        "language": {
+          "_id": {
+            "$oid": "625d19df2029adff51c8b1f4"
+          },
+          "isoCode": "esp",
+          "description": "Spanish",
+          "active": true
+        },
+        "version": 1,
+        "active": true,
+        "author": {
+          "_id": {
+            "$oid": "6277fd3a78ede53a9bc353f5"
+          },
+          "email": "uo239795@uniovi.es",
+          "password": "",
+          "admin": true,
+          "active": true
+        },
+        "date": {
+          "$date": {
+            "$numberLong": "1652051837743"
+          }
+        },
+        "stage": {
+          "_id": {
+            "$oid": "62722ede2097786978095a32"
+          },
+          "name": "Test",
+          "active": true
+        }
+      }
+    ]
+  },
+  {
+    "_id": {
+      "$oid": "6279767b78817868c2f82ede"
+    },
+    "sourceLanguage": {
+      "_id": {
+        "$oid": "625d19d22029adff51c8b1ed"
+      },
+      "isoCode": "en",
+      "description": "English",
+      "active": true
+    },
+    "identifier": "navbar.esp",
+    "group": {
+      "_id": {
+        "$oid": "6277fd8578ede53a9bc35408"
+      },
+      "name": "spotiapp",
+      "owner": {
         "_id": {
           "$oid": "6277fd3a78ede53a9bc353f5"
         },
@@ -1190,73 +1276,24 @@
         "admin": true,
         "active": true
       },
-      "date": {
-        "$date": {
-          "$numberLong": "1652132054327"
+      "permissions": [
+        {
+          "user": {
+            "_id": {
+              "$oid": "62212b9cab63141a684739f5"
+            },
+            "email": "user@email.es",
+            "password": "",
+            "admin": false,
+            "active": true
+          },
+          "canWrite": true
         }
-      },
-      "stage": {
-        "_id": {
-          "$oid": "62722ede2097786978095a32"
-        },
-        "name": "Test",
-        "active": true
-      }
-    },
-    {
-      "content": "Álbum",
-      "language": {
-        "_id": {
-          "$oid": "625d19df2029adff51c8b1f4"
-        },
-        "isoCode": "esp",
-        "description": "Spanish",
-        "active": true
-      },
-      "version": 1,
+      ],
       "active": true,
-      "author": {
-        "_id": {
-          "$oid": "6277fd3a78ede53a9bc353f5"
-        },
-        "email": "uo239795@uniovi.es",
-        "password": "",
-        "admin": true,
-        "active": true
-      },
-      "date": {
-        "$date": {
-          "$numberLong": "1652132063679"
-        }
-      },
-      "stage": {
-        "_id": {
-          "$oid": "62722ede2097786978095a32"
-        },
-        "name": "Test",
-        "active": true
-      }
-    }
-  ]
-},{
-  "_id": {
-    "$oid": "62798931e8f668686a36cc02"
-  },
-  "sourceLanguage": {
-    "_id": {
-      "$oid": "625d19d22029adff51c8b1ed"
+      "public": true
     },
-    "isoCode": "en",
-    "description": "English",
-    "active": true
-  },
-  "identifier": "song",
-  "group": {
-    "_id": {
-      "$oid": "6277fd8578ede53a9bc35408"
-    },
-    "name": "spotiapp",
-    "owner": {
+    "author": {
       "_id": {
         "$oid": "6277fd3a78ede53a9bc353f5"
       },
@@ -1265,47 +1302,97 @@
       "admin": true,
       "active": true
     },
-    "permissions": [
+    "active": true,
+    "translations": [
       {
-        "user": {
+        "content": "Castellano",
+        "language": {
           "_id": {
-            "$oid": "62212b9cab63141a684739f5"
+            "$oid": "625d19df2029adff51c8b1f4"
           },
-          "email": "user@email.es",
-          "password": "",
-          "admin": false,
+          "isoCode": "esp",
+          "description": "Spanish",
           "active": true
         },
-        "canWrite": true
-      }
-    ],
-    "active": true,
-    "public": true
-  },
-  "author": {
-    "_id": {
-      "$oid": "6277fd3a78ede53a9bc353f5"
-    },
-    "email": "uo239795@uniovi.es",
-    "password": "",
-    "admin": true,
-    "active": true
-  },
-  "active": true,
-  "translations": [
-    {
-      "content": "Song",
-      "language": {
-        "_id": {
-          "$oid": "625d19d22029adff51c8b1ed"
+        "version": 1,
+        "active": true,
+        "author": {
+          "_id": {
+            "$oid": "6277fd3a78ede53a9bc353f5"
+          },
+          "email": "uo239795@uniovi.es",
+          "password": "",
+          "admin": true,
+          "active": true
         },
-        "isoCode": "en",
-        "description": "English",
-        "active": true
+        "date": {
+          "$date": {
+            "$numberLong": "1652127323931"
+          }
+        },
+        "stage": {
+          "_id": {
+            "$oid": "62722ede2097786978095a32"
+          },
+          "name": "Test",
+          "active": true
+        }
       },
-      "version": 1,
-      "active": true,
-      "author": {
+      {
+        "content": "Spanish",
+        "language": {
+          "_id": {
+            "$oid": "625d19d22029adff51c8b1ed"
+          },
+          "isoCode": "en",
+          "description": "English",
+          "active": true
+        },
+        "version": 1,
+        "active": true,
+        "author": {
+          "_id": {
+            "$oid": "6277fd3a78ede53a9bc353f5"
+          },
+          "email": "uo239795@uniovi.es",
+          "password": "",
+          "admin": true,
+          "active": true
+        },
+        "date": {
+          "$date": {
+            "$numberLong": "1652127343115"
+          }
+        },
+        "stage": {
+          "_id": {
+            "$oid": "62722ede2097786978095a32"
+          },
+          "name": "Test",
+          "active": true
+        }
+      }
+    ]
+  },
+  {
+    "_id": {
+      "$oid": "6279882be8f668686a36cbff"
+    },
+    "sourceLanguage": {
+      "_id": {
+        "$oid": "625d19d22029adff51c8b1ed"
+      },
+      "isoCode": "en",
+      "description": "English",
+      "active": true
+    },
+    "identifier": "back",
+    "group": {
+      "_id": {
+        "$oid": "6277fd8578ede53a9bc35408"
+      },
+      "name": "spotiapp",
+      "owner": {
         "_id": {
           "$oid": "6277fd3a78ede53a9bc353f5"
         },
@@ -1314,73 +1401,24 @@
         "admin": true,
         "active": true
       },
-      "date": {
-        "$date": {
-          "$numberLong": "1652132120746"
+      "permissions": [
+        {
+          "user": {
+            "_id": {
+              "$oid": "62212b9cab63141a684739f5"
+            },
+            "email": "user@email.es",
+            "password": "",
+            "admin": false,
+            "active": true
+          },
+          "canWrite": true
         }
-      },
-      "stage": {
-        "_id": {
-          "$oid": "62722ede2097786978095a32"
-        },
-        "name": "Test",
-        "active": true
-      }
-    },
-    {
-      "content": "Canción",
-      "language": {
-        "_id": {
-          "$oid": "625d19df2029adff51c8b1f4"
-        },
-        "isoCode": "esp",
-        "description": "Spanish",
-        "active": true
-      },
-      "version": 1,
+      ],
       "active": true,
-      "author": {
-        "_id": {
-          "$oid": "6277fd3a78ede53a9bc353f5"
-        },
-        "email": "uo239795@uniovi.es",
-        "password": "",
-        "admin": true,
-        "active": true
-      },
-      "date": {
-        "$date": {
-          "$numberLong": "1652132133515"
-        }
-      },
-      "stage": {
-        "_id": {
-          "$oid": "62722ede2097786978095a32"
-        },
-        "name": "Test",
-        "active": true
-      }
-    }
-  ]
-},{
-  "_id": {
-    "$oid": "6279895ee8f668686a36cc03"
-  },
-  "sourceLanguage": {
-    "_id": {
-      "$oid": "625d19d22029adff51c8b1ed"
+      "public": true
     },
-    "isoCode": "en",
-    "description": "English",
-    "active": true
-  },
-  "identifier": "preview",
-  "group": {
-    "_id": {
-      "$oid": "6277fd8578ede53a9bc35408"
-    },
-    "name": "spotiapp",
-    "owner": {
+    "author": {
       "_id": {
         "$oid": "6277fd3a78ede53a9bc353f5"
       },
@@ -1389,101 +1427,76 @@
       "admin": true,
       "active": true
     },
-    "permissions": [
+    "active": true,
+    "translations": [
       {
-        "user": {
+        "content": "Back",
+        "language": {
           "_id": {
-            "$oid": "62212b9cab63141a684739f5"
+            "$oid": "625d19d22029adff51c8b1ed"
           },
-          "email": "user@email.es",
-          "password": "",
-          "admin": false,
+          "isoCode": "en",
+          "description": "English",
           "active": true
         },
-        "canWrite": true
-      }
-    ],
-    "active": true,
-    "public": true
-  },
-  "author": {
-    "_id": {
-      "$oid": "6277fd3a78ede53a9bc353f5"
-    },
-    "email": "uo239795@uniovi.es",
-    "password": "",
-    "admin": true,
-    "active": true
-  },
-  "active": true,
-  "translations": [
-    {
-      "content": "Preview",
-      "language": {
-        "_id": {
-          "$oid": "625d19d22029adff51c8b1ed"
+        "version": 1,
+        "active": true,
+        "author": {
+          "_id": {
+            "$oid": "6277fd3a78ede53a9bc353f5"
+          },
+          "email": "uo239795@uniovi.es",
+          "password": "",
+          "admin": true,
+          "active": true
         },
-        "isoCode": "en",
-        "description": "English",
-        "active": true
-      },
-      "version": 1,
-      "active": true,
-      "author": {
-        "_id": {
-          "$oid": "6277fd3a78ede53a9bc353f5"
+        "date": {
+          "$date": {
+            "$numberLong": "1652131873934"
+          }
         },
-        "email": "uo239795@uniovi.es",
-        "password": "",
-        "admin": true,
-        "active": true
-      },
-      "date": {
-        "$date": {
-          "$numberLong": "1652132161889"
+        "stage": {
+          "_id": {
+            "$oid": "62722ede2097786978095a32"
+          },
+          "name": "Test",
+          "active": true
         }
       },
-      "stage": {
-        "_id": {
-          "$oid": "62722ede2097786978095a32"
+      {
+        "content": "Volver",
+        "language": {
+          "_id": {
+            "$oid": "625d19df2029adff51c8b1f4"
+          },
+          "isoCode": "esp",
+          "description": "Spanish",
+          "active": true
         },
-        "name": "Test",
-        "active": true
-      }
-    },
-    {
-      "content": "Vista previa",
-      "language": {
-        "_id": {
-          "$oid": "625d19df2029adff51c8b1f4"
+        "version": 1,
+        "active": true,
+        "author": {
+          "_id": {
+            "$oid": "6277fd3a78ede53a9bc353f5"
+          },
+          "email": "uo239795@uniovi.es",
+          "password": "",
+          "admin": true,
+          "active": true
         },
-        "isoCode": "esp",
-        "description": "Spanish",
-        "active": true
-      },
-      "version": 1,
-      "active": true,
-      "author": {
-        "_id": {
-          "$oid": "6277fd3a78ede53a9bc353f5"
+        "date": {
+          "$date": {
+            "$numberLong": "1652131865119"
+          }
         },
-        "email": "uo239795@uniovi.es",
-        "password": "",
-        "admin": true,
-        "active": true
-      },
-      "date": {
-        "$date": {
-          "$numberLong": "1652132178183"
+        "stage": {
+          "_id": {
+            "$oid": "62722ede2097786978095a32"
+          },
+          "name": "Test",
+          "active": true
         }
-      },
-      "stage": {
-        "_id": {
-          "$oid": "62722ede2097786978095a32"
-        },
-        "name": "Test",
-        "active": true
       }
-    }
-  ]
-}]
+    ]
+  }
+]

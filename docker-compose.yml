@@ -14,13 +14,16 @@ services:
       - ./mongo-volume:/data/db
     networks:
       - localize-me-network
-  mongo_seed:
+  mongo-seed:
+    container_name: localize-me-mongo-seed
     image: mongo:latest
+    depends_on:
+      - database
     links:
       - database
     volumes:
       - ./mongo-seed:/mongo-seed
-    command: /mongo-seed/import.sh
+    command: bash "mongo-seed/import.sh"
     networks:
       - localize-me-network
   backend:
