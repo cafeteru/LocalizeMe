@@ -26,7 +26,7 @@
     </nz-form-item>
     <nz-form-item nz-row class="register-area btn-right">
         <button nz-button [nzType]="'primary'" [disabled]="!formGroup.valid || isLoading" (click)="send()">
-            <span *ngIf="!isLoading">Read</span>
+            <span *ngIf="!isLoading">Create</span>
             <span *ngIf="isLoading">
                 <em nz-icon nzType="loading"></em>
                 Loading
