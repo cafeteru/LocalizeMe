@@ -10,3 +10,8 @@
 .lang-menu {
     background-color: #343a40;
 }
+
+img,
+.flag-icon {
+    margin-right: 10px;
+}

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, Observable, of, switchMap, tap } from 'rxjs';
+import { catchError, Observable, of, tap } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { ResponseLogin } from '../types/response-login';
 import { UserDto } from '../types/user';
@@ -28,15 +28,11 @@ export class LocalizeMeService {
     }
 
     findByIdentifierAndLanguage(identifier: string, isoCode: string): Observable<string> {
-        return this.login().pipe(
-            switchMap(() =>
-                this.httpClient
-                    .get<string>(
-                        `${this.baseStringUrl}/content?identifier=${identifier}&isoCode=${isoCode}`,
-                        getDefaultHttpOptions()
-                    )
-                    .pipe(catchError(() => of(identifier)))
+        return this.httpClient
+            .get<string>(
+                `${this.baseStringUrl}/content?identifier=${identifier}&isoCode=${isoCode}`,
+                getDefaultHttpOptions()
             )
-        );
+            .pipe(catchError(() => of(identifier)));
     }
 }

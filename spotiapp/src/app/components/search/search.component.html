@@ -1,15 +1,12 @@
 <div class="row">
     <div class="col">
-        <input
-            #termino
-            type="text"
-            (keyup)="buscar(termino.value)"
-            class="form-control"
-            [placeholder]="'search-artist' | localizeMe: isoCode | async"
-        />
+        <label>
+            <app-localize-me [setIdentifier]="'search-artist'"></app-localize-me>
+        </label>
+        <input #termino type="text" (keyup)="search(termino.value)" class="form-control" />
     </div>
 </div>
 
 <app-loading class="m-5" *ngIf="loading"></app-loading>
 
-<app-tarjetas *ngIf="!loading" [items]="artistas"></app-tarjetas>
+<app-tarjetas *ngIf="!loading" [items]="artists"></app-tarjetas>

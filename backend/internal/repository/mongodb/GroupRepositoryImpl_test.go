@@ -47,6 +47,40 @@ func TestGroupRepositoryImpl_Create_Error(t *testing.T) {
 	})
 }
 
+func TestGroupRepositoryImpl_Delete_Success(t *testing.T) {
+	mt, s := createGroupMocks(t)
+	mt.Run("Delete_Group_Success", func(mt *mtest.T) {
+		s.collection = mt.Coll
+		mt.AddMockResponses(mtest.CreateCursorResponse(1, "foo.bar", mtest.FirstBatch, bson.D{
+			{Key: "DeletedCount", Value: 1},
+		}))
+		_, err := s.Delete(language.ID)
+		assert.Nil(t, err)
+	})
+}
+
+func TestGroupRepositoryImpl_Delete_NotConnection(t *testing.T) {
+	mt, s := createGroupMocks(t)
+	mt.Run("Delete_Group_NotConnection", func(mt *mtest.T) {
+		_, err := s.Delete(group.ID)
+		assert.NotNil(t, err)
+		assert.Equal(t, err, errors.New(constants.CreateConnection))
+	})
+}
+
+func TestGroupRepositoryImpl_Delete_NotFound(t *testing.T) {
+	mt, s := createGroupMocks(t)
+	mt.Run("Delete_Group_NotFound", func(mt *mtest.T) {
+		s.collection = mt.Coll
+		mt.AddMockResponses(mtest.CreateWriteErrorsResponse(mtest.WriteError{
+			Message: constants.DeleteGroup,
+		}))
+		_, err := s.Delete(group.ID)
+		assert.NotNil(t, err)
+		assert.Equal(t, err, errors.New(constants.DeleteGroup))
+	})
+}
+
 func TestGroupRepositoryImpl_FindAll_Success(t *testing.T) {
 	mt, l := createGroupMocks(t)
 	mt.Run("FindAll_Group_Success", func(mt *mtest.T) {

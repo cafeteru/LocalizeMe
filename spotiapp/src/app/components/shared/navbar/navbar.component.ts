@@ -1,30 +1,27 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { BaseComponent } from '../../base.component';
 import { AppState } from '../../../store/app.reducer';
 import { Store } from '@ngrx/store';
 import * as isoCodeActions from '../../../store/actions/iso-code.actions';
 import { initialState } from '../../../store/reducers/iso-code.reducer';
+import { LocalizeMeService } from '../../../services/localize-me.service';
 
 @Component({
     selector: 'app-navbar',
     templateUrl: './navbar.component.html',
     styleUrls: ['./navbar.component.css'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NavbarComponent extends BaseComponent implements OnInit {
     isoCode = initialState.isoCode;
 
-    constructor(private store: Store<AppState>) {
+    constructor(private localizeMeService: LocalizeMeService, private store: Store<AppState>) {
         super();
     }
 
     ngOnInit() {
         super.ngOnInit();
-        this.subscriptions$.push(
-            this.store.select('isoCodeReducer').subscribe((isoCodeReducer) => {
-                this.isoCode = isoCodeReducer.isoCode;
-            })
-        );
+        const subscription1 = this.localizeMeService.login().subscribe();
+        this.subscriptions$.push(subscription1);
     }
 
     get selectedLanguage(): string {

@@ -14,10 +14,13 @@ type BaseString struct {
 }
 
 func (b BaseString) FindTranslationLastVersionByLanguage(language Language) string {
+	if !language.Active {
+		return ""
+	}
 	var translation Translation
 	lastVersion := 0
 	for _, value := range b.Translations {
-		if value.Language.ID == language.ID && value.Version >= lastVersion {
+		if value.Language.ID == language.ID && value.Version >= lastVersion && value.Active {
 			translation = value
 			lastVersion = value.Version
 		}

@@ -52,11 +52,11 @@ export class SpotifyService {
         return this.getQuery('browse/new-releases?limit=20').pipe(map((data) => data['albums'].items));
     }
 
-    getArtistas(termino: string): Observable<any> {
+    getArtists(termino: string): Observable<any> {
         return this.getQuery(`search?q=${termino}&type=artist&limit=15`).pipe(map((data) => data['artists'].items));
     }
 
-    getArtista(id: string): Observable<any> {
+    getArtist(id: string): Observable<any> {
         return this.getQuery(`artists/${id}`);
     }
 

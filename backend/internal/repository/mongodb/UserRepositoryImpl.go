@@ -98,16 +98,16 @@ func (u *UserRepositoryImpl) FindAll() (*[]domain.User, error) {
 	cursor, _ := collection.Find(context.TODO(), bson.D{})
 	for cursor.Next(context.TODO()) {
 		var user domain.User
-		if err := cursor.Decode(&user); err != nil {
+		if err = cursor.Decode(&user); err != nil {
 			return nil, tools.ErrorLogDetails(err, constants.ReadDatabase, tools.GetCurrentFuncName())
 		}
 		user.ClearPassword()
 		users = append(users, user)
 	}
-	if err := cursor.Err(); err != nil {
+	if err = cursor.Err(); err != nil {
 		return nil, tools.ErrorLogDetails(err, constants.ReadDatabase, tools.GetCurrentFuncName())
 	}
-	if err := cursor.Close(context.TODO()); err != nil {
+	if err = cursor.Close(context.TODO()); err != nil {
 		return nil, tools.ErrorLogDetails(err, constants.ReadDatabase, tools.GetCurrentFuncName())
 	}
 
