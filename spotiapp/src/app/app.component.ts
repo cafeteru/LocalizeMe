@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { LocalizeMeService } from './services/localize-me.service';
 import { BaseComponent } from './components/base.component';
+import { Store } from '@ngrx/store';
+import { AppState } from './store/app.reducer';
 
 @Component({
     selector: 'app-root',
@@ -10,14 +11,18 @@ import { BaseComponent } from './components/base.component';
 export class AppComponent extends BaseComponent implements OnInit {
     title = 'app';
 
-    constructor(private localizeMeService: LocalizeMeService) {
+    constructor(private store: Store<AppState>) {
         super();
     }
 
     ngOnInit(): void {
         super.ngOnInit();
         localStorage.setItem('isoCode', 'esp');
-        const subscription$ = this.localizeMeService.login().subscribe();
-        this.subscriptions$.push(subscription$);
+        const subscription = this.store.select('isoCodeReducer').subscribe({
+            next: (isoCodeReducer) => {
+                localStorage.setItem('isoCode', isoCodeReducer.isoCode);
+            },
+        });
+        this.subscriptions$.push(subscription);
     }
 }

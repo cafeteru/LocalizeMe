@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SpotifyService } from '../../services/spotify.service';
 import { initialState } from '../../store/reducers/iso-code.reducer';
-import { Store } from '@ngrx/store';
-import { AppState } from '../../store/app.reducer';
 import { BaseComponent } from '../base.component';
 
 @Component({
@@ -11,32 +9,27 @@ import { BaseComponent } from '../base.component';
     styles: [],
 })
 export class SearchComponent extends BaseComponent implements OnInit {
-    artistas: any[] = [];
+    artists: any[] = [];
     loading: boolean;
     isoCode = initialState.isoCode;
 
-    constructor(private spotify: SpotifyService, private store: Store<AppState>) {
+    constructor(private spotify: SpotifyService) {
         super();
     }
 
     ngOnInit() {
         super.ngOnInit();
-        this.subscriptions$.push(
-            this.store.select('isoCodeReducer').subscribe((isoCodeReducer) => {
-                this.isoCode = isoCodeReducer.isoCode;
-            })
-        );
     }
 
-    buscar(termino: string) {
-        if (termino && termino !== '') {
+    search(value: string) {
+        if (value && value !== '') {
             this.loading = true;
-            this.spotify.getArtistas(termino).subscribe((data: any) => {
-                this.artistas = data;
+            this.spotify.getArtists(value).subscribe((data: any) => {
+                this.artists = data;
                 this.loading = false;
             });
         } else {
-            this.artistas = [];
+            this.artists = [];
             this.loading = false;
         }
     }

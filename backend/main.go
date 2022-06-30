@@ -36,7 +36,7 @@ func waitInterrupt() {
 
 func shutdown(serv *server.Server) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
-	err := serv.Close()
+	err := serv.Shutdown()
 	if err != nil {
 		return
 	}

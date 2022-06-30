@@ -24,6 +24,7 @@ import { StoreModule } from '@ngrx/store';
 import { getAppReducers } from './store/app.reducer';
 import { environment } from '../environments/environment';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { LocalizeMeComponent } from './components/shared/localize-me/localize-me.component';
 
 @NgModule({
     declarations: [
@@ -37,6 +38,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
         TarjetasComponent,
         LoadingComponent,
         LocalizeMePipe,
+        LocalizeMeComponent,
     ],
     imports: [
         BrowserModule,

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SpotifyService } from '../../services/spotify.service';
 import { BaseComponent } from '../base.component';
-import { LocalizeMeService } from '../../services/localize-me.service';
 
 @Component({
     selector: 'app-home',
@@ -15,7 +14,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
     error: boolean;
     mensajeError: string;
 
-    constructor(private spotifyService: SpotifyService, private localizeMeService: LocalizeMeService) {
+    constructor(private spotifyService: SpotifyService) {
         super();
     }
 
@@ -23,21 +22,24 @@ export class HomeComponent extends BaseComponent implements OnInit {
         super.ngOnInit();
         this.loading = true;
         this.error = false;
-        this.getNewReleases();
+        const subscription$ = this.spotifyService.getToken().subscribe({
+            next: () => this.getNewReleases(),
+        });
+        this.subscriptions$.push(subscription$);
     }
 
     private getNewReleases(): void {
-        const subscription$ = this.spotifyService.getNewReleases().subscribe(
-            (data: any) => {
+        const subscription$ = this.spotifyService.getNewReleases().subscribe({
+            next: (data: any) => {
                 this.nuevasCanciones = data;
                 this.loading = false;
             },
-            (errorServicio) => {
+            error: (errorServicio) => {
                 this.loading = false;
                 this.error = true;
                 this.mensajeError = errorServicio.error.error.message;
-            }
-        );
+            },
+        });
         this.subscriptions$.push(subscription$);
     }
 }

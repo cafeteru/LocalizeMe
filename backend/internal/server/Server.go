@@ -1,6 +1,7 @@
 package server
 
 import (
+	"context"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 	"github.com/go-chi/cors"
@@ -42,15 +43,14 @@ func CreateServer(port string) *Server {
 	return &Server{server}
 }
 
-func (serv *Server) Close() error {
-	log.Printf("Stopping on http://localhost%s", serv.server.Addr)
-
-	return nil
+func (s *Server) Shutdown() error {
+	log.Printf("Stopping on http://localhost%s", s.server.Addr)
+	return s.server.Shutdown(context.TODO())
 }
 
-func (serv *Server) Start() {
-	log.Printf("Server running on http://localhost%s", serv.server.Addr)
-	log.Printf("%s", serv.server.ListenAndServe())
+func (s *Server) Start() {
+	log.Printf("Server running on http://localhost%s", s.server.Addr)
+	log.Printf("%s", s.server.ListenAndServe())
 }
 
 func initControllers(r *chi.Mux) {

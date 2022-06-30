@@ -2,20 +2,22 @@
 
 <div class="row animated fadeIn" *ngIf="!loadingArtist">
     <div class="col-2">
-        <img [src]="artista.images | noimage" class="img-thumbnail img-circle" />
+        <img [src]="artista.images | noimage" class="img-thumbnail img-circle" alt="" />
     </div>
 
     <div class="col">
         <h3>{{ artista.name }}</h3>
         <p>
-            <a [href]="artista.external_urls.spotify" target="_blank">{{
-                'artist-page' | localizeMe: isoCode | async
-            }}</a>
+            <a [href]="artista.external_urls.spotify" target="_blank">
+                <app-localize-me [setIdentifier]="'artist-page'"></app-localize-me>
+            </a>
         </p>
     </div>
 
     <div class="col-4 text-right">
-        <button routerLink="/search" class="btn btn-outline-danger">{{ 'back' | localizeMe: isoCode | async }}</button>
+        <button routerLink="/search" class="btn btn-outline-danger">
+            <app-localize-me [setIdentifier]="'back'"></app-localize-me>
+        </button>
     </div>
 </div>
 
@@ -24,10 +26,18 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th>{{ 'photo' | localizeMe: isoCode | async }}</th>
-                    <th>{{ 'album' | localizeMe: isoCode | async }}</th>
-                    <th>{{ 'song' | localizeMe: isoCode | async }}</th>
-                    <th>{{ 'preview' | localizeMe: isoCode | async }}</th>
+                    <th>
+                        <app-localize-me [setIdentifier]="'photo'"></app-localize-me>
+                    </th>
+                    <th>
+                        <app-localize-me [setIdentifier]="'album'"></app-localize-me>
+                    </th>
+                    <th>
+                        <app-localize-me [setIdentifier]="'song'"></app-localize-me>
+                    </th>
+                    <th>
+                        <app-localize-me [setIdentifier]="'preview'"></app-localize-me>
+                    </th>
                 </tr>
             </thead>
 
