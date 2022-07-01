@@ -244,7 +244,7 @@ func (b BaseStringControllerImpl) FindByIdentifier(w http.ResponseWriter, r *htt
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 }
 
-// swagger:route GET /baseStrings/content BaseStrings FindByIdentifierBaseStrings
+// swagger:route GET /content/env BaseStrings FindByIdentifierAndLanguageAndStageBaseStrings
 // Return a baseString from an identifier
 //
 // Responses:
@@ -252,7 +252,7 @@ func (b BaseStringControllerImpl) FindByIdentifier(w http.ResponseWriter, r *htt
 // - 400: ErrorDto
 // - 401: ErrorDto
 // - 500: ErrorDto
-func (b BaseStringControllerImpl) FindByIdentifierAndLanguage(w http.ResponseWriter, r *http.Request) {
+func (b BaseStringControllerImpl) FindByIdentifierAndLanguageAndStage(w http.ResponseWriter, r *http.Request) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
 	user := utils.CheckUserIsActive(w, r, b.userService)
 	if user == nil {
@@ -260,7 +260,8 @@ func (b BaseStringControllerImpl) FindByIdentifierAndLanguage(w http.ResponseWri
 	}
 	identifier := r.URL.Query().Get("identifier")
 	isoCode := r.URL.Query().Get("isoCode")
-	baseStrings, err := b.baseStringService.FindByIdentifierAndLanguage(identifier, isoCode, user)
+	stageName := r.URL.Query().Get("stage")
+	baseStrings, err := b.baseStringService.FindByIdentifierAndLanguageAndState(identifier, isoCode, stageName, user)
 	if err != nil {
 		utils.CreateErrorResponse(w, err, http.StatusBadRequest)
 		return

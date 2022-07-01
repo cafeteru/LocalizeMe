@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SpotifyService } from '../../services/spotify.service';
 import { BaseComponent } from '../base.component';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../store/app.reducer';
 
 @Component({
     selector: 'app-artista',
@@ -9,11 +11,12 @@ import { BaseComponent } from '../base.component';
     styles: [],
 })
 export class ArtistaComponent extends BaseComponent implements OnInit {
-    artista: any = {};
+    artist: any = {};
     topTracks: any[] = [];
     loadingArtist: boolean;
+    loadingLocalizeMe: boolean;
 
-    constructor(private router: ActivatedRoute, private spotify: SpotifyService) {
+    constructor(private router: ActivatedRoute, private spotify: SpotifyService, private store: Store<AppState>) {
         super();
         this.loadingArtist = true;
 
@@ -21,6 +24,12 @@ export class ArtistaComponent extends BaseComponent implements OnInit {
             this.getArtista(params['id']);
             this.getTopTracks(params['id']);
         });
+        const subscription2 = this.store.select('isLoadingReducer').subscribe({
+            next: (isLoadingReducer) => {
+                this.loadingLocalizeMe = isLoadingReducer.isLoading;
+            }
+        });
+        this.subscriptions$.push(subscription2);
     }
 
     ngOnInit() {
@@ -31,7 +40,7 @@ export class ArtistaComponent extends BaseComponent implements OnInit {
         this.loadingArtist = true;
 
         this.spotify.getArtist(id).subscribe((artista) => {
-            this.artista = artista;
+            this.artist = artista;
             this.loadingArtist = false;
         });
     }

@@ -124,6 +124,7 @@
   },
   "defaultProject": "localize-me-front",
   "cli": {
+    "analytics": false,
     "defaultCollection": "@angular-eslint/schematics"
   }
 }

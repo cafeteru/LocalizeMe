@@ -3,7 +3,7 @@ import { LocalizeMeService } from '../../../services/localize-me.service';
 import { BaseComponent } from '../../base.component';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../store/app.reducer';
-import { tap } from 'rxjs/operators';
+import { delay, tap } from 'rxjs/operators';
 
 @Component({
     selector: 'app-localize-me',
@@ -48,9 +48,9 @@ export class LocalizeMeComponent extends BaseComponent implements OnInit, OnChan
 
     loadString(): void {
         if (this.identifier) {
+            this.loading = true;
             const subscription = this.localizeMeService
-                .findByIdentifierAndLanguage(this.identifier, this.isoCode)
-                .pipe(tap(() => (this.loading = true)))
+              .findByIdentifierAndLanguageAndStage(this.identifier, this.isoCode, 'Prod')
                 .subscribe({
                     next: (res) => {
                         this.loading = false;

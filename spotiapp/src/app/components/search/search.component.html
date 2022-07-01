@@ -1,4 +1,6 @@
-<div class="row">
+<app-loading *ngIf="loadingLocalizeMe"></app-loading>
+
+<div class="row" *ngIf="!loadingLocalizeMe">
     <div class="col">
         <label>
             <app-localize-me [setIdentifier]="'search-artist'"></app-localize-me>

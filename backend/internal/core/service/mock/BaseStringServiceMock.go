@@ -127,19 +127,19 @@ func (mr *MockBaseStringServiceMockRecorder) FindByIdentifier(identifier, user i
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindByIdentifier", reflect.TypeOf((*MockBaseStringService)(nil).FindByIdentifier), identifier, user)
 }
 
-// FindByIdentifierAndLanguage mocks base method.
-func (m *MockBaseStringService) FindByIdentifierAndLanguage(identifier, isoCode string, user *domain.User) (*string, error) {
+// FindByIdentifierAndLanguageAndState mocks base method.
+func (m *MockBaseStringService) FindByIdentifierAndLanguageAndState(identifier, isoCode, stageName string, user *domain.User) (*string, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "FindByIdentifierAndLanguage", identifier, isoCode, user)
+	ret := m.ctrl.Call(m, "FindByIdentifierAndLanguageAndState", identifier, isoCode, stageName, user)
 	ret0, _ := ret[0].(*string)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// FindByIdentifierAndLanguage indicates an expected call of FindByIdentifierAndLanguage.
-func (mr *MockBaseStringServiceMockRecorder) FindByIdentifierAndLanguage(identifier, isoCode, user interface{}) *gomock.Call {
+// FindByIdentifierAndLanguageAndState indicates an expected call of FindByIdentifierAndLanguageAndState.
+func (mr *MockBaseStringServiceMockRecorder) FindByIdentifierAndLanguageAndState(identifier, isoCode, stageName, user interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindByIdentifierAndLanguage", reflect.TypeOf((*MockBaseStringService)(nil).FindByIdentifierAndLanguage), identifier, isoCode, user)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindByIdentifierAndLanguageAndState", reflect.TypeOf((*MockBaseStringService)(nil).FindByIdentifierAndLanguageAndState), identifier, isoCode, stageName, user)
 }
 
 // FindByLanguage mocks base method.

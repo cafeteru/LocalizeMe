@@ -1,10 +1,10 @@
-<app-loading *ngIf="loading"></app-loading>
+<app-loading *ngIf="loading || loadingLocalizeMe"></app-loading>
 
 <div *ngIf="error" class="alert alert-danger animated fadeIn">
     <h3>Error</h3>
     <p>
-        {{ mensajeError }}
+        {{ messageError }}
     </p>
 </div>
 
-<app-tarjetas [items]="nuevasCanciones"></app-tarjetas>
+<app-tarjetas *ngIf="!loading && !loadingLocalizeMe" [items]="newSongs"></app-tarjetas>

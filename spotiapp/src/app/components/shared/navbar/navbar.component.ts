@@ -18,12 +18,6 @@ export class NavbarComponent extends BaseComponent implements OnInit {
         super();
     }
 
-    ngOnInit() {
-        super.ngOnInit();
-        const subscription1 = this.localizeMeService.login().subscribe();
-        this.subscriptions$.push(subscription1);
-    }
-
     get selectedLanguage(): string {
         return 'flag-icon flag-icon-' + this.isoCode;
     }
@@ -32,7 +26,7 @@ export class NavbarComponent extends BaseComponent implements OnInit {
         this.isoCode = isoCode;
         this.store.dispatch(
             isoCodeActions.loadIsoCode({
-                isoCode,
+                isoCode
             })
         );
     }

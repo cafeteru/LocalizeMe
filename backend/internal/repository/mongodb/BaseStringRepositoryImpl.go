@@ -200,7 +200,7 @@ func (b *BaseStringRepositoryImpl) FindByIdentifier(identifier string) (*domain.
 	return &baseString, nil
 }
 
-func (b *BaseStringRepositoryImpl) FindByIdentifierAndLanguage(identifier string, isoCode string) (*domain.BaseString, error) {
+func (b *BaseStringRepositoryImpl) FindByIdentifierAndLanguageAndStage(identifier string, isoCode string, stageName string) (*domain.BaseString, error) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
 	collection, err := b.GetCollection(b.name)
 	if err != nil {
@@ -210,6 +210,7 @@ func (b *BaseStringRepositoryImpl) FindByIdentifierAndLanguage(identifier string
 		"$and": []bson.M{
 			{"identifier": identifier},
 			{"translations.language.isoCode": isoCode},
+			{"translations.stage.name": stageName},
 		},
 	}
 	result := collection.FindOne(context.TODO(), filter)
@@ -217,7 +218,6 @@ func (b *BaseStringRepositoryImpl) FindByIdentifierAndLanguage(identifier string
 	if err = result.Decode(&baseString); err != nil {
 		return nil, tools.ErrorLogDetails(err, constants.FindBaseStringByIdentifierAndIsoCode, tools.GetCurrentFuncName())
 	}
-
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return &baseString, nil
 }

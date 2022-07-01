@@ -158,13 +158,18 @@ func (b BaseStringServiceImpl) FindByIdentifier(identifier string, user *domain.
 	return baseString, nil
 }
 
-func (b BaseStringServiceImpl) FindByIdentifierAndLanguage(identifier string, isoCode string, user *domain.User) (*string, error) {
+func (b BaseStringServiceImpl) FindByIdentifierAndLanguageAndState(
+	identifier string, isoCode string, stageName string, user *domain.User) (*string, error) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
 	language, err := b.languageRepository.FindByIsoCode(isoCode)
 	if err != nil {
 		return nil, tools.ErrorLogWithError(err, tools.GetCurrentFuncName())
 	}
-	baseString, err := b.baseStringRepository.FindByIdentifierAndLanguage(identifier, isoCode)
+	stage, err := b.stageRepository.FindByName(stageName)
+	if err != nil {
+		return nil, tools.ErrorLogWithError(err, tools.GetCurrentFuncName())
+	}
+	baseString, err := b.baseStringRepository.FindByIdentifierAndLanguageAndStage(identifier, isoCode, stageName)
 	if err != nil {
 		return nil, tools.ErrorLogWithError(err, tools.GetCurrentFuncName())
 	}
@@ -172,7 +177,7 @@ func (b BaseStringServiceImpl) FindByIdentifierAndLanguage(identifier string, is
 	if err != nil {
 		return nil, tools.ErrorLogWithError(err, tools.GetCurrentFuncName())
 	}
-	translationContent := baseString.FindTranslationLastVersionByLanguage(*language)
+	translationContent := baseString.FindTranslationLastVersionByLanguageAndState(*language, *stage)
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return &translationContent, nil
 }

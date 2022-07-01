@@ -35,4 +35,13 @@ export class LocalizeMeService {
             )
             .pipe(catchError(() => of(identifier)));
     }
+
+    findByIdentifierAndLanguageAndStage(identifier: string, isoCode: string, stageName: string): Observable<string> {
+        return this.httpClient
+            .get<string>(
+                `${this.baseStringUrl}/content/env?identifier=${identifier}&isoCode=${isoCode}&stage=${stageName}`,
+                getDefaultHttpOptions()
+            )
+            .pipe(catchError(() => of(identifier)));
+    }
 }

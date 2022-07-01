@@ -1,14 +1,14 @@
-<app-loading *ngIf="loadingArtist"></app-loading>
+<app-loading *ngIf="loadingArtist || loadingLocalizeMe"></app-loading>
 
-<div class="row animated fadeIn" *ngIf="!loadingArtist">
+<div class="row animated fadeIn" *ngIf="!loadingArtist && !loadingLocalizeMe">
     <div class="col-2">
-        <img [src]="artista.images | noimage" class="img-thumbnail img-circle" alt="" />
+        <img [src]="artist.images | noimage" class="img-thumbnail img-circle" alt=""/>
     </div>
 
     <div class="col">
-        <h3>{{ artista.name }}</h3>
+        <h3>{{ artist.name }}</h3>
         <p>
-            <a [href]="artista.external_urls.spotify" target="_blank">
+            <a [href]="artist.external_urls.spotify" target="_blank">
                 <app-localize-me [setIdentifier]="'artist-page'"></app-localize-me>
             </a>
         </p>
@@ -21,17 +21,17 @@
     </div>
 </div>
 
-<div class="row m-5">
+<div class="row m-5" *ngIf="!loadingArtist && !loadingLocalizeMe">
     <div class="col">
         <table class="table">
             <thead>
-                <tr>
-                    <th>
-                        <app-localize-me [setIdentifier]="'photo'"></app-localize-me>
-                    </th>
-                    <th>
-                        <app-localize-me [setIdentifier]="'album'"></app-localize-me>
-                    </th>
+            <tr>
+                <th>
+                    <app-localize-me [setIdentifier]="'photo'"></app-localize-me>
+                </th>
+                <th>
+                    <app-localize-me [setIdentifier]="'album'"></app-localize-me>
+                </th>
                     <th>
                         <app-localize-me [setIdentifier]="'song'"></app-localize-me>
                     </th>

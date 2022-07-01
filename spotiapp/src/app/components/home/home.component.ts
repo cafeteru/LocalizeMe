@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { SpotifyService } from '../../services/spotify.service';
 import { BaseComponent } from '../base.component';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../store/app.reducer';
 
 @Component({
     selector: 'app-home',
@@ -8,13 +10,14 @@ import { BaseComponent } from '../base.component';
     styles: [],
 })
 export class HomeComponent extends BaseComponent implements OnInit {
-    nuevasCanciones: any[] = [];
+    newSongs: any[] = [];
     loading: boolean;
+    loadingLocalizeMe: boolean;
 
     error: boolean;
-    mensajeError: string;
+    messageError: string;
 
-    constructor(private spotifyService: SpotifyService) {
+    constructor(private spotifyService: SpotifyService, private store: Store<AppState>) {
         super();
     }
 
@@ -26,18 +29,24 @@ export class HomeComponent extends BaseComponent implements OnInit {
             next: () => this.getNewReleases(),
         });
         this.subscriptions$.push(subscription$);
+        const subscription2 = this.store.select('isLoadingReducer').subscribe({
+            next: (isLoadingReducer) => {
+                this.loadingLocalizeMe = isLoadingReducer.isLoading;
+            }
+        });
+        this.subscriptions$.push(subscription2);
     }
 
     private getNewReleases(): void {
         const subscription$ = this.spotifyService.getNewReleases().subscribe({
             next: (data: any) => {
-                this.nuevasCanciones = data;
+                this.newSongs = data;
                 this.loading = false;
             },
-            error: (errorServicio) => {
+            error: (errorService) => {
                 this.loading = false;
                 this.error = true;
-                this.mensajeError = errorServicio.error.error.message;
+                this.messageError = errorService.error.error.message;
             },
         });
         this.subscriptions$.push(subscription$);

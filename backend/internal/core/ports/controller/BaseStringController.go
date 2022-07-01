@@ -11,7 +11,7 @@ type BaseStringController interface {
 	FindAll(w http.ResponseWriter, r *http.Request)
 	FindByGroup(w http.ResponseWriter, r *http.Request)
 	FindByIdentifier(w http.ResponseWriter, r *http.Request)
-	FindByIdentifierAndLanguage(w http.ResponseWriter, r *http.Request)
+	FindByIdentifierAndLanguageAndStage(w http.ResponseWriter, r *http.Request)
 	FindByLanguage(w http.ResponseWriter, r *http.Request)
 	Update(w http.ResponseWriter, r *http.Request)
 }
