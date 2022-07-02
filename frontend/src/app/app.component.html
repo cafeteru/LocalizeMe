@@ -1,83 +1,84 @@
 <nz-layout class="app-layout">
-	<nz-sider
-		class="menu-sidebar"
-		nzCollapsible
-		nzWidth="256px"
-		nzBreakpoint="md"
-		[(nzCollapsed)]="isCollapsed"
-		[nzTrigger]="null"
-	>
-		<div class="sidebar-logo">
-			<a routerLink="/">
-				<img src="./assets/img/logo.jpg" alt="logo"/>
-				<h1>UniOVI-LocalizeMe</h1>
-			</a>
-		</div>
-		<ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
-			<li nz-menu-item nzMatchRouter *ngIf="isAdmin" id="usersMenuElement">
-				<a class="menu-item" [routerLink]="'/' + Urls.users">
-					<em nz-icon nzType="user" nzTheme="outline"></em> <span *ngIf="!isCollapsed">Users</span></a>
-			</li>
-			<li nz-menu-item nzMatchRouter *ngIf="isAdmin" id="stagesMenuElement">
-				<a class="menu-item" [routerLink]="'/' + Urls.stages">
-					<em nz-icon nzType="book" nzTheme="outline"></em>
-					<span *ngIf="!isCollapsed">Stages</span>
-				</a>
-			</li>
-			<li nz-menu-item nzMatchRouter *ngIf="isAdmin" id="languagesMenuElement">
-				<a class="menu-item" [routerLink]="'/' + Urls.languages">
-					<em nz-icon nzType="flag" nzTheme="outline"></em>
-					<span *ngIf="!isCollapsed">Languages</span>
-				</a>
-			</li>
-			<li nz-menu-item nzMatchRouter *ngIf="isLogged" id="groupsMenuElement">
-				<a class="menu-item" [routerLink]="'/' + Urls.groups">
-					<em nz-icon nzType="group" nzTheme="outline"></em>
-					<span *ngIf="!isCollapsed">Groups</span>
-				</a>
-			</li>
-			<li nz-menu-item nzMatchRouter *ngIf="isLogged" id="baseStringsMenuElement">
-				<a class="menu-item" [routerLink]="'/' + Urls.baseStrings">
-					<em nz-icon nzType="bars" nzTheme="outline"></em>
-					<span *ngIf="!isCollapsed">Strings</span>
-				</a>
-			</li>
-		</ul>
-	</nz-sider>
-	<nz-layout>
-		<nz-header>
-			<div class="app-header">
+    <nz-sider
+        class="menu-sidebar"
+        nzCollapsible
+        nzWidth="256px"
+        nzBreakpoint="md"
+        [(nzCollapsed)]="isCollapsed"
+        [nzTrigger]="null"
+    >
+        <div class="sidebar-logo">
+            <a routerLink="/">
+                <img src="./assets/img/logo.jpg" alt="logo" />
+                <h1>UniOVI-LocalizeMe</h1>
+            </a>
+        </div>
+        <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
+            <li nz-menu-item nzMatchRouter *ngIf="isAdmin" id="usersMenuElement">
+                <a class="menu-item" [routerLink]="'/' + Urls.users">
+                    <em nz-icon nzType="user" nzTheme="outline"></em> <span *ngIf="!isCollapsed">Users</span></a
+                >
+            </li>
+            <li nz-menu-item nzMatchRouter *ngIf="isAdmin" id="stagesMenuElement">
+                <a class="menu-item" [routerLink]="'/' + Urls.stages">
+                    <em nz-icon nzType="book" nzTheme="outline"></em>
+                    <span *ngIf="!isCollapsed">Stages</span>
+                </a>
+            </li>
+            <li nz-menu-item nzMatchRouter *ngIf="isAdmin" id="languagesMenuElement">
+                <a class="menu-item" [routerLink]="'/' + Urls.languages">
+                    <em nz-icon nzType="flag" nzTheme="outline"></em>
+                    <span *ngIf="!isCollapsed">Languages</span>
+                </a>
+            </li>
+            <li nz-menu-item nzMatchRouter *ngIf="isLogged" id="groupsMenuElement">
+                <a class="menu-item" [routerLink]="'/' + Urls.groups">
+                    <em nz-icon nzType="group" nzTheme="outline"></em>
+                    <span *ngIf="!isCollapsed">Groups</span>
+                </a>
+            </li>
+            <li nz-menu-item nzMatchRouter *ngIf="isLogged" id="baseStringsMenuElement">
+                <a class="menu-item" [routerLink]="'/' + Urls.baseStrings">
+                    <em nz-icon nzType="bars" nzTheme="outline"></em>
+                    <span *ngIf="!isCollapsed">Strings</span>
+                </a>
+            </li>
+        </ul>
+    </nz-sider>
+    <nz-layout>
+        <nz-header>
+            <div class="app-header">
                 <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
                     <em class="trigger" nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"></em>
                 </span>
-				<div class="btn-right user-buttons">
-					<div *ngIf="!isLogged">
-						<button
-							nz-button
-							id="showLogin"
-							nzType="primary"
-							nzSize="large"
-							nzShape="round"
-							(click)="showLogin()"
-						>
-							<em nz-icon nzType="login" nzTheme="outline"></em>
-							Login
-						</button>
-					</div>
-					<div *ngIf="isLogged">
-						<app-user-info id="appUserInfo"></app-user-info>
-						<button nz-button nzType="default" nzSize="large" nzShape="round" (click)="logout()">
-							<em nz-icon nzType="logout" nzTheme="outline"></em>
-							Logout
-						</button>
-					</div>
-				</div>
-			</div>
-		</nz-header>
-		<nz-content>
-			<div class="inner-content">
-				<router-outlet></router-outlet>
-			</div>
-		</nz-content>
-	</nz-layout>
+                <div class="btn-right user-buttons">
+                    <div *ngIf="!isLogged">
+                        <button
+                            nz-button
+                            id="showLogin"
+                            nzType="primary"
+                            nzSize="large"
+                            nzShape="round"
+                            (click)="showLogin()"
+                        >
+                            <em nz-icon nzType="login" nzTheme="outline"></em>
+                            Login
+                        </button>
+                    </div>
+                    <div *ngIf="isLogged">
+                        <app-user-info id="appUserInfo"></app-user-info>
+                        <button nz-button nzType="default" nzSize="large" nzShape="round" (click)="logout()">
+                            <em nz-icon nzType="logout" nzTheme="outline"></em>
+                            Logout
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nz-header>
+        <nz-content>
+            <div class="inner-content">
+                <router-outlet></router-outlet>
+            </div>
+        </nz-content>
+    </nz-layout>
 </nz-layout>

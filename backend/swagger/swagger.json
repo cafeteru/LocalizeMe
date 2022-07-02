@@ -1944,6 +1944,9 @@
           "type": "string",
           "x-go-name": "SourceLanguageId"
         },
+        "stage": {
+          "$ref": "#/definitions/Stage"
+        },
         "targetLanguageId": {
           "type": "string",
           "x-go-name": "TargetLanguageId"

@@ -10,6 +10,7 @@ import { XliffDto } from '../../../../types/xliff';
 import * as FileSaver from 'file-saver';
 import { BaseString } from '../../../../types/base-string';
 import beautify from 'xml-beautifier';
+import { Stage } from '../../../../types/stage';
 
 @Component({
     selector: 'app-create-xliff',
@@ -33,9 +34,10 @@ export class CreateXliffComponent extends BaseComponent implements OnInit {
     ngOnInit(): void {
         super.ngOnInit();
         this.formGroup = new FormGroup({
-            sourceLanguageId: new FormControl(undefined, Validators.required),
-            targetLanguageId: new FormControl(undefined, Validators.required),
             baseStringIds: new FormControl(undefined),
+            sourceLanguageId: new FormControl(undefined, Validators.required),
+            stage: new FormControl(undefined, Validators.required),
+            targetLanguageId: new FormControl(undefined, Validators.required),
         });
     }
 
@@ -57,6 +59,14 @@ export class CreateXliffComponent extends BaseComponent implements OnInit {
         this.formGroup.controls['baseStringIds'].setValue(baseStrings.map((baseString) => baseString.id));
     }
 
+    setStage(stage: Stage) {
+        this.formGroup.controls['stage'].setValue(stage);
+    }
+
+    showStageError(): boolean {
+        return this.formGroup.controls['stage'].valid;
+    }
+
     close(): void {
         this.matDialogRef.close();
     }
@@ -71,6 +81,7 @@ export class CreateXliffComponent extends BaseComponent implements OnInit {
             const xliffDto: XliffDto = {
                 baseStringIds: this.formGroup.controls['baseStringIds'].value,
                 sourceLanguageId: this.formGroup.controls['sourceLanguageId'].value,
+                stage: this.formGroup.controls['stage'].value,
                 targetLanguageId: this.formGroup.controls['targetLanguageId'].value,
             };
             const subscription$ = this.xliffService.createXliff(xliffDto).subscribe({

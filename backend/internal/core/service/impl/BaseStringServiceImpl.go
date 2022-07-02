@@ -325,6 +325,10 @@ func (b BaseStringServiceImpl) Write(xliffDto dto.XliffDto) (*xmlDto.Xliff, erro
 	if xliffDto.BaseStringIds == nil {
 		return nil, errors.New(constants.BaseStringIdsNoValid)
 	}
+	stage, err := b.stageRepository.FindById(xliffDto.Stage.ID)
+	if err != nil {
+		return nil, tools.ErrorLogWithError(err, tools.GetCurrentFuncName())
+	}
 
 	var units []xmlDto.Unit
 	for _, id := range xliffDto.BaseStringIds {
@@ -341,8 +345,8 @@ func (b BaseStringServiceImpl) Write(xliffDto dto.XliffDto) (*xmlDto.Xliff, erro
 			Id:      baseString.Identifier,
 			Segment: xmlDto.Segment{
 				XMLName: xml.Name{},
-				Source:  baseString.FindTranslationLastVersionByLanguage(*sourceLanguage),
-				Target:  baseString.FindTranslationLastVersionByLanguage(*targetLanguage),
+				Source:  baseString.FindTranslationLastVersionByLanguageAndState(*sourceLanguage, *stage),
+				Target:  baseString.FindTranslationLastVersionByLanguageAndState(*targetLanguage, *stage),
 			},
 		})
 	}

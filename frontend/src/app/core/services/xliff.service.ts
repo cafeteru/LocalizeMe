@@ -18,6 +18,7 @@ export class XliffService {
     constructor(private httpClient: HttpClient) {}
 
     createXliff(xliff: XliffDto): Observable<string> {
+        xliff.baseStringIds = xliff.baseStringIds ? xliff.baseStringIds : [];
         return this.httpClient.post(`${this.url}/create`, xliff, {
             responseType: 'text',
             headers: new HttpHeaders({

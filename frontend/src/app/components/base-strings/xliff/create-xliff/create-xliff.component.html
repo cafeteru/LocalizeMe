@@ -22,6 +22,15 @@
         ></app-language-finder>
     </nz-form-item>
     <nz-form-item>
+        <app-stage-finder
+            class="finder"
+            id="stage-finder"
+            (emitter)="setStage($event)"
+            [valid]="showStageError()"
+            [selectedStage]="formGroup.controls['stage'].value"
+        ></app-stage-finder>
+    </nz-form-item>
+    <nz-form-item>
         <app-create-xliff-list-base-strings (emitter)="setBaseStringIds($event)"></app-create-xliff-list-base-strings>
     </nz-form-item>
     <nz-form-item nz-row class="register-area btn-right">
