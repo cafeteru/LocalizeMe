@@ -356,6 +356,7 @@ func (b BaseStringServiceImpl) Write(xliffDto dto.XliffDto) (*xmlDto.Xliff, erro
 			XMLName: xml.Name{},
 			Units:   units,
 		},
+		Xmlns:   "urn:oasis:names:tc:xliff:document:2.0",
 		Version: "2.0",
 		SrcLang: sourceLanguage.IsoCode,
 		TrgLang: targetLanguage.IsoCode,

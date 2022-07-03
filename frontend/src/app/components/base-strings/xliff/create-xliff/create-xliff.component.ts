@@ -87,13 +87,13 @@ export class CreateXliffComponent extends BaseComponent implements OnInit {
             const subscription$ = this.xliffService.createXliff(xliffDto).subscribe({
                 next: (xmlContent) => {
                     const blob = new Blob([beautify(xmlContent)], { type: 'application/xml;charset=utf-8' });
-                    FileSaver.saveAs(blob, 'xliff.xml');
+                    FileSaver.saveAs(blob, 'xliff.xlf');
                     this.close();
                     this.createMessage('success', 'Successfully loaded strings');
                 },
                 error: () => {
                     this.isLoading = false;
-                    this.createMessage('error', 'Read not complete. Check the fields.');
+                    this.createMessage('error', 'Create not complete. Check the fields.');
                 },
                 complete: () => (this.isLoading = false),
             });

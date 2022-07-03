@@ -5,7 +5,8 @@ import "encoding/xml"
 type Xliff struct {
 	XMLName xml.Name `xml:"xliff"`
 	FileXml FileXml  `xml:"file"`
-	Version string   `xml:"version,attr" default:"1.0"`
+	Xmlns   string   `xml:"xmlns,attr"`
+	Version string   `xml:"version,attr" default:"2.0"`
 	SrcLang string   `xml:"srcLang,attr"`
 	TrgLang string   `xml:"trgLang,attr"`
 }
