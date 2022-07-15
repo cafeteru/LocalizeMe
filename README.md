@@ -25,6 +25,13 @@ After docker-compose is complete, applications will be running on the following 
 docker compose down
 ```
 
-### Update Docker's images
+## Update Docker's images
 
 Execute `deploy-docker.sh` to update Docker's images.
+
+## Deployed apps
+
+[Backend](https://localize-me-uniovi.herokuapp.com)
+[OpenApi](https://localize-me-open-api.herokuapp.com)
+[Frontend](https://uniovi-localize-me.web.app)
+[Spotiapp](https://uniovi-localize-me-spotiapp.web.app)

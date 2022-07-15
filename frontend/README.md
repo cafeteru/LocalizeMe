@@ -52,6 +52,17 @@ docker tag localize-me-frontend cafeteru/localize-me-frontend:latest
 docker push cafeteru/localize-me-frontend:latest
 ```
 
+## Firebase
+
+[Website](https://uniovi-localize-me.web.app)
+
+Deploy:
+
+```shell
+ng build --configuration production
+firebase deploy
+```
+
 ### Notes
 
-If you change the backend url, you must to change its value in the environment files.
+If you change the backend url, you must change its value in the environment files.

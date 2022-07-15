@@ -62,11 +62,11 @@ These steps are configured in Makefile
 
 ### Add token to work Swagger
 
-1. Click in this button.
+- Click in this button.
 
 ![swagger_authorization_button.png](assets/img/swagger_authorization_button.png)
 
-2. Enter the token with the text `Bearer`
+- Enter the token with the text `Bearer`
 
 ![swagger_available_authorizations](assets/img/swagger_available_authorizations.png)
 
@@ -144,3 +144,15 @@ make uml -B
 _Note, when you want to generate UML, you need to change ID type to `string` to remove noise created by MongoDB._
 
 ![Uml Diagram](assets/dist/UmlDiagram.svg)
+
+## Heroku
+
+[Website](https://localize-me-uniovi.herokuapp.com)
+
+To update repository:
+
+```shell
+git add .
+git commit -am "<message>"
+git push heroku master
+```

@@ -127,6 +127,7 @@ func (u UserServiceImpl) FindById(id primitive.ObjectID) (*domain.User, error) {
 }
 
 func (u UserServiceImpl) Login(request dto.UserDto) (*dto.TokenDto, error) {
+	log.Printf("%s: start", tools.GetCurrentFuncName())
 	user, err := u.repository.FindByEmail(request.Email)
 	if err != nil {
 		return nil, tools.ErrorLogWithError(err, tools.GetCurrentFuncName())
@@ -147,6 +148,7 @@ func (u UserServiceImpl) Login(request dto.UserDto) (*dto.TokenDto, error) {
 	jwtauth.SetExpiry(claims, time.Now().Add(time.Hour+hours))
 	tokenAuth := jwtauth.New(alg, []byte(secret), nil)
 	_, tokenString, _ := tokenAuth.Encode(claims)
+	log.Printf("%s: start", tools.GetCurrentFuncName())
 	return &dto.TokenDto{Authorization: tokenString}, nil
 }
 
