@@ -44,3 +44,5 @@ Thumbs.db
 #Cypress
 cypress/videos
 cypress/screenshots
+
+.firebase/

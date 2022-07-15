@@ -4,5 +4,5 @@ export const environment = {
     email: 'uo239795@uniovi.es',
     password: 'uo239795@uniovi.es',
     production: true,
-    urlApi: 'http://localhost:8080',
+    urlApi: 'https://localize-me-uniovi.herokuapp.com',
 };

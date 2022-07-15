@@ -1,0 +1,1321 @@
+---
+consumes:
+- application/json
+produces:
+- application/json
+schemes:
+- https
+swagger: '2.0'
+info:
+  description: Real-time management system for localization strings.
+  title: LocalizeMe.
+  version: 1.0.0
+host: localize-me-uniovi.herokuapp.com
+basePath: "/"
+paths:
+  "/baseStrings":
+    get:
+      tags:
+      - BaseStrings
+      summary: Return all baseStrings.
+      operationId: FindAllBaseStrings
+      responses:
+        '200':
+          description: BaseString
+          schema:
+            type: array
+            items:
+              "$ref": "#/definitions/BaseString"
+        '400':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+        '401':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+        '500':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+    put:
+      consumes:
+      - application/json
+      tags:
+      - BaseStrings
+      summary: Update the information of a baseString.
+      operationId: UpdateBaseString
+      parameters:
+      - name: BaseString
+        in: body
+        required: true
+        schema:
+          "$ref": "#/definitions/BaseString"
+      responses:
+        '200':
+          description: BaseString
+          schema:
+            "$ref": "#/definitions/BaseString"
+        '400':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+        '401':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+        '422':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+    post:
+      consumes:
+      - application/json
+      tags:
+      - BaseStrings
+      summary: Create a new baseString.
+      operationId: CreateBaseString
+      parameters:
+      - name: BaseString
+        in: body
+        required: true
+        schema:
+          "$ref": "#/definitions/BaseString"
+      responses:
+        '200':
+          description: BaseString
+          schema:
+            "$ref": "#/definitions/BaseString"
+        '400':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+        '401':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+        '422':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+  "/baseStrings/group/{id}":
+    get:
+      description: Return all baseStrings from a group
+      tags:
+      - BaseStrings
+      operationId: FindByGroupBaseStrings
+      parameters:
+      - type: string
+        x-go-name: Id
+        description: The group´s id
+        name: id
+        in: path
+        required: true
+      responses:
+        '200':
+          description: BaseString
+          schema:
+            type: array
+            items:
+              "$ref": "#/definitions/BaseString"
+        '400':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+        '401':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+        '500':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+  "/baseStrings/identifier/{identifier}":
+    get:
+      description: Return a baseString from an identifier
+      tags:
+      - BaseStrings
+      operationId: FindByIdentifierBaseStrings
+      parameters:
+      - type: string
+        x-go-name: IsoCode
+        description: The baseString´s isoCode
+        name: isoCode
+        in: path
+        required: true
+      responses:
+        '200':
+          description: BaseString
+          schema:
+            "$ref": "#/definitions/BaseString"
+        '400':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+        '401':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+        '500':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+  "/baseStrings/language/{id}":
+    get:
+      description: Return all baseStrings from a language
+      tags:
+      - BaseStrings
+      operationId: FindByLanguageBaseStrings
+      parameters:
+      - type: string
+        x-go-name: Id
+        description: The language´s id
+        name: id
+        in: path
+        required: true
+      responses:
+        '200':
+          description: BaseString
+          schema:
+            type: array
+            items:
+              "$ref": "#/definitions/BaseString"
+        '400':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+        '401':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+        '500':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+  "/baseStrings/{id}":
+    delete:
+      tags:
+      - BaseStrings
+      summary: Delete a baseString by id.
+      operationId: DeleteBaseString
+      parameters:
+      - type: string
+        x-go-name: Id
+        description: The baseString´s id
+        name: id
+        in: path
+        required: true
+      responses:
+        '200':
+          description: bool
+        '400':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+        '401':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+        '403':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+    patch:
+      tags:
+      - BaseStrings
+      summary: Disable of a baseString.
+      operationId: DisableBaseString
+      parameters:
+      - type: string
+        x-go-name: Id
+        description: The baseString´s id
+        name: id
+        in: path
+        required: true
+      responses:
+        '200':
+          description: BaseString
+          schema:
+            "$ref": "#/definitions/BaseString"
+        '400':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+        '401':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+        '403':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+  "/content/env":
+    get:
+      description: Return a baseString from an identifier
+      tags:
+      - BaseStrings
+      operationId: FindByIdentifierAndLanguageAndStageBaseStrings
+      responses:
+        '200':
+          description: BaseString
+          schema:
+            "$ref": "#/definitions/BaseString"
+        '400':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+        '401':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+        '500':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+  "/groups":
+    get:
+      tags:
+      - Groups
+      summary: Return all groups.
+      operationId: FindAllGroups
+      responses:
+        '200':
+          description: Group
+          schema:
+            type: array
+            items:
+              "$ref": "#/definitions/Group"
+        '400':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+        '401':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+        '500':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+    put:
+      consumes:
+      - application/json
+      tags:
+      - Groups
+      summary: Update the information of a group.
+      operationId: UpdateGroup
+      parameters:
+      - name: Group
+        in: body
+        required: true
+        schema:
+          "$ref": "#/definitions/Group"
+      responses:
+        '200':
+          description: Group
+          schema:
+            "$ref": "#/definitions/Group"
+        '400':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+        '401':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+        '422':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+    post:
+      consumes:
+      - application/json
+      tags:
+      - Groups
+      summary: Create a new group.
+      operationId: CreateGroup
+      parameters:
+      - name: GroupDto
+        in: body
+        required: true
+        schema:
+          "$ref": "#/definitions/GroupDto"
+      responses:
+        '200':
+          description: Group
+          schema:
+            "$ref": "#/definitions/Group"
+        '400':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+        '401':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+        '422':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+  "/groups/{id}":
+    delete:
+      tags:
+      - Groups
+      summary: Delete a group by id.
+      operationId: DeleteGroup
+      parameters:
+      - type: string
+        x-go-name: Id
+        description: The group´s id
+        name: id
+        in: path
+        required: true
+      responses:
+        '200':
+          description: bool
+        '400':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+        '401':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+        '403':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+    patch:
+      tags:
+      - Groups
+      summary: Disable of a group.
+      operationId: DisableGroup
+      parameters:
+      - type: string
+        x-go-name: Id
+        description: The group´s id
+        name: id
+        in: path
+        required: true
+      responses:
+        '200':
+          description: Group
+          schema:
+            "$ref": "#/definitions/Group"
+        '400':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+        '401':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+        '403':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+  "/language":
+    put:
+      consumes:
+      - application/json
+      tags:
+      - Languages
+      summary: Update the information of a language.
+      operationId: UpdateLanguage
+      parameters:
+      - name: Language
+        in: body
+        required: true
+        schema:
+          "$ref": "#/definitions/Language"
+      responses:
+        '200':
+          description: Language
+          schema:
+            "$ref": "#/definitions/Language"
+        '400':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+        '401':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+        '403':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+        '422':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+  "/languages":
+    get:
+      tags:
+      - Languages
+      summary: Return all languages.
+      operationId: FindAllLanguages
+      responses:
+        '200':
+          description: Language
+          schema:
+            type: array
+            items:
+              "$ref": "#/definitions/Language"
+        '400':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+        '401':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+        '403':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+    post:
+      consumes:
+      - application/json
+      tags:
+      - Languages
+      summary: Create a new language.
+      operationId: CreateLanguage
+      parameters:
+      - name: LanguageDto
+        in: body
+        required: true
+        schema:
+          "$ref": "#/definitions/LanguageDto"
+      responses:
+        '200':
+          description: Language
+          schema:
+            "$ref": "#/definitions/Language"
+        '400':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+        '401':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+        '403':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+        '422':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+  "/languages/{id}":
+    delete:
+      tags:
+      - Languages
+      summary: Return a language by id.
+      operationId: DeleteLanguage
+      parameters:
+      - type: string
+        x-go-name: Id
+        description: The language´s id
+        name: id
+        in: path
+        required: true
+      responses:
+        '200':
+          description: bool
+        '400':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+        '401':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+        '403':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+    patch:
+      tags:
+      - Languages
+      summary: Disable of a language.
+      operationId: DisableLanguage
+      parameters:
+      - type: string
+        x-go-name: Id
+        description: The language´s id
+        name: id
+        in: path
+        required: true
+      responses:
+        '200':
+          description: Language
+          schema:
+            "$ref": "#/definitions/Language"
+        '400':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+        '401':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+        '403':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+  "/login":
+    post:
+      consumes:
+      - application/json
+      tags:
+      - Users
+      summary: Get token to user the application.
+      operationId: Login
+      parameters:
+      - name: User
+        in: body
+        required: true
+        schema:
+          "$ref": "#/definitions/UserDto"
+      responses:
+        '200':
+          description: TokenDto
+          schema:
+            "$ref": "#/definitions/TokenDto"
+        '400':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+        '401':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+        '422':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+  "/stages":
+    get:
+      tags:
+      - Stages
+      summary: Return all stages.
+      operationId: FindAllStages
+      responses:
+        '200':
+          description: Stage
+          schema:
+            type: array
+            items:
+              "$ref": "#/definitions/Stage"
+        '400':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+        '401':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+        '500':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+    put:
+      consumes:
+      - application/json
+      tags:
+      - Stages
+      summary: Update the information of a stage.
+      operationId: UpdateStage
+      parameters:
+      - name: Stage
+        in: body
+        required: true
+        schema:
+          "$ref": "#/definitions/Stage"
+      responses:
+        '200':
+          description: Stage
+          schema:
+            "$ref": "#/definitions/Stage"
+        '400':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+        '401':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+        '422':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+    post:
+      consumes:
+      - application/json
+      tags:
+      - Stages
+      summary: Create a new stage.
+      operationId: CreateStage
+      parameters:
+      - name: StageDto
+        in: body
+        required: true
+        schema:
+          "$ref": "#/definitions/StageDto"
+      responses:
+        '200':
+          description: Stage
+          schema:
+            "$ref": "#/definitions/Stage"
+        '400':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+        '401':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+        '422':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+  "/stages/name/{name}":
+    get:
+      consumes:
+      - application/json
+      tags:
+      - Stages
+      summary: Return the information of the stage by name.
+      operationId: FindStageByName
+      parameters:
+      - type: string
+        x-go-name: Name
+        description: The stage´s name
+        name: name
+        in: path
+        required: true
+      responses:
+        '200':
+          description: Stage
+          schema:
+            "$ref": "#/definitions/Stage"
+        '400':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+        '401':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+        '404':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+  "/stages/{id}":
+    delete:
+      tags:
+      - Stages
+      summary: Return a stage by id.
+      operationId: DeleteStage
+      parameters:
+      - type: string
+        x-go-name: Id
+        description: The stage´s id
+        name: id
+        in: path
+        required: true
+      responses:
+        '200':
+          description: bool
+        '400':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+        '401':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+    patch:
+      tags:
+      - Stages
+      summary: Disable of a stage.
+      operationId: DisableStage
+      parameters:
+      - type: string
+        x-go-name: Id
+        description: The stage´s id
+        name: id
+        in: path
+        required: true
+      responses:
+        '200':
+          description: Stage
+          schema:
+            "$ref": "#/definitions/Stage"
+        '400':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+        '401':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+  "/users":
+    get:
+      tags:
+      - Users
+      summary: Return all users.
+      operationId: FindUsersAll
+      responses:
+        '200':
+          description: User
+          schema:
+            type: array
+            items:
+              "$ref": "#/definitions/User"
+        '400':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+        '401':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+        '500':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+    put:
+      consumes:
+      - application/json
+      tags:
+      - Users
+      summary: Update the information of a user.
+      operationId: UpdateUser
+      parameters:
+      - name: User
+        in: body
+        required: true
+        schema:
+          "$ref": "#/definitions/User"
+      responses:
+        '200':
+          description: User
+          schema:
+            "$ref": "#/definitions/User"
+        '400':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+        '401':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+        '422':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+    post:
+      consumes:
+      - application/json
+      tags:
+      - Users
+      summary: Create a new user.
+      operationId: CreateUser
+      parameters:
+      - name: User
+        in: body
+        required: true
+        schema:
+          "$ref": "#/definitions/UserDto"
+      responses:
+        '200':
+          description: User
+          schema:
+            "$ref": "#/definitions/User"
+        '400':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+        '401':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+        '422':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+  "/users/me":
+    get:
+      consumes:
+      - application/json
+      tags:
+      - Users
+      summary: Return the information of the identified user.
+      operationId: GetMe
+      responses:
+        '200':
+          description: User
+          schema:
+            "$ref": "#/definitions/User"
+        '400':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+        '401':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+    put:
+      consumes:
+      - application/json
+      tags:
+      - Users
+      summary: Update the information of the identified user.
+      operationId: UpdateMe
+      parameters:
+      - name: User
+        in: body
+        required: true
+        schema:
+          "$ref": "#/definitions/User"
+      responses:
+        '200':
+          description: User
+          schema:
+            "$ref": "#/definitions/User"
+        '400':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+        '401':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+        '422':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+  "/users/{id}":
+    get:
+      consumes:
+      - application/json
+      tags:
+      - Users
+      summary: Return the information of the user by id.
+      operationId: FindUserById
+      parameters:
+      - type: string
+        x-go-name: Id
+        description: The user´s id
+        name: id
+        in: path
+        required: true
+      responses:
+        '200':
+          description: User
+          schema:
+            "$ref": "#/definitions/User"
+        '400':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+        '401':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+        '404':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+    delete:
+      tags:
+      - Users
+      summary: Return a user by ID.
+      operationId: DeleteUser
+      parameters:
+      - type: string
+        x-go-name: Id
+        description: The user´s id
+        name: id
+        in: path
+        required: true
+      responses:
+        '200':
+          description: bool
+        '400':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+        '401':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+    patch:
+      tags:
+      - Users
+      summary: Disable of a user.
+      operationId: DisableUser
+      parameters:
+      - type: string
+        x-go-name: Id
+        description: The user´s id
+        name: id
+        in: path
+        required: true
+      responses:
+        '200':
+          description: User
+          schema:
+            "$ref": "#/definitions/User"
+        '400':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+        '401':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+  "/xliffs":
+    post:
+      consumes:
+      - application/json
+      tags:
+      - Xliffs
+      summary: Read a .xliff file to create or update baseStrings.
+      operationId: ReadXliff
+      parameters:
+      - type: string
+        x-go-name: Stage
+        description: The stage´s id
+        name: stage
+        in: query
+        required: true
+      - type: string
+        x-go-name: Group
+        description: The group´s id
+        name: group
+        in: query
+        required: true
+      responses:
+        '200':
+          description: BaseString
+          schema:
+            type: array
+            items:
+              "$ref": "#/definitions/BaseString"
+        '400':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+        '401':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+        '403':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+        '422':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+  "/xliffs/create":
+    post:
+      consumes:
+      - application/json
+      produces:
+      - application/xml
+      - application/json
+      tags:
+      - Xliffs
+      summary: Create a .xliff file.
+      operationId: CreateXliff
+      parameters:
+      - name: XliffDto
+        in: body
+        required: true
+        schema:
+          "$ref": "#/definitions/XliffDto"
+      responses:
+        '200':
+          description: Xliff
+          schema:
+            "$ref": "#/definitions/Xliff"
+        '400':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+        '401':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+        '403':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+        '422':
+          description: ErrorDto
+          schema:
+            "$ref": "#/definitions/ErrorDto"
+definitions:
+  BaseString:
+    type: object
+    properties:
+      active:
+        type: boolean
+        x-go-name: Active
+      author:
+        "$ref": "#/definitions/User"
+      group:
+        "$ref": "#/definitions/Group"
+      id:
+        "$ref": "#/definitions/ObjectID"
+      identifier:
+        type: string
+        x-go-name: Identifier
+      sourceLanguage:
+        "$ref": "#/definitions/Language"
+      translations:
+        type: array
+        items:
+          "$ref": "#/definitions/Translation"
+        x-go-name: Translations
+    x-go-package: gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain
+  ErrorDto:
+    type: object
+    properties:
+      message:
+        type: string
+        x-go-name: Message
+    x-go-package: gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain/dto
+  FileXml:
+    type: object
+    properties:
+      srcLang:
+        type: string
+        x-go-name: SrcLang
+      trgLang:
+        type: string
+        x-go-name: TrgLang
+      unit:
+        type: array
+        items:
+          "$ref": "#/definitions/Unit"
+        x-go-name: Units
+      version:
+        type: number
+        format: float
+        x-go-name: Version
+    x-go-package: gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/docs
+  Group:
+    type: object
+    properties:
+      active:
+        type: boolean
+        x-go-name: Active
+      id:
+        "$ref": "#/definitions/ObjectID"
+      name:
+        type: string
+        x-go-name: Name
+      owner:
+        "$ref": "#/definitions/User"
+      permissions:
+        type: array
+        items:
+          "$ref": "#/definitions/Permission"
+        x-go-name: Permissions
+      public:
+        type: boolean
+        x-go-name: Public
+    x-go-package: gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain
+  GroupDto:
+    type: object
+    properties:
+      name:
+        type: string
+        x-go-name: Name
+      owner:
+        "$ref": "#/definitions/User"
+      permissions:
+        type: array
+        items:
+          "$ref": "#/definitions/Permission"
+        x-go-name: Permissions
+      public:
+        type: boolean
+        x-go-name: Public
+    x-go-package: gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain/dto
+  Language:
+    type: object
+    properties:
+      active:
+        type: boolean
+        x-go-name: Active
+      description:
+        type: string
+        x-go-name: Description
+      id:
+        "$ref": "#/definitions/ObjectID"
+      isoCode:
+        type: string
+        x-go-name: IsoCode
+    x-go-package: gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain
+  LanguageDto:
+    type: object
+    properties:
+      description:
+        type: string
+        x-go-name: Description
+      isoCode:
+        type: string
+        x-go-name: IsoCode
+    x-go-package: gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain/dto
+  ObjectID:
+    type: array
+    title: ObjectID is the BSON ObjectID type.
+    items:
+      type: integer
+      format: uint8
+    x-go-package: go.mongodb.org/mongo-driver/bson/primitive
+  Permission:
+    type: object
+    properties:
+      canWrite:
+        type: boolean
+        x-go-name: CanWrite
+      user:
+        "$ref": "#/definitions/User"
+    x-go-package: gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain
+  Segment:
+    type: object
+    properties:
+      source:
+        type: string
+        x-go-name: Source
+      target:
+        type: string
+        x-go-name: Target
+    x-go-package: gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/docs
+  Stage:
+    type: object
+    properties:
+      active:
+        type: boolean
+        x-go-name: Active
+      id:
+        "$ref": "#/definitions/ObjectID"
+      name:
+        type: string
+        x-go-name: Name
+    x-go-package: gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain
+  StageDto:
+    type: object
+    properties:
+      name:
+        type: string
+        x-go-name: Name
+    x-go-package: gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain/dto
+  TokenDto:
+    type: object
+    properties:
+      authorization:
+        type: string
+        x-go-name: Authorization
+    x-go-package: gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain/dto
+  Translation:
+    type: object
+    properties:
+      active:
+        type: boolean
+        x-go-name: Active
+      author:
+        "$ref": "#/definitions/User"
+      content:
+        type: string
+        x-go-name: Content
+      date:
+        type: string
+        format: date-time
+        x-go-name: Date
+      language:
+        "$ref": "#/definitions/Language"
+      stage:
+        "$ref": "#/definitions/Stage"
+      version:
+        type: integer
+        format: int64
+        x-go-name: Version
+    x-go-package: gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain
+  Unit:
+    type: object
+    properties:
+      id:
+        type: string
+        x-go-name: Id
+      segment:
+        "$ref": "#/definitions/Segment"
+    x-go-package: gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/docs
+  User:
+    type: object
+    properties:
+      active:
+        type: boolean
+        x-go-name: Active
+      admin:
+        type: boolean
+        x-go-name: Admin
+      email:
+        type: string
+        x-go-name: Email
+      id:
+        "$ref": "#/definitions/ObjectID"
+      password:
+        type: string
+        x-go-name: Password
+    x-go-package: gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain
+  UserDto:
+    type: object
+    properties:
+      email:
+        type: string
+        x-go-name: Email
+      password:
+        type: string
+        x-go-name: Password
+    x-go-package: gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain/dto
+  Xliff:
+    type: object
+    properties:
+      file:
+        "$ref": "#/definitions/FileXml"
+    x-go-name: _
+    x-go-package: gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/docs
+  XliffDto:
+    type: object
+    properties:
+      baseStringIds:
+        type: array
+        items:
+          type: string
+        x-go-name: BaseStringIds
+      sourceLanguageId:
+        type: string
+        x-go-name: SourceLanguageId
+      stage:
+        "$ref": "#/definitions/Stage"
+      targetLanguageId:
+        type: string
+        x-go-name: TargetLanguageId
+    x-go-package: gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain/dto
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+security:
+- Bearer:
+  - "[]"
