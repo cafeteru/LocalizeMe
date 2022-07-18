@@ -149,16 +149,15 @@
     },
     "/baseStrings/group/{id}": {
       "get": {
-        "description": "Return all baseStrings from a group",
         "tags": [
           "BaseStrings"
         ],
+        "summary": "Return all baseStrings from a group.",
         "operationId": "FindByGroupBaseStrings",
         "parameters": [
           {
             "type": "string",
-            "x-go-name": "Id",
-            "description": "The group´s id",
+            "description": "BaseString's id",
             "name": "id",
             "in": "path",
             "required": true
@@ -197,10 +196,10 @@
     },
     "/baseStrings/identifier/{identifier}": {
       "get": {
-        "description": "Return a baseString from an identifier",
         "tags": [
           "BaseStrings"
         ],
+        "summary": "Return a baseString from an identifier.",
         "operationId": "FindByIdentifierBaseStrings",
         "parameters": [
           {
@@ -242,10 +241,10 @@
     },
     "/baseStrings/language/{id}": {
       "get": {
-        "description": "Return all baseStrings from a language",
         "tags": [
           "BaseStrings"
         ],
+        "summary": "Return all baseStrings from a language.",
         "operationId": "FindByLanguageBaseStrings",
         "parameters": [
           {
@@ -375,11 +374,31 @@
     },
     "/content/env": {
       "get": {
-        "description": "Return a baseString from an identifier",
         "tags": [
           "BaseStrings"
         ],
-        "operationId": "FindByIdentifierAndLanguageAndStageBaseStrings",
+        "summary": "Return a baseString from an identifier, an isoCode and stage.",
+        "operationId": "FindByIdentifierAndLanguageAndStage",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "BaseString's identifier.",
+            "name": "identifier",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "Language's isoCode.",
+            "name": "isoCode",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "Stage's id.",
+            "name": "stage",
+            "in": "query"
+          }
+        ],
         "responses": {
           "200": {
             "description": "BaseString",

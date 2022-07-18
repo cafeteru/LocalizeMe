@@ -148,7 +148,14 @@ func (b BaseStringControllerImpl) FindAll(w http.ResponseWriter, r *http.Request
 }
 
 // swagger:route GET /baseStrings/group/{id} BaseStrings FindByGroupBaseStrings
-// Return all baseStrings from a group
+// Return all baseStrings from a group.
+//
+//  Parameters:
+//    + name: id
+//      in: path
+//      description: BaseString's id
+//      type: string
+//      required: true
 //
 // Responses:
 // - 200: []BaseString
@@ -182,7 +189,7 @@ func (b BaseStringControllerImpl) FindByGroup(w http.ResponseWriter, r *http.Req
 }
 
 // swagger:route GET /baseStrings/language/{id} BaseStrings FindByLanguageBaseStrings
-// Return all baseStrings from a language
+// Return all baseStrings from a language.
 //
 // Responses:
 // - 200: []BaseString
@@ -215,8 +222,8 @@ func (b BaseStringControllerImpl) FindByLanguage(w http.ResponseWriter, r *http.
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 }
 
-// swagger:route GET /baseStrings/identifier/{identifier} BaseStrings FindByIdentifierBaseStrings
-// Return a baseString from an identifier
+//swagger:route GET /baseStrings/identifier/{identifier} BaseStrings FindByIdentifierBaseStrings
+// Return a baseString from an identifier.
 //
 // Responses:
 // - 200: BaseString
@@ -244,8 +251,22 @@ func (b BaseStringControllerImpl) FindByIdentifier(w http.ResponseWriter, r *htt
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 }
 
-// swagger:route GET /content/env BaseStrings FindByIdentifierAndLanguageAndStageBaseStrings
-// Return a baseString from an identifier
+// swagger:route GET /content/env BaseStrings FindByIdentifierAndLanguageAndStage
+// Return a baseString from an identifier, an isoCode and stage.
+//
+//  Parameters:
+//    + name: identifier
+//      description: BaseString's identifier.
+//      in: query
+//      type: string
+//    + name: isoCode
+//      description: Language's isoCode.
+//      in: query
+//      type: string
+//    + name: stage
+//      description: Stage's id.
+//      in: query
+//      type: string
 //
 // Responses:
 // - 200: BaseString
