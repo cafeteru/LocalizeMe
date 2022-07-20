@@ -62,14 +62,15 @@
             </td>
             <td>
                 <button
-                    nzTooltipTitle="Disable"
+                    [nzTooltipTitle]="translation.active ? 'Disable' : 'Enable'"
                     nz-button
                     nz-tooltip="Disable group"
                     nzType="default"
                     nzShape="circle"
                     (click)="disable(translation)"
                 >
-                    <em nz-icon nzType="disconnect"></em>
+                    <em *ngIf="translation.active" nz-icon nzType="disconnect"></em>
+                    <em *ngIf="!translation.active" nz-icon nzType="to-top"></em>
                 </button>
             </td>
             <td>

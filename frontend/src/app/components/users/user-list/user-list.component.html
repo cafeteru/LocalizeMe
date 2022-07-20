@@ -58,14 +58,15 @@
                 </td>
                 <td>
                     <button
-                        nzTooltipTitle="Disable"
+                        [nzTooltipTitle]="user.active ? 'Disable' : 'Enable'"
                         nz-button
                         nz-tooltip="Disable user"
                         nzType="default"
                         nzShape="circle"
                         (click)="disable(user)"
                     >
-                        <em nz-icon nzType="disconnect"></em>
+                        <em *ngIf="user.active" nz-icon nzType="disconnect"></em>
+                        <em *ngIf="!user.active" nz-icon nzType="to-top"></em>
                     </button>
                 </td>
                 <td>

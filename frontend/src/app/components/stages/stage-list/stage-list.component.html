@@ -65,14 +65,15 @@
                 </td>
                 <td>
                     <button
-                        nzTooltipTitle="Disable"
+                        [nzTooltipTitle]="stage.active ? 'Disable' : 'Enable'"
                         nz-button
                         nz-tooltip="Disable stage"
                         nzType="default"
                         nzShape="circle"
                         (click)="disable(stage)"
                     >
-                        <em nz-icon nzType="disconnect"></em>
+                        <em *ngIf="stage.active" nz-icon nzType="disconnect"></em>
+                        <em *ngIf="!stage.active" nz-icon nzType="to-top"></em>
                     </button>
                 </td>
                 <td>

@@ -85,64 +85,65 @@
             </tr>
         </thead>
         <tbody>
-            <ng-container *ngFor="let baseStringData of baseStringTable.data; let i = index">
+            <ng-container *ngFor="let baseString of baseStringTable.data; let i = index">
                 <tr>
                     <td
                         [id]="'expanded-' + (i + 1)"
-                        [nzExpand]="baseStringData.expanded"
-                        (nzExpandChange)="onExpandChange(baseStringData, $event)"
+                        [nzExpand]="baseString.expanded"
+                        (nzExpandChange)="onExpandChange(baseString, $event)"
                     ></td>
-                    <td>{{ baseStringData.baseString.identifier }}</td>
-                    <td>{{ baseStringData.baseString.sourceLanguage?.isoCode }}</td>
-                    <td>{{ baseStringData.baseString.group?.name }}</td>
-                    <td>{{ baseStringData.baseString.author?.email }}</td>
+                    <td>{{ baseString.baseString.identifier }}</td>
+                    <td>{{ baseString.baseString.sourceLanguage?.isoCode }}</td>
+                    <td>{{ baseString.baseString.group?.name }}</td>
+                    <td>{{ baseString.baseString.author?.email }}</td>
                     <td>
-                        <app-boolean-icon [value]="baseStringData.baseString.active"></app-boolean-icon>
+                        <app-boolean-icon [value]="baseString.baseString.active"></app-boolean-icon>
                     </td>
                     <td>
                         <button
-                            *ngIf="canEdit(baseStringData)"
+                            *ngIf="canEdit(baseString)"
                             nzTooltipTitle="Update"
                             nz-button
                             nz-tooltip="Update stage"
                             nzType="primary"
                             nzShape="circle"
-                            (click)="openModal(baseStringData)"
+                            (click)="openModal(baseString)"
                         >
                             <em nz-icon nzType="edit"></em>
                         </button>
                     </td>
                     <td>
                         <button
-                            *ngIf="canEdit(baseStringData)"
-                            nzTooltipTitle="Disable"
+                            *ngIf="canEdit(baseString)"
+                            [nzTooltipTitle]="baseString.active ? 'Disable' : 'Enable'"
                             nz-button
                             nz-tooltip="Disable baseString"
                             nzType="default"
                             nzShape="circle"
-                            (click)="disable(baseStringData)"
+                            (click)="disable(baseString)"
                         >
-                            <em nz-icon nzType="disconnect"></em>
+                            <em *ngIf="baseString.active" nz-icon nzType="disconnect"></em>
+                            <em *ngIf="!baseString.active" nz-icon nzType="to-top"></em>
                         </button>
                     </td>
                     <td>
                         <button
-                            *ngIf="canDelete(baseStringData)"
+                            *ngIf="canDelete(baseString)"
                             nzTooltipTitle="Delete"
                             nz-button
                             nz-tooltip="Delete baseString"
                             nzType="default"
                             nzDanger
                             nzShape="circle"
-                            (click)="showDeleteModal(baseStringData)"
+                            (click)="showDeleteModal(baseString)"
                         >
                             <em nz-icon nzType="delete"></em>
                         </button>
                     </td>
                 </tr>
-                <tr [nzExpand]="baseStringData.expanded">
+                <tr [nzExpand]="baseString.expanded">
                     <app-base-string-translation-table
-                        [translations]="baseStringData.baseString.translations"
+                        [translations]="baseString.baseString.translations"
                     ></app-base-string-translation-table>
                 </tr>
             </ng-container>

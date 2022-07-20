@@ -73,7 +73,7 @@ export class ModalBaseStringComponent extends BaseComponent implements OnInit {
     }
 
     setTranslations($event: Translation[]) {
-        this.formGroup.controls['translations'].setValue($event);
+        this.formGroup.controls['translations'].value.setValue($event);
     }
 
     close(baseString?: BaseString): void {
