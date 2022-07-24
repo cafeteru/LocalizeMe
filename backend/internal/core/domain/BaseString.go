@@ -32,19 +32,16 @@ func (b BaseString) FindTranslationLastVersionByLanguageAndState(language Langua
 	if !b.Active || !language.Active || !state.Active {
 		return ""
 	}
-	var t *Translation
+	var t Translation
 	lastVersion := 0
 	for _, translation := range b.Translations {
 		if translation.Language != nil && translation.Language.ID == language.ID &&
 			translation.Stage != nil && translation.Stage.ID == state.ID &&
 			translation.Version >= lastVersion &&
 			translation.Active {
-			t = &translation
+			t = translation
 			lastVersion = translation.Version
 		}
 	}
-	if t != nil {
-		return t.Content
-	}
-	return ""
+	return t.Content
 }
