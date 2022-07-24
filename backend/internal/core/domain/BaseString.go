@@ -29,19 +29,22 @@ func (b BaseString) FindTranslationLastVersionByLanguage(language Language) stri
 }
 
 func (b BaseString) FindTranslationLastVersionByLanguageAndState(language Language, state Stage) string {
-	if !language.Active || !state.Active {
+	if !b.Active || !language.Active || !state.Active {
 		return ""
 	}
-	var translation Translation
+	var t *Translation
 	lastVersion := 0
-	for _, value := range b.Translations {
-		if value.Language != nil && value.Language.ID == language.ID &&
-			value.Stage != nil && value.Stage.ID == state.ID &&
-			value.Version >= lastVersion &&
-			value.Active {
-			translation = value
-			lastVersion = value.Version
+	for _, translation := range b.Translations {
+		if translation.Language != nil && translation.Language.ID == language.ID &&
+			translation.Stage != nil && translation.Stage.ID == state.ID &&
+			translation.Version >= lastVersion &&
+			translation.Active {
+			t = &translation
+			lastVersion = translation.Version
 		}
 	}
-	return translation.Content
+	if t != nil {
+		return t.Content
+	}
+	return ""
 }
