@@ -107,7 +107,9 @@
                     </td>
                 </tr>
                 <tr [nzExpand]="groupData.expanded">
-                    <app-group-permission-table [permissions]="groupData.group.permissions"></app-group-permission-table>
+                    <app-group-permission-table
+                        [permissions]="groupData.group.permissions"
+                    ></app-group-permission-table>
                 </tr>
             </ng-container>
         </tbody>
