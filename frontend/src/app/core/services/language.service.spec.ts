@@ -51,17 +51,6 @@ describe('LanguageService', () => {
         req.flush(response);
     });
 
-    it('check findAll return null', () => {
-        const response = [];
-        service.findAll().subscribe({
-            next: (value) => expect(value).toEqual(response),
-            error: (err) => fail(err),
-        });
-        const req = mockHttp.expectOne(`${service.url}`);
-        expect(req.request.method).toBe('GET');
-        req.flush(null);
-    });
-
     it('check valid delete', () => {
         const language = createMockLanguage();
         service.delete(language).subscribe({

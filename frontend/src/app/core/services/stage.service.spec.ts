@@ -50,16 +50,6 @@ describe('StageService', () => {
         req.flush(response);
     });
 
-    it('check findAll with empty response', () => {
-        service.findAll().subscribe({
-            next: (value) => expect(value).toEqual([]),
-            error: (err) => fail(err),
-        });
-        const req = mockHttp.expectOne(`${service.url}`);
-        expect(req.request.method).toBe('GET');
-        req.flush(null);
-    });
-
     it('check disable', () => {
         const stage = createMockStage();
         service.disable(stage).subscribe({

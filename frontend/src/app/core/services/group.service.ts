@@ -29,15 +29,13 @@ export class GroupService {
     }
 
     findAll(): Observable<Group[]> {
-        return this.httpClient
-            .get<Group[]>(this.url, getDefaultHttpOptions())
-            .pipe(map((groups) => (groups ? groups : [])));
+        return this.httpClient.get<Group[]>(this.url, getDefaultHttpOptions()).pipe(catchError(() => of([])));
     }
 
     findCanWrite(): Observable<Group[]> {
         return this.httpClient
             .get<Group[]>(`${this.url}/canWrite`, getDefaultHttpOptions())
-            .pipe(map((groups) => (groups ? groups : [])));
+            .pipe(catchError(() => of([])));
     }
 
     update(group: Group): Observable<Group> {

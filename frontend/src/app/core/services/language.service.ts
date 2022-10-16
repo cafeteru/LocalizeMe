@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { catchError, map, Observable, of } from 'rxjs';
+import { catchError, Observable, of } from 'rxjs';
 import { getDefaultHttpOptions } from './default-http-options';
 import { Urls } from '../../shared/constants/urls';
 import { Language, LanguageDto } from '../../types/language';
@@ -29,9 +29,7 @@ export class LanguageService {
     }
 
     findAll(): Observable<Language[]> {
-        return this.httpClient
-            .get<Language[]>(this.url, getDefaultHttpOptions())
-            .pipe(map((languages) => (languages ? languages : [])));
+        return this.httpClient.get<Language[]>(this.url, getDefaultHttpOptions()).pipe(catchError(() => of([])));
     }
 
     update(language: Language): Observable<Language> {
