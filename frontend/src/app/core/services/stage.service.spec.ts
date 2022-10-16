@@ -50,7 +50,7 @@ describe('StageService', () => {
         req.flush(response);
     });
 
-    it('check null findAll', () => {
+    it('check findAll with empty response', () => {
         service.findAll().subscribe({
             next: (value) => expect(value).toEqual([]),
             error: (err) => fail(err),

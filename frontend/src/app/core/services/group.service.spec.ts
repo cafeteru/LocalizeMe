@@ -4,6 +4,7 @@ import { GroupService } from './group.service';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { createMockGroup, Group } from '../../types/group';
 import { createMockUser } from '../../types/user';
+import { createMockStage } from '../../types/stage';
 
 describe('GroupService', () => {
     let service: GroupService;
@@ -41,5 +42,26 @@ describe('GroupService', () => {
         const req = mockHttp.expectOne(`${service.url}`);
         expect(req.request.method).toBe('POST');
         req.flush(group);
+    });
+
+    it('check findAll', () => {
+        const response = [createMockGroup()];
+        service.findAll().subscribe({
+            next: (groups) => expect(groups).toEqual(response),
+            error: (err) => fail(err),
+        });
+        const req = mockHttp.expectOne(`${service.url}`);
+        expect(req.request.method).toBe('GET');
+        req.flush(response);
+    });
+
+    it('check findAll with empty response', () => {
+        service.findAll().subscribe({
+            next: (value) => expect(value).toEqual([]),
+            error: (err) => fail(err),
+        });
+        const req = mockHttp.expectOne(`${service.url}`);
+        expect(req.request.method).toBe('GET');
+        req.flush(null);
     });
 });

@@ -3,6 +3,7 @@
 ## Install dependecies
 
 ```shell
+npm install @angular/cli -g
 npm install
 ```
 
