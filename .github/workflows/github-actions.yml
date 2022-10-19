@@ -1,0 +1,14 @@
+name: GitHub Actions
+run-name: ${{ github.actor }} is check in uniovi-localize-me 🚀
+on: [push]
+jobs:
+  lint-backend:
+    runs-on: ubuntu-latest
+    container: cafeteru/localize-me-backend
+    steps:
+      - run: cd backend && golangci-lint run -v
+  lint-frontend:
+    runs-on: ubuntu-latest
+    container: cafeteru/node-chrome-headless
+    steps:
+      - run: cd frontend && npm install && npm run lint
