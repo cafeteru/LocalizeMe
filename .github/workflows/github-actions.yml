@@ -12,3 +12,4 @@ jobs:
     container: cafeteru/node-chrome-headless
     steps:
       - run: cd frontend && npm install && npm run lint
+      
