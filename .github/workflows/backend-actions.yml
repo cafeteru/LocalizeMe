@@ -6,6 +6,6 @@ jobs:
     runs-on: ubuntu-latest
     container: cafeteru/localize-me-backend
     steps:
-      -  working-directory: ./backend
+      -  working-directory: backend
          run: golangci-lint run -v
 

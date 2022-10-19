@@ -7,9 +7,9 @@ jobs:
     container: cafeteru/node-chrome-headless
     steps:
       - name: Install dependencies
-        working-directory: ./frontend
+        working-directory: frontend
         run: npm install
       - name: Check lint code
-        working-directory: ./frontend
+        working-directory: frontend
         run: npm run lint
 
