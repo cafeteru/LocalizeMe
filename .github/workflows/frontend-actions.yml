@@ -4,31 +4,13 @@ on: [push]
 jobs:
   container-job:
     runs-on: ubuntu-latest
-    container: node:10.18-jessie
-
-    services:
-      postgres:
-        image: postgres
-        env:
-          POSTGRES_PASSWORD: postgres
+    container: cafeteru/node-chrome-headless
 
     steps:
       - name: Check out repository code
         uses: actions/checkout@v2
 
-      # Performs a clean installation of all dependencies
-      # in the `package.json` file
       - name: Install dependencies
+        working-directory: frontend
         run: npm ci
-
-      - name: Connect to PostgreSQL
-        # Runs a script that creates a PostgreSQL client,
-        # populates the client with data, and retrieves data
-        run: node client.js
-        env:
-          # The hostname used to communicate with the
-          # PostgreSQL service container
-          POSTGRES_HOST: postgres
-          # The default PostgreSQL port
-          POSTGRES_PORT: 5432
 
