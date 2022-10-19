@@ -2,7 +2,7 @@ name: Frontend Actions
 run-name: ${{ github.actor }} is checking frontend 🚀
 on: [push]
 jobs:
-  container-job:
+  frontend:
     runs-on: ubuntu-latest
     container: cafeteru/node-chrome-headless
 

@@ -2,10 +2,15 @@ name: Backend Actions
 run-name: ${{ github.actor }} is checking backend 🚀
 on: [push]
 jobs:
-  lint-backend:
+  backend:
     runs-on: ubuntu-latest
     container: cafeteru/localize-me-backend
+    
     steps:
-      - working-directory: backend
+      - name: Check out repository code
+        uses: actions/checkout@v2
+
+      - name: Check lint
+        working-directory: backend
         run: golangci-lint run -v
 
