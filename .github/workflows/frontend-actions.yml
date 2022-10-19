@@ -1,0 +1,15 @@
+name: Frontend Actions
+run-name: ${{ github.actor }} is checking frontend 🚀
+on: [push]
+jobs:
+  lint-frontend:
+    runs-on: ubuntu-latest
+    container: cafeteru/node-chrome-headless
+    steps:
+      - name: Install dependencies
+        working-directory: ./frontend
+        run: npm install
+      - name: Check lint code
+        working-directory: ./frontend
+        run: npm run lint
+
