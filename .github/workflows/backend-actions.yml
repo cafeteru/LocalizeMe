@@ -4,8 +4,8 @@ on: [push]
 jobs:
   lint-backend:
     runs-on: ubuntu-latest
+    container: cafeteru/localize-me-backend
     steps:
-      - uses: docker://cafeteru/localize-me-backend:latest
-      -  working-directory: backend
-         run: golangci-lint run -v
+      - working-directory: backend
+        run: golangci-lint run -v
 
