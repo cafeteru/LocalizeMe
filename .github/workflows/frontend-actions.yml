@@ -2,10 +2,16 @@ name: Frontend Actions
 run-name: ${{ github.actor }} is checking frontend 🚀
 on: [push]
 jobs:
-  lint-frontend:
+  frontend:
     runs-on: ubuntu-latest
     container: 
       image: cafeteru/node-chrome-headless
+      credentials:
+         username: ${{ github.ref }}
+         password: ${{ secrets.GITHUB_TOKEN }}
+      env: 
+        actor: ${{ github.actor }}
+        testjob: here is value
     steps:
       - name: Install dependencies
         working-directory: frontend
