@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { StageService } from '../../../core/services/stage.service';
 import { Stage, StageDto } from '../../../types/stage';
 import { Observable } from 'rxjs';
@@ -14,7 +14,7 @@ import { FormGroupUtil } from '../../../shared/utils/form-group-util';
     styleUrls: ['./modal-stage.component.scss'],
 })
 export class ModalStageComponent extends BaseComponent implements OnInit {
-    formGroup = new FormGroup({});
+    formGroup = new UntypedFormGroup({});
     isLoading = false;
 
     constructor(
@@ -28,9 +28,9 @@ export class ModalStageComponent extends BaseComponent implements OnInit {
 
     ngOnInit(): void {
         super.ngOnInit();
-        this.formGroup = new FormGroup({
-            name: new FormControl(this.stage.name, Validators.required),
-            active: new FormControl(this.stage.active, Validators.required),
+        this.formGroup = new UntypedFormGroup({
+            name: new UntypedFormControl(this.stage.name, Validators.required),
+            active: new UntypedFormControl(this.stage.active, Validators.required),
         });
     }
 

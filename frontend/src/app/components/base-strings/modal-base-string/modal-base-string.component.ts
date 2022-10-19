@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { BaseComponent } from '../../../core/base/base.component';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -20,7 +20,7 @@ import { Translation } from '../../../types/translation';
     styleUrls: ['./modal-base-string.component.scss'],
 })
 export class ModalBaseStringComponent extends BaseComponent implements OnInit {
-    formGroup = new FormGroup({});
+    formGroup = new UntypedFormGroup({});
     isLoading = false;
     languages: Language[] = [];
     groups: Group[] = [];
@@ -39,12 +39,12 @@ export class ModalBaseStringComponent extends BaseComponent implements OnInit {
     ngOnInit(): void {
         super.ngOnInit();
         const { translations, identifier, active, group, sourceLanguage } = this.baseString;
-        this.formGroup = new FormGroup({
-            identifier: new FormControl(identifier, Validators.required),
-            active: new FormControl(active, Validators.required),
-            group: new FormControl(group),
-            sourceLanguage: new FormControl(sourceLanguage, Validators.required),
-            translations: new FormControl(translations ? translations : []),
+        this.formGroup = new UntypedFormGroup({
+            identifier: new UntypedFormControl(identifier, Validators.required),
+            active: new UntypedFormControl(active, Validators.required),
+            group: new UntypedFormControl(group),
+            sourceLanguage: new UntypedFormControl(sourceLanguage, Validators.required),
+            translations: new UntypedFormControl(translations ? translations : []),
         });
         const subscription$ = this.store
             .select('userInfo')

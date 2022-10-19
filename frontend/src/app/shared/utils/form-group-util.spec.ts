@@ -1,9 +1,9 @@
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 import { FormGroupUtil } from './form-group-util';
 
 describe('FormGroupUtil', () => {
-    let formGroup: FormGroup;
+    let formGroup: UntypedFormGroup;
     const emailKey = 'email';
     const passwordKey = 'password';
     const noValidKey = 'noExist';
@@ -11,9 +11,9 @@ describe('FormGroupUtil', () => {
     const errorKey = `There is no ${noValidKey} value inside the formGroup`;
 
     beforeEach(() => {
-        formGroup = new FormGroup({
-            email: new FormControl('', [Validators.required, Validators.email]),
-            password: new FormControl('', [Validators.required]),
+        formGroup = new UntypedFormGroup({
+            email: new UntypedFormControl('', [Validators.required, Validators.email]),
+            password: new UntypedFormControl('', [Validators.required]),
         });
     });
 
@@ -131,7 +131,7 @@ describe('FormGroupUtil', () => {
 
     it('Check addFormControl with valid data', () => {
         expect(Object.keys(formGroup.controls).length).toBe(2);
-        FormGroupUtil.addFormControl(formGroup, 'test', new FormControl(''));
+        FormGroupUtil.addFormControl(formGroup, 'test', new UntypedFormControl(''));
         expect(Object.keys(formGroup.controls).length).toBe(3);
     });
 
@@ -139,7 +139,7 @@ describe('FormGroupUtil', () => {
         expect(() => FormGroupUtil.addFormControl(formGroup, 'test', null)).toThrowError(
             FormGroupUtil.errorFormControl
         );
-        expect(() => FormGroupUtil.addFormControl(undefined, 'test', new FormControl(''))).toThrowError(
+        expect(() => FormGroupUtil.addFormControl(undefined, 'test', new UntypedFormControl(''))).toThrowError(
             FormGroupUtil.errorFormGroup
         );
     });

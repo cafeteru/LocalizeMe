@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { BaseComponent } from '../../../core/base/base.component';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Translation } from '../../../types/translation';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { FormGroupUtil } from '../../../shared/utils/form-group-util';
 import { Language } from '../../../types/language';
 import { Stage } from '../../../types/stage';
@@ -16,7 +16,7 @@ import { User } from '../../../types/user';
     styleUrls: ['./modal-translation.component.scss'],
 })
 export class ModalTranslationComponent extends BaseComponent implements OnInit {
-    formGroup = new FormGroup({});
+    formGroup = new UntypedFormGroup({});
     private author: User;
 
     constructor(
@@ -29,12 +29,12 @@ export class ModalTranslationComponent extends BaseComponent implements OnInit {
 
     ngOnInit(): void {
         super.ngOnInit();
-        this.formGroup = new FormGroup({
-            content: new FormControl(this.translation.content, Validators.required),
-            version: new FormControl(this.translation.version, Validators.required),
-            language: new FormControl(this.translation.language, Validators.required),
-            stage: new FormControl(this.translation.stage, Validators.required),
-            active: new FormControl(this.translation.active, Validators.required),
+        this.formGroup = new UntypedFormGroup({
+            content: new UntypedFormControl(this.translation.content, Validators.required),
+            version: new UntypedFormControl(this.translation.version, Validators.required),
+            language: new UntypedFormControl(this.translation.language, Validators.required),
+            stage: new UntypedFormControl(this.translation.stage, Validators.required),
+            active: new UntypedFormControl(this.translation.active, Validators.required),
         });
         const subscription$ = this.store
             .select('userInfo')

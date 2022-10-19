@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BaseComponent } from '../../../../core/base/base.component';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Group } from '../../../../types/group';
 import { Stage } from '../../../../types/stage';
 import { MatDialogRef } from '@angular/material/dialog';
@@ -16,7 +16,7 @@ import { XliffService } from '../../../../core/services/xliff.service';
     styleUrls: ['./read-xliff.component.scss'],
 })
 export class ReadXliffComponent extends BaseComponent implements OnInit {
-    formGroup = new FormGroup({});
+    formGroup = new UntypedFormGroup({});
     isLoading = false;
 
     constructor(
@@ -29,10 +29,10 @@ export class ReadXliffComponent extends BaseComponent implements OnInit {
 
     ngOnInit(): void {
         super.ngOnInit();
-        this.formGroup = new FormGroup({
-            group: new FormControl(undefined, Validators.required),
-            stage: new FormControl(undefined, Validators.required),
-            xliff: new FormControl(undefined, Validators.required),
+        this.formGroup = new UntypedFormGroup({
+            group: new UntypedFormControl(undefined, Validators.required),
+            stage: new UntypedFormControl(undefined, Validators.required),
+            xliff: new UntypedFormControl(undefined, Validators.required),
         });
     }
 

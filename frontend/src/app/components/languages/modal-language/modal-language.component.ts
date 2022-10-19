@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { BaseComponent } from '../../../core/base/base.component';
@@ -14,7 +14,7 @@ import { Language, LanguageDto } from '../../../types/language';
     styleUrls: ['./modal-language.component.scss'],
 })
 export class ModalLanguageComponent extends BaseComponent implements OnInit {
-    formGroup = new FormGroup({});
+    formGroup = new UntypedFormGroup({});
     isLoading = false;
 
     constructor(
@@ -28,10 +28,10 @@ export class ModalLanguageComponent extends BaseComponent implements OnInit {
 
     ngOnInit(): void {
         super.ngOnInit();
-        this.formGroup = new FormGroup({
-            isoCode: new FormControl(this.language.isoCode, Validators.required),
-            description: new FormControl(this.language.description),
-            active: new FormControl(this.language.active, Validators.required),
+        this.formGroup = new UntypedFormGroup({
+            isoCode: new UntypedFormControl(this.language.isoCode, Validators.required),
+            description: new UntypedFormControl(this.language.description),
+            active: new UntypedFormControl(this.language.active, Validators.required),
         });
     }
 

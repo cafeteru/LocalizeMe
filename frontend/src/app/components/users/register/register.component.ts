@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { BaseComponent } from '../../../core/base/base.component';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { IsSameValidator } from '../../../core/validators/is-same-validator';
@@ -17,7 +17,7 @@ import { UserDto } from '../../../types/user';
 })
 export class RegisterComponent extends BaseComponent implements OnInit {
     @Input() isVisible = false;
-    formGroup = new FormGroup({});
+    formGroup = new UntypedFormGroup({});
     isLoading = false;
 
     constructor(
@@ -31,11 +31,11 @@ export class RegisterComponent extends BaseComponent implements OnInit {
 
     override ngOnInit() {
         super.ngOnInit();
-        this.formGroup = new FormGroup(
+        this.formGroup = new UntypedFormGroup(
             {
-                email: new FormControl('', [Validators.required, Validators.email]),
-                password: new FormControl('', Validators.required),
-                checkPassword: new FormControl('', Validators.required),
+                email: new UntypedFormControl('', [Validators.required, Validators.email]),
+                password: new UntypedFormControl('', Validators.required),
+                checkPassword: new UntypedFormControl('', Validators.required),
             },
             { validators: IsSameValidator.isValid('password', 'checkPassword') }
         );
