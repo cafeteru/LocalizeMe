@@ -4,7 +4,8 @@ on: [push]
 jobs:
   lint-frontend:
     runs-on: ubuntu-latest
-    container: cafeteru/node-chrome-headless
+    container: 
+      image: cafeteru/node-chrome-headless
     steps:
       - name: Install dependencies
         working-directory: frontend
