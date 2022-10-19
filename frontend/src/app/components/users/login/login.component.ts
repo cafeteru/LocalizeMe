@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BaseComponent } from '../../../core/base/base.component';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { UserService } from '../../../core/services/user.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
@@ -13,7 +13,7 @@ import { UserDto } from '../../../types/user';
     styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent extends BaseComponent implements OnInit {
-    formGroup = new FormGroup({});
+    formGroup = new UntypedFormGroup({});
     isLoading = false;
 
     constructor(
@@ -27,9 +27,9 @@ export class LoginComponent extends BaseComponent implements OnInit {
 
     override ngOnInit() {
         super.ngOnInit();
-        this.formGroup = new FormGroup({
-            email: new FormControl('', [Validators.required, Validators.email]),
-            password: new FormControl('', Validators.required),
+        this.formGroup = new UntypedFormGroup({
+            email: new UntypedFormControl('', [Validators.required, Validators.email]),
+            password: new UntypedFormControl('', Validators.required),
         });
     }
 

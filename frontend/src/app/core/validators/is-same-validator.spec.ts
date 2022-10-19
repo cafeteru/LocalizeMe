@@ -1,14 +1,14 @@
 import { IsSameValidator } from './is-same-validator';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 
 describe('IsSameValidator', () => {
-    let formGroup: FormGroup;
+    let formGroup: UntypedFormGroup;
 
     beforeEach(() => {
-        formGroup = new FormGroup(
+        formGroup = new UntypedFormGroup(
             {
-                'a': new FormControl(''),
-                'b': new FormControl(''),
+                'a': new UntypedFormControl(''),
+                'b': new UntypedFormControl(''),
             },
             { validators: IsSameValidator.isValid('a', 'b') }
         );

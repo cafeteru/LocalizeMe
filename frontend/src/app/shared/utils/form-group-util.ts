@@ -1,4 +1,4 @@
-import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { AbstractControl, UntypedFormControl, UntypedFormGroup, ValidationErrors, ValidatorFn } from '@angular/forms';
 
 /**
  * Class to handle the formGroups of the forms
@@ -16,7 +16,7 @@ export class FormGroupUtil {
      *
      * @returns boolean
      */
-    static valid(formGroup: FormGroup): boolean {
+    static valid(formGroup: UntypedFormGroup): boolean {
         return this.getNumErrors(formGroup) === 0;
     }
 
@@ -27,7 +27,7 @@ export class FormGroupUtil {
      *
      * @returns Number of errors
      */
-    static getNumErrors(formGroup: FormGroup): number {
+    static getNumErrors(formGroup: UntypedFormGroup): number {
         let errors = 0;
         if (formGroup) {
             const list = Object.keys(formGroup.controls);
@@ -52,7 +52,7 @@ export class FormGroupUtil {
      *
      * @returns Si hay errores o no
      */
-    static checkError(formGroup: FormGroup, key: string): boolean {
+    static checkError(formGroup: UntypedFormGroup, key: string): boolean {
         if (formGroup) {
             const abstractControl: AbstractControl | null = formGroup.get(key);
             if (abstractControl) {
@@ -72,7 +72,7 @@ export class FormGroupUtil {
      *
      * @returns the errors that the data contains
      */
-    static getError(formGroup: FormGroup, key: string): ValidationErrors | null {
+    static getError(formGroup: UntypedFormGroup, key: string): ValidationErrors | null {
         if (formGroup) {
             const abstractControl = formGroup.get(key);
             if (abstractControl) {
@@ -93,7 +93,7 @@ export class FormGroupUtil {
      *
      * @returns The specific data requested
      */
-    static getValue(formGroup: FormGroup, key: string): any {
+    static getValue(formGroup: UntypedFormGroup, key: string): any {
         if (formGroup) {
             const abstractControl = formGroup.get(key);
             if (abstractControl) {
@@ -112,7 +112,7 @@ export class FormGroupUtil {
      * @param key Identifier of the data
      * @param value New value
      */
-    static setValue(formGroup: FormGroup, key: string, value: any): void {
+    static setValue(formGroup: UntypedFormGroup, key: string, value: any): void {
         if (formGroup) {
             const abstractControl = formGroup.get(key);
             if (abstractControl) {
@@ -133,11 +133,11 @@ export class FormGroupUtil {
      * @param validator List of validators
      * @param initValue Initial value of the data
      */
-    static changeValidator(formGroup: FormGroup, key: string, validator: ValidatorFn[], initValue?: any): void {
+    static changeValidator(formGroup: UntypedFormGroup, key: string, validator: ValidatorFn[], initValue?: any): void {
         if (formGroup) {
             const abstractControl = formGroup.get(key);
             if (abstractControl) {
-                formGroup.setControl(key, new FormControl(initValue, validator));
+                formGroup.setControl(key, new UntypedFormControl(initValue, validator));
             } else {
                 throw new Error(this.getErrorKey(key));
             }
@@ -153,7 +153,7 @@ export class FormGroupUtil {
      * @param key Identifier of the data
      * @param formControl New value
      */
-    static addFormControl(formGroup: FormGroup, key: string, formControl: FormControl): void {
+    static addFormControl(formGroup: UntypedFormGroup, key: string, formControl: UntypedFormControl): void {
         if (formGroup) {
             if (formControl) {
                 formGroup.addControl(key, formControl);
@@ -170,7 +170,7 @@ export class FormGroupUtil {
      *
      * @param formGroup Formgroup
      */
-    static clean(formGroup: FormGroup): void {
+    static clean(formGroup: UntypedFormGroup): void {
         if (formGroup) {
             const list = Object.keys(formGroup.controls);
             list.forEach((key) => {

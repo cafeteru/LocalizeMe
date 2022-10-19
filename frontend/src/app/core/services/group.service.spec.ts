@@ -42,4 +42,15 @@ describe('GroupService', () => {
         expect(req.request.method).toBe('POST');
         req.flush(group);
     });
+
+    it('check findAll', () => {
+        const response = [createMockGroup()];
+        service.findAll().subscribe({
+            next: (groups) => expect(groups).toEqual(response),
+            error: (err) => fail(err),
+        });
+        const req = mockHttp.expectOne(`${service.url}`);
+        expect(req.request.method).toBe('GET');
+        req.flush(response);
+    });
 });

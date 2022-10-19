@@ -1,0 +1,20 @@
+name: Frontend Actions
+run-name: ${{ github.actor }} is checking frontend 🚀
+on: [push]
+jobs:
+  frontend:
+    runs-on: ubuntu-latest
+    container: cafeteru/node-chrome-headless
+
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        working-directory: frontend
+        run: npm ci
+
+      - name: Execute tests
+        working-directory: frontend
+        run: npm run unit-test
+

@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { BaseComponent } from '../../../core/base/base.component';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -18,7 +18,7 @@ import { Permission } from '../../../types/permission';
     styleUrls: ['./modal-group.component.scss'],
 })
 export class ModalGroupComponent extends BaseComponent implements OnInit {
-    formGroup = new FormGroup({});
+    formGroup = new UntypedFormGroup({});
     isLoading = false;
     owner: User;
 
@@ -34,10 +34,10 @@ export class ModalGroupComponent extends BaseComponent implements OnInit {
 
     ngOnInit(): void {
         super.ngOnInit();
-        this.formGroup = new FormGroup({
-            name: new FormControl(this.group.name, Validators.required),
-            active: new FormControl(this.group.active),
-            public: new FormControl(this.group.public),
+        this.formGroup = new UntypedFormGroup({
+            name: new UntypedFormControl(this.group.name, Validators.required),
+            active: new UntypedFormControl(this.group.active),
+            public: new UntypedFormControl(this.group.public),
         });
         const subscription$ = this.store.select('userInfo').subscribe((userReducer) => (this.owner = userReducer.user));
         this.subscriptions$.push(subscription$);

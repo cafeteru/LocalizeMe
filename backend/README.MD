@@ -91,6 +91,14 @@ mockgen -source=internal/core/service/UserService.go -destination=internal/core/
 
 ## Create MongoDB with Docker
 
+Execute the next script:
+
+```shell
+cd scripts && ./init-database.sh 
+```
+
+Or:
+
 ```shell
 docker pull mongo
 docker run -d --name mongo-on-docker -p 27017:27017 -e MONGO_INITDB_ROOT_USERNAME=mongoadmin -e MONGO_INITDB_ROOT_PASSWORD=secret mongo &

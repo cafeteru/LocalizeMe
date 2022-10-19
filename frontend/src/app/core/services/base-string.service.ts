@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { Urls } from '../../shared/constants/urls';
 import { HttpClient } from '@angular/common/http';
-import { catchError, map, Observable, of } from 'rxjs';
+import { catchError, Observable, of } from 'rxjs';
 import { getDefaultHttpOptions } from './default-http-options';
 import { BaseString } from '../../types/base-string';
 
@@ -29,9 +29,7 @@ export class BaseStringService {
     }
 
     findAll(): Observable<BaseString[]> {
-        return this.httpClient
-            .get<BaseString[]>(this.url, getDefaultHttpOptions())
-            .pipe(map((baseStrings) => (baseStrings ? baseStrings : [])));
+        return this.httpClient.get<BaseString[]>(this.url, getDefaultHttpOptions()).pipe(catchError(() => of([])));
     }
 
     update(baseString: BaseString): Observable<BaseString> {

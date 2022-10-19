@@ -29,9 +29,7 @@ export class StageService {
     }
 
     findAll(): Observable<Stage[]> {
-        return this.httpClient
-            .get<Stage[]>(this.url, getDefaultHttpOptions())
-            .pipe(map((stages) => (stages ? stages : [])));
+        return this.httpClient.get<Stage[]>(this.url, getDefaultHttpOptions()).pipe(catchError(() => of([])));
     }
 
     update(stage: Stage): Observable<Stage> {

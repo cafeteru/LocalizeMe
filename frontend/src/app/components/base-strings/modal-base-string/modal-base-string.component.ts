@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { BaseComponent } from '../../../core/base/base.component';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -20,7 +20,7 @@ import { Translation } from '../../../types/translation';
     styleUrls: ['./modal-base-string.component.scss'],
 })
 export class ModalBaseStringComponent extends BaseComponent implements OnInit {
-    formGroup = new FormGroup({});
+    formGroup = new UntypedFormGroup({});
     isLoading = false;
     languages: Language[] = [];
     groups: Group[] = [];
@@ -38,13 +38,13 @@ export class ModalBaseStringComponent extends BaseComponent implements OnInit {
 
     ngOnInit(): void {
         super.ngOnInit();
-        const translations = this.baseString.translations;
-        this.formGroup = new FormGroup({
-            identifier: new FormControl(this.baseString.identifier, Validators.required),
-            active: new FormControl(this.baseString.active, Validators.required),
-            group: new FormControl(this.baseString.group),
-            sourceLanguage: new FormControl(this.baseString.sourceLanguage, Validators.required),
-            translations: new FormControl(translations ? translations : []),
+        const { translations, identifier, active, group, sourceLanguage } = this.baseString;
+        this.formGroup = new UntypedFormGroup({
+            identifier: new UntypedFormControl(identifier, Validators.required),
+            active: new UntypedFormControl(active, Validators.required),
+            group: new UntypedFormControl(group),
+            sourceLanguage: new UntypedFormControl(sourceLanguage, Validators.required),
+            translations: new UntypedFormControl(translations ? translations : []),
         });
         const subscription$ = this.store
             .select('userInfo')
@@ -89,9 +89,9 @@ export class ModalBaseStringComponent extends BaseComponent implements OnInit {
             this.isLoading = true;
             const observable = this.baseString.id ? this.update() : this.create();
             const subscription$ = observable.subscribe({
-                next: (data) => {
+                next: (baseString) => {
                     this.isLoading = false;
-                    this.close(data);
+                    this.close(baseString);
                     const message = this.baseString.id ? 'Successfully updated string' : 'Successfully created string';
                     this.createMessage('success', message);
                 },
@@ -121,13 +121,14 @@ export class ModalBaseStringComponent extends BaseComponent implements OnInit {
     }
 
     private update(): Observable<BaseString> {
+        const controls = this.formGroup.controls;
         this.baseString = {
             ...this.baseString,
-            active: this.formGroup.controls['active'].value,
-            group: this.formGroup.controls['group'].value,
-            identifier: this.formGroup.controls['identifier'].value,
-            sourceLanguage: this.formGroup.controls['sourceLanguage'].value,
-            translations: this.formGroup.controls['translations'].value,
+            active: controls['active'].value,
+            group: controls['group'].value,
+            identifier: controls['identifier'].value,
+            sourceLanguage: controls['sourceLanguage'].value,
+            translations: controls['translations'].value,
         };
         return this.baseStringService.update(this.baseString);
     }

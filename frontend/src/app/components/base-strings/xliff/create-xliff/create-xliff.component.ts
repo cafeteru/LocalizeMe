@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { BaseComponent } from '../../../../core/base/base.component';
@@ -18,7 +18,7 @@ import { Stage } from '../../../../types/stage';
     styleUrls: ['./create-xliff.component.scss'],
 })
 export class CreateXliffComponent extends BaseComponent implements OnInit {
-    formGroup = new FormGroup({});
+    formGroup = new UntypedFormGroup({});
     isLoading = false;
     sourceLanguage: Language;
     targetLanguage: Language;
@@ -33,11 +33,11 @@ export class CreateXliffComponent extends BaseComponent implements OnInit {
 
     ngOnInit(): void {
         super.ngOnInit();
-        this.formGroup = new FormGroup({
-            baseStringIds: new FormControl(undefined),
-            sourceLanguageId: new FormControl(undefined, Validators.required),
-            stage: new FormControl(undefined, Validators.required),
-            targetLanguageId: new FormControl(undefined, Validators.required),
+        this.formGroup = new UntypedFormGroup({
+            baseStringIds: new UntypedFormControl(undefined),
+            sourceLanguageId: new UntypedFormControl(undefined, Validators.required),
+            stage: new UntypedFormControl(undefined, Validators.required),
+            targetLanguageId: new UntypedFormControl(undefined, Validators.required),
         });
     }
 

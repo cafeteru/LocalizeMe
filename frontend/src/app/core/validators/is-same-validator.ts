@@ -1,9 +1,9 @@
-import { FormGroup, ValidatorFn } from '@angular/forms';
+import { UntypedFormGroup, ValidatorFn } from '@angular/forms';
 import { FormGroupUtil } from '../../shared/utils/form-group-util';
 
 export class IsSameValidator {
     static isValid(name1: string, name2: string): ValidatorFn {
-        return (formGroup: FormGroup) => {
+        return (formGroup: UntypedFormGroup) => {
             const control1 = formGroup.get(name1);
             const control2 = formGroup.get(name2);
             if (control1 && control2) {

@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { BaseComponent } from '../../../core/base/base.component';
@@ -20,7 +20,7 @@ export interface UpdateUserData {
     styleUrls: ['./update-user.component.scss'],
 })
 export class UpdateUserComponent extends BaseComponent implements OnInit {
-    formGroup = new FormGroup({});
+    formGroup = new UntypedFormGroup({});
     isLoading = false;
 
     constructor(
@@ -82,14 +82,14 @@ export class UpdateUserComponent extends BaseComponent implements OnInit {
     private initFormGroup(): void {
         const password = 'password';
         const checkPassword = 'checkPassword';
-        this.formGroup = new FormGroup(
+        this.formGroup = new UntypedFormGroup(
             {
-                email: new FormControl(this.data.user.email, [Validators.required, Validators.email]),
-                changePassword: new FormControl(false, Validators.required),
-                password: new FormControl(''),
-                checkPassword: new FormControl(''),
-                active: new FormControl(this.data.user.active),
-                admin: new FormControl(this.data.user.admin),
+                email: new UntypedFormControl(this.data.user.email, [Validators.required, Validators.email]),
+                changePassword: new UntypedFormControl(false, Validators.required),
+                password: new UntypedFormControl(''),
+                checkPassword: new UntypedFormControl(''),
+                active: new UntypedFormControl(this.data.user.active),
+                admin: new UntypedFormControl(this.data.user.admin),
             },
             { validators: IsSameValidator.isValid(password, checkPassword) }
         );

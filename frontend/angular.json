@@ -107,7 +107,11 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "codeCoverageExclude": [
+              "/**/*mock*.ts",
+              "/**/*routing*.ts"
+            ]
           }
         },
         "lint": {
@@ -122,9 +126,10 @@
       }
     }
   },
-  "defaultProject": "localize-me-front",
   "cli": {
     "analytics": false,
-    "defaultCollection": "@angular-eslint/schematics"
+    "schematicCollections": [
+      "@angular-eslint/schematics"
+    ]
   }
 }
