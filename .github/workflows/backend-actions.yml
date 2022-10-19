@@ -14,3 +14,9 @@ jobs:
         working-directory: backend
         run: golangci-lint run -v
 
+      - name: Execute tests
+        working-directory: backend
+        run: |
+          go test ./... -coverprofile=coverage.out 
+          gotestsum --junitfile ../report.xml --format testname
+
