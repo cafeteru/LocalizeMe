@@ -107,7 +107,11 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "codeCoverageExclude": [
+              "/**/*mock*.ts",
+              "/**/*routing*.ts"
+            ]
           }
         },
         "lint": {
