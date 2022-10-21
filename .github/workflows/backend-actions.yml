@@ -1,11 +1,11 @@
 name: Backend Actions
-run-name: ${{ github.actor }} is checking backend 🚀
+run-name: ${{ github.actor }} is checking backend 🏍️
 on: [push]
 jobs:
   backend:
     runs-on: ubuntu-latest
     container: cafeteru/localize-me-backend
-    
+
     steps:
       - name: Check out repository code
         uses: actions/checkout@v2
@@ -20,6 +20,10 @@ jobs:
           go test ./... -coverprofile=coverage.out 
           gotestsum --junitfile ../report.xml --format testname
       
-      - name: Update coverage
-        working-directory: backend
-        run: ./codecov -t ${{ secrets.CODECOV_TOKEN }} -f coverage.out -F backend
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+            token: ${{ secrets.CODECOV_TOKEN }}
+            directory: ./backend/
+            fail_ci_if_error: true
+            flags: backend
