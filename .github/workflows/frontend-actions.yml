@@ -1,5 +1,5 @@
 name: Frontend Actions
-run-name: ${{ github.actor }} is checking frontend 🚀
+run-name: ${{ github.actor }} is checking frontend 🪟
 on: [push]
 jobs:
   frontend:
@@ -7,6 +7,8 @@ jobs:
     container: cafeteru/node-chrome-headless
 
     steps:
+      - uses: actions/checkout@master
+      
       - name: Check out repository code
         uses: actions/checkout@v2
 
@@ -16,5 +18,13 @@ jobs:
 
       - name: Execute tests
         working-directory: frontend
-        run: npm run unit-test
+        run: |
+          npm run unit-test
 
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+            token: ${{ secrets.CODECOV_TOKEN }}
+            directory: ./frontend/coverage/
+            fail_ci_if_error: true
+            flags: frontend
