@@ -19,4 +19,7 @@ jobs:
         run: |
           go test ./... -coverprofile=coverage.out 
           gotestsum --junitfile ../report.xml --format testname
-
+      
+      - name: Update coverage
+        working-directory: backend
+        run: ./codecov -t ${{ secrets.CODECOV_TOKEN }} -f coverage.out -F backend
