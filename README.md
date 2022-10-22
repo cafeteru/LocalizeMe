@@ -1,5 +1,7 @@
 # UniOVI-LocalizeMe
 
+[![codecov](https://codecov.io/gh/cafeteru/uniovi-localizeme/branch/main/graph/badge.svg?token=7WTO7MDDD5)](https://codecov.io/gh/cafeteru/uniovi-localizeme)
+
 Real-time management system for localization strings
 
 ## How to start all applications
@@ -28,10 +30,3 @@ docker compose down
 ## Update Docker's images
 
 Execute `deploy-docker.sh` to update Docker's images.
-
-## Deployed apps
-
-[Backend](https://localize-me-uniovi.herokuapp.com)
-[OpenApi](https://localize-me-open-api.herokuapp.com)
-[Frontend](https://uniovi-localize-me.web.app)
-[Spotiapp](https://uniovi-localize-me-spotiapp.web.app)
