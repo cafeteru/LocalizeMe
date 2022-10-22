@@ -6,11 +6,11 @@ import (
 	"github.com/go-chi/chi/middleware"
 	"github.com/go-chi/cors"
 	"github.com/go-chi/render"
-	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/ports/impl"
-	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/tools"
 	"log"
 	"net/http"
 	"time"
+	"uniovi-localizeme/internal/core/ports/impl"
+	"uniovi-localizeme/tools"
 )
 
 type Server struct {

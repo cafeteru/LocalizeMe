@@ -1,14 +1,14 @@
 package impl
 
 import (
-	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/constants"
-	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain"
-	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain/dto"
-	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/repository"
-	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/repository/mongodb"
-	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/tools"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"log"
+	"uniovi-localizeme/constants"
+	"uniovi-localizeme/internal/core/domain"
+	"uniovi-localizeme/internal/core/domain/dto"
+	"uniovi-localizeme/internal/repository"
+	"uniovi-localizeme/internal/repository/mongodb"
+	"uniovi-localizeme/tools"
 )
 
 type GroupServiceImpl struct {

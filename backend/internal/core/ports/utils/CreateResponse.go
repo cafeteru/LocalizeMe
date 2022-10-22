@@ -2,10 +2,10 @@ package utils
 
 import (
 	"encoding/json"
-	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain/dto"
-	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/tools"
 	"log"
 	"net/http"
+	"uniovi-localizeme/internal/core/domain/dto"
+	"uniovi-localizeme/tools"
 )
 
 func CreateResponse(w http.ResponseWriter, code int, result interface{}) {

@@ -8,8 +8,8 @@ import (
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
-	domain "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain"
-	dto "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain/dto"
+	domain "uniovi-localizeme/internal/core/domain"
+	dto "uniovi-localizeme/internal/core/domain/dto"
 	primitive "go.mongodb.org/mongo-driver/bson/primitive"
 )
 

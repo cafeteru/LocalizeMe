@@ -1,6 +1,6 @@
 package dto
 
-import "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain"
+import "uniovi-localizeme/internal/core/domain"
 
 // swagger:model XliffDto
 type XliffDto struct {

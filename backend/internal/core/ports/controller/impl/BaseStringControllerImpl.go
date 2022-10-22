@@ -4,15 +4,15 @@ import (
 	"encoding/json"
 	"errors"
 	"github.com/go-chi/chi"
-	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/constants"
-	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain"
-	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/ports/utils"
-	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/service"
-	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/service/impl"
-	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/tools"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"log"
 	"net/http"
+	"uniovi-localizeme/constants"
+	"uniovi-localizeme/internal/core/domain"
+	"uniovi-localizeme/internal/core/ports/utils"
+	"uniovi-localizeme/internal/core/service"
+	"uniovi-localizeme/internal/core/service/impl"
+	"uniovi-localizeme/tools"
 )
 
 type BaseStringControllerImpl struct {
@@ -150,12 +150,12 @@ func (b BaseStringControllerImpl) FindAll(w http.ResponseWriter, r *http.Request
 // swagger:route GET /baseStrings/group/{id} BaseStrings FindByGroupBaseStrings
 // Return all baseStrings from a group.
 //
-//  Parameters:
-//    + name: id
-//      in: path
-//      description: BaseString's id
-//      type: string
-//      required: true
+//	Parameters:
+//	  + name: id
+//	    in: path
+//	    description: BaseString's id
+//	    type: string
+//	    required: true
 //
 // Responses:
 // - 200: []BaseString
@@ -222,7 +222,6 @@ func (b BaseStringControllerImpl) FindByLanguage(w http.ResponseWriter, r *http.
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 }
 
-//swagger:route GET /baseStrings/identifier/{identifier} BaseStrings FindByIdentifierBaseStrings
 // Return a baseString from an identifier.
 //
 // Responses:
@@ -230,6 +229,8 @@ func (b BaseStringControllerImpl) FindByLanguage(w http.ResponseWriter, r *http.
 // - 400: ErrorDto
 // - 401: ErrorDto
 // - 500: ErrorDto
+//
+//swagger:route GET /baseStrings/identifier/{identifier} BaseStrings FindByIdentifierBaseStrings
 func (b BaseStringControllerImpl) FindByIdentifier(w http.ResponseWriter, r *http.Request) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
 	user := utils.CheckUserIsActive(w, r, b.userService)
@@ -254,19 +255,19 @@ func (b BaseStringControllerImpl) FindByIdentifier(w http.ResponseWriter, r *htt
 // swagger:route GET /content/env BaseStrings FindByIdentifierAndLanguageAndStage
 // Return a baseString from an identifier, an isoCode and stage.
 //
-//  Parameters:
-//    + name: identifier
-//      description: BaseString's identifier.
-//      in: query
-//      type: string
-//    + name: isoCode
-//      description: Language's isoCode.
-//      in: query
-//      type: string
-//    + name: stage
-//      description: Stage's id.
-//      in: query
-//      type: string
+//	Parameters:
+//	  + name: identifier
+//	    description: BaseString's identifier.
+//	    in: query
+//	    type: string
+//	  + name: isoCode
+//	    description: Language's isoCode.
+//	    in: query
+//	    type: string
+//	  + name: stage
+//	    description: Stage's id.
+//	    in: query
+//	    type: string
 //
 // Responses:
 // - 200: BaseString

@@ -2,12 +2,12 @@ package mongodb
 
 import (
 	"context"
-	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/constants"
-	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/tools"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"log"
 	"os"
+	"uniovi-localizeme/constants"
+	"uniovi-localizeme/tools"
 )
 
 type Repository interface {

@@ -3,12 +3,12 @@ package mongodb
 import (
 	"errors"
 	"github.com/stretchr/testify/assert"
-	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/constants"
-	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo/integration/mtest"
 	"testing"
+	"uniovi-localizeme/constants"
+	"uniovi-localizeme/internal/core/domain"
 )
 
 var user = domain.User{

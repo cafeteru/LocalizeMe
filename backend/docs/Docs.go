@@ -2,34 +2,34 @@
 //
 // Real-time management system for localization strings.
 //
-//     Schemes: https
-//     BasePath: /
-//     Version: 1.0.0
-//     Host: localize-me-uniovi.herokuapp.com
+//	Schemes: https
+//	BasePath: /
+//	Version: 1.0.0
+//	Host: localize-me-uniovi.herokuapp.com
 //
-//     Consumes:
-//     - application/json
+//	Consumes:
+//	- application/json
 //
-//     Produces:
-//     - application/json
+//	Produces:
+//	- application/json
 //
-//     Security:
-//     - Bearer: []
+//	Security:
+//	- Bearer: []
 //
-//     securityDefinitions:
-//       Bearer:
-//         type: apiKey
-//         name: Authorization
-//         in: header
-//         scheme: bearer
-//         bearerFormat: JWT
+//	securityDefinitions:
+//	  Bearer:
+//	    type: apiKey
+//	    name: Authorization
+//	    in: header
+//	    scheme: bearer
+//	    bearerFormat: JWT
 //
 // swagger:meta
 package docs
 
 import (
-	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain"
-	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain/dto"
+	"uniovi-localizeme/internal/core/domain"
+	"uniovi-localizeme/internal/core/domain/dto"
 )
 
 // swagger:parameters CreateUser Login

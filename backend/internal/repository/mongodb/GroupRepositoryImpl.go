@@ -2,13 +2,13 @@ package mongodb
 
 import (
 	"context"
-	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/constants"
-	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain"
-	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/tools"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"log"
+	"uniovi-localizeme/constants"
+	"uniovi-localizeme/internal/core/domain"
+	"uniovi-localizeme/tools"
 )
 
 type GroupRepositoryImpl struct {
