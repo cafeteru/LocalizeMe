@@ -31,8 +31,8 @@ func (u UserServiceImpl) Create(request dto.UserDto) (domain.User, error) {
 	if request.Email == "" || request.Password == "" {
 		return domain.User{}, tools.ErrorLog(constants.InvalidUserRequest, tools.GetCurrentFuncName())
 	}
-	findByEmail, err := u.repository.FindByEmail(request.Email)
-	if err != nil && err.Error() != constants.FindUserByEmail || findByEmail != nil {
+	user, err := u.repository.FindByEmail(request.Email)
+	if err != nil && err.Error() != constants.FindUserByEmail || user != nil {
 		return domain.User{}, tools.ErrorLog(constants.EmailAlreadyRegister, tools.GetCurrentFuncName())
 	}
 	password, err := u.encrypt.EncryptPassword(request.Password)
@@ -41,20 +41,20 @@ func (u UserServiceImpl) Create(request dto.UserDto) (domain.User, error) {
 		log.Printf("%s: error", tools.GetCurrentFuncName())
 		return domain.User{}, tools.ErrorLogDetails(err, constants.EncryptPasswordUser, tools.GetCurrentFuncName())
 	}
-	user := domain.User{
+	newUser := domain.User{
 		Email:    request.Email,
 		Password: request.Password,
 		Admin:    false,
 		Active:   true,
 	}
-	resultId, err := u.repository.Create(user)
+	resultId, err := u.repository.Create(newUser)
 	if err != nil {
 		log.Printf("%s: error", tools.GetCurrentFuncName())
 		return domain.User{}, err
 	}
 	log.Printf("%s: end", tools.GetCurrentFuncName())
-	user.ID = resultId.InsertedID.(primitive.ObjectID)
-	return user, nil
+	newUser.ID = resultId.InsertedID.(primitive.ObjectID)
+	return newUser, nil
 }
 
 func (u UserServiceImpl) Delete(id primitive.ObjectID) (bool, error) {
