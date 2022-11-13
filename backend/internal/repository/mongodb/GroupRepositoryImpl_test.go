@@ -16,7 +16,7 @@ var group domain.Group
 func TestGroupRepositoryImpl_Create_Success(t *testing.T) {
 	mt, l := createGroupMocks(t)
 	mt.Run("Create_Group_Success", func(mt *mtest.T) {
-		l.collection = mt.Coll
+		l.Collection = mt.Coll
 		mt.AddMockResponses(mtest.CreateCursorResponse(1, "foo.bar", mtest.FirstBatch, bson.D{
 			{Key: "InsertedID", Value: primitive.NewObjectID()},
 		}))
@@ -37,7 +37,7 @@ func TestGroupRepositoryImpl_Create_NotConnection(t *testing.T) {
 func TestGroupRepositoryImpl_Create_Error(t *testing.T) {
 	mt, l := createGroupMocks(t)
 	mt.Run("Create_Group_ErrorCreate", func(mt *mtest.T) {
-		l.collection = mt.Coll
+		l.Collection = mt.Coll
 		mt.AddMockResponses(mtest.CreateWriteErrorsResponse(mtest.WriteError{
 			Message: constants.InsertStage,
 		}))
@@ -50,7 +50,7 @@ func TestGroupRepositoryImpl_Create_Error(t *testing.T) {
 func TestGroupRepositoryImpl_Delete_Success(t *testing.T) {
 	mt, s := createGroupMocks(t)
 	mt.Run("Delete_Group_Success", func(mt *mtest.T) {
-		s.collection = mt.Coll
+		s.Collection = mt.Coll
 		mt.AddMockResponses(mtest.CreateCursorResponse(1, "foo.bar", mtest.FirstBatch, bson.D{
 			{Key: "DeletedCount", Value: 1},
 		}))
@@ -71,7 +71,7 @@ func TestGroupRepositoryImpl_Delete_NotConnection(t *testing.T) {
 func TestGroupRepositoryImpl_Delete_NotFound(t *testing.T) {
 	mt, s := createGroupMocks(t)
 	mt.Run("Delete_Group_NotFound", func(mt *mtest.T) {
-		s.collection = mt.Coll
+		s.Collection = mt.Coll
 		mt.AddMockResponses(mtest.CreateWriteErrorsResponse(mtest.WriteError{
 			Message: constants.DeleteGroup,
 		}))
@@ -84,7 +84,7 @@ func TestGroupRepositoryImpl_Delete_NotFound(t *testing.T) {
 func TestGroupRepositoryImpl_FindAll_Success(t *testing.T) {
 	mt, l := createGroupMocks(t)
 	mt.Run("FindAll_Group_Success", func(mt *mtest.T) {
-		l.collection = mt.Coll
+		l.Collection = mt.Coll
 		group2 := domain.Group{
 			ID:          primitive.ObjectID{},
 			Name:        "group2",
@@ -129,7 +129,7 @@ func TestGroupRepositoryImpl_FindAll_NotConnect(t *testing.T) {
 func TestGroupRepositoryImpl_FindByName_Success(t *testing.T) {
 	mt, l := createGroupMocks(t)
 	mt.Run("FindByName_Group_Success", func(mt *mtest.T) {
-		l.collection = mt.Coll
+		l.Collection = mt.Coll
 		mt.AddMockResponses(mtest.CreateCursorResponse(1, "foo.bar", mtest.FirstBatch, bson.D{
 			{Key: "_id", Value: group.ID},
 			{Key: "name", Value: group.Name},
@@ -146,7 +146,7 @@ func TestGroupRepositoryImpl_FindByName_Success(t *testing.T) {
 func TestGroupRepositoryImpl_FindByName_NotConnection(t *testing.T) {
 	mt, l := createGroupMocks(t)
 	mt.Run("FindByName_Group_NotConnection", func(mt *mtest.T) {
-		_, err := l.FindByName("Name")
+		_, err := l.FindByName("name")
 		assert.NotNil(t, err)
 		assert.Equal(t, err, errors.New(constants.CreateConnection))
 	})
@@ -155,7 +155,7 @@ func TestGroupRepositoryImpl_FindByName_NotConnection(t *testing.T) {
 func TestGroupRepositoryImpl_FindByName_NotFound(t *testing.T) {
 	mt, l := createGroupMocks(t)
 	mt.Run("FindByName_Group_NotFound", func(mt *mtest.T) {
-		l.collection = mt.Coll
+		l.Collection = mt.Coll
 		mt.AddMockResponses(mtest.CreateWriteErrorsResponse(mtest.WriteError{
 			Message: constants.FindGroupByName,
 		}))

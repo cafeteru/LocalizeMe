@@ -6,11 +6,11 @@ package mock
 
 import (
 	reflect "reflect"
-
-	gomock "github.com/golang/mock/gomock"
 	domain "uniovi-localizeme/internal/core/domain"
 	dto "uniovi-localizeme/internal/core/domain/dto"
 	xmlDto "uniovi-localizeme/internal/core/domain/xmlDto"
+
+	gomock "github.com/golang/mock/gomock"
 	primitive "go.mongodb.org/mongo-driver/bson/primitive"
 )
 

@@ -260,7 +260,7 @@ func initStageValues() {
 	stage = domain.Stage{
 		ID:     stageId,
 		Active: true,
-		Name:   "Name",
+		Name:   "name",
 	}
 	stageDto = dto.StageDto{
 		Name: stage.Name,

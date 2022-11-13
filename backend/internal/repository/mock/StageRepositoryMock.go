@@ -6,9 +6,9 @@ package mock
 
 import (
 	reflect "reflect"
+	domain "uniovi-localizeme/internal/core/domain"
 
 	gomock "github.com/golang/mock/gomock"
-	domain "uniovi-localizeme/internal/core/domain"
 	primitive "go.mongodb.org/mongo-driver/bson/primitive"
 	mongo "go.mongodb.org/mongo-driver/mongo"
 )

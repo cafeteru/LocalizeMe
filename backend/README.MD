@@ -2,7 +2,7 @@
 
 Development of a simple Rest API with [Go](https://golang.org/).
 
-![Go](https://img.shields.io/badge/Golang-1.18-blue.svg?logo=go&longCache=true&style=flat)
+![Go](https://img.shields.io/badge/Golang-1.19-blue.svg?logo=go&longCache=true&style=flat)
 
 ## Makefile
 

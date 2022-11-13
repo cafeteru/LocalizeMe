@@ -22,7 +22,7 @@ var user = domain.User{
 func TestUserRepositoryImpl_Delete_Success(t *testing.T) {
 	mt, u := createUserMocks(t)
 	mt.Run("Delete_User_Success", func(mt *mtest.T) {
-		u.collection = mt.Coll
+		u.Collection = mt.Coll
 		mt.AddMockResponses(mtest.CreateCursorResponse(1, "foo.bar", mtest.FirstBatch, bson.D{
 			{Key: "DeletedCount", Value: 1},
 		}))
@@ -43,7 +43,7 @@ func TestUserRepositoryImpl_Delete_NotConnection(t *testing.T) {
 func TestUserRepositoryImpl_Delete_NotFound(t *testing.T) {
 	mt, u := createUserMocks(t)
 	mt.Run("Delete_User_NotFound", func(mt *mtest.T) {
-		u.collection = mt.Coll
+		u.Collection = mt.Coll
 		mt.AddMockResponses(mtest.CreateWriteErrorsResponse(mtest.WriteError{
 			Message: constants.DeleteUser,
 		}))
@@ -56,7 +56,7 @@ func TestUserRepositoryImpl_Delete_NotFound(t *testing.T) {
 func TestUserRepositoryImpl_FindByEmail_Success(t *testing.T) {
 	mt, u := createUserMocks(t)
 	mt.Run("FindByEmail_User_Success", func(mt *mtest.T) {
-		u.collection = mt.Coll
+		u.Collection = mt.Coll
 		mt.AddMockResponses(mtest.CreateCursorResponse(1, "foo.bar", mtest.FirstBatch, bson.D{
 			{Key: "_id", Value: user.ID},
 			{Key: "email", Value: user.Email},
@@ -82,7 +82,7 @@ func TestUserRepositoryImpl_FindByEmail_NotConnection(t *testing.T) {
 func TestUserRepositoryImpl_FindByEmail_NotFound(t *testing.T) {
 	mt, u := createUserMocks(t)
 	mt.Run("FindByEmail_User_NotFound", func(mt *mtest.T) {
-		u.collection = mt.Coll
+		u.Collection = mt.Coll
 		mt.AddMockResponses(mtest.CreateWriteErrorsResponse(mtest.WriteError{
 			Message: constants.FindUserByEmail,
 		}))
@@ -95,7 +95,7 @@ func TestUserRepositoryImpl_FindByEmail_NotFound(t *testing.T) {
 func TestUserRepositoryImpl_FindById_Success(t *testing.T) {
 	mt, u := createUserMocks(t)
 	mt.Run("FindById_User_Success", func(mt *mtest.T) {
-		u.collection = mt.Coll
+		u.Collection = mt.Coll
 		mt.AddMockResponses(mtest.CreateCursorResponse(1, "foo.bar", mtest.FirstBatch, bson.D{
 			{Key: "_id", Value: user.ID},
 			{Key: "email", Value: user.Email},
@@ -121,7 +121,7 @@ func TestUserRepositoryImpl_FindById_NotConnection(t *testing.T) {
 func TestUserRepositoryImpl_FindById_NotFound(t *testing.T) {
 	mt, u := createUserMocks(t)
 	mt.Run("FindById_User_NotFound", func(mt *mtest.T) {
-		u.collection = mt.Coll
+		u.Collection = mt.Coll
 		mt.AddMockResponses(mtest.CreateWriteErrorsResponse(mtest.WriteError{
 			Message: constants.FindUserById,
 		}))
@@ -134,7 +134,7 @@ func TestUserRepositoryImpl_FindById_NotFound(t *testing.T) {
 func TestUserRepositoryImpl_Create_Success(t *testing.T) {
 	mt, u := createUserMocks(t)
 	mt.Run("Create_User_Success", func(mt *mtest.T) {
-		u.collection = mt.Coll
+		u.Collection = mt.Coll
 		mt.AddMockResponses(mtest.CreateCursorResponse(1, "foo.bar", mtest.FirstBatch, bson.D{
 			{Key: "InsertedID", Value: primitive.NewObjectID()},
 		}))
@@ -155,7 +155,7 @@ func TestUserRepositoryImpl_Create_NotConnection(t *testing.T) {
 func TestUserRepositoryImpl_Create_Error(t *testing.T) {
 	mt, u := createUserMocks(t)
 	mt.Run("Create_User_ErrorCreate", func(mt *mtest.T) {
-		u.collection = mt.Coll
+		u.Collection = mt.Coll
 		mt.AddMockResponses(mtest.CreateWriteErrorsResponse(mtest.WriteError{
 			Message: constants.InsertUser,
 		}))
@@ -168,7 +168,7 @@ func TestUserRepositoryImpl_Create_Error(t *testing.T) {
 func TestUserRepositoryImpl_FindAll_Success(t *testing.T) {
 	mt, u := createUserMocks(t)
 	mt.Run("FindAll_User_Success", func(mt *mtest.T) {
-		u.collection = mt.Coll
+		u.Collection = mt.Coll
 		user2 := domain.User{
 			ID:       primitive.NewObjectID(),
 			Email:    "john2.doe@test.com",
@@ -213,7 +213,7 @@ func TestUserRepositoryImpl_FindAll_NotConnect(t *testing.T) {
 func TestUserRepositoryImpl_Update_Success(t *testing.T) {
 	mt, u := createUserMocks(t)
 	mt.Run("Update_User_Success", func(mt *mtest.T) {
-		u.collection = mt.Coll
+		u.Collection = mt.Coll
 		mt.AddMockResponses(mtest.CreateCursorResponse(1, "foo.bar", mtest.FirstBatch, bson.D{
 			{Key: "MatchedCount", Value: 0},
 			{Key: "ModifiedCount", Value: 1},
@@ -237,7 +237,7 @@ func TestUserRepositoryImpl_Update_NotConnection(t *testing.T) {
 func TestUserRepositoryImpl_Update_Error(t *testing.T) {
 	mt, u := createUserMocks(t)
 	mt.Run("Update_User_Error", func(mt *mtest.T) {
-		u.collection = mt.Coll
+		u.Collection = mt.Coll
 		mt.AddMockResponses(mtest.CreateWriteErrorsResponse(mtest.WriteError{
 			Message: constants.UpdateUser,
 		}))

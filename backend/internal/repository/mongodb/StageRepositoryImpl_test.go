@@ -20,7 +20,7 @@ var stage = domain.Stage{
 func TestStageRepositoryImpl_Create_Success(t *testing.T) {
 	mt, s := createStageMocks(t)
 	mt.Run("Create_Stage_Success", func(mt *mtest.T) {
-		s.collection = mt.Coll
+		s.Collection = mt.Coll
 		mt.AddMockResponses(mtest.CreateCursorResponse(1, "foo.bar", mtest.FirstBatch, bson.D{
 			{Key: "InsertedID", Value: primitive.NewObjectID()},
 		}))
@@ -41,7 +41,7 @@ func TestStageRepositoryImpl_Create_NotConnection(t *testing.T) {
 func TestStageRepositoryImpl_Create_Error(t *testing.T) {
 	mt, s := createStageMocks(t)
 	mt.Run("Create_Stage_ErrorCreate", func(mt *mtest.T) {
-		s.collection = mt.Coll
+		s.Collection = mt.Coll
 		mt.AddMockResponses(mtest.CreateWriteErrorsResponse(mtest.WriteError{
 			Message: constants.InsertStage,
 		}))
@@ -54,7 +54,7 @@ func TestStageRepositoryImpl_Create_Error(t *testing.T) {
 func TestStageRepositoryImpl_Delete_Success(t *testing.T) {
 	mt, s := createStageMocks(t)
 	mt.Run("Delete_Stage_Success", func(mt *mtest.T) {
-		s.collection = mt.Coll
+		s.Collection = mt.Coll
 		mt.AddMockResponses(mtest.CreateCursorResponse(1, "foo.bar", mtest.FirstBatch, bson.D{
 			{Key: "DeletedCount", Value: 1},
 		}))
@@ -75,7 +75,7 @@ func TestStageRepositoryImpl_Delete_NotConnection(t *testing.T) {
 func TestStageRepositoryImpl_Delete_NotFound(t *testing.T) {
 	mt, s := createStageMocks(t)
 	mt.Run("Delete_Stage_NotFound", func(mt *mtest.T) {
-		s.collection = mt.Coll
+		s.Collection = mt.Coll
 		mt.AddMockResponses(mtest.CreateWriteErrorsResponse(mtest.WriteError{
 			Message: constants.DeleteStage,
 		}))
@@ -88,7 +88,7 @@ func TestStageRepositoryImpl_Delete_NotFound(t *testing.T) {
 func TestStageRepositoryImpl_FindById_Success(t *testing.T) {
 	mt, s := createStageMocks(t)
 	mt.Run("FindById_Stage_Success", func(mt *mtest.T) {
-		s.collection = mt.Coll
+		s.Collection = mt.Coll
 		mt.AddMockResponses(mtest.CreateCursorResponse(1, "foo.bar", mtest.FirstBatch, bson.D{
 			{Key: "_id", Value: stage.ID},
 			{Key: "name", Value: stage.Name},
@@ -112,7 +112,7 @@ func TestStageRepositoryImpl_FindById_NotConnection(t *testing.T) {
 func TestStageRepositoryImpl_FindById_NotFound(t *testing.T) {
 	mt, s := createStageMocks(t)
 	mt.Run("FindById_Stage_NotFound", func(mt *mtest.T) {
-		s.collection = mt.Coll
+		s.Collection = mt.Coll
 		mt.AddMockResponses(mtest.CreateWriteErrorsResponse(mtest.WriteError{
 			Message: constants.FindStageById,
 		}))
@@ -125,7 +125,7 @@ func TestStageRepositoryImpl_FindById_NotFound(t *testing.T) {
 func TestStageRepositoryImpl_FindByName_Success(t *testing.T) {
 	mt, s := createStageMocks(t)
 	mt.Run("FindByName_Stage_Success", func(mt *mtest.T) {
-		s.collection = mt.Coll
+		s.Collection = mt.Coll
 		mt.AddMockResponses(mtest.CreateCursorResponse(1, "foo.bar", mtest.FirstBatch, bson.D{
 			{Key: "_id", Value: stage.ID},
 			{Key: "name", Value: stage.Name},
@@ -149,7 +149,7 @@ func TestStageRepositoryImpl_FindByName_NotConnection(t *testing.T) {
 func TestStageRepositoryImpl_FindByName_NotFound(t *testing.T) {
 	mt, s := createStageMocks(t)
 	mt.Run("FindByName_Stage_NotFound", func(mt *mtest.T) {
-		s.collection = mt.Coll
+		s.Collection = mt.Coll
 		mt.AddMockResponses(mtest.CreateWriteErrorsResponse(mtest.WriteError{
 			Message: constants.FindStageByName,
 		}))
@@ -162,7 +162,7 @@ func TestStageRepositoryImpl_FindByName_NotFound(t *testing.T) {
 func TestStageRepositoryImpl_FindAll_Success(t *testing.T) {
 	mt, s := createStageMocks(t)
 	mt.Run("FindAll_Stage_Success", func(mt *mtest.T) {
-		s.collection = mt.Coll
+		s.Collection = mt.Coll
 		stage2 := domain.Stage{
 			ID:     primitive.NewObjectID(),
 			Name:   "name2",
@@ -201,7 +201,7 @@ func TestStageRepositoryImpl_FindAll_NotConnect(t *testing.T) {
 func TestStageRepositoryImpl_Update_Success(t *testing.T) {
 	mt, s := createStageMocks(t)
 	mt.Run("Update_Stage_Success", func(mt *mtest.T) {
-		s.collection = mt.Coll
+		s.Collection = mt.Coll
 		mt.AddMockResponses(mtest.CreateCursorResponse(1, "foo.bar", mtest.FirstBatch, bson.D{
 			{Key: "MatchedCount", Value: 0},
 			{Key: "ModifiedCount", Value: 1},
@@ -225,7 +225,7 @@ func TestStageRepositoryImpl_Update_NotConnection(t *testing.T) {
 func TestStageRepositoryImpl_Update_Error(t *testing.T) {
 	mt, s := createStageMocks(t)
 	mt.Run("Update_Stage_Error", func(mt *mtest.T) {
-		s.collection = mt.Coll
+		s.Collection = mt.Coll
 		mt.AddMockResponses(mtest.CreateWriteErrorsResponse(mtest.WriteError{
 			Message: constants.UpdateStage,
 		}))

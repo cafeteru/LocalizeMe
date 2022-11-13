@@ -17,28 +17,28 @@ type Repository interface {
 
 type AbstractRepository struct {
 	client     *mongo.Client
-	collection *mongo.Collection
+	Collection *mongo.Collection
 }
 
 func (a *AbstractRepository) GetCollection(name string) (*mongo.Collection, error) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
-	if a.collection == nil {
+	if a.Collection == nil {
 		tools.LoadEnv()
-		err := a.createConnection()
+		err := a.CreateConnection()
 		if err != nil {
 			return nil, tools.ErrorLogDetails(err, constants.CreateConnection, tools.GetCurrentFuncName())
 		}
 		var databaseName = os.Getenv("DATABASE_NAME")
 		database := a.client.Database(databaseName)
-		a.collection = database.Collection(name)
+		a.Collection = database.Collection(name)
 		log.Printf("%s: end", tools.GetCurrentFuncName())
 	}
-	return a.collection, nil
+	return a.Collection, nil
 }
 
-func (a *AbstractRepository) createConnection() error {
+func (a *AbstractRepository) CreateConnection() error {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
-	client, err := a.connectDatabase()
+	client, err := a.ConnectDatabase()
 	if err != nil {
 		return err
 	}
@@ -47,7 +47,7 @@ func (a *AbstractRepository) createConnection() error {
 	return nil
 }
 
-func (a *AbstractRepository) connectDatabase() (*mongo.Client, error) {
+func (a *AbstractRepository) ConnectDatabase() (*mongo.Client, error) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
 	uri := os.Getenv("ATLAS_URI")
 	clientOptions := options.Client().ApplyURI(uri)

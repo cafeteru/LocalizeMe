@@ -355,6 +355,9 @@ func TestUserServiceImpl_FindAll_Success(t *testing.T) {
 	result, err := service.FindAll()
 	assert.Nil(t, err)
 	assert.Equal(t, len(*result), len(users))
+	for _, user := range *result {
+		assert.Equal(t, user.Password, "")
+	}
 }
 
 func TestUserServiceImpl_FindAll_Error(t *testing.T) {
