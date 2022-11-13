@@ -39,16 +39,16 @@ func (g *GenericRepository[T]) Create(t T) (*mongo.InsertOneResult, error) {
 	return result, nil
 }
 
-func (u *UserRepositoryImpl) Delete(id primitive.ObjectID) (*mongo.DeleteResult, error) {
+func (g *GenericRepository[T]) Delete(id primitive.ObjectID) (*mongo.DeleteResult, error) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
-	collection, err := u.getCollection()
+	collection, err := g.getCollection()
 	if err != nil {
 		return nil, tools.ErrorLogDetails(err, constants.CreateConnection, tools.GetCurrentFuncName())
 	}
 	filter := bson.M{"_id": bson.M{"$eq": id}}
 	result, err := collection.DeleteOne(context.TODO(), filter)
 	if err != nil {
-		return nil, tools.ErrorLogDetails(err, u.Config.deleteErrorMessage, tools.GetCurrentFuncName())
+		return nil, tools.ErrorLogDetails(err, g.Config.deleteErrorMessage, tools.GetCurrentFuncName())
 	}
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return result, nil
@@ -75,7 +75,6 @@ func (g *GenericRepository[T]) FindAll() (*[]T, error) {
 	if err = cursor.Close(context.TODO()); err != nil {
 		return nil, tools.ErrorLogDetails(err, constants.ReadDatabase, tools.GetCurrentFuncName())
 	}
-
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return &elements, nil
 }
