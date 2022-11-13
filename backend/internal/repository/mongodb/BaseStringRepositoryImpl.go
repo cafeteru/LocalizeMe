@@ -8,21 +8,22 @@ import (
 	"log"
 	"uniovi-localizeme/constants"
 	"uniovi-localizeme/internal/core/domain"
+	"uniovi-localizeme/internal/repository/mongodb/generic"
 	"uniovi-localizeme/tools"
 )
 
 type BaseStringRepositoryImpl struct {
-	GenericRepository[domain.BaseString]
+	generic.Repository[domain.BaseString]
 }
 
 func CreateBaseStringRepository() *BaseStringRepositoryImpl {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
 	repository := &BaseStringRepositoryImpl{}
-	repository.GenericRepository.Config = ConfigRepository{
-		name:                 constants.BaseStrings,
-		createErrorMessage:   constants.InsertBaseString,
-		findByIdErrorMessage: constants.FindBaseStringById,
-		deleteErrorMessage:   constants.DeleteBaseString,
+	repository.Repository.Config = generic.ConfigRepository{
+		Name:                 constants.BaseStrings,
+		CreateErrorMessage:   constants.InsertBaseString,
+		FindByIdErrorMessage: constants.FindBaseStringById,
+		DeleteErrorMessage:   constants.DeleteBaseString,
 	}
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return repository
@@ -30,7 +31,7 @@ func CreateBaseStringRepository() *BaseStringRepositoryImpl {
 
 func (b *BaseStringRepositoryImpl) FindByGroup(id primitive.ObjectID) (*[]domain.BaseString, error) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
-	collection, err := b.getCollection()
+	collection, err := b.GetCollection()
 	if err != nil {
 		return nil, tools.ErrorLogDetails(err, constants.CreateConnection, tools.GetCurrentFuncName())
 	}
@@ -57,7 +58,7 @@ func (b *BaseStringRepositoryImpl) FindByGroup(id primitive.ObjectID) (*[]domain
 
 func (b *BaseStringRepositoryImpl) FindByLanguage(id primitive.ObjectID) (*[]domain.BaseString, error) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
-	collection, err := b.getCollection()
+	collection, err := b.GetCollection()
 	if err != nil {
 		return nil, tools.ErrorLogDetails(err, constants.CreateConnection, tools.GetCurrentFuncName())
 	}
@@ -84,7 +85,7 @@ func (b *BaseStringRepositoryImpl) FindByLanguage(id primitive.ObjectID) (*[]dom
 
 func (b *BaseStringRepositoryImpl) FindByPermissions(id primitive.ObjectID) (*[]domain.BaseString, error) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
-	collection, err := b.getCollection()
+	collection, err := b.GetCollection()
 	if err != nil {
 		return nil, tools.ErrorLogDetails(err, constants.CreateConnection, tools.GetCurrentFuncName())
 	}
@@ -119,7 +120,7 @@ func (b *BaseStringRepositoryImpl) FindByPermissions(id primitive.ObjectID) (*[]
 
 func (b *BaseStringRepositoryImpl) FindByIdentifier(identifier string) (*domain.BaseString, error) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
-	collection, err := b.getCollection()
+	collection, err := b.GetCollection()
 	if err != nil {
 		return nil, tools.ErrorLogDetails(err, constants.CreateConnection, tools.GetCurrentFuncName())
 	}
@@ -136,7 +137,7 @@ func (b *BaseStringRepositoryImpl) FindByIdentifier(identifier string) (*domain.
 
 func (b *BaseStringRepositoryImpl) FindByIdentifierAndLanguageAndStage(identifier string, isoCode string, stageName string) (*domain.BaseString, error) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
-	collection, err := b.getCollection()
+	collection, err := b.GetCollection()
 	if err != nil {
 		return nil, tools.ErrorLogDetails(err, constants.CreateConnection, tools.GetCurrentFuncName())
 	}
@@ -144,7 +145,7 @@ func (b *BaseStringRepositoryImpl) FindByIdentifierAndLanguageAndStage(identifie
 		"$and": []bson.M{
 			{"identifier": identifier},
 			{"translations.language.isoCode": isoCode},
-			{"translations.stage.name": stageName},
+			{"translations.stage.Name": stageName},
 		},
 	}
 	result := collection.FindOne(context.TODO(), filter)
@@ -158,7 +159,7 @@ func (b *BaseStringRepositoryImpl) FindByIdentifierAndLanguageAndStage(identifie
 
 func (b *BaseStringRepositoryImpl) Update(baseString domain.BaseString) (*mongo.UpdateResult, error) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
-	collection, err := b.getCollection()
+	collection, err := b.GetCollection()
 	if err != nil {
 		return nil, tools.ErrorLogDetails(err, constants.CreateConnection, tools.GetCurrentFuncName())
 	}

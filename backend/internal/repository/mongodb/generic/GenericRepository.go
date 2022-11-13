@@ -1,4 +1,4 @@
-package mongodb
+package generic
 
 import (
 	"context"
@@ -13,50 +13,50 @@ import (
 )
 
 type ConfigRepository struct {
-	name                 string
-	createErrorMessage   string
-	findByIdErrorMessage string
-	deleteErrorMessage   string
+	Name                 string
+	CreateErrorMessage   string
+	FindByIdErrorMessage string
+	DeleteErrorMessage   string
 }
 
-type GenericRepository[T any] struct {
+type Repository[T any] struct {
 	client     *mongo.Client
 	Collection *mongo.Collection
 	Config     ConfigRepository
 }
 
-func (g *GenericRepository[T]) Create(t T) (*mongo.InsertOneResult, error) {
+func (g *Repository[T]) Create(t T) (*mongo.InsertOneResult, error) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
-	collection, err := g.getCollection()
+	collection, err := g.GetCollection()
 	if err != nil {
 		return nil, tools.ErrorLogDetails(err, constants.CreateConnection, tools.GetCurrentFuncName())
 	}
 	result, err := collection.InsertOne(context.TODO(), t)
 	if err != nil {
-		return nil, tools.ErrorLogDetails(err, g.Config.createErrorMessage, tools.GetCurrentFuncName())
+		return nil, tools.ErrorLogDetails(err, g.Config.CreateErrorMessage, tools.GetCurrentFuncName())
 	}
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return result, nil
 }
 
-func (g *GenericRepository[T]) Delete(id primitive.ObjectID) (*mongo.DeleteResult, error) {
+func (g *Repository[T]) Delete(id primitive.ObjectID) (*mongo.DeleteResult, error) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
-	collection, err := g.getCollection()
+	collection, err := g.GetCollection()
 	if err != nil {
 		return nil, tools.ErrorLogDetails(err, constants.CreateConnection, tools.GetCurrentFuncName())
 	}
 	filter := bson.M{"_id": bson.M{"$eq": id}}
 	result, err := collection.DeleteOne(context.TODO(), filter)
 	if err != nil {
-		return nil, tools.ErrorLogDetails(err, g.Config.deleteErrorMessage, tools.GetCurrentFuncName())
+		return nil, tools.ErrorLogDetails(err, g.Config.DeleteErrorMessage, tools.GetCurrentFuncName())
 	}
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return result, nil
 }
 
-func (g *GenericRepository[T]) FindAll() (*[]T, error) {
+func (g *Repository[T]) FindAll() (*[]T, error) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
-	collection, err := g.getCollection()
+	collection, err := g.GetCollection()
 	if err != nil {
 		return nil, tools.ErrorLogDetails(err, constants.CreateConnection, tools.GetCurrentFuncName())
 	}
@@ -79,9 +79,9 @@ func (g *GenericRepository[T]) FindAll() (*[]T, error) {
 	return &elements, nil
 }
 
-func (g *GenericRepository[T]) FindById(id primitive.ObjectID) (*T, error) {
+func (g *Repository[T]) FindById(id primitive.ObjectID) (*T, error) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
-	collection, err := g.getCollection()
+	collection, err := g.GetCollection()
 	if err != nil {
 		return nil, tools.ErrorLogDetails(err, constants.CreateConnection, tools.GetCurrentFuncName())
 	}
@@ -89,13 +89,13 @@ func (g *GenericRepository[T]) FindById(id primitive.ObjectID) (*T, error) {
 	result := collection.FindOne(context.TODO(), filter)
 	var t T
 	if err = result.Decode(&t); err != nil {
-		return nil, tools.ErrorLogDetails(err, g.Config.findByIdErrorMessage, tools.GetCurrentFuncName())
+		return nil, tools.ErrorLogDetails(err, g.Config.FindByIdErrorMessage, tools.GetCurrentFuncName())
 	}
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return &t, nil
 }
 
-func (g *GenericRepository[T]) getCollection() (*mongo.Collection, error) {
+func (g *Repository[T]) GetCollection() (*mongo.Collection, error) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
 	if g.Collection == nil {
 		tools.LoadEnv()
@@ -105,13 +105,13 @@ func (g *GenericRepository[T]) getCollection() (*mongo.Collection, error) {
 		}
 		var databaseName = os.Getenv("DATABASE_NAME")
 		database := g.client.Database(databaseName)
-		g.Collection = database.Collection(g.Config.name)
+		g.Collection = database.Collection(g.Config.Name)
 		log.Printf("%s: end", tools.GetCurrentFuncName())
 	}
 	return g.Collection, nil
 }
 
-func (g *GenericRepository[T]) createConnection() error {
+func (g *Repository[T]) createConnection() error {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
 	client, err := g.connectDatabase()
 	if err != nil {
@@ -122,7 +122,7 @@ func (g *GenericRepository[T]) createConnection() error {
 	return nil
 }
 
-func (g *GenericRepository[T]) connectDatabase() (*mongo.Client, error) {
+func (g *Repository[T]) connectDatabase() (*mongo.Client, error) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
 	uri := os.Getenv("ATLAS_URI")
 	clientOptions := options.Client().ApplyURI(uri)

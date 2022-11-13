@@ -94,14 +94,14 @@ func TestGroupRepositoryImpl_FindAll_Success(t *testing.T) {
 		}
 		first := mtest.CreateCursorResponse(1, "foo.bar", mtest.FirstBatch, bson.D{
 			{Key: "_id", Value: group.ID},
-			{Key: "name", Value: group.Name},
+			{Key: "Name", Value: group.Name},
 			{Key: "owner", Value: group.Owner},
 			{Key: "permissions", Value: group.Permissions},
 			{Key: "active", Value: group.Active},
 		})
 		second := mtest.CreateCursorResponse(1, "foo.bar", mtest.NextBatch, bson.D{
 			{Key: "_id", Value: group2.ID},
-			{Key: "name", Value: group2.Name},
+			{Key: "Name", Value: group2.Name},
 			{Key: "owner", Value: group2.Owner},
 			{Key: "permissions", Value: group2.Permissions},
 			{Key: "active", Value: group2.Active},
@@ -132,7 +132,7 @@ func TestGroupRepositoryImpl_FindByName_Success(t *testing.T) {
 		l.Collection = mt.Coll
 		mt.AddMockResponses(mtest.CreateCursorResponse(1, "foo.bar", mtest.FirstBatch, bson.D{
 			{Key: "_id", Value: group.ID},
-			{Key: "name", Value: group.Name},
+			{Key: "Name", Value: group.Name},
 			{Key: "owner", Value: group.Owner},
 			{Key: "permissions", Value: group.Permissions},
 			{Key: "active", Value: group.Active},
@@ -146,7 +146,7 @@ func TestGroupRepositoryImpl_FindByName_Success(t *testing.T) {
 func TestGroupRepositoryImpl_FindByName_NotConnection(t *testing.T) {
 	mt, l := createGroupMocks(t)
 	mt.Run("FindByName_Group_NotConnection", func(mt *mtest.T) {
-		_, err := l.FindByName("name")
+		_, err := l.FindByName("Name")
 		assert.NotNil(t, err)
 		assert.Equal(t, err, errors.New(constants.CreateConnection))
 	})

@@ -7,21 +7,22 @@ import (
 	"log"
 	"uniovi-localizeme/constants"
 	"uniovi-localizeme/internal/core/domain"
+	"uniovi-localizeme/internal/repository/mongodb/generic"
 	"uniovi-localizeme/tools"
 )
 
 type UserRepositoryImpl struct {
-	GenericRepository[domain.User]
+	generic.Repository[domain.User]
 }
 
 func CreateUserRepository() *UserRepositoryImpl {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
 	repository := &UserRepositoryImpl{}
-	repository.GenericRepository.Config = ConfigRepository{
-		name:                 constants.Users,
-		createErrorMessage:   constants.InsertUser,
-		findByIdErrorMessage: constants.FindUserById,
-		deleteErrorMessage:   constants.DeleteUser,
+	repository.Repository.Config = generic.ConfigRepository{
+		Name:                 constants.Users,
+		CreateErrorMessage:   constants.InsertUser,
+		FindByIdErrorMessage: constants.FindUserById,
+		DeleteErrorMessage:   constants.DeleteUser,
 	}
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return repository
@@ -29,7 +30,7 @@ func CreateUserRepository() *UserRepositoryImpl {
 
 func (u *UserRepositoryImpl) FindByEmail(email string) (*domain.User, error) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
-	collection, err := u.getCollection()
+	collection, err := u.GetCollection()
 	if err != nil {
 		return nil, tools.ErrorLogDetails(err, constants.CreateConnection, tools.GetCurrentFuncName())
 	}
@@ -46,7 +47,7 @@ func (u *UserRepositoryImpl) FindByEmail(email string) (*domain.User, error) {
 
 func (u *UserRepositoryImpl) Update(user domain.User) (*mongo.UpdateResult, error) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
-	collection, err := u.getCollection()
+	collection, err := u.GetCollection()
 	if err != nil {
 		return nil, tools.ErrorLogDetails(err, constants.CreateConnection, tools.GetCurrentFuncName())
 	}

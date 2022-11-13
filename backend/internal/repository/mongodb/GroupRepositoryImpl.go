@@ -8,21 +8,22 @@ import (
 	"log"
 	"uniovi-localizeme/constants"
 	"uniovi-localizeme/internal/core/domain"
+	"uniovi-localizeme/internal/repository/mongodb/generic"
 	"uniovi-localizeme/tools"
 )
 
 type GroupRepositoryImpl struct {
-	GenericRepository[domain.Group]
+	generic.Repository[domain.Group]
 }
 
 func CreateGroupRepository() *GroupRepositoryImpl {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
 	repository := &GroupRepositoryImpl{}
-	repository.GenericRepository.Config = ConfigRepository{
-		name:                 constants.Groups,
-		createErrorMessage:   constants.InsertGroup,
-		findByIdErrorMessage: constants.FindGroupById,
-		deleteErrorMessage:   constants.DeleteGroup,
+	repository.Repository.Config = generic.ConfigRepository{
+		Name:                 constants.Groups,
+		CreateErrorMessage:   constants.InsertGroup,
+		FindByIdErrorMessage: constants.FindGroupById,
+		DeleteErrorMessage:   constants.DeleteGroup,
 	}
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return repository
@@ -30,7 +31,7 @@ func CreateGroupRepository() *GroupRepositoryImpl {
 
 func (g *GroupRepositoryImpl) FindByPermissions(id primitive.ObjectID) (*[]domain.Group, error) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
-	collection, err := g.getCollection()
+	collection, err := g.GetCollection()
 	if err != nil {
 		return nil, tools.ErrorLogDetails(err, constants.CreateConnection, tools.GetCurrentFuncName())
 	}
@@ -63,11 +64,11 @@ func (g *GroupRepositoryImpl) FindByPermissions(id primitive.ObjectID) (*[]domai
 
 func (g *GroupRepositoryImpl) FindByName(name string) (*domain.Group, error) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
-	collection, err := g.getCollection()
+	collection, err := g.GetCollection()
 	if err != nil {
 		return nil, tools.ErrorLogDetails(err, constants.CreateConnection, tools.GetCurrentFuncName())
 	}
-	filter := bson.M{"name": bson.M{"$eq": name}}
+	filter := bson.M{"Name": bson.M{"$eq": name}}
 	result := collection.FindOne(context.TODO(), filter)
 	var group domain.Group
 	if err = result.Decode(&group); err != nil {
@@ -80,7 +81,7 @@ func (g *GroupRepositoryImpl) FindByName(name string) (*domain.Group, error) {
 
 func (g *GroupRepositoryImpl) FindCanWrite(id primitive.ObjectID) (*[]domain.Group, error) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
-	collection, err := g.getCollection()
+	collection, err := g.GetCollection()
 	if err != nil {
 		return nil, tools.ErrorLogDetails(err, constants.CreateConnection, tools.GetCurrentFuncName())
 	}
@@ -116,7 +117,7 @@ func (g *GroupRepositoryImpl) FindCanWrite(id primitive.ObjectID) (*[]domain.Gro
 
 func (g *GroupRepositoryImpl) Update(group domain.Group) (*mongo.UpdateResult, error) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
-	collection, err := g.getCollection()
+	collection, err := g.GetCollection()
 	if err != nil {
 		return nil, tools.ErrorLogDetails(err, constants.CreateConnection, tools.GetCurrentFuncName())
 	}
@@ -124,7 +125,7 @@ func (g *GroupRepositoryImpl) Update(group domain.Group) (*mongo.UpdateResult, e
 	update := bson.M{
 		"$set": bson.M{
 			"owner":       group.Owner,
-			"name":        group.Name,
+			"Name":        group.Name,
 			"active":      group.Active,
 			"permissions": group.Permissions,
 			"Public":      group.Public,

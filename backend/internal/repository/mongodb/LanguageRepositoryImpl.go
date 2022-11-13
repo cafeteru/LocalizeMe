@@ -7,21 +7,22 @@ import (
 	"log"
 	"uniovi-localizeme/constants"
 	"uniovi-localizeme/internal/core/domain"
+	"uniovi-localizeme/internal/repository/mongodb/generic"
 	"uniovi-localizeme/tools"
 )
 
 type LanguageRepositoryImpl struct {
-	GenericRepository[domain.Language]
+	generic.Repository[domain.Language]
 }
 
 func CreateLanguageRepository() *LanguageRepositoryImpl {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
 	repository := &LanguageRepositoryImpl{}
-	repository.GenericRepository.Config = ConfigRepository{
-		name:                 constants.Languages,
-		createErrorMessage:   constants.InsertLanguage,
-		findByIdErrorMessage: constants.FindLanguageById,
-		deleteErrorMessage:   constants.DeleteLanguage,
+	repository.Repository.Config = generic.ConfigRepository{
+		Name:                 constants.Languages,
+		CreateErrorMessage:   constants.InsertLanguage,
+		FindByIdErrorMessage: constants.FindLanguageById,
+		DeleteErrorMessage:   constants.DeleteLanguage,
 	}
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return repository
@@ -29,7 +30,7 @@ func CreateLanguageRepository() *LanguageRepositoryImpl {
 
 func (l *LanguageRepositoryImpl) FindByIsoCode(isoCode string) (*domain.Language, error) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
-	collection, err := l.getCollection()
+	collection, err := l.GetCollection()
 	if err != nil {
 		return nil, tools.ErrorLogDetails(err, constants.CreateConnection, tools.GetCurrentFuncName())
 	}
@@ -44,7 +45,7 @@ func (l *LanguageRepositoryImpl) FindByIsoCode(isoCode string) (*domain.Language
 
 func (l *LanguageRepositoryImpl) Update(language domain.Language) (*mongo.UpdateResult, error) {
 	log.Printf("%s: start", tools.GetCurrentFuncName())
-	collection, err := l.getCollection()
+	collection, err := l.GetCollection()
 	if err != nil {
 		return nil, tools.ErrorLogDetails(err, constants.CreateConnection, tools.GetCurrentFuncName())
 	}
