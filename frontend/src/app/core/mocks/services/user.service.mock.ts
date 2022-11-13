@@ -1,5 +1,5 @@
 import { Observable, of } from 'rxjs';
-import { User } from '../../../types/user';
+import { createMockUser, User } from '../../../types/user';
 
 export class UserServiceMock {
     delete(user: User): Observable<boolean> {
@@ -19,13 +19,10 @@ export class UserServiceMock {
     }
 
     login(user: User): Observable<User> {
-        return of({
-            id: '',
-            admin: false,
-            active: true,
-            email: user.email,
-            password: user.password,
-        });
+        return of(user);
+    }
+
+    logout(): void {
     }
 
     update(user: User): Observable<User> {
