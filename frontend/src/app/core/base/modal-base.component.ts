@@ -9,13 +9,9 @@ import { NzMessageService } from 'ng-zorro-antd/message';
  * Basic component that has the common properties
  */
 export abstract class ModalBaseComponent extends BaseComponent {
-
-    protected constructor(
-      protected nzMessageService: NzMessageService,
-    ) {
+    protected constructor(protected nzMessageService: NzMessageService) {
         super();
     }
-
 
     createMessage(type: string, message: string): void {
         this.nzMessageService.create(type, message);

@@ -26,7 +26,7 @@ describe('LoginComponent', () => {
             declarations: [LoginComponent],
             imports: [HttpClientTestingModule, CoreModule, SharedModule, BrowserAnimationsModule],
             providers: [
-                provideMockStore({initialState: createMockAppState()}),
+                provideMockStore({ initialState: createMockAppState() }),
                 {
                     provide: MatDialogRef,
                     useValue: dialogRefMock,
@@ -35,7 +35,7 @@ describe('LoginComponent', () => {
                     provide: MatDialog,
                     useValue: dialogMock,
                 },
-                {provide: UserService, useValue: userServiceMock},
+                { provide: UserService, useValue: userServiceMock },
             ],
         }).compileComponents();
     });
@@ -66,9 +66,7 @@ describe('LoginComponent', () => {
 
     it('check login with error', () => {
         const spy = spyOn(dialogRefMock, 'close');
-        const spyService = spyOn(userServiceMock, 'login').and.returnValue(
-          throwError(() => new Error(`Error`))
-        );
+        const spyService = spyOn(userServiceMock, 'login').and.returnValue(throwError(() => new Error(`Error`)));
         const spyLogout = spyOn(userServiceMock, 'logout');
         component.login();
         expect(spyService).toHaveBeenCalled();
@@ -78,9 +76,7 @@ describe('LoginComponent', () => {
 
     it('check login with active user', () => {
         const spy = spyOn(dialogRefMock, 'close');
-        const spyService = spyOn(userServiceMock, 'login').and.returnValue(
-          of(createMockUser())
-        );
+        const spyService = spyOn(userServiceMock, 'login').and.returnValue(of(createMockUser()));
         const spyLogout = spyOn(userServiceMock, 'logout');
         component.login();
         expect(spyService).toHaveBeenCalled();
@@ -90,10 +86,8 @@ describe('LoginComponent', () => {
 
     it('check login with no active user', () => {
         const spy = spyOn(dialogRefMock, 'close');
-        const user: User = {...createMockUser(), active: false};
-        const spyService = spyOn(userServiceMock, 'login').and.returnValue(
-          of(user)
-        );
+        const user: User = { ...createMockUser(), active: false };
+        const spyService = spyOn(userServiceMock, 'login').and.returnValue(of(user));
         const spyLogout = spyOn(userServiceMock, 'logout');
         component.login();
         expect(spyService).toHaveBeenCalled();

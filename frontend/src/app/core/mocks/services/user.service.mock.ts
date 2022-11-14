@@ -22,8 +22,7 @@ export class UserServiceMock {
         return of(user);
     }
 
-    logout(): void {
-    }
+    logout(): void {}
 
     update(user: User): Observable<User> {
         return of(user);
