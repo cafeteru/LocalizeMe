@@ -1,10 +1,10 @@
 package service
 
 import (
-	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain"
-	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain/dto"
-	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain/xmlDto"
 	"go.mongodb.org/mongo-driver/bson/primitive"
+	"uniovi-localizeme/internal/core/domain"
+	"uniovi-localizeme/internal/core/domain/dto"
+	"uniovi-localizeme/internal/core/domain/xmlDto"
 )
 
 type BaseStringService interface {

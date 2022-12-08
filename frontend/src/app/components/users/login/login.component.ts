@@ -1,28 +1,28 @@
 import { Component, OnInit } from '@angular/core';
-import { BaseComponent } from '../../../core/base/base.component';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { UserService } from '../../../core/services/user.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { RegisterComponent } from '../register/register.component';
 import { UserDto } from '../../../types/user';
+import { ModalBaseComponent } from '../../../core/base/modal-base.component';
 
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.scss'],
 })
-export class LoginComponent extends BaseComponent implements OnInit {
+export class LoginComponent extends ModalBaseComponent implements OnInit {
     formGroup = new UntypedFormGroup({});
     isLoading = false;
 
     constructor(
         private matDialogRef: MatDialogRef<LoginComponent>,
-        private nzMessageService: NzMessageService,
+        protected nzMessageService: NzMessageService,
         private userService: UserService,
         public matDialog: MatDialog
     ) {
-        super();
+        super(nzMessageService);
     }
 
     override ngOnInit() {
@@ -31,10 +31,6 @@ export class LoginComponent extends BaseComponent implements OnInit {
             email: new UntypedFormControl('', [Validators.required, Validators.email]),
             password: new UntypedFormControl('', Validators.required),
         });
-    }
-
-    createMessage(type: string, message: string): void {
-        this.nzMessageService.create(type, message);
     }
 
     login(): void {

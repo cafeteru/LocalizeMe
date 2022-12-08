@@ -1,9 +1,9 @@
 package impl
 
 import (
-	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/tools"
 	"golang.org/x/crypto/bcrypt"
 	"log"
+	"uniovi-localizeme/tools"
 )
 
 type EncryptPasswordImpl struct{}

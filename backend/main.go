@@ -2,11 +2,11 @@ package main
 
 import (
 	_ "github.com/joho/godotenv/autoload"
-	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/server"
-	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/tools"
 	"log"
 	"os"
 	"os/signal"
+	"uniovi-localizeme/internal/server"
+	"uniovi-localizeme/tools"
 )
 
 func main() {

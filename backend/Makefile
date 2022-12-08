@@ -20,7 +20,7 @@ init-project:
 	go install github.com/go-swagger/go-swagger/cmd/swagger@latest
 	go install github.com/golang/mock/mockgen@latest
 	go get github.com/jfeliu007/goplantuml/parser
-	go get github.com/jfeliu007/goplantuml/cmd/goplantuml
+	go install github.com/jfeliu007/goplantuml/cmd/goplantuml@latest
 	make install
 install:
 	go install ./...
@@ -35,7 +35,7 @@ pre-commit:
 	swagger generate spec -o swagger/swagger.json --scan-models
 	make uml -B
 test:
-	go test ./... -coverprofile=coverage.out
+	go test `go list ./... | grep -v backend/internal/repository/mongodb/generic` -coverprofile=coverage.out
 	gotestsum --junitfile ../report.xml --format testname
 uml:
 	goplantuml -show-aggregations internal/core/domain/ > assets/originalUmlDiagram.puml

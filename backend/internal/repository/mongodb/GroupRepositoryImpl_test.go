@@ -3,12 +3,12 @@ package mongodb
 import (
 	"errors"
 	"github.com/stretchr/testify/assert"
-	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/constants"
-	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo/integration/mtest"
 	"testing"
+	"uniovi-localizeme/constants"
+	"uniovi-localizeme/internal/core/domain"
 )
 
 var group domain.Group
@@ -16,7 +16,7 @@ var group domain.Group
 func TestGroupRepositoryImpl_Create_Success(t *testing.T) {
 	mt, l := createGroupMocks(t)
 	mt.Run("Create_Group_Success", func(mt *mtest.T) {
-		l.collection = mt.Coll
+		l.Collection = mt.Coll
 		mt.AddMockResponses(mtest.CreateCursorResponse(1, "foo.bar", mtest.FirstBatch, bson.D{
 			{Key: "InsertedID", Value: primitive.NewObjectID()},
 		}))
@@ -37,7 +37,7 @@ func TestGroupRepositoryImpl_Create_NotConnection(t *testing.T) {
 func TestGroupRepositoryImpl_Create_Error(t *testing.T) {
 	mt, l := createGroupMocks(t)
 	mt.Run("Create_Group_ErrorCreate", func(mt *mtest.T) {
-		l.collection = mt.Coll
+		l.Collection = mt.Coll
 		mt.AddMockResponses(mtest.CreateWriteErrorsResponse(mtest.WriteError{
 			Message: constants.InsertStage,
 		}))
@@ -50,7 +50,7 @@ func TestGroupRepositoryImpl_Create_Error(t *testing.T) {
 func TestGroupRepositoryImpl_Delete_Success(t *testing.T) {
 	mt, s := createGroupMocks(t)
 	mt.Run("Delete_Group_Success", func(mt *mtest.T) {
-		s.collection = mt.Coll
+		s.Collection = mt.Coll
 		mt.AddMockResponses(mtest.CreateCursorResponse(1, "foo.bar", mtest.FirstBatch, bson.D{
 			{Key: "DeletedCount", Value: 1},
 		}))
@@ -71,7 +71,7 @@ func TestGroupRepositoryImpl_Delete_NotConnection(t *testing.T) {
 func TestGroupRepositoryImpl_Delete_NotFound(t *testing.T) {
 	mt, s := createGroupMocks(t)
 	mt.Run("Delete_Group_NotFound", func(mt *mtest.T) {
-		s.collection = mt.Coll
+		s.Collection = mt.Coll
 		mt.AddMockResponses(mtest.CreateWriteErrorsResponse(mtest.WriteError{
 			Message: constants.DeleteGroup,
 		}))
@@ -84,7 +84,7 @@ func TestGroupRepositoryImpl_Delete_NotFound(t *testing.T) {
 func TestGroupRepositoryImpl_FindAll_Success(t *testing.T) {
 	mt, l := createGroupMocks(t)
 	mt.Run("FindAll_Group_Success", func(mt *mtest.T) {
-		l.collection = mt.Coll
+		l.Collection = mt.Coll
 		group2 := domain.Group{
 			ID:          primitive.ObjectID{},
 			Name:        "group2",
@@ -94,14 +94,14 @@ func TestGroupRepositoryImpl_FindAll_Success(t *testing.T) {
 		}
 		first := mtest.CreateCursorResponse(1, "foo.bar", mtest.FirstBatch, bson.D{
 			{Key: "_id", Value: group.ID},
-			{Key: "name", Value: group.Name},
+			{Key: "Name", Value: group.Name},
 			{Key: "owner", Value: group.Owner},
 			{Key: "permissions", Value: group.Permissions},
 			{Key: "active", Value: group.Active},
 		})
 		second := mtest.CreateCursorResponse(1, "foo.bar", mtest.NextBatch, bson.D{
 			{Key: "_id", Value: group2.ID},
-			{Key: "name", Value: group2.Name},
+			{Key: "Name", Value: group2.Name},
 			{Key: "owner", Value: group2.Owner},
 			{Key: "permissions", Value: group2.Permissions},
 			{Key: "active", Value: group2.Active},
@@ -129,10 +129,10 @@ func TestGroupRepositoryImpl_FindAll_NotConnect(t *testing.T) {
 func TestGroupRepositoryImpl_FindByName_Success(t *testing.T) {
 	mt, l := createGroupMocks(t)
 	mt.Run("FindByName_Group_Success", func(mt *mtest.T) {
-		l.collection = mt.Coll
+		l.Collection = mt.Coll
 		mt.AddMockResponses(mtest.CreateCursorResponse(1, "foo.bar", mtest.FirstBatch, bson.D{
 			{Key: "_id", Value: group.ID},
-			{Key: "name", Value: group.Name},
+			{Key: "Name", Value: group.Name},
 			{Key: "owner", Value: group.Owner},
 			{Key: "permissions", Value: group.Permissions},
 			{Key: "active", Value: group.Active},
@@ -155,7 +155,7 @@ func TestGroupRepositoryImpl_FindByName_NotConnection(t *testing.T) {
 func TestGroupRepositoryImpl_FindByName_NotFound(t *testing.T) {
 	mt, l := createGroupMocks(t)
 	mt.Run("FindByName_Group_NotFound", func(mt *mtest.T) {
-		l.collection = mt.Coll
+		l.Collection = mt.Coll
 		mt.AddMockResponses(mtest.CreateWriteErrorsResponse(mtest.WriteError{
 			Message: constants.FindGroupByName,
 		}))

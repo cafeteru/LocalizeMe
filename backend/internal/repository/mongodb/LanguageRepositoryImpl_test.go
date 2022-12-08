@@ -3,12 +3,12 @@ package mongodb
 import (
 	"errors"
 	"github.com/stretchr/testify/assert"
-	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/constants"
-	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo/integration/mtest"
 	"testing"
+	"uniovi-localizeme/constants"
+	"uniovi-localizeme/internal/core/domain"
 )
 
 var language domain.Language
@@ -16,7 +16,7 @@ var language domain.Language
 func TestLanguageRepositoryImpl_Create_Success(t *testing.T) {
 	mt, l := createLanguageMocks(t)
 	mt.Run("Create_Language_Success", func(mt *mtest.T) {
-		l.collection = mt.Coll
+		l.Collection = mt.Coll
 		mt.AddMockResponses(mtest.CreateCursorResponse(1, "foo.bar", mtest.FirstBatch, bson.D{
 			{Key: "InsertedID", Value: primitive.NewObjectID()},
 		}))
@@ -37,7 +37,7 @@ func TestLanguageRepositoryImpl_Create_NotConnection(t *testing.T) {
 func TestLanguageRepositoryImpl_Create_Error(t *testing.T) {
 	mt, l := createLanguageMocks(t)
 	mt.Run("Create_Language_ErrorCreate", func(mt *mtest.T) {
-		l.collection = mt.Coll
+		l.Collection = mt.Coll
 		mt.AddMockResponses(mtest.CreateWriteErrorsResponse(mtest.WriteError{
 			Message: constants.InsertLanguage,
 		}))
@@ -50,7 +50,7 @@ func TestLanguageRepositoryImpl_Create_Error(t *testing.T) {
 func TestLanguageRepositoryImpl_Delete_Success(t *testing.T) {
 	mt, s := createLanguageMocks(t)
 	mt.Run("Delete_Language_Success", func(mt *mtest.T) {
-		s.collection = mt.Coll
+		s.Collection = mt.Coll
 		mt.AddMockResponses(mtest.CreateCursorResponse(1, "foo.bar", mtest.FirstBatch, bson.D{
 			{Key: "DeletedCount", Value: 1},
 		}))
@@ -71,7 +71,7 @@ func TestLanguageRepositoryImpl_Delete_NotConnection(t *testing.T) {
 func TestLanguageRepositoryImpl_Delete_NotFound(t *testing.T) {
 	mt, s := createLanguageMocks(t)
 	mt.Run("Delete_Language_NotFound", func(mt *mtest.T) {
-		s.collection = mt.Coll
+		s.Collection = mt.Coll
 		mt.AddMockResponses(mtest.CreateWriteErrorsResponse(mtest.WriteError{
 			Message: constants.DeleteLanguage,
 		}))
@@ -84,7 +84,7 @@ func TestLanguageRepositoryImpl_Delete_NotFound(t *testing.T) {
 func TestLanguageRepositoryImpl_FindAll_Success(t *testing.T) {
 	mt, l := createLanguageMocks(t)
 	mt.Run("FindAll_Language_Success", func(mt *mtest.T) {
-		l.collection = mt.Coll
+		l.Collection = mt.Coll
 		language2 := domain.Language{
 			ID:          primitive.NewObjectID(),
 			IsoCode:     "isoCode",
@@ -126,7 +126,7 @@ func TestLanguageRepositoryImpl_FindAll_NotConnect(t *testing.T) {
 func TestLanguageRepositoryImpl_FindById_Success(t *testing.T) {
 	mt, l := createLanguageMocks(t)
 	mt.Run("FindById_Language_Success", func(mt *mtest.T) {
-		l.collection = mt.Coll
+		l.Collection = mt.Coll
 		mt.AddMockResponses(mtest.CreateCursorResponse(1, "foo.bar", mtest.FirstBatch, bson.D{
 			{Key: "_id", Value: language.ID},
 			{Key: "description", Value: language.Description},
@@ -151,7 +151,7 @@ func TestLanguageRepositoryImpl_FindById_NotConnection(t *testing.T) {
 func TestLanguageRepositoryImpl_FindById_NotFound(t *testing.T) {
 	mt, l := createLanguageMocks(t)
 	mt.Run("FindById_Language_NotFound", func(mt *mtest.T) {
-		l.collection = mt.Coll
+		l.Collection = mt.Coll
 		mt.AddMockResponses(mtest.CreateWriteErrorsResponse(mtest.WriteError{
 			Message: constants.FindLanguageById,
 		}))
@@ -164,7 +164,7 @@ func TestLanguageRepositoryImpl_FindById_NotFound(t *testing.T) {
 func TestLanguageRepositoryImpl_FindByIsoCode_Success(t *testing.T) {
 	mt, l := createLanguageMocks(t)
 	mt.Run("FindByIsoCode_Language_Success", func(mt *mtest.T) {
-		l.collection = mt.Coll
+		l.Collection = mt.Coll
 		mt.AddMockResponses(mtest.CreateCursorResponse(1, "foo.bar", mtest.FirstBatch, bson.D{
 			{Key: "_id", Value: language.ID},
 			{Key: "isoCode", Value: language.IsoCode},
@@ -189,7 +189,7 @@ func TestLanguageRepositoryImpl_FindByIsoCode_NotConnection(t *testing.T) {
 func TestLanguageRepositoryImpl_FindByIsoCode_NotFound(t *testing.T) {
 	mt, l := createLanguageMocks(t)
 	mt.Run("FindByIsoCode_Language_NotFound", func(mt *mtest.T) {
-		l.collection = mt.Coll
+		l.Collection = mt.Coll
 		mt.AddMockResponses(mtest.CreateWriteErrorsResponse(mtest.WriteError{
 			Message: constants.FindLanguageByIsoCode,
 		}))
@@ -202,7 +202,7 @@ func TestLanguageRepositoryImpl_FindByIsoCode_NotFound(t *testing.T) {
 func TestLanguageRepositoryImpl_Update_Success(t *testing.T) {
 	mt, l := createLanguageMocks(t)
 	mt.Run("Update_Language_Success", func(mt *mtest.T) {
-		l.collection = mt.Coll
+		l.Collection = mt.Coll
 		mt.AddMockResponses(mtest.CreateCursorResponse(1, "foo.bar", mtest.FirstBatch, bson.D{
 			{Key: "MatchedCount", Value: 0},
 			{Key: "ModifiedCount", Value: 1},
@@ -226,7 +226,7 @@ func TestLanguageRepositoryImpl_Update_NotConnection(t *testing.T) {
 func TestLanguageRepositoryImpl_Update_Error(t *testing.T) {
 	mt, l := createLanguageMocks(t)
 	mt.Run("Update_Language_Error", func(mt *mtest.T) {
-		l.collection = mt.Coll
+		l.Collection = mt.Coll
 		mt.AddMockResponses(mtest.CreateWriteErrorsResponse(mtest.WriteError{
 			Message: constants.UpdateLanguage,
 		}))

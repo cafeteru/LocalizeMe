@@ -3,12 +3,12 @@ package mongodb
 import (
 	"errors"
 	"github.com/stretchr/testify/assert"
-	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/constants"
-	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo/integration/mtest"
 	"testing"
+	"uniovi-localizeme/constants"
+	"uniovi-localizeme/internal/core/domain"
 )
 
 var baseString domain.BaseString
@@ -16,7 +16,7 @@ var baseString domain.BaseString
 func TestBaseStringRepositoryImpl_Create_Success(t *testing.T) {
 	mt, l := createBaseStringMocks(t)
 	mt.Run("Create_BaseString_Success", func(mt *mtest.T) {
-		l.collection = mt.Coll
+		l.Collection = mt.Coll
 		mt.AddMockResponses(mtest.CreateCursorResponse(1, "foo.bar", mtest.FirstBatch, bson.D{
 			{Key: "InsertedID", Value: primitive.NewObjectID()},
 		}))
@@ -37,7 +37,7 @@ func TestBaseStringRepositoryImpl_Create_NotConnection(t *testing.T) {
 func TestBaseStringRepositoryImpl_Create_Error(t *testing.T) {
 	mt, l := createBaseStringMocks(t)
 	mt.Run("Create_BaseString_ErrorCreate", func(mt *mtest.T) {
-		l.collection = mt.Coll
+		l.Collection = mt.Coll
 		mt.AddMockResponses(mtest.CreateWriteErrorsResponse(mtest.WriteError{
 			Message: constants.InsertStage,
 		}))

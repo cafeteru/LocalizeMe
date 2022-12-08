@@ -3,15 +3,15 @@ package impl
 import (
 	"encoding/json"
 	"encoding/xml"
-	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain/dto"
-	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain/xmlDto"
-	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/ports/utils"
-	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/service"
-	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/service/impl"
-	"gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/tools"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"log"
 	"net/http"
+	"uniovi-localizeme/internal/core/domain/dto"
+	"uniovi-localizeme/internal/core/domain/xmlDto"
+	"uniovi-localizeme/internal/core/ports/utils"
+	"uniovi-localizeme/internal/core/service"
+	"uniovi-localizeme/internal/core/service/impl"
+	"uniovi-localizeme/tools"
 )
 
 type XliffControllerImpl struct {
