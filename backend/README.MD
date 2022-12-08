@@ -24,14 +24,14 @@ make <command> -B # Use -B to force to execute
 If you have installed `make`
 
 ```shell
-curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.45.2
+curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.50.1
 make init-project
 ```
 
 Else
 
 ```shell
-curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.45.2
+curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.50.1
 go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
 go install gotest.tools/gotestsum@latest
 go install github.com/go-swagger/go-swagger/cmd/swagger@latest

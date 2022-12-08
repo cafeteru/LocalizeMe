@@ -199,7 +199,6 @@
         "tags": [
           "BaseStrings"
         ],
-        "summary": "Return a baseString from an identifier.",
         "operationId": "FindByIdentifierBaseStrings",
         "parameters": [
           {
@@ -210,33 +209,7 @@
             "in": "path",
             "required": true
           }
-        ],
-        "responses": {
-          "200": {
-            "description": "BaseString",
-            "schema": {
-              "$ref": "#/definitions/BaseString"
-            }
-          },
-          "400": {
-            "description": "ErrorDto",
-            "schema": {
-              "$ref": "#/definitions/ErrorDto"
-            }
-          },
-          "401": {
-            "description": "ErrorDto",
-            "schema": {
-              "$ref": "#/definitions/ErrorDto"
-            }
-          },
-          "500": {
-            "description": "ErrorDto",
-            "schema": {
-              "$ref": "#/definitions/ErrorDto"
-            }
-          }
-        }
+        ]
       }
     },
     "/baseStrings/language/{id}": {
@@ -1636,7 +1609,8 @@
           "$ref": "#/definitions/Group"
         },
         "id": {
-          "$ref": "#/definitions/ObjectID"
+          "type": "string",
+          "x-go-name": "ID"
         },
         "identifier": {
           "type": "string",
@@ -1653,7 +1627,7 @@
           "x-go-name": "Translations"
         }
       },
-      "x-go-package": "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain"
+      "x-go-package": "uniovi-localizeme/internal/core/domain"
     },
     "ErrorDto": {
       "type": "object",
@@ -1663,7 +1637,7 @@
           "x-go-name": "Message"
         }
       },
-      "x-go-package": "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain/dto"
+      "x-go-package": "uniovi-localizeme/internal/core/domain/dto"
     },
     "FileXml": {
       "type": "object",
@@ -1689,7 +1663,7 @@
           "x-go-name": "Version"
         }
       },
-      "x-go-package": "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/docs"
+      "x-go-package": "uniovi-localizeme/docs"
     },
     "Group": {
       "type": "object",
@@ -1699,7 +1673,8 @@
           "x-go-name": "Active"
         },
         "id": {
-          "$ref": "#/definitions/ObjectID"
+          "type": "string",
+          "x-go-name": "ID"
         },
         "name": {
           "type": "string",
@@ -1720,7 +1695,7 @@
           "x-go-name": "Public"
         }
       },
-      "x-go-package": "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain"
+      "x-go-package": "uniovi-localizeme/internal/core/domain"
     },
     "GroupDto": {
       "type": "object",
@@ -1744,7 +1719,7 @@
           "x-go-name": "Public"
         }
       },
-      "x-go-package": "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain/dto"
+      "x-go-package": "uniovi-localizeme/internal/core/domain/dto"
     },
     "Language": {
       "type": "object",
@@ -1758,14 +1733,15 @@
           "x-go-name": "Description"
         },
         "id": {
-          "$ref": "#/definitions/ObjectID"
+          "type": "string",
+          "x-go-name": "ID"
         },
         "isoCode": {
           "type": "string",
           "x-go-name": "IsoCode"
         }
       },
-      "x-go-package": "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain"
+      "x-go-package": "uniovi-localizeme/internal/core/domain"
     },
     "LanguageDto": {
       "type": "object",
@@ -1779,16 +1755,7 @@
           "x-go-name": "IsoCode"
         }
       },
-      "x-go-package": "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain/dto"
-    },
-    "ObjectID": {
-      "type": "array",
-      "title": "ObjectID is the BSON ObjectID type.",
-      "items": {
-        "type": "integer",
-        "format": "uint8"
-      },
-      "x-go-package": "go.mongodb.org/mongo-driver/bson/primitive"
+      "x-go-package": "uniovi-localizeme/internal/core/domain/dto"
     },
     "Permission": {
       "type": "object",
@@ -1801,7 +1768,7 @@
           "$ref": "#/definitions/User"
         }
       },
-      "x-go-package": "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain"
+      "x-go-package": "uniovi-localizeme/internal/core/domain"
     },
     "Segment": {
       "type": "object",
@@ -1815,7 +1782,7 @@
           "x-go-name": "Target"
         }
       },
-      "x-go-package": "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/docs"
+      "x-go-package": "uniovi-localizeme/docs"
     },
     "Stage": {
       "type": "object",
@@ -1825,14 +1792,15 @@
           "x-go-name": "Active"
         },
         "id": {
-          "$ref": "#/definitions/ObjectID"
+          "type": "string",
+          "x-go-name": "ID"
         },
         "name": {
           "type": "string",
           "x-go-name": "Name"
         }
       },
-      "x-go-package": "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain"
+      "x-go-package": "uniovi-localizeme/internal/core/domain"
     },
     "StageDto": {
       "type": "object",
@@ -1842,7 +1810,7 @@
           "x-go-name": "Name"
         }
       },
-      "x-go-package": "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain/dto"
+      "x-go-package": "uniovi-localizeme/internal/core/domain/dto"
     },
     "TokenDto": {
       "type": "object",
@@ -1852,7 +1820,7 @@
           "x-go-name": "Authorization"
         }
       },
-      "x-go-package": "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain/dto"
+      "x-go-package": "uniovi-localizeme/internal/core/domain/dto"
     },
     "Translation": {
       "type": "object",
@@ -1885,7 +1853,7 @@
           "x-go-name": "Version"
         }
       },
-      "x-go-package": "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain"
+      "x-go-package": "uniovi-localizeme/internal/core/domain"
     },
     "Unit": {
       "type": "object",
@@ -1898,7 +1866,7 @@
           "$ref": "#/definitions/Segment"
         }
       },
-      "x-go-package": "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/docs"
+      "x-go-package": "uniovi-localizeme/docs"
     },
     "User": {
       "type": "object",
@@ -1916,14 +1884,15 @@
           "x-go-name": "Email"
         },
         "id": {
-          "$ref": "#/definitions/ObjectID"
+          "type": "string",
+          "x-go-name": "ID"
         },
         "password": {
           "type": "string",
           "x-go-name": "Password"
         }
       },
-      "x-go-package": "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain"
+      "x-go-package": "uniovi-localizeme/internal/core/domain"
     },
     "UserDto": {
       "type": "object",
@@ -1937,7 +1906,7 @@
           "x-go-name": "Password"
         }
       },
-      "x-go-package": "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain/dto"
+      "x-go-package": "uniovi-localizeme/internal/core/domain/dto"
     },
     "Xliff": {
       "type": "object",
@@ -1947,7 +1916,7 @@
         }
       },
       "x-go-name": "_",
-      "x-go-package": "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/docs"
+      "x-go-package": "uniovi-localizeme/docs"
     },
     "XliffDto": {
       "type": "object",
@@ -1971,7 +1940,7 @@
           "x-go-name": "TargetLanguageId"
         }
       },
-      "x-go-package": "gitlab.com/HP-SCDS/Observatorio/2021-2022/localizeme/uniovi-localizeme/internal/core/domain/dto"
+      "x-go-package": "uniovi-localizeme/internal/core/domain/dto"
     }
   },
   "securityDefinitions": {
