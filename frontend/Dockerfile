@@ -4,7 +4,7 @@ WORKDIR /localizeMe
 
 COPY . /localizeMe
 
-RUN npm install
+RUN npm run install-ci
 RUN npm run build --prod
 
 FROM nginx:alpine

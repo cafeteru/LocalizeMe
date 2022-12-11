@@ -2,13 +2,14 @@
     "name": "spotiapp",
     "version": "0.0.0",
     "scripts": {
+        "build": "ng build",
+        "e2e": "ng e2e",
+        "format": "npx prettier --write .",
+        "install-ci": "yarn install --frozen-lockfile",
+        "lint": "ng lint",
         "ng": "ng",
         "start": "ng serve",
-        "build": "ng build",
-        "test": "ng test",
-        "lint": "ng lint",
-        "e2e": "ng e2e",
-        "format": "npx prettier --write ."
+        "test": "ng test"
     },
     "private": true,
     "dependencies": {

@@ -47,3 +47,4 @@ cypress/screenshots
 
 .firebase/
 cobertura-coverage.xml
+yarn.lock
