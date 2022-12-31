@@ -29,7 +29,7 @@ lint-backend:
     - cd backend && golangci-lint run -v
 
 lint-frontend:
-  image: cafeteru/node-chrome-headless
+  image: cafeteru/node-maven-selenium
   stage: lint
   script:
     - cd frontend && npm install && npm run lint
@@ -56,7 +56,7 @@ test-backend:
       junit: report.xml
 
 test-frontend:
-  image: cafeteru/node-chrome-headless
+  image: cafeteru/node-maven-selenium
   stage: test
   script:
     - cd frontend && npm install && npm run unit-test

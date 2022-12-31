@@ -1,10 +1,11 @@
-FROM node:lts-slim as node
+FROM cafeteru/node-maven-selenium as node
 
 WORKDIR /localizeMe
 
 COPY . /localizeMe
 
-RUN npm run install-ci
+RUN npm install
+RUN npm run pre-commit
 RUN npm run build --prod
 
 FROM nginx:alpine

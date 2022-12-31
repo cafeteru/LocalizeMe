@@ -4,7 +4,7 @@ on: [push]
 jobs:
   frontend:
     runs-on: ubuntu-latest
-    container: cafeteru/node-chrome-headless
+    container: cafeteru/node-maven-selenium
 
     steps:
       - uses: actions/checkout@master
@@ -14,17 +14,22 @@ jobs:
 
       - name: Install dependencies
         working-directory: frontend
-        run: npm ci
+        run: yarn
 
       - name: Execute tests
         working-directory: frontend
         run: |
-          npm run unit-test
+          yarn run unit-test
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          fail_ci_if_error: true
+          verbose: true
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
         with:
             token: ${{ secrets.CODECOV_TOKEN }}
-            directory: ./frontend/coverage/
+            directory: ./frontend/coverage/report-cobertura
             fail_ci_if_error: true
             flags: frontend
