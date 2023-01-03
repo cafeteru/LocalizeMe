@@ -1,20 +1,23 @@
 <h3>Stages:</h3>
-<nz-select
-    nzPlaceHolder="Select a stage"
-    nzAllowClear
-    nzShowSearch
-    nzServerSearch
-    [(ngModel)]="selectedText"
-    (nzOnSearch)="searchStageByName($event)"
-    (ngModelChange)="add()"
->
-    <nz-option [nzLabel]="selectedStage?.name" [nzValue]="selectedStage?.name" nzHide></nz-option>
-    <ng-container *ngFor="let option of options">
-        <nz-option *ngIf="!isLoading" [nzValue]="option" [nzLabel]="option"></nz-option>
-    </ng-container>
-    <nz-option *ngIf="isLoading" nzDisabled nzCustomContent>
-        <em nz-icon nzType="loading" class="loading-icon"></em>
-        Loading Data...
-    </nz-option>
-</nz-select>
+<div>
+    <nz-select
+        id="select"
+        nzPlaceHolder="Select a stage"
+        nzAllowClear
+        nzShowSearch
+        nzServerSearch
+        [(ngModel)]="selectedText"
+        (nzOnSearch)="searchStageByName($event)"
+        (ngModelChange)="add()"
+    >
+        <nz-option [nzLabel]="selectedStage?.name" [nzValue]="selectedStage?.name" nzHide></nz-option>
+        <ng-container *ngFor="let option of options">
+            <nz-option *ngIf="!isLoading" [nzValue]="option" [nzLabel]="option"></nz-option>
+        </ng-container>
+        <nz-option *ngIf="isLoading" nzDisabled nzCustomContent>
+            <em nz-icon nzType="loading" class="loading-icon"></em>
+            Loading Data...
+        </nz-option>
+    </nz-select>
+</div>
 <mat-error *ngIf="!valid">Please enter a stage</mat-error>
