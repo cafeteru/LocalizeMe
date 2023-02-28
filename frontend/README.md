@@ -1,6 +1,6 @@
 # LocalizeMeFront
 
-## Install dependecies
+## Install dependencies
 
 ```shell
 npm install @angular/cli -g

@@ -1,13 +1,5 @@
 [{
   "_id": {
-    "$oid": "62212b92ab63141a684739f3"
-  },
-  "email": "admin@email.es",
-  "password": "$2a$14$N1QWrh/qKNfLMG1DB8ZZeefDm4L3juVZLI3n.Xl2NZxLXcrNLSRMS",
-  "admin": true,
-  "active": true
-},{
-  "_id": {
     "$oid": "62212b9cab63141a684739f5"
   },
   "email": "user@email.es",
@@ -19,7 +11,15 @@
     "$oid": "6277fd3a78ede53a9bc353f5"
   },
   "email": "uo239795@uniovi.es",
-  "password": "$2a$14$4.vorYvQPgQgfDC.nG4CLuikqlWklolmArdiyL/nTimC5cisfGlKi",
+  "password": "$2a$14$XB/r..3f8DgITdVSAUm4DOAV/8I3pFEbn4U6bq4tKSJ52ygHSnaNS",
+  "admin": true,
+  "active": true
+},{
+  "_id": {
+    "$oid": "62212b92ab63141a684739f3"
+  },
+  "email": "admin@email.es",
+  "password": "$2a$14$OfG3nd8J.DaMIqp3R2HKLuOe/6pmbS/VKaUrq5dtNs4BQUnj35XKW",
   "admin": true,
   "active": true
 }]
