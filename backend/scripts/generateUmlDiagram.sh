@@ -1,4 +1,4 @@
-#!/bin/sh
+#! /bin/bash
 # converts all puml files to svg
 
 BASEDIR=$(dirname $(dirname $(realpath "$0")))/assets

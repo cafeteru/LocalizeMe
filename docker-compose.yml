@@ -14,18 +14,18 @@ services:
       - ./mongo-volume:/data/db
     networks:
       - localize-me-network
+
   mongo-seed:
     container_name: localize-me-mongo-seed
     image: mongo:latest
-    depends_on:
-      - database
     links:
       - database
     volumes:
       - ./mongo-seed:/mongo-seed
-    command: bash "mongo-seed/import.sh"
+    command: bash "mongo-seed/start.sh"
     networks:
       - localize-me-network
+
   backend:
     container_name: localize-me-backend
     image: cafeteru/localize-me-backend:latest
@@ -41,6 +41,7 @@ services:
       - localize-me-network
     environment:
       ATLAS_URI: mongodb://mongoadmin:secret@database:27017
+
   frontend:
     container_name: localize-me-frontend
     image: cafeteru/localize-me-frontend:latest
@@ -54,6 +55,7 @@ services:
       - localize-me-network
     environment:
       urlApi: 'http://backend'
+
   spotiapp:
     container_name: localize-me-spotiapp
     image: cafeteru/localize-me-spotiapp:latest
