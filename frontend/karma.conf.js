@@ -8,7 +8,7 @@ module.exports = function (config) {
             require('karma-jasmine-html-reporter'),
             require('karma-coverage'),
             require('@angular-devkit/build-angular/plugins/karma'),
-            require("karma-mocha-reporter"),
+            require('karma-mocha-reporter'),
         ],
         client: {
             jasmine: {},
@@ -32,10 +32,11 @@ module.exports = function (config) {
                     branches: 80,
                     functions: 80,
                     lines: 80,
-                }
-            }
+                },
+            },
         },
-        reporters: ["mocha"],
+        exclude: ['**/*mock*', '**/*spec*'],
+        reporters: ['mocha'],
         port: 9876,
         colors: true,
         logLevel: config.LOG_INFO,
@@ -46,8 +47,8 @@ module.exports = function (config) {
         customLaunchers: {
             ChromeHeadlessNoSandbox: {
                 base: 'ChromeHeadless',
-                flags: ['--no-sandbox']
-            }
+                flags: ['--no-sandbox'],
+            },
         },
     });
 };
