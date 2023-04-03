@@ -8,6 +8,7 @@ module.exports = function (config) {
             require('karma-jasmine-html-reporter'),
             require('karma-coverage'),
             require('@angular-devkit/build-angular/plugins/karma'),
+            require("karma-mocha-reporter"),
         ],
         client: {
             jasmine: {},
@@ -25,26 +26,28 @@ module.exports = function (config) {
                 { type: 'cobertura', subdir: 'report-cobertura' },
             ],
             fixWebpackSourcePaths: true,
+            check: {
+                global: {
+                    statements: 80,
+                    branches: 80,
+                    functions: 80,
+                    lines: 80,
+                }
+            }
         },
-        reporters: ['progress', 'kjhtml', 'coverage'],
+        reporters: ["mocha"],
         port: 9876,
         colors: true,
         logLevel: config.LOG_INFO,
         autoWatch: true,
-        browsers: ['Chrome', 'ChromeHeadless_NoSandbox'],
+        browsers: ['Chrome', 'ChromeHeadless'],
         singleRun: false,
         restartOnFileChange: true,
         customLaunchers: {
-            ChromeHeadless_NoSandbox: {
+            ChromeHeadlessNoSandbox: {
                 base: 'ChromeHeadless',
-                flags: [
-                    '--no-sandbox',
-                    '--disable-setuid-sandbox',
-                    '--lang=en_GB,en',
-                    '--disable-gpu',
-                    '--remote-debugging-port=9222',
-                ],
-            },
+                flags: ['--no-sandbox']
+            }
         },
     });
 };

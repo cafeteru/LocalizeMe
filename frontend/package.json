@@ -15,8 +15,8 @@
     "ng": "ng",
     "pre-commit": "npm run format && npm run lint && npm run unit-test",
     "start": "ng serve",
-    "test": "ng test",
-    "unit-test": "ng test --no-watch --code-coverage --browsers=ChromeHeadless_NoSandbox",
+    "test": "ng test --code-coverage",
+    "unit-test": "ng test --no-watch --code-coverage --browsers=ChromeHeadless",
     "watch": "ng build --watch --configuration development"
   },
   "private": true,
@@ -64,6 +64,7 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.0.1",
     "karma-jasmine-html-reporter": "~1.7.0",
+    "karma-mocha-reporter": "^2.2.5",
     "prettier": "2.6.2",
     "typescript": "~4.6.4"
   }
