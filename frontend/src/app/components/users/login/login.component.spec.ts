@@ -8,7 +8,7 @@ import { SharedModule } from '../../../shared/shared.module';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { createMockAppState } from '../../../store/mocks/create-mock-app-state';
 import { DialogMock, DialogRefMock } from '../../../core/mocks/mock-dialog';
-import { UserServiceMock } from '../../../core/mocks/services/user.service.mock';
+import { MockUserService } from '../../../core/mocks/services/mockUserService';
 import { UserService } from '../../../core/services/user.service';
 import { of, throwError } from 'rxjs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -19,7 +19,7 @@ describe('LoginComponent', () => {
     let fixture: ComponentFixture<LoginComponent>;
     const dialogRefMock = new DialogRefMock();
     const dialogMock = new DialogMock();
-    const userServiceMock = new UserServiceMock();
+    const userServiceMock = new MockUserService();
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({

@@ -1,7 +1,7 @@
 import { Observable, of } from 'rxjs';
 import { createMockUser, User } from '../../../types/user';
 
-export class UserServiceMock {
+export class MockUserService {
     delete(user: User): Observable<boolean> {
         return of(Boolean(user));
     }

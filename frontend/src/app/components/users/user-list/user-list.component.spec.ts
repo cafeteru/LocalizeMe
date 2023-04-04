@@ -7,22 +7,23 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { AppState } from '../../../store/app.reducer';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { createMockAppState } from '../../../store/mocks/create-mock-app-state';
-import { createMockUser } from '../../../types/user';
+import { createMockUser, User } from '../../../types/user';
 import { of, throwError } from 'rxjs';
 import { UserService } from '../../../core/services/user.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { nzMessageServiceMock } from '../../../core/mocks/nz-message-service-mock';
-import { nzModalServiceMock } from '../../../core/mocks/nz-modal-service-mock';
+import { mockNzMessageService } from '../../../core/mocks/mock-nz-message-service';
+import { mockNzModalService } from '../../../core/mocks/mock-nz-modal-service';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { MatDialogRef } from '@angular/material/dialog';
-import { UserServiceMock } from '../../../core/mocks/services/user.service.mock';
+import { MockUserService } from '../../../core/mocks/services/mockUserService';
 
 describe('UserListComponent', () => {
     let component: UserListComponent;
     let fixture: ComponentFixture<UserListComponent>;
     let appState: AppState;
     let store: MockStore;
-    const userServiceMock = new UserServiceMock();
+    const mockUserService = new MockUserService();
+    let user: User;
 
     beforeEach(async () => {
         appState = createMockAppState();
@@ -30,19 +31,20 @@ describe('UserListComponent', () => {
             declarations: [UserListComponent],
             imports: [SharedModule, CoreModule, HttpClientTestingModule],
             providers: [
-                { provide: UserService, useValue: userServiceMock },
-                { provide: NzMessageService, useValue: nzMessageServiceMock },
-                { provide: NzModalService, useValue: nzModalServiceMock },
+                { provide: UserService, useValue: mockUserService },
+                { provide: NzMessageService, useValue: mockNzMessageService },
+                { provide: NzModalService, useValue: mockNzModalService },
                 provideMockStore({ initialState: appState }),
             ],
         }).compileComponents();
         store = TestBed.inject(MockStore);
-    });
-
-    beforeEach(() => {
         fixture = TestBed.createComponent(UserListComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
+    });
+
+    beforeEach(() => {
+        user = createMockUser();
     });
 
     afterEach(() => {
@@ -53,95 +55,108 @@ describe('UserListComponent', () => {
         expect(component).toBeTruthy();
     });
 
-    it('check loadUsers with error', () => {
-        const spy = spyOn(userServiceMock, 'findAll').and.returnValue(throwError('error'));
-        component.loadUsers();
-        expect(spy).toHaveBeenCalled();
-        expect(component.users).toEqual([]);
+    describe('loadUsers', () => {
+        it('check with error', () => {
+            const spy = spyOn(mockUserService, 'findAll').and.returnValue(throwError(() => new Error('error')));
+            component.loadUsers();
+            expect(spy).toHaveBeenCalled();
+            expect(component.users).toEqual([]);
+        });
+
+        it('check without errors', () => {
+            const spy = spyOn(mockUserService, 'findAll').and.returnValue(of([createMockUser()]));
+            component.loadUsers();
+            expect(spy).toHaveBeenCalled();
+            expect(component.users).not.toEqual([]);
+        });
     });
 
-    it('check loadUsers', () => {
-        const spy = spyOn(userServiceMock, 'findAll').and.returnValue(of([createMockUser()]));
-        component.loadUsers();
-        expect(spy).toHaveBeenCalled();
-        expect(component.users).not.toEqual([]);
+    describe('disable', () => {
+        it('check without errors', () => {
+            const spy = spyOn(mockUserService, 'disable').and.returnValue(of(user));
+            const spyLoadUsers = spyOn(component, 'loadUsers');
+            component.disable(user);
+            expect(spy).toHaveBeenCalled();
+            expect(spyLoadUsers).toHaveBeenCalled();
+        });
+
+        it('check with error', () => {
+            const spy = spyOn(mockUserService, 'disable').and.returnValue(throwError(() => new Error('error')));
+            const spyMessageService = spyOn(mockNzMessageService, 'create');
+            component.disable(user);
+            expect(spy).toHaveBeenCalled();
+            expect(spyMessageService).toHaveBeenCalled();
+        });
     });
 
-    it('check disable', () => {
-        const user = createMockUser();
-        const spy = spyOn(userServiceMock, 'disable').and.returnValue(of(user));
-        const spy2 = spyOn(component, 'loadUsers');
-        component.disable(user);
-        expect(spy).toHaveBeenCalled();
-        expect(spy2).toHaveBeenCalled();
+    describe('callToDelete', () => {
+        it('should call to delete', () => {
+            const spy = spyOn(component as any, 'delete');
+            const callToDelete = component['callToDelete'](user);
+            callToDelete();
+            expect(spy).toHaveBeenCalled();
+        });
     });
 
-    it('check disable with error', () => {
-        const user = createMockUser();
-        const spy = spyOn(userServiceMock, 'disable').and.returnValue(throwError('error'));
-        const spy2 = spyOn(nzMessageServiceMock, 'create');
-        component.disable(user);
-        expect(spy).toHaveBeenCalled();
-        expect(spy2).toHaveBeenCalled();
+    describe('delete', () => {
+        it('check correct', () => {
+            const spy = spyOn(mockUserService, 'delete').and.returnValue(of(true));
+            const spy2 = spyOn(component, 'loadUsers');
+            const spy3 = spyOn(mockNzMessageService, 'create');
+            component['delete'](user);
+            expect(spy).toHaveBeenCalled();
+            expect(spy2).toHaveBeenCalled();
+            expect(spy3).toHaveBeenCalled();
+        });
+
+        it('check with not found user', () => {
+            const spy = spyOn(mockUserService, 'delete').and.returnValue(of(false));
+            const spy2 = spyOn(component, 'loadUsers');
+            const spy3 = spyOn(mockNzMessageService, 'create');
+            component['delete'](user);
+            expect(spy).toHaveBeenCalled();
+            expect(spy2).not.toHaveBeenCalled();
+            expect(spy3).toHaveBeenCalled();
+        });
+
+        it('check with server error', () => {
+            const spy = spyOn(mockUserService, 'delete').and.returnValue(throwError(() => new Error('error')));
+            const spy2 = spyOn(component, 'loadUsers');
+            const spy3 = spyOn(mockNzMessageService, 'create');
+            component['delete'](user);
+            expect(spy).toHaveBeenCalled();
+            expect(spy2).not.toHaveBeenCalled();
+            expect(spy3).toHaveBeenCalled();
+        });
     });
 
-    it('check delete correct', () => {
-        const user = createMockUser();
-        const spy = spyOn(userServiceMock, 'delete').and.returnValue(of(true));
-        const spy2 = spyOn(component, 'loadUsers');
-        const spy3 = spyOn(nzMessageServiceMock, 'create');
-        component['delete'](user);
-        expect(spy).toHaveBeenCalled();
-        expect(spy2).toHaveBeenCalled();
-        expect(spy3).toHaveBeenCalled();
+    describe('showDeleteModal', () => {
+        it('check it', () => {
+            const spy = spyOn(mockNzModalService, 'confirm');
+            component.showDeleteModal(user);
+            expect(spy).toHaveBeenCalled();
+        });
     });
 
-    it('check delete with not found user', () => {
-        const user = createMockUser();
-        const spy = spyOn(userServiceMock, 'delete').and.returnValue(of(false));
-        const spy2 = spyOn(component, 'loadUsers');
-        const spy3 = spyOn(nzMessageServiceMock, 'create');
-        component['delete'](user);
-        expect(spy).toHaveBeenCalled();
-        expect(spy2).not.toHaveBeenCalled();
-        expect(spy3).toHaveBeenCalled();
-    });
+    describe('openCreate', () => {
+        it('check with create', () => {
+            const modalSpy = spyOn(component.dialog, 'open').and.returnValue({
+                afterClosed: () => of(undefined),
+            } as MatDialogRef<typeof component>);
+            const spy = spyOn(component, 'loadUsers');
+            component.openUpdate(user);
+            expect(spy).not.toHaveBeenCalled();
+            expect(modalSpy).toHaveBeenCalled();
+        });
 
-    it('check delete with server error', () => {
-        const user = createMockUser();
-        const spy = spyOn(userServiceMock, 'delete').and.returnValue(throwError('error'));
-        const spy2 = spyOn(component, 'loadUsers');
-        const spy3 = spyOn(nzMessageServiceMock, 'create');
-        component['delete'](user);
-        expect(spy).toHaveBeenCalled();
-        expect(spy2).not.toHaveBeenCalled();
-        expect(spy3).toHaveBeenCalled();
-    });
-
-    it('check showDeleteModal', () => {
-        const user = createMockUser();
-        const spy = spyOn(nzModalServiceMock, 'confirm');
-        component.showDeleteModal(user);
-        expect(spy).toHaveBeenCalled();
-    });
-
-    it('check openUpdate', () => {
-        const user = createMockUser();
-        spyOn(component.dialog, 'open').and.returnValue({
-            afterClosed: () => of(undefined),
-        } as MatDialogRef<typeof component>);
-        const spy = spyOn(component, 'loadUsers');
-        component.openUpdate(user);
-        expect(spy).not.toHaveBeenCalled();
-    });
-
-    it('check openUpdate with update', () => {
-        const user = createMockUser();
-        spyOn(component.dialog, 'open').and.returnValue({
-            afterClosed: () => of(user),
-        } as MatDialogRef<typeof component>);
-        const spy2 = spyOn(component, 'loadUsers');
-        component.openUpdate(user);
-        expect(spy2).toHaveBeenCalled();
+        it('check with update', () => {
+            const modalSpy = spyOn(component.dialog, 'open').and.returnValue({
+                afterClosed: () => of(user),
+            } as MatDialogRef<typeof component>);
+            const spy2 = spyOn(component, 'loadUsers');
+            component.openUpdate(user);
+            expect(spy2).toHaveBeenCalled();
+            expect(modalSpy).toHaveBeenCalled();
+        });
     });
 });
