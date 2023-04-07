@@ -48,3 +48,4 @@ cypress/screenshots
 .firebase/
 cobertura-coverage.xml
 yarn.lock
+pnpm-lock.yaml
