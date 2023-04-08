@@ -1,10 +1,10 @@
-FROM node-chrome-headless as node
+FROM cafeteru/node-chrome-headless as node
 
 WORKDIR /spotiapp
 
 COPY . /spotiapp
 
-RUN yarn install
+RUN npm install
 RUN npm run build --prod
 
 FROM nginx:alpine
