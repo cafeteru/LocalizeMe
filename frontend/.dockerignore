@@ -1,2 +1,8 @@
-node_modules
+.angular
 .idea
+.vscode
+coverage
+cypress
+node_modules
+package-lock.json
+pnpm-lock.yaml

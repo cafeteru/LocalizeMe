@@ -1,10 +1,10 @@
-FROM node:lts-slim as node
+FROM node-chrome-headless as node
 
 WORKDIR /spotiapp
 
 COPY . /spotiapp
 
-RUN npm run install-ci
+RUN yarn install
 RUN npm run build --prod
 
 FROM nginx:alpine

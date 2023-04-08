@@ -4,7 +4,7 @@ on: [push]
 jobs:
   frontend:
     runs-on: ubuntu-latest
-    container: cafeteru/node-maven-selenium
+    container: cafeteru/node-chrome-headless
 
     steps:
       - uses: actions/checkout@master

@@ -22,20 +22,20 @@ workflow:
     - when: never
 
 lint-backend:
-  image: cafeteru/localize-me-backend:latest
+  image: cafeteru/localize-me-backend
   stage: lint
   extends: .go-cache
   script:
     - cd backend && golangci-lint run -v
 
 lint-frontend:
-  image: cafeteru/node-maven-selenium
+  image: cafeteru/node-chrome-headless
   stage: lint
   script:
     - cd frontend && npm install && npm run lint
 
 build-backend:
-  image: cafeteru/localize-me-backend:latest
+  image: cafeteru/localize-me-backend
   stage: build
   extends: .go-cache
   script:
@@ -45,7 +45,7 @@ build-backend:
       - $OUTPUT_NAME
 
 test-backend:
-  image: cafeteru/localize-me-backend:latest
+  image: cafeteru/localize-me-backend
   stage: test
   extends: .go-cache
   script:
@@ -56,7 +56,7 @@ test-backend:
       junit: report.xml
 
 test-frontend:
-  image: cafeteru/node-maven-selenium
+  image: cafeteru/node-chrome-headless
   stage: test
   script:
     - cd frontend && npm install && npm run unit-test

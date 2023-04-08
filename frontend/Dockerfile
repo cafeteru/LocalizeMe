@@ -1,4 +1,4 @@
-FROM cafeteru/node-maven-selenium as node
+FROM cafeteru/node-chrome-headless as node
 
 WORKDIR /localizeMe
 
