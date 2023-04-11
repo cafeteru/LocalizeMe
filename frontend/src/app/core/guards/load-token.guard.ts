@@ -16,15 +16,15 @@ export class LoadTokenGuard implements CanActivate {
     constructor(private store: Store<AppState>) {}
 
     canActivate(): Observable<boolean> {
-        const authorization = localStorage.authorization;
-        if (!authorization) {
-            this.clearUser();
-            return of(true);
+        const { authorization } = localStorage;
+        if (authorization) {
+            return this.store.select('userInfo').pipe(
+                tap(() => this.loadUser(authorization)),
+                map(() => true)
+            );
         }
-        return this.store.select('userInfo').pipe(
-            tap(() => this.loadUser(authorization)),
-            map(() => true)
-        );
+        this.clearUser();
+        return of(false);
     }
 
     private clearUser(): void {
@@ -33,22 +33,26 @@ export class LoadTokenGuard implements CanActivate {
     }
 
     private loadUser(authorization: string): void {
-        const iToken = jwt_decode<IToken>(authorization);
-        if (!checkToken(String(iToken.exp))) {
+        const { exp, id, email, active, admin } = this.getIToken(authorization);
+        if (checkToken(exp)) {
+            const reducer: UserReducer = {
+                exp,
+                authorization,
+                user: {
+                    id: id,
+                    email: email,
+                    active: active,
+                    admin: admin,
+                    password: '',
+                },
+            };
+            this.store.dispatch(userActions.loadUser(reducer));
+        } else {
             this.clearUser();
-            return;
         }
-        const reducer: UserReducer = {
-            exp: iToken.exp,
-            authorization: authorization,
-            user: {
-                id: iToken.id,
-                email: iToken.email,
-                active: iToken.active,
-                admin: iToken.admin,
-                password: '',
-            },
-        };
-        this.store.dispatch(userActions.loadUser(reducer));
+    }
+
+    private getIToken(authorization: string): IToken {
+        return jwt_decode<IToken>(authorization);
     }
 }
