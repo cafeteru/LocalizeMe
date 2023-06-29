@@ -6,7 +6,7 @@
     "application/json"
   ],
   "schemes": [
-    "https"
+    "http"
   ],
   "swagger": "2.0",
   "info": {
@@ -14,7 +14,7 @@
     "title": "LocalizeMe.",
     "version": "1.0.0"
   },
-  "host": "localize-me-uniovi.herokuapp.com",
+  "host": "localhost:8080",
   "basePath": "/",
   "paths": {
     "/baseStrings": {

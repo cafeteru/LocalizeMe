@@ -2,10 +2,10 @@
 //
 // Real-time management system for localization strings.
 //
-//	Schemes: https
+//	Schemes: http
 //	BasePath: /
 //	Version: 1.0.0
-//	Host: localize-me-uniovi.herokuapp.com
+//	Host: localhost:8080
 //
 //	Consumes:
 //	- application/json

@@ -426,11 +426,6 @@ func (b BaseStringServiceImpl) createTranslations(request []domain.Translation) 
 		if translation.Stage == nil {
 			return errors.New(constants.TranslationNullStage)
 		}
-		name := translation.Stage.Name
-		_, err = b.stageRepository.FindByName(name)
-		if err != nil {
-			return tools.ErrorLogWithError(err, tools.GetCurrentFuncName())
-		}
 	}
 	log.Printf("%s: end", tools.GetCurrentFuncName())
 	return nil
