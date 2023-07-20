@@ -6,9 +6,10 @@ import { IsActiveGuard } from './core/guards/is-active.guard';
 import { IsAdminGuard } from './core/guards/is-admin.guard';
 import { CheckTokenGuard } from './core/guards/check-token.guard';
 import { LoadTokenGuard } from './core/guards/load-token.guard';
+import { LoadTokenGuardMenu } from './core/guards/load-token.menu.guard';
 
 export const routes: Routes = [
-    { path: Urls.menu, component: MenuComponent, canActivate: [LoadTokenGuard] },
+    { path: Urls.menu, component: MenuComponent, canActivate: [LoadTokenGuardMenu] },
     {
         path: Urls.users,
         loadChildren: () => import('./components/users/users.module').then((u) => u.UsersModule),
@@ -34,10 +35,7 @@ export const routes: Routes = [
         loadChildren: () => import('./components/base-strings/base-strings.module').then((s) => s.BaseStringsModule),
         canActivate: [LoadTokenGuard, CheckTokenGuard, IsActiveGuard],
     },
-    {
-        path: '**',
-        redirectTo: Urls.menu,
-    },
+    { path: '**', redirectTo: '/menu', pathMatch: 'full' },
 ];
 
 @NgModule({

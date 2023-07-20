@@ -13,7 +13,7 @@ import { checkToken } from './check-token.guard';
     providedIn: 'root',
 })
 export class LoadTokenGuard implements CanActivate {
-    constructor(private store: Store<AppState>) {}
+    constructor(protected store: Store<AppState>) {}
 
     canActivate(): Observable<boolean> {
         const { authorization } = localStorage;
@@ -27,12 +27,12 @@ export class LoadTokenGuard implements CanActivate {
         return of(false);
     }
 
-    private clearUser(): void {
+    protected clearUser(): void {
         localStorage.clear();
         this.store.dispatch(userActions.clearUser());
     }
 
-    private loadUser(authorization: string): void {
+    protected loadUser(authorization: string): void {
         const { exp, id, email, active, admin } = this.getIToken(authorization);
         if (checkToken(exp)) {
             const reducer: UserReducer = {
@@ -52,7 +52,7 @@ export class LoadTokenGuard implements CanActivate {
         }
     }
 
-    private getIToken(authorization: string): IToken {
+    protected getIToken(authorization: string): IToken {
         return jwt_decode<IToken>(authorization);
     }
 }
