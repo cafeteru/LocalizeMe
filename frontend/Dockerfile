@@ -4,9 +4,9 @@ WORKDIR /localizeMe
 
 COPY . /localizeMe
 
-RUN npm install
-RUN npm run pre-commit
-RUN npm run build --prod
+RUN pnpm i
+RUN pnpm pre-commit
+RUN pnpm build --configuration production
 
 FROM nginx:alpine
 
