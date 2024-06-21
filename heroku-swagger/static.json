@@ -1,7 +1,0 @@
-{
-  "root": "dist/",
-  "routes": {
-    "/swagger.yml": "dist/swagger.yml"
-  },
-  "basic_auth": false
-}
