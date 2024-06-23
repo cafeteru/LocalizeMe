@@ -1,12 +1,13 @@
 package main
 
 import (
-	_ "github.com/joho/godotenv/autoload"
 	"log"
 	"os"
 	"os/signal"
 	"uniovi-localizeme/internal/server"
 	"uniovi-localizeme/tools"
+
+	_ "github.com/joho/godotenv/autoload"
 )
 
 func main() {

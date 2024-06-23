@@ -28,7 +28,6 @@ install:
 lint:
 	golangci-lint run -v
 pre-commit:
-	make update
 	make lint
 	make mocks -B
 	make test
