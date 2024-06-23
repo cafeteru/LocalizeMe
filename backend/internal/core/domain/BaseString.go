@@ -7,6 +7,7 @@ type BaseString struct {
 	ID             primitive.ObjectID `bson:"_id,omitempty" json:"id,omitempty"`
 	SourceLanguage *Language          `bson:"sourceLanguage" json:"sourceLanguage"`
 	Identifier     string             `bson:"identifier" json:"identifier"`
+	Page           string             `bson:"page" json:"page"`
 	Group          *Group             `bson:"group" json:"group" `
 	Author         *User              `bson:"author" json:"author"`
 	Active         bool               `bson:"active" json:"active"`

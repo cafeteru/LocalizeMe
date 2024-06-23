@@ -4,6 +4,7 @@ namespace domain {
         + ID primitive.ObjectID
         + SourceLanguage *Language
         + Identifier string
+        + Page string
         + Group *Group
         + Author *User
         + Active bool
