@@ -1616,6 +1616,10 @@
           "type": "string",
           "x-go-name": "Identifier"
         },
+        "page": {
+          "type": "string",
+          "x-go-name": "Page"
+        },
         "sourceLanguage": {
           "$ref": "#/definitions/Language"
         },

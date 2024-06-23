@@ -6,7 +6,7 @@ COPY . /localizeMe
 COPY scripts/docker.sh docker.sh
 
 RUN apt-get update
-RUN curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.50.1
+RUN curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.59.1
 RUN make init-project -B
 RUN make pre-commit
 

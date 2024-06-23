@@ -24,20 +24,20 @@ make <command> -B # Use -B to force to execute
 If you have installed `make`
 
 ```shell
-curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.50.1
+curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.59.1
 make init-project
 ```
 
 Else
 
 ```shell
-curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.50.1
+curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.59.1
 go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
 go install gotest.tools/gotestsum@latest
 go install github.com/go-swagger/go-swagger/cmd/swagger@latest
 go install github.com/golang/mock/mockgen@latest
 go get github.com/jfeliu007/goplantuml/parser
-go get github.com/jfeliu007/goplantuml/cmd/goplantuml
+go install github.com/jfeliu007/goplantuml/cmd/goplantuml@latest
 go install ./...
 go mod tidy
 ```
@@ -75,7 +75,7 @@ These steps are configured in Makefile
 Install library:
 
 ```shell
-go install github.com/golang/mock/mockgen@v1.6.0
+go install github.com/golang/mock/mockgen@latest
 ```
 
 ```shell
