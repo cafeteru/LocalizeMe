@@ -4,11 +4,23 @@ on: [push]
 jobs:
   backend:
     runs-on: ubuntu-latest
-    container: cafeteru/localize-me-backend
+    container: golang:1.21
 
     steps:
       - name: Check out repository code
         uses: actions/checkout@v2
+
+      - name: Setup Go environment
+        run: |
+          go version
+          go env
+
+      - name: Install dependencies
+        working-directory: backend
+        run: |
+          curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | \
+          sh -s -- -b $(go env GOPATH)/bin v1.59.1 && \
+          make init-project -B
 
       - name: Check lint
         working-directory: backend
