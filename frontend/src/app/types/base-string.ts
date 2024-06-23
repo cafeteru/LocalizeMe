@@ -7,6 +7,7 @@ export class BaseString {
     id: string;
     sourceLanguage: Language;
     identifier: string;
+    page: string;
     group: Group;
     active: boolean;
     author: User;
@@ -19,6 +20,7 @@ export function createMockBaseString(): BaseString {
         sourceLanguage: createMockLanguage(),
         identifier: 'identifier',
         group: createMockGroup(),
+        page: 'page',
         active: true,
         author: createMockUser(),
         translations: [],

@@ -2,13 +2,14 @@ package mongodb
 
 import (
 	"context"
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/bson/primitive"
-	"go.mongodb.org/mongo-driver/mongo"
 	"log"
 	"uniovi-localizeme/constants"
 	"uniovi-localizeme/internal/core/domain"
 	"uniovi-localizeme/tools"
+
+	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
+	"go.mongodb.org/mongo-driver/mongo"
 )
 
 type BaseStringRepositoryImpl struct {
@@ -234,6 +235,7 @@ func (b *BaseStringRepositoryImpl) Update(baseString domain.BaseString) (*mongo.
 			"active":         baseString.Active,
 			"author":         baseString.Author,
 			"group":          baseString.Group,
+			"page":           baseString.Page,
 			"identifier":     baseString.Identifier,
 			"sourceLanguage": baseString.SourceLanguage,
 			"translations":   baseString.Translations,

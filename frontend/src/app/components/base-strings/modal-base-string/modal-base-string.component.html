@@ -14,6 +14,14 @@
         </ng-template>
     </nz-form-item>
     <nz-form-item>
+        <nz-form-label nzFor="page" nzSpan="7">Page</nz-form-label>
+        <nz-form-control nzHasFeedback nzSpan="17">
+            <nz-input-group nzPrefixIcon="book">
+                <input nz-input formControlName="page" id="pageBaseString" />
+            </nz-input-group>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
         <app-group-finder
             class="finder"
             id="baseStringGroup"

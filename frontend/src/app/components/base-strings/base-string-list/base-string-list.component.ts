@@ -1,25 +1,26 @@
 import { Component, OnInit } from '@angular/core';
-import { BaseComponent } from '../../../core/base/base.component';
+import { MatDialog } from '@angular/material/dialog';
+import { Store } from '@ngrx/store';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { MatDialog } from '@angular/material/dialog';
+import { map } from 'rxjs';
+import { BaseComponent } from '../../../core/base/base.component';
 import { BaseStringService } from '../../../core/services/base-string.service';
-import { ModalBaseStringComponent } from '../modal-base-string/modal-base-string.component';
-import { BaseString } from '../../../types/base-string';
 import { ColumnHeader, sortDirections } from '../../../shared/components/utils/nz-table-utils';
 import {
     sortBaseStringByActive,
     sortBaseStringByAuthor,
     sortBaseStringByGroup,
     sortBaseStringByIdentifier,
+    sortBaseStringByPage,
     sortBaseStringBySourceLanguage,
 } from '../../../shared/sorts/base-string-sorts';
-import { Store } from '@ngrx/store';
 import { AppState } from '../../../store/app.reducer';
-import { map } from 'rxjs';
-import { createMockUser, User } from '../../../types/user';
-import { ReadXliffComponent } from '../xliff/read-xliff/read-xliff.component';
+import { BaseString } from '../../../types/base-string';
+import { User, createMockUser } from '../../../types/user';
+import { ModalBaseStringComponent } from '../modal-base-string/modal-base-string.component';
 import { CreateXliffComponent } from '../xliff/create-xliff/create-xliff.component';
+import { ReadXliffComponent } from '../xliff/read-xliff/read-xliff.component';
 
 interface BaseStringData {
     baseString: BaseString;
@@ -56,6 +57,12 @@ export class BaseStringListComponent extends BaseComponent implements OnInit {
             name: 'Group',
             sortOrder: null,
             sortFn: (a, b) => sortBaseStringByGroup(a.baseString, b.baseString),
+            sortDirections,
+        },
+        {
+            name: 'Page',
+            sortOrder: null,
+            sortFn: (a, b) => sortBaseStringByPage(a.baseString, b.baseString),
             sortDirections,
         },
         {
@@ -136,6 +143,7 @@ export class BaseStringListComponent extends BaseComponent implements OnInit {
             active: true,
             author: undefined,
             group: undefined,
+            page: undefined,
             identifier: '',
             sourceLanguage: undefined,
             translations: [],

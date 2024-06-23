@@ -4,8 +4,8 @@ WORKDIR /spotiapp
 
 COPY . /spotiapp
 
-RUN npm install
-RUN npm run build --prod
+RUN pnpm i
+RUN pnpm build --configuration production
 
 FROM nginx:alpine
 

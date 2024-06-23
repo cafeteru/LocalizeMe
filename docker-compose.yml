@@ -56,11 +56,11 @@ services:
 
   spotiapp:
     container_name: localize-me-spotiapp
-    image: cafeteru/localize-me-spotiapp:latest
+    build: ./spotiapp
     ports:
       - "90:80"
     volumes:
-      - ./:/spotiapp
+      - ./spotiapp:/spotiapp
     depends_on:
       - backend
     networks:

@@ -3,7 +3,6 @@ package impl
 import (
 	"encoding/xml"
 	"errors"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 	"log"
 	"time"
 	"uniovi-localizeme/constants"
@@ -13,6 +12,8 @@ import (
 	"uniovi-localizeme/internal/repository"
 	"uniovi-localizeme/internal/repository/mongodb"
 	"uniovi-localizeme/tools"
+
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 type BaseStringServiceImpl struct {
@@ -50,6 +51,7 @@ func (b BaseStringServiceImpl) Create(request domain.BaseString, user *domain.Us
 		SourceLanguage: request.SourceLanguage,
 		Identifier:     request.Identifier,
 		Group:          request.Group,
+		Page:           request.Page,
 		Author:         request.Author,
 		Active:         true,
 		Translations:   request.Translations,

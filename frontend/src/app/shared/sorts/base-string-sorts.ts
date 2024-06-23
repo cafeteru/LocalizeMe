@@ -33,6 +33,11 @@ export function sortBaseStringByAuthor(a: BaseString, b: BaseString): number {
     return validNames === 0 ? sortStrings(a.author.email, b.author.email) : validNames;
 }
 
+export function sortBaseStringByPage(a: BaseString, b: BaseString): number {
+    const validParams = checkNotNullParams(a.page, b.page);
+    return validParams === 0 ? sortStrings(a.page, b.page) : validParams;
+}
+
 export function sortBaseStringByActive(a: BaseString, b: BaseString): number {
     return checkNotNullParams(a.active, b.active);
 }

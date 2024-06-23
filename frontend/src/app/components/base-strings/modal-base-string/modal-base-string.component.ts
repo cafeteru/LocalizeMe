@@ -38,9 +38,10 @@ export class ModalBaseStringComponent extends BaseComponent implements OnInit {
 
     ngOnInit(): void {
         super.ngOnInit();
-        const { translations, identifier, active, group, sourceLanguage } = this.baseString;
+        const { translations, identifier, active, group, sourceLanguage, page } = this.baseString;
         this.formGroup = new UntypedFormGroup({
             identifier: new UntypedFormControl(identifier, Validators.required),
+            page: new UntypedFormControl(page),
             active: new UntypedFormControl(active, Validators.required),
             group: new UntypedFormControl(group),
             sourceLanguage: new UntypedFormControl(sourceLanguage, Validators.required),
@@ -113,6 +114,7 @@ export class ModalBaseStringComponent extends BaseComponent implements OnInit {
             author: this.author,
             group: this.formGroup.controls['group'].value,
             id: undefined,
+            page: this.formGroup.controls['page'].value,
             identifier: this.formGroup.controls['identifier'].value,
             sourceLanguage: this.formGroup.controls['sourceLanguage'].value,
             translations: this.formGroup.controls['translations'].value,
@@ -127,6 +129,7 @@ export class ModalBaseStringComponent extends BaseComponent implements OnInit {
             active: controls['active'].value,
             group: controls['group'].value,
             identifier: controls['identifier'].value,
+            page: controls['page'].value,
             sourceLanguage: controls['sourceLanguage'].value,
             translations: controls['translations'].value,
         };
