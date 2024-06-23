@@ -1,10 +1,10 @@
 name: Backend Actions
 run-name: ${{ github.actor }} is checking backend 🏍️
-on: [push]
+on: pull_request
 jobs:
   backend:
     runs-on: ubuntu-latest
-    container: cafeteru/localize-me-backend
+    container: cafeteru/localize-me-backend:latest
 
     steps:
       - name: Check out repository code
