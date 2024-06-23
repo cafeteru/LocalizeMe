@@ -12,7 +12,7 @@ jobs:
 
       - name: Check lint
         working-directory: backend
-        run: golangci-lint run -v -buildvcs=false
+        run: golangci-lint run -v --buildvcs=false
 
       - name: Execute tests
         working-directory: backend
