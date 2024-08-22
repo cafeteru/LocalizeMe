@@ -1,7 +1,8 @@
 services:
   database:
     container_name: localize-me-database
-    image: mongo:latest
+    build:
+      context: ./database
     restart: always
     ports:
       - "27017:27017"
@@ -11,19 +12,9 @@ services:
     volumes:
       - ./mongo-volume:/data/db
 
-  mongo-seed:
-    container_name: localize-me-mongo-seed
-    image: mongo:latest
-    links:
-      - database
-    volumes:
-      - ./mongo-seed:/mongo-seed
-    command: bash "mongo-seed/start.sh"
-
   backend:
     container_name: localize-me-backend
     build: ./backend
-    command: bash "scripts/docker.sh"
     ports:
       - "8080:8080"
       - "9090:9090"
