@@ -1,11 +1,11 @@
 FROM mongo:latest
 
-# Copiar el script y los archivos JSON al contenedor
+# Copy the script and JSON files into the container
 COPY start.sh /docker-entrypoint-initdb.d/start.sh
 COPY mongo-seed/ /mongo-seed/
 
-# Dar permisos de ejecución al script
+# Grant execution permissions to the script
 RUN chmod +x /docker-entrypoint-initdb.d/start.sh
 
-# Instalar dependencias adicionales (netcat, curl, dos2unix)
+# Install additional dependencies (netcat, curl, dos2unix)
 RUN apt-get update && apt-get install -y netcat curl dos2unix

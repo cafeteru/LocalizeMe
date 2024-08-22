@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Cargar variables del archivo .env
+# Load variables from .env file
 export $(grep -v '^#' ../.env | xargs)
 
 docker pull mongo
