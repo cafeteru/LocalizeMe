@@ -4,16 +4,26 @@ on: [push]
 jobs:
   backend:
     runs-on: ubuntu-latest
-    container: cafeteru/localize-me-backend
 
     steps:
       - name: Check out repository code
         uses: actions/checkout@v2
 
-      - name: Check lint
-        working-directory: backend
-        run: golangci-lint run -v
+      - name: Run golangci-lint
+        uses: golangci/golangci-lint-action@v3
+        with:
+          version: v1.60.2
+          working-directory: backend
 
+      - name: Install dependencies
+        working-directory: backend
+        run: go mod download
+
+      - name: Install gotestsum
+        run: |
+          go install gotest.tools/gotestsum@latest
+          echo "$(go env GOPATH)/bin" >> $GITHUB_PATH
+      
       - name: Execute tests
         working-directory: backend
         run: |
@@ -23,7 +33,7 @@ jobs:
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
         with:
-            token: ${{ secrets.CODECOV_TOKEN }}
-            directory: ./backend/
-            fail_ci_if_error: true
-            flags: backend
+          token: ${{ secrets.CODECOV_TOKEN }}
+          directory: ./backend/
+          fail_ci_if_error: true
+          flags: backend

@@ -1,4 +1,4 @@
-FROM cafeteru/node-chrome-headless as node
+FROM cafeteru/node-chrome-headless AS node
 
 WORKDIR /localizeMe
 
@@ -12,5 +12,5 @@ FROM nginx:alpine
 
 RUN rm /etc/nginx/nginx.conf /etc/nginx/conf.d/default.conf
 
-COPY --from=node localizeMe/dist/localize-me-front /usr/share/nginx/html
-COPY --from=node localizeMe/nginx.conf /etc/nginx
+COPY --from=node /localizeMe/dist/localize-me-front /usr/share/nginx/html
+COPY --from=node /localizeMe/nginx.conf /etc/nginx
