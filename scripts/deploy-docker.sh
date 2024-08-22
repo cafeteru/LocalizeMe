@@ -1,6 +1,6 @@
 #! /bin/bash
-dos2unix.exe backend/scripts/*
-dos2unix.exe mongo-seed/*
+dos2unix backend/scripts/*
+dos2unix mongo-seed/*
 
 docker build -t localize-me-backend backend/.
 docker tag localize-me-backend cafeteru/localize-me-backend:latest
