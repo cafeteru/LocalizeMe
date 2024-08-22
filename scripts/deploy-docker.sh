@@ -1,5 +1,7 @@
 #! /bin/bash
+chmod +x backend/scripts/*
 dos2unix backend/scripts/*
+chmod +x mongo-seed/*
 dos2unix mongo-seed/*
 
 docker build -t localize-me-backend backend/.

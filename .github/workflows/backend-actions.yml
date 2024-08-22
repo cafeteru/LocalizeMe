@@ -5,25 +5,22 @@ jobs:
   backend:
     runs-on: ubuntu-latest
 
-    container:
-      image: golang:1.20-alpine
-
     steps:
       - name: Check out repository code
         uses: actions/checkout@v2
 
-      - name: Install golangci-lint
-        run: |
-          go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.59.0
-        shell: bash
+      - name: Run golangci-lint
+        uses: golangci/golangci-lint-action@v3
+        with:
+          version: v1.60.2
+          working-directory: backend
 
       - name: Install dependencies
         working-directory: backend
         run: go mod download
 
-      - name: Check lint
-        working-directory: backend
-        run: golangci-lint run -v
+      - name: Install gotestsum
+        run: go install gotest.tools/gotestsum@latest
 
       - name: Execute tests
         working-directory: backend
@@ -34,7 +31,7 @@ jobs:
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
         with:
-            token: ${{ secrets.CODECOV_TOKEN }}
-            directory: ./backend/
-            fail_ci_if_error: true
-            flags: backend
+          token: ${{ secrets.CODECOV_TOKEN }}
+          directory: ./backend/
+          fail_ci_if_error: true
+          flags: backend
