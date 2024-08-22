@@ -4,15 +4,26 @@ on: [push]
 jobs:
   backend:
     runs-on: ubuntu-latest
-    container: cafeteru/localize-me-backend
+
+    container:
+      image: golang:1.20-alpine
 
     steps:
       - name: Check out repository code
         uses: actions/checkout@v2
 
+      - name: Install golangci-lint
+        run: |
+          go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.59.0
+        shell: bash
+
+      - name: Install dependencies
+        working-directory: backend
+        run: go mod download
+
       - name: Check lint
         working-directory: backend
-        run: golangci-lint run -v --buildvcs=false
+        run: golangci-lint run -v
 
       - name: Execute tests
         working-directory: backend
