@@ -10,8 +10,6 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: secret
     volumes:
       - ./mongo-volume:/data/db
-    networks:
-      - localize-me-network
 
   mongo-seed:
     container_name: localize-me-mongo-seed
@@ -21,8 +19,6 @@ services:
     volumes:
       - ./mongo-seed:/mongo-seed
     command: bash "mongo-seed/start.sh"
-    networks:
-      - localize-me-network
 
   backend:
     container_name: localize-me-backend
@@ -35,8 +31,6 @@ services:
       - ./backend:/backend
     depends_on:
       - database
-    networks:
-      - localize-me-network
     environment:
       ATLAS_URI: mongodb://mongoadmin:secret@database:27017
 
@@ -49,8 +43,6 @@ services:
       - ./frontend:/frontend
     depends_on:
       - backend
-    networks:
-      - localize-me-network
     environment:
       urlApi: 'http://backend'
 
@@ -63,12 +55,5 @@ services:
       - ./:/spotiapp
     depends_on:
       - backend
-    networks:
-      - localize-me-network
     environment:
       urlApi: 'http://backend'
-
-networks:
-  localize-me-network:
-    name: localize-me-network
-    driver: bridge
