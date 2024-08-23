@@ -1,3 +1,4 @@
 report.xml
-mongo-volume/
+mongo-data/
+pg_data/
 logs/
