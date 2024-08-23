@@ -110,22 +110,6 @@ services:
     environment:
       urlApi: "http://backend"
 
-  connector-creator:
-    image: ubuntu:20.04
-    container_name: connector-creator
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
-      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
-      - MONGO_DB_NAME=${MONGO_DB_NAME}
-    volumes:
-      - ./scripts/create_connectors.sh:/app/create_connectors.sh
-      - ./.env:/app/.env  # Monta el archivo .env desde el directorio raíz
-    entrypoint: /app/create_connectors.sh
-    depends_on:
-      - connect
-    networks:
-      - default
-
 volumes:
   mongo_data:
   pg_data:
