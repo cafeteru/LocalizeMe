@@ -1,7 +1,31 @@
 services:
+  zookeeper:
+    container_name: zookeeper
+    image: confluentinc/cp-zookeeper:latest
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - "2181:2181"
+
+  kafka:
+    container_name: kafka
+    image: confluentinc/cp-kafka:latest
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    ports:
+      - "9092:9092"
+    depends_on:
+      - zookeeper
+
   mongo:
     container_name: mongo
-    image: mongo:latest
+    build:
+      context: ./database
     restart: always
     ports:
       - "27017:27017"
@@ -10,15 +34,44 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
     volumes:
       - mongo_data:/data/db
-  
-  mongo-seed:
-    container_name: mongo-seed
-    build: ./mongo-seed
-    depends_on:
-      - mongo
+
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    environment:
+      POSTGRES_USER: debezium
+      POSTGRES_PASSWORD: example
+      POSTGRES_DB: localize-me
+    ports:
+      - "5432:5432"
     volumes:
-      - ./mongo-seed:/mongo-seed
-    entrypoint: ["/bin/bash", "/mongo-seed/start.sh"]
+      - pg_data:/var/lib/postgresql/data
+
+  connect:
+    image: debezium/connect:latest
+    container_name: debezium-connect
+    environment:
+      - BOOTSTRAP_SERVERS=kafka:9092
+      - GROUP_ID=1
+      - CONFIG_STORAGE_TOPIC=my_connect_configs
+      - OFFSET_STORAGE_TOPIC=my_connect_offsets
+      - STATUS_STORAGE_TOPIC=my_connect_statuses
+      - KEY_CONVERTER=org.apache.kafka.connect.json.JsonConverter
+      - VALUE_CONVERTER=org.apache.kafka.connect.json.JsonConverter
+      - CONNECT_KEY_CONVERTER_SCHEMAS_ENABLE=false
+      - CONNECT_VALUE_CONVERTER_SCHEMAS_ENABLE=false
+      - CONNECT_REST_ADVERTISED_HOST_NAME=connect
+      - CONNECT_REST_PORT=8083
+      - CONNECTOR_CLIENT_CONFIG_OVERRIDE_POLICY=All
+      - CONNECT_LOG4J_LOGGERS=org.apache.kafka.connect.runtime.WorkerSinkTask:DEBUG,org.apache.kafka.connect.runtime.WorkerSourceTask:DEBUG,org.apache.kafka.connect.runtime.TransformationChain:DEBUG
+      - CONNECT_PRODUCER_SECURITY_PROTOCOL=PLAINTEXT
+      - CONNECT_CONSUMER_SECURITY_PROTOCOL=PLAINTEXT
+    ports:
+      - "8083:8083"
+    depends_on:
+      - kafka
+      - mongo
+      - postgres
 
   backend:
     container_name: backend
@@ -57,5 +110,22 @@ services:
     environment:
       urlApi: "http://backend"
 
+  connector-creator:
+    image: ubuntu:20.04
+    container_name: connector-creator
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+      - MONGO_DB_NAME=${MONGO_DB_NAME}
+    volumes:
+      - ./scripts/create_connectors.sh:/app/create_connectors.sh
+      - ./.env:/app/.env  # Monta el archivo .env desde el directorio raíz
+    entrypoint: /app/create_connectors.sh
+    depends_on:
+      - connect
+    networks:
+      - default
+
 volumes:
   mongo_data:
+  pg_data:
