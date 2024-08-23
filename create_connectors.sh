@@ -11,11 +11,25 @@ else
   exit 1
 fi
 
-# Definir las entidades para las que quieres crear conectores
-entities=("baseStrings" "groups" "languages" "users" "permissions" "translations" "stages")
-
 # URL del conector de Debezium
 DEBEZIUM_URL="http://localhost:8083/connectors"
+
+# Obtener y borrar todos los conectores existentes
+existing_connectors=$(curl -s $DEBEZIUM_URL | jq -r '.[]')
+
+if [ -n "$existing_connectors" ]; then
+  echo "Deleting existing connectors..."
+  for connector in $existing_connectors; do
+    echo "Deleting connector: $connector"
+    curl -X DELETE "$DEBEZIUM_URL/$connector"
+  done
+  echo "All existing connectors deleted."
+else
+  echo "No existing connectors found."
+fi
+
+# Definir las entidades para las que quieres crear conectores
+entities=("baseStrings" "groups" "languages" "users" "permissions" "translations" "stages")
 
 # Prefijo para los temas de Kafka
 TOPIC_PREFIX="localize-me"

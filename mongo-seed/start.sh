@@ -1,6 +1,6 @@
 #!/bin/bash
 
-WAIT_TIME=30 # seconds
+WAIT_TIME=5 # seconds
 
 echo "Waiting $WAIT_TIME seconds for MongoDB to become available..."
 
