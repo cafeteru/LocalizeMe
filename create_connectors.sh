@@ -12,7 +12,7 @@ else
 fi
 
 # Definir las entidades para las que quieres crear conectores
-entities=("BaseString" "Group" "Language" "User" "Permission" "Translation" "Stage")
+entities=("baseString" "group" "language" "user" "permission" "translation" "stage")
 
 # URL del conector de Debezium
 DEBEZIUM_URL="http://localhost:8083/connectors"

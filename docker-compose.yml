@@ -24,8 +24,7 @@ services:
 
   mongo:
     container_name: mongo
-    build:
-      context: ./database
+    image: mongo:latest
     restart: always
     ports:
       - "27017:27017"
@@ -34,7 +33,16 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
     volumes:
       - mongo_data:/data/db
-
+  
+  mongo-seed:
+    container_name: mongo-seed
+    build: ./mongo-seed
+    depends_on:
+      - mongo
+    volumes:
+      - ./mongo-seed:/mongo-seed
+    entrypoint: ["/bin/bash", "/mongo-seed/start.sh"]
+  
   postgres:
     image: postgres:latest
     container_name: postgres
@@ -84,7 +92,7 @@ services:
     depends_on:
       - mongo
     environment:
-      ATLAS_URI: mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@database:27017
+      ATLAS_URI: mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@mongo:27017
 
   frontend:
     container_name: frontend
