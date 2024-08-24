@@ -1,8 +1,7 @@
 services:
-  database:
-    container_name: localize-me-database
-    build:
-      context: ./database
+  mongo:
+    container_name: mongo
+    image: mongo:latest
     restart: always
     ports:
       - "27017:27017"
@@ -10,10 +9,19 @@ services:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
     volumes:
-      - ./mongo-volume:/data/db
+      - mongo_data:/data/db
+  
+  mongo-seed:
+    container_name: mongo-seed
+    build: ./mongo-seed
+    depends_on:
+      - mongo
+    volumes:
+      - ./mongo-seed:/mongo-seed
+    entrypoint: ["/bin/bash", "/mongo-seed/start.sh"]
 
   backend:
-    container_name: localize-me-backend
+    container_name: backend
     build: ./backend
     ports:
       - "8080:8080"
@@ -21,12 +29,12 @@ services:
     volumes:
       - ./backend:/backend
     depends_on:
-      - database
+      - mongo
     environment:
-      ATLAS_URI: mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@database:27017
+      ATLAS_URI: mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@mongo:27017
 
   frontend:
-    container_name: localize-me-frontend
+    container_name: frontend
     build: ./frontend
     ports:
       - "80:80"
@@ -35,10 +43,10 @@ services:
     depends_on:
       - backend
     environment:
-      urlApi: 'http://backend'
+      urlApi: "http://backend"
 
   spotiapp:
-    container_name: localize-me-spotiapp
+    container_name: spotiapp
     image: cafeteru/localize-me-spotiapp:latest
     ports:
       - "90:80"
@@ -47,4 +55,7 @@ services:
     depends_on:
       - backend
     environment:
-      urlApi: 'http://backend'
+      urlApi: "http://backend"
+
+volumes:
+  mongo_data:

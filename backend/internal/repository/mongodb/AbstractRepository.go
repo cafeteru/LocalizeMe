@@ -28,7 +28,7 @@ func (a *AbstractRepository) GetCollection(name string) (*mongo.Collection, erro
 		if err != nil {
 			return nil, tools.ErrorLogDetails(err, constants.CreateConnection, tools.GetCurrentFuncName())
 		}
-		var databaseName = os.Getenv("DATABASE_NAME")
+		var databaseName = os.Getenv("MONGO_DB_NAME")
 		database := a.client.Database(databaseName)
 		a.collection = database.Collection(name)
 		log.Printf("%s: end", tools.GetCurrentFuncName())
