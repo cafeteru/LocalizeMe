@@ -11,6 +11,7 @@ Real-time management system for localization strings
 ```shell
 docker compose up # run in the foreground showing logs
 docker compose up -d # execute at background
+docker compose up --build -d # force to build images and execute at background
 ```
 
 After docker-compose is complete, applications will be running on the following ports:
@@ -24,7 +25,8 @@ After docker-compose is complete, applications will be running on the following 
 ## How to finish all applications
 
 ```shell
-docker compose down
+docker compose down # stop and remove containers
+docker compose down -v # stop and remove containers and volumes
 ```
 
 ## Update Docker's images

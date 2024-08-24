@@ -58,7 +58,7 @@ services:
 
   connect:
     image: debezium/connect:latest
-    container_name: debezium-connect
+    container_name: connect
     environment:
       - BOOTSTRAP_SERVERS=kafka:9092
       - GROUP_ID=1
