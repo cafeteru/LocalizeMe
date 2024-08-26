@@ -21,7 +21,12 @@ if [ -n "$existing_connectors" ]; then
   echo "Deleting existing connectors..."
   for connector in $existing_connectors; do
     echo "Deleting connector: $connector"
-    curl -X DELETE "$DEBEZIUM_URL/$connector"
+    response=$(curl -s -o /dev/null -w "%{http_code}" -X DELETE "$DEBEZIUM_URL/$connector")
+    if [ "$response" -eq 204 ]; then
+      echo "Successfully deleted connector: $connector"
+    else
+      echo "Failed to delete connector: $connector, HTTP status code: $response"
+    fi
   done
   echo "All existing connectors deleted."
 else
@@ -29,7 +34,7 @@ else
 fi
 
 # Definir las entidades para las que quieres crear conectores
-entities=("baseStrings" "groups" "languages" "users" "permissions" "translations" "stages")
+entities=("baseStrings" "groups" "languages" "users" "stages")
 
 # Prefijo para los temas de Kafka
 TOPIC_PREFIX="localize-me"
@@ -38,7 +43,7 @@ TOPIC_PREFIX="localize-me"
 for entity in "${entities[@]}"; do
   echo "Creating connector for entity: $entity"
 
-  curl -X POST -H "Content-Type: application/json" \
+  response=$(curl -s -o /dev/null -w "%{http_code}" -X POST -H "Content-Type: application/json" \
   --data "{
       \"name\": \"mongo-connector-$entity\",
       \"config\": {
@@ -55,7 +60,11 @@ for entity in "${entities[@]}"; do
           \"transforms.unwrap.drop.tombstones\": \"false\",
           \"transforms.unwrap.delete.handling.mode\": \"drop\"
       }
-  }" $DEBEZIUM_URL
+  }" $DEBEZIUM_URL)
 
-  echo "Connector for $entity created."
+  if [ "$response" -eq 201 ] || [ "$response" -eq 409 ]; then
+    echo "Successfully created connector for $entity."
+  else
+    echo "Failed to create connector for $entity, HTTP status code: $response"
+  fi
 done
